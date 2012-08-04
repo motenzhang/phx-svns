@@ -18,7 +18,7 @@ h2{margin-top:0}
 textarea{resize:none}
 fieldset{padding-bottom:5px; margin-left:0}
 legend{color:#99540A; font-weight:600}
-.button{padding:3px 12px;_padding:3px; font-weight:bold; line-height:1.0em}
+.button{padding:3px 12px;_padding:3px; font-weight:bold; line-height:1.0em; font-size:14px}
 .err{color:#f00}
 .frm_login span{color:#f00}
 .frm_login{width:450px}
