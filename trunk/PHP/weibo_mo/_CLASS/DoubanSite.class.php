@@ -46,10 +46,10 @@ class DoubanSite extends SimulaLogin {
 		$ret = $this->post("https://www.douban.com/accounts/login", $data);
 		if (str_contains($this->http_header['Location'], 'requirecaptcha')
 			|| str_contains($this->http_header['Location'], 'error=1011')) {
-			return '登录失败：请输入验证码';
+			return '绑定账号失败：请输入验证码';
 		}
 		if ($this->http_header['Location'] != $data['redir']) {
-			return '登录失败：用户名或密码错误';
+			return '绑定账号失败：用户名或密码错误';
 		}
 		return true;
 	}

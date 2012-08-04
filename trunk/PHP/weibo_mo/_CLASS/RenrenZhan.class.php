@@ -26,32 +26,27 @@ class RenrenZhan extends SimulaLogin {
 	 * 模拟登录
 	 */
 	public function Login($verify_code = NULL) {
-		/*if (empty($this->blogname)) {
-			return '绑定账号失败：请填写Widget ID';
-		}*/
+		if (empty($this->blogname)) {
+			return '绑定账号失败：请填写个性域名';
+		}
 		$data = array(
-			'_rtk'		=> '2fb9d77e',
+			//'_rtk'		=> '2fb9d77e',
 			'autoLogin'	=> 'true',
 			'captcha_type'	=> 'web_login',
-			'domain'	=> 'renren.com',
+			//'domain'	=> 'renren.com',
 			'email'		=> $this->account['username'],
-			'icode'		=> $verify_code,
-			'key_id'	=> 1,
+			//'key_id'	=> 1,
 			'origURL'	=> 'http://zhan.renren.com/home',
 			'password'	=> $this->account['password'],
 		);
 		if ($verify_code) {
-			//$data['icode'] = $verify_code;
+			$data['icode'] = $verify_code;
 		}
 		$ret = $this->post("http://www.renren.com/ajaxLogin/login", $data);
 		var_dump($data);
 		var_dump($ret);
-		if (str_contains($this->http_header['Location'], 'requirecaptcha')
-			|| str_contains($this->http_header['Location'], 'error=1011')) {
-			return '登录失败：请输入验证码';
-		}
-		if ($this->http_header['Location'] != $data['redir']) {
-			return '登录失败：用户名或密码错误';
+		if (!$ret['code']) {
+			return '绑定账号失败：' . $ret['failDescription'];
 		}
 		return true;
 	}

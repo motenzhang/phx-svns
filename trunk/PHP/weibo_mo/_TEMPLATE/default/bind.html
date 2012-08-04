@@ -38,42 +38,13 @@
               已失效 (<a href="<{$item.third.url}>" target="_blank"><{$item.third.nick}></a>)
             </div>
             <{/if}></td>
-          <td align="center"><a name="weibo_<{$key}>"></a> <{if $item.third.status > 0}> <a href="?<{'action'|url_param:'type'}>action=unbind&type=<{$key}>">解除绑定</a> <{else}> 
-            <{if $key == 'fetion'}>
-            <{if $TEMPLATE.error.type == $key}> <span class="err"><{$TEMPLATE.error.msg}></span> <{/if}>
-            <form action="#weibo_<{$key}>" method="post" class="frm_bind">
-              <input type="hidden" name="action" value="bind">
-              <input type="hidden" name="f[type]" value="<{$key}>">
-              <div class="inputs">
-                <p>
-                  <label>用户名：
-                    <input type="text" name="f[token]" <{if $TEMPLATE.error.type == $key}>value="<{$TEMPLATE.data.token|htmlspecialchars}>"<{else}>value="<{$item.third.token|htmlspecialchars}>"<{/if}>>
-                  </label>
-                </p>
-                <p>
-                  <label>密　码：
-                    <input type="password" name="f[token_secret]" <{if $TEMPLATE.error.type == $key}>value="<{$TEMPLATE.data.token_secret|htmlspecialchars}>"<{else}>value="<{$item.third.token_secret|htmlspecialchars}>"<{/if}>>
-                  </label>
-                </p>
-                <{if $key == 'fetion'}>
-                <p>
-                  <label>验证码：
-                    <input type="text" name="verify_code" style="width:35px">
-                    <img src="connect/verify_code.php?t=<{$key}>&pid=<{$TEMPLATE.pid}>"> </label>
-                </p>
-                <{/if}>                
-                <{if $key == 'diandian'}>
-                <p>
-                  <label>博客名：
-                    <input type="text" name="f[blogname]" <{if $TEMPLATE.error.type == $key}>value="<{$TEMPLATE.data.blogname|htmlspecialchars}>"<{else}>value="<{$item.third.blogname|htmlspecialchars}>"<{/if}>>
-                  </label>
-                </p>
-                <{/if}>
-              </div>
-              <button type="submit" class="submit">绑定账号</button>
-            </form>
-            <{else}> <a href="javascript:void(open('connect/auth.php?t=<{$key}>&pid=<{$TEMPLATE.pid}>','','<{if $key == 'sina'}>width=610,height=380<{elseif $key == 'qq'}>width=830,height=610<{elseif $key == 'sohu'}>width=990,height=610<{elseif $key == 't_163'}>width=810,height=610<{elseif $key == 'kx001'}>width=520,height=355<{/if}>,resizable=yes,status=yes,scrollbars=yes,location=yes'))"><img src="./resource/img/login_<{$key}>.gif"></a> <{/if}> 
-            <{/if}> </td>
+          <td align="center"><a name="weibo_<{$key}>"></a> 
+          	<{if $item.third.status > 0}> 
+            	<a href="?<{'action'|url_param:'type'}>action=unbind&type=<{$key}>">解除绑定</a> 
+            <{else}> 
+            	<a href="javascript:void(open('connect/auth.php?t=<{$key}>&pid=<{$TEMPLATE.pid}>','','<{if $key == 'sina'}>width=610,height=380<{elseif $key == 'qq'}>width=830,height=610<{elseif $key == 'sohu'}>width=990,height=610<{elseif $key == 't_163'}>width=810,height=610<{elseif $key == 'kx001'}>width=520,height=355<{/if}>,resizable=yes,status=yes,scrollbars=yes,location=yes'))"><img src="./resource/img/login_<{$key}>.gif"></a> 
+            <{/if}> 
+		  </td>
         </tr>
         <{/foreach}>
         <tr>
@@ -119,6 +90,13 @@
                   </label>
                 </p>
                 <{/if}>
+                <{if $key == 'renren_zhan'}>
+                <p>
+                  <label>个性域名：
+                    <input type="text" style="width:128px" name="f[blogname]" <{if $TEMPLATE.error.type == $key}>value="<{$TEMPLATE.data.blogname|htmlspecialchars}>"<{else}>value="<{$item.third.blogname|htmlspecialchars}>"<{/if}>>
+                  </label>
+                </p>
+                <{/if}>
                 <{if $key == 'douban'}>
                     <p>
                       <label><a href="resource/widget_id.png" target="_blank" tabindex="-1">Widget ID ?</a>：
@@ -138,20 +116,13 @@
                         <{if $TEMPLATE.error.msg|strpos:'验证码' != false}>
                         <p>
                           <label>验证码：
-                            <input type="text" name="verify_code" style="width:35px">
-                            <img src="connect/verify_code.php?t=<{$key}>&pid=<{$TEMPLATE.pid}>"> </label>
+                            <input type="text" name="verify_code" style="width:40px">
+                            <img src="connect/verify_code.php?t=<{$key}>&pid=<{$TEMPLATE.pid}>" style="cursor:pointer" 
+                            onclick="this.src='connect/verify_code.php?t=<{$key}>&pid=<{$TEMPLATE.pid}>&' + new Date().getTime()"> </label>
                         </p>
                         <{/if}>
                     <{/if}>
                 <{/if}>
-                <{if $key == 'renren_zhan'}>
-                <p>
-                  <label>验证码：
-                    <input type="text" name="verify_code" style="width:35px">
-                    <img src="connect/verify_code.php?t=<{$key}>&pid=<{$TEMPLATE.pid}>" style="cursor:pointer" 
-                    onclick="this.src='connect/verify_code.php?t=<{$key}>&pid=<{$TEMPLATE.pid}>&' + new Date().getTime()"> </label>
-                </p>
-                <{/if}>                
               </div>
               <button type="submit" class="submit">绑定账号</button>
             </form>
