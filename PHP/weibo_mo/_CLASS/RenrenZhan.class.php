@@ -13,7 +13,6 @@ class RenrenZhan extends SimulaLogin {
 	 * @param string $blogname	点点网博客名
 	 */
 	function __construct($pid, $username, $password, $blogname) {
-		debug_print_backtrace();
 		parent::__construct($pid, $username, $password);
 		$this->blogname = $blogname;
 	}
