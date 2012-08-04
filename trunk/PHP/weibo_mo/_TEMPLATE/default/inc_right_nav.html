@@ -1,0 +1,17 @@
+    <ul class="SM">
+    <{if !$TEMPLATE.login_name}>
+      <li class="<{$TEMPLATE.nav.register}>"><a href="register.php">注册</a></li>
+      <li class="<{$TEMPLATE.nav.login}>"><a href="login.php">登录</a></li>
+    <{else}>
+      <li class="<{$TEMPLATE.nav.index}>"><a href="index.php">发微博</a></li>
+      <li class="<{$TEMPLATE.nav.blog}>"><a href="blog.php" on-Click="alert('尚未实现！');return false">发博客</a></li>
+      <li class="<{$TEMPLATE.nav.task}>"><a href="task.php">定时发送任务</a></li>
+      <li class="<{$TEMPLATE.nav.list_err}>"><a href="list_err.php">失败列表</a></li>
+      <li class="<{$TEMPLATE.nav.list_ok}>"><a href="list_ok.php">已发送</a></li>
+    <{if $TEMPLATE.is_admin}>
+      <li class="<{$TEMPLATE.nav.bind}>"><a href="bind.php">账号绑定</a></li>
+      <li class="<{$TEMPLATE.nav.platform}>"><a href="platform.php">平台设定</a></li>
+      <li class="<{$TEMPLATE.nav.users}>"><a href="users.php">用户管理</a></li>
+    <{/if}>
+    <{/if}>
+    </ul>

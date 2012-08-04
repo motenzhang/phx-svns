@@ -1,0 +1,76 @@
+<{include file="inc_header.html"}>
+<div class="main">
+  <div class="left">
+    <h2><{$TEMPLATE.title}></h2>
+    <form method="post">
+      <input type="hidden" name="action" value="add">
+      <fieldset>
+        <legend>新增平台</legend>
+        <label>名称：
+          <input type="text" name="name" value="<{$TEMPLATE.data.name|htmlspecialchars}>">
+        </label>
+        <span class="err"><{$TEMPLATE.error.name}></span>
+      </fieldset>
+      <fieldset class="tblFooters">
+        <input type="submit" value="新增平台" class="button" style="margin-left:44px">
+      </fieldset>
+    </form>
+    <a name="app"></a>
+    <form method="post" action="#app">
+      <input type="hidden" name="action" value="save">
+      <fieldset>
+        <legend>设定 App</legend>
+        <select class="platform" onchange="{location='?id='+value}">
+          <option value="">请选择平台</option>
+          <{foreach from=$TEMPLATE.platform_list item=item key=key}> <option value="<{$item.id}>"<{if $item.id==$TEMPLATE.pid}> selected<{/if}>><{$item.name|htmlspecialchars}>
+          </option>
+          <{/foreach}>
+        </select>
+        <{if $TEMPLATE.pid}>
+        	&nbsp; <a href="?action=delete&id=<{$TEMPLATE.pid}>" onclick="return confirm('确认删除吗？')">删除该平台</a>
+            &nbsp; <a href="bind.php?id=<{$TEMPLATE.pid}>" style="color:#090">账号绑定</a>
+        <{/if}>
+      </fieldset>
+      <{if $TEMPLATE.pid}>
+      <fieldset class="tblFooters" style="text-align:center">
+        <div class="gridborder">
+          <table width="100%" class="grid">
+            <tr>
+              <th style="text-align:center">目标</th>
+              <th width="270" style="text-align:center">App Key</th>
+              <th width="270" style="text-align:center">App Secret</th>
+            </tr>
+            <{foreach from=$TEMPLATE.open_list item=item key=key}>
+            <{if $key == 'qzone'}>
+            <tr>
+              <td rowspan="2" align="center"><{$item.weibo_name}></td>
+              <td align="center"><input type="text" size="40" name="app[<{$key}>][key]" value="<{$item.app_key}>"></td>
+              <td align="center"><input type="text" size="40" name="app[<{$key}>][secret]" value="<{$item.app_secret}>"></td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center">回调地址域名：
+              <input name="app[<{$key}>][callback]" type="text" value="<{$item.callback}>" size="50"></td>
+            </tr>
+            <{else}>
+            <tr>
+              <td align="center"><{$item.weibo_name}></td>
+              <td align="center"><input type="text" size="40" name="app[<{$key}>][key]" value="<{$item.app_key}>"></td>
+              <td align="center"><input type="text" size="40" name="app[<{$key}>][secret]" value="<{$item.app_secret}>"></td>
+            </tr>
+            <{/if}>
+            <{/foreach}>
+          </table>
+        </div>
+        <input type="submit" value="保存" class="button" style="margin-top:10px">
+        <span><{$TEMPLATE.error.app}></span>
+      </fieldset>
+      <{/if}>
+    </form>
+    <p> </p>
+  </div>
+  <div class="right">
+    <{include file="inc_right_nav.html"}>
+  </div>
+  <b class="clear"></b>
+</div>
+<{include file="inc_footer.html"}> 

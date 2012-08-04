@@ -1,0 +1,224 @@
+@charset "utf-8";
+
+body {font-size:12px; font-family:Arial, Helvetica, sans-serif; width:980px; margin:auto; line-height:2em; background:#73CFF1;#D0F1F6 }
+button, input{font-size:12px; vertical-align:mid-dle; font-family:Arial, Helvetica, sans-serif}
+
+img{border:0}
+ul{margin:0; list-style:no-ne; padding-left:20px}
+a{color:#0082CB; text-decoration:none}
+a:hover{text-decoration:underline}
+
+select{ -webkit-appearance:menulist;}
+
+label{margin-left:5px}
+label[disabled]{color:#888}
+label input{vertical-align:middle; margin-top:-2px; margin-bottom:1px;}
+
+h2{margin-top:0}
+textarea{resize:none}
+fieldset{padding-bottom:5px; margin-left:0}
+legend{color:#99540A; font-weight:600}
+.button{padding:3px 12px;_padding:3px; font-weight:bold; line-height:1.0em}
+.err{color:#f00}
+.frm_login span{color:#f00}
+.frm_login{width:450px}
+.frm_login input[type=text],
+.frm_login input[type=password]{width:150px}
+
+.left{float:left; width:730px; padding:20px; padding-bottom:40px; background:#fff; border-right:1px solid #99DBF2; min-height:250px; _height:250px;
+	border-radius:8px 0 0 8px;-moz-border-radius:8px 0 0 8px;-webkit-border-radius:8px 0 0 8px;}
+.right{float:right; }
+.clear{clear:both; display:block;}
+.hide_text{text-indent:-999px; overflow:hidden;}
+
+.header .login_bar{float:right; margin:-35px 6px 0 0}
+.logo{margin:5px 0 5px 5px; height:35px}
+.logo a{display:block; width:60px; height:60px; background:url(../img/logo.png); display:none}
+
+.main {background:#C9F1FF; 
+	border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px; 
+	box-shadow:0px 0px 10px rgba(79,129,189,.8);-webkit-box-shadow:0px 0px 10px rgba(79,129,189,.8); -moz-box-shadow:0px 0px 10px rgba(79,129,189,.8);
+}
+
+.footer{height:50px}
+
+.wb_report{background:#fc0; padding:10px; width:560px; color:#fff}
+.wb_report .close{float:right; background:url(../img/sprite.png) -232px -84px; width:15px; height:15px; overflow:hidden; text-indent:-999px}
+.wb_report h2{margin-bottom:5px}
+.wb_report span{padding:2px; font-size:13px}
+.wb_report .ok{background:#5FB901}
+.wb_report .err{background:#f00; color:#fff}
+.wb_report .watch{background:#39f}
+
+.wb_box{background:#5FB901; padding:10px; float:left;color:#fff}
+.wb_box h2{}
+.wb_box textarea{border:3px solid #358103; font-size:14px;padding:2px; outline:0; overflow-x:hidden; overflow-y:auto;
+	border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:8px; 
+}
+input[type=text].border, 
+.border{border:1px solid #358103; box-shadow:none}
+
+.blog_report{width:auto; margin-right:3px}
+.blog_box{margin:5px 3px 10px 0}
+.blog_box h2{margin:5px; margin-bottom:1px\9; font-size:18px}
+.blog_box .title{font-weight:bold; width:500px;}
+
+.right_small{float:right; margin:-26px 3px 0 0;}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.right_small{margin-top:-28px}
+} 
+
+.wb_top_bar, .wb_bottom_bar{text-align:right; width:559px}
+.wb_top_bar{margin-top:-30px}
+.wb_top_bar em{font-family:Constantia,Georgia; font-size:30px; font-style:normal}
+.wb_tx{width:550px}
+.wb_bottom_bar .upload{float:left}
+.wb_bottom_bar .upload input{width:200px}
+.wb_bottom_bar label{}
+
+.gridborder{border:1px solid #ddd; padding:1px;}
+.grid{ border-collapse:collapse; line-height:120%}
+.grid th{padding:0 5px; height:26px;background:#f0f0f0; border-right:1px solid #e1e1e1;
+		text-align:left; color:#999; }
+.grid td{border-top:1px solid #e4e4e4; padding:5px; background:#fefefe; height:18px; word-wrap:break-word;word-break:break-all;}
+.vline td{border-right:1px solid #e4e4e4}
+.short td{padding:2px}
+.grid tr:hover td{background:#fffcd2; color:#5F7600}
+.nohover tr:hover td, tr.nohover:hover td{background:inherit;color:inherit;}
+.nohover a{text-decoration:none}
+.nohover a:hover{text-decoration:underline}
+.grid th.l, .grid th.r{posi-tion:relative; float:none}
+.grid .pages{border:0; background:transparent; padding-top:7px}
+.pages .i{font-weight:bold; color:#41BD7F}
+.grid .tips{color:#bbb; margin:4px 2px 0}
+.grid .b{display:block}
+
+.SM { position: relative; z-index: 2\9; padding-top: 12px; margin:0; padding:0; padding-top:10px}
+.SM li { background: url(../img/sprite.png) no-repeat; position: relative; left: -1px; margin-top: -1px; height: 34px; overflow: hidden; background-position: 0 -126px }
+.SM li a { display: block; width: 149px; padding-left: 60px; padding-top: 2px\0; font-size:13px; line-height: 35px; outline: none ; text-decoration:none}
+.SM li a:hover { text-decoration: none }
+.SM li.index { background-position: 0 -127px }
+.SM li:hover, .SM li.hover { z-index: 1;  *zoom: 1;
+background-position: 0 -55px }
+.SM li.index: hover, .SM #x1.hover { background-position: 0 -54px }
+.SM li.current { height: 34px; z-index: 2; background: url(../img/sprite.png) 0 -90px no-repeat!important }
+.SM li.current a { color: #333 }
+.SM li b { position: absolute; left: 27px; margin-top: 9px;  *margin-top: -2px;
+_margin: 0; margin-top: 7px\0; cursor: pointer }
+.SM li a.newNum { display: inline; position: relative; z-index: 2; top: -35px;  *top: -36px;
+top: -37px\0;  *zoom: 1;
+left: 118px; width: auto; padding: 0; font-size: 12px; color: #e56c0a }
+.SM li.letter a.newNum { left: 90px }
+.SM i { display: none }
+
+.frm_bind{text-align:left; width:280px; margin-top:5px}
+.frm_bind .inputs{float:left}
+.frm_bind .inputs p{margin:1px 5px 7px 0}
+.frm_bind .inputs input{width:140px}
+.frm_bind .submit{width:50px; height:50px; }
+
+fieldset {
+    margin-top:1em;
+    border-radius:4px 4px 0 0;
+    -moz-border-radius:4px 4px 0 0;
+    -webkit-border-radius:4px 4px 0 0;
+    padding:5px;
+    border:             #aaa solid 1px;
+    padding:            1.0em;
+    background:         #eee;
+    text-shadow:0 1px 0 #fff;
+	-moz-box-shadow: 1px 1px 2px #fff inset;
+    -webkit-box-shadow: 1px 1px 2px #fff inset;
+    box-shadow: 1px 1px 2px #fff inset;
+}
+fieldset fieldset {
+    margin:0.8em;
+	margin:0 .8em\9;
+    border:1px solid #aaa;
+    background:#E8E8E8;
+}
+fieldset.tblFooters {
+    margin-top:         0;
+    margin-bottom:      0.5em;
+    /* avoid a thick line since this should be used under another fieldset */
+    border-top:         0;
+    float:              none;
+    clear:              both;
+    -webkit-border-radius:0 0 4px 4px;
+    -moz-border-radius:0 0 4px 4px;
+    border-radius: 0 0 4px 5px;
+}
+.tblFooters {
+    font-weight:        normal;
+    color:              #000000;
+    background:         #D3DCE3;
+}
+
+input[type=text],
+input[type=password]{
+	border-radius:2px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+
+    box-shadow:0 1px 2px #ddd;
+    -moz-box-shadow:0 1px 2px #ddd;
+    -webkit-box-shadow:0 1px 2px #ddd;
+
+    border:1px solid #aaa;
+    color:#555555;
+    padding:3px;
+	margin-right:3px;
+}
+
+select.platform{font-size:18px; font-weight:bold}
+
+html:not([os=mac]) button:focus,
+html:not([os=mac]) input:focus,
+html:not([os=mac]) input[type='submit']:focus,
+html:not([os=mac]) select:focus {
+  outline-color: rgba(0, 128, 256, 0.5);
+}
+select {
+  padding-right:3px;
+  -webkit-appearance: button; -moz-appearance: button; appearance:button;
+  -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  -webkit-padding-end: 20px;
+  -webkit-padding-start: 2px; -moz-padding-start: 2px; padding-start: 2px;
+  -webkit-user-select: none; -moz-user-select: none; user-select: none;
+  background-image: url("../img/select.png"),
+                    -webkit-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+  background-position: center right;
+  background-repeat: no-repeat;
+  background:-moz-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+  border: 1px solid #aaa;
+  color: #555;
+  font-size: inherit;
+  margin: 0;
+  overflow: hidden;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+select:enabled:hover {
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  background-image: url("../img/select.png"),
+                    -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
+  background:-moz-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
+  color: #333;
+}
+select:enabled:active {
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);; -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);; box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);;
+  background-image: url("../img/select.png"),
+                    -webkit-linear-gradient(#f4f4f4, #efefef 40%, #dcdcdc);
+  background:-moz-linear-gradient(#f4f4f4, #efefef 40%, #dcdcdc);
+  color: #444;
+}
+
+.edituser tr{height:33px}
+.edituser label{margin:0; width:110px; display:inline-block}
+.edituser p label{float:left; height:2em}
+.edituser span{color:#f00}
+
+.ui-datepicker{line-height:normal}

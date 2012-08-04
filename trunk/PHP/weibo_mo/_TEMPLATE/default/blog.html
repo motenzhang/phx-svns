@@ -1,0 +1,105 @@
+<{include file="inc_header.html"}>
+<div class="main">
+  <div class="left">
+    <form method="post">
+      <{if $TEMPLATE.report}>
+      <div class="wb_report blog_report">
+        <a href="javascript:;" class="close">关闭</a>
+        <h2>发送报告</h2>
+        <ul>
+          <{foreach from=$TEMPLATE.report item=item key=key}>
+          <li><span class="<{($key=='watch') ? $key : (($item.status) ? 'ok' : 'err')}>"><b><{$key|get_name_r}></b><{$item.msg}></span></li>
+          <{/foreach}>
+        </ul>
+      </div>
+      <{/if}>
+      <div class="blog_box">
+        <div class="gridborder">
+          <table width="100%" class="grid nohover">
+            <tr>
+              <th colspan="2" class="l"> <h2><{$TEMPLATE.title}></h2>
+              </th>
+            </tr>
+            <tr>
+              <td width="15%" align="right">标题：</td>
+              <td><input type="text" name="title" value="<{$TEMPLATE.data.title|htmlspecialchars}>" class="title"></td>
+            </tr>
+            <tr>
+              <td align="right">内容：</td>
+              <td><textarea name="content" cols="65" rows="13" class="wb_tx" style="width:646px; height:450px"><{$TEMPLATE.data.content|htmlspecialchars}></textarea></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><input type="submit" value="<{if $TEMPLATE.data.time}>定时<{/if}>发送" class="button" onClick="disabled=true;form.submit()">
+                <label><input type="checkbox" name="time"<{if $TEMPLATE.data.time}> checked<{/if}>>定时发送</label>
+                <input type="text" name="send_time" size="16" value="<{if $TEMPLATE.data.send_time}><{$TEMPLATE.data.send_time}><{else}><{date('Y-m-d H:i')}><{/if}>"<{if !$TEMPLATE.data.time}> disabled<{/if}>> </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <b class="clear"></b>
+      <fieldset>
+        <legend>发送选项
+        <label>
+          <input type="checkbox" class="check_all" checked>
+          全选/反选</label>
+        </legend>
+        <{foreach from=$TEMPLATE.target_list item=item key=key}> <label<{$key|cat:'|':0|disabled}>> <input type="checkbox" name="target[]" value="<{$key}>|0" class="cb"<{$key|cat:'|':0|disabled}>><{$item}>
+        </label>
+        <{/foreach}>
+        <{foreach name=outer from=$TEMPLATE.platform_list item=platform key=key}>
+        <fieldset>
+          <legend>
+          <label> <{$platform.name}>
+            <input type="checkbox" class="check_all" checked>
+          </label>
+          </legend>
+          <{foreach from=$platform.list item=item key=key}> <label<{$key|cat:'|':$platform.id|disabled}>> <input type="checkbox" name="target[]" value="<{$key}>|<{$platform.id}>" class="cb"<{$key|cat:'|':$platform.id|disabled}>><{$item}>
+          </label>
+          <{/foreach}>
+        </fieldset>
+        <{/foreach}>
+      </fieldset>
+    </form>
+  </div>
+  <div class="right">
+    <{include file="inc_right_nav.html"}>
+  </div>
+  <b class="clear"></b>
+</div>
+<script src="resource/tiny_mce/tiny_mce.js"></script> 
+<script> 
+tinyMCE.init({
+	// General options
+	elements	: 'content',
+	mode		: 'exact',
+	theme		: 'advanced',
+	skin		: 'o2k7',
+	skin_variant: 'silver',
+	plugins		: 'safari,table,advimage,inlinepopups,media,searchreplace,contextmenu,paste,fullscreen,iframe',
+	language	: 'zh',
+	width		: '650',
+	height		: '450',
+	element_format : 'html',
+	remove_script_host : false,
+	relative_urls : false,
+	document_base_url : '../../',
+	// Theme options
+	theme_advanced_buttons1: 'bold,italic,underline,|,forecolor,backcolor,fontsizeselect,justifyleft,justifycenter,justifyright,|,bullist,numlist,outdent,indent,|,table,image,link,unlink,|,code,fullscreen',
+	theme_advanced_buttons2: '',
+	theme_advanced_buttons3 : '',
+	theme_advanced_toolbar_location : 'top',
+	theme_advanced_toolbar_align : 'left',
+	theme_advanced_statusbar_location : 'none',
+	theme_advanced_resizing : false,
+	//content_css : 'css/content.css',
+	template_external_list_url : 'lists/template_list.js',
+	external_link_list_url : 'lists/link_list.js',
+	external_image_list_url : 'lists/image_list.js',
+	media_external_list_url : 'lists/media_list.js',
+	// Replace values for the template plugin
+	template_replace_values : {
+	}
+});
+</script> 
+<{include file="inc_footer.html"}> 

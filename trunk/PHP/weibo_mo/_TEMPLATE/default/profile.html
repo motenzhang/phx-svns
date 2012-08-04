@@ -1,0 +1,31 @@
+<{include file="inc_header.html"}>
+<div class="main">
+  <div class="left">
+    <h2><{$TEMPLATE.title}></h2>
+    <form method="post" class="frm_login">
+      <fieldset>
+        <legend>帐户信息</legend>
+        <p>
+          <label>　用户名：
+            <{$TEMPLATE.login_name}> </label>
+        </p>
+        <p>
+          <label>　新密码：
+            <input type="password" name="f[password]" value="<{$TEMPLATE.data.password}>">
+          </label>
+          <span><{$TEMPLATE.error.password}></span> </p>
+        <p>
+          <label>确认密码：
+            <input type="password" name="f[re_password]" value="<{$TEMPLATE.data.re_password}>">
+          </label>
+          <span><{$TEMPLATE.error.re_password}></span> </p>
+      </fieldset>
+      <fieldset class="tblFooters">
+        <input type="submit" value="<{$TEMPLATE.title}>" class="button" style="margin-left:68px">
+        <span><{$TEMPLATE.error.username}></span>
+      </fieldset>
+    </form>
+  </div>
+  <div class="right"> <{include file="inc_right_nav.html"}> </div>
+  <b class="clear"></b> </div>
+<{include file="inc_footer.html"}> 

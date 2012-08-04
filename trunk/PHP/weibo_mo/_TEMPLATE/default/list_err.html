@@ -1,0 +1,64 @@
+<{include file="inc_header.html"}>
+<div class="main">
+  <div class="left">
+    <{if $TEMPLATE.report}>
+    <div class="wb_report">
+      <a href="javascript:;" class="close">关闭</a>
+      <h2>发送报告</h2>
+      <ul>
+        <{foreach from=$TEMPLATE.report item=item key=key}>
+        <li><span class="<{($item.status) ? 'ok' : 'err'}>"><b> # <{$item.id}>：</b><{$item.msg}></span></li>
+        <{/foreach}>
+      </ul>
+    </div>
+    <{/if}>
+    <h2><{$TEMPLATE.title}></h2>
+    <div class="right_small"><input type="button" class="button" value="清空<{$TEMPLATE.title}>" onclick="if(confirm('确认清空吗？'))location.replace('?action=clear')"></div>
+    <div class="gridborder">
+      <table width="100%" class="grid">
+        <tr>
+          <th nowrap="nowrap" style="text-align:center">ID</th>
+          <{if $TEMPLATE.is_admin}>
+          <th nowrap="nowrap" style="text-align:center">用户</th>
+          <{/if}>
+          <th nowrap="nowrap" style="text-align:center">目标平台</th>
+          <th nowrap="nowrap">内容摘要</th>
+          <th nowrap="nowrap" style="text-align:center">图片</th>
+          <th width="65" nowrap="nowrap" style="text-align:center">发送时间</th>
+          <th nowrap="nowrap">原因</th>
+          <th nowrap="nowrap" style="text-align:center">重试</th>
+          <th nowrap="nowrap" style="text-align:center">操作</th>
+        </tr>
+        <{foreach from=$TEMPLATE.list item=item}>
+        <tr>
+          <td align="center" nowrap="nowrap"><{$item.id}></td>
+          <{if $TEMPLATE.is_admin}>
+          <td align="center" nowrap="nowrap"><{$item.username}></td>
+          <{/if}>
+          <td align="right"><{if $item.url}><a href="<{$item.url}>" target="_blank"><{/if}><{$item.type|get_name:$item.cat}></td>
+          <td><a href="details.php?id=<{$item.id}>"><{$item.content|str_left:50}></a></td>
+          <td align="center"><{if $item.pic}><a href="<{$item.pic|get_pic}>" target="_blank">图片</a><{/if}></td>
+          <td align="center"><{'Y-m-d H:i:s'|date:$item.send_time}></td>
+          <td><{$item.msg}></td>
+          <td align="center"><{$item.retry_count}></td>
+          <td align="center" nowrap="nowrap">
+          	<{if $TEMPLATE.is_admin || $item.uid == Passport::GetLoginUid()}>
+	          <a href="?<{'action'|url_param:'id'}>action=send&id=<{$item.id}>">重新发送</a> | <a href="edit.php?id=<{$item.id}>">修改</a> | <a href="?<{'action'|url_param:'id'}>action=del&id=<{$item.id}>">取消</a>
+            <{else}>
+            	<a href="details.php?id=<{$item.id}>">详细</a>
+            <{/if}>
+           </td>
+        </tr>
+        <{/foreach}>
+        <tr class="nohover">
+          <td colspan="9" align="right"><{$TEMPLATE.pager}></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="right">
+    <{include file="inc_right_nav.html"}>
+  </div>
+  <b class="clear"></b>
+</div>
+<{include file="inc_footer.html"}> 

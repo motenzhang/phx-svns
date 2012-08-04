@@ -1,0 +1,51 @@
+<{include file="inc_header.html"}>
+<div class="main">
+  <div class="left">
+    <h2><{$TEMPLATE.title}></h2>
+    <form method="post">
+      <fieldset>
+        <legend>帐户信息</legend>
+        <div class="gridborder edituser">
+          <table width="100%" class="grid">
+            <tr>
+              <td width="15%" align="right"><b>用户名：</b></td>
+              <td><{$TEMPLATE.data.username}></td>
+            </tr>
+            <tr>
+              <td width="15%" align="right"><b>密码：</b></td>
+              <td><input type="password" name="f[password]" value="">
+                <span style="color:#999">若不修改密码，无须填写</span> <span><{$TEMPLATE.error.password}></span></td>
+            </tr>
+            <tr>
+              <td width="15%" align="right"><b>类型：</b></td>
+              <td><label> <input type="checkbox" name="f[type]" value="1"<{($TEMPLATE.data.type == 1)?' checked':''}>>
+                  管理员</label></td>
+            </tr>
+            <tr>
+              <td width="15%" align="right"><b>权限：</b></td>
+              <td><!--<p>
+                  <label> <input type="checkbox" name="f[perms][0]" value="公共平台"<{(0|@array_key_exists:$TEMPLATE.data.perms)?' checked':''}>>
+                    公共平台</label>
+                  【<{foreach from=$TEMPLATE.simula.weibo_list item=item}><{$item}>、<{/foreach}><{foreach name=simula_blog_list from=$TEMPLATE.simula.blog_list item=item}><{$item}><{if !$smarty.foreach.simula_blog_list.last}>、<{/if}><{/foreach}>】 </p>--> 
+                <{foreach from=$TEMPLATE.platform_list item=platform}>
+                <p>
+                  <label> <input type="checkbox" name="f[perms][<{$platform.id}>]" value="<{$platform.name|htmlspecialchars}>"<{($platform.id|@array_key_exists:$TEMPLATE.data.perms)?' checked':''}>>
+                    <{$platform.name|htmlspecialchars}></label>
+                  【<{foreach from=$platform.weibo_list item=item}><{$item}>、<{/foreach}><{foreach name=platform_blog_list from=$platform.blog_list item=item}><{$item}><{if !$smarty.foreach.platform_blog_list.last}>、<{/if}><{/foreach}>】 </p>
+                <{/foreach}> </td>
+            </tr>
+          </table>
+        </div>
+      </fieldset>
+      <fieldset class="tblFooters">
+        <input type="submit" value="保存" class="button" style="margin-left:45%">
+        <span><{$TEMPLATE.error.username}></span>
+      </fieldset>
+    </form>
+  </div>
+  <div class="right">
+    <{include file="inc_right_nav.html"}>
+  </div>
+  <b class="clear"></b>
+</div>
+<{include file="inc_footer.html"}> 

@@ -1,0 +1,27 @@
+<{include file="inc_header.html"}>
+<div class="main">
+  <div class="left">
+    <h2><{$TEMPLATE.title}></h2>
+    <p> 请输入用户名和密码。 <a href="register.php">注册</a> 如果您没有帐户。 </p>
+    <form method="post" class="frm_login">
+      <fieldset>
+        <legend>帐户信息</legend>
+        <p>
+          <label>用户名：
+            <input type="text" name="f[username]" value="<{$TEMPLATE.data.username}>">
+          </label>
+          <span><{$TEMPLATE.error.username}></span> </p>
+        <p>
+          <label>密　码：
+            <input type="password" name="f[password]" value="<{$TEMPLATE.data.password}>">
+          </label>
+          <span><{$TEMPLATE.error.password}></span> </p>
+      </fieldset>
+      <fieldset class="tblFooters">
+        <input type="submit" value="<{$TEMPLATE.title}>" class="button" style="margin-left:56px">
+      </fieldset>
+    </form>
+  </div>
+  <div class="right"> <{include file="inc_right_nav.html"}> </div>
+  <b class="clear"></b> </div>
+<{include file="inc_footer.html"}> 

@@ -1,0 +1,45 @@
+<{include file="inc_header.html"}>
+<div class="main">
+  <div class="left">
+    <{if !$TEMPLATE.is_admin}>
+    <div class="wb_report">
+      <span class="err">没有权限！</span>
+    </div>
+    <{else}>
+    <h2><{$TEMPLATE.title}></h2>
+    <div class="gridborder">
+      <table width="100%" class="grid">
+        <tr>
+          <th style="text-align:center">ID</th>
+          <th style="text-align:center">用户名</th>
+          <th style="text-align:center">类型</th>
+          <th>权限</th>
+          <th style="text-align:center">注册时间</th>
+          <th style="text-align:center">最后登录时间</th>
+          <th style="text-align:center">操作</th>
+        </tr>
+        <{foreach from=$TEMPLATE.list item=item}>
+        <tr>
+          <td align="center"><{$item.id}></td>
+          <td align="center"><{$item.username}></td>
+          <td align="center"><{($item.type == 1)?' 管理员':''}></td>
+          <td><{foreach from=$item.perms item=perms}>
+            <div>
+              <{$perms|htmlspecialchars}>
+            </div>
+            <{/foreach}> </td>
+          <td align="center"><{'Y-m-d H:i:s'|date:$item.reg_date}></td>
+          <td align="center"><{'Y-m-d H:i:s'|date:$item.last_login}></td>
+          <td align="center"><a href="?action=edit&id=<{$item.id}>">修改</a></td>
+        </tr>
+        <{/foreach}>
+      </table>
+    </div>
+    <{/if}>
+  </div>
+  <div class="right">
+    <{include file="inc_right_nav.html"}>
+  </div>
+  <b class="clear"></b>
+</div>
+<{include file="inc_footer.html"}> 

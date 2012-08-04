@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>微博同步工具<{if $TEMPLATE.title}> - <{$TEMPLATE.title}><{/if}></title>
+<link href="./resource/css/main.css" rel="stylesheet" type="text/css">
+<{if !$smarty.server.HTTP_USER_AGENT|strstr:'MSIE'}>
+<link href="./resource/css/modern.css" rel="stylesheet" type="text/css">
+<{/if}>
+<link href="./resource/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="header">
+  <h1 class="logo"><a href="." class="hide_text">微博同步工具</a></h1>
+  <div class="login_bar">
+  <{if $TEMPLATE.login_name}>
+  	欢迎，<a href="profile.php"><{$TEMPLATE.login_name}></a>
+    [<a href="login.php?action=logoff">退出</a>]
+  <{/if}>
+  </div>
+</div>
