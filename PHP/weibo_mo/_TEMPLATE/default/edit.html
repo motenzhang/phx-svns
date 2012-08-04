@@ -1,0 +1,126 @@
+<{include file="inc_header.html"}>
+<div class="main">
+  <div class="left">
+      <{if $TEMPLATE.report}>
+      <div class="wb_report">
+        <a href="javascript:;" class="close">关闭</a>
+        <h2>报告</h2>
+        <ul>
+          <{foreach from=$TEMPLATE.report item=item key=key}>
+          <li><span class="<{($key=='watch') ? $key : (($item.status) ? 'ok' : 'err')}>"><b><{$key|get_name_r}></b><{$item.msg}></span></li>
+          <{/foreach}>
+        </ul>
+      </div>
+      <{/if}>
+    <form method="post"<{if $TEMPLATE.data.cat == 'weibo'}> id="frm_weibo" enctype="multipart/form-data"<{/if}>>
+    <input type="hidden" name="return_url" value="<{$TEMPLATE.data.return_url}>">
+    <div class="blog_box">
+      <div class="gridborder">
+        <table width="100%" class="grid nohover">
+          <tr>
+            <th colspan="2" class="l"> <h2><{$TEMPLATE.title}></h2>
+            </th>
+          </tr>
+          <tr>
+            <td width="15%" align="right"><b>ID：</b></td>
+            <td><{$TEMPLATE.data.id}></td>
+          </tr>
+          <tr>
+            <td width="15%" align="right"><b>目标平台：</b></td>
+            <td><{$TEMPLATE.data.type|get_name:$TEMPLATE.data.cat}></td>
+          </tr>
+          <{if $TEMPLATE.data.cat != 'weibo'}>
+          <tr>
+            <td align="right"><b>标题：</b></td>
+            <td><input type="text" name="title" value="<{$TEMPLATE.data.title|htmlspecialchars}>" class="title"></td>
+          </tr>
+          <{/if}>
+          <tr>
+            <td align="right"><b>内容：</b></td>
+            <td><{if $TEMPLATE.data.cat == 'weibo'}>
+              <div class="wb_box" style="line-height:2em">
+                <h2><{$TEMPLATE.title}></h2>
+                <div class="wb_top_bar calcword">
+                  还可以输入<em>140</em>字
+                </div>
+                <textarea name="content" cols="65" rows="4" class="wb_tx"><{$TEMPLATE.data.content|htmlspecialchars}></textarea>
+                <div class="wb_bottom_bar">
+                  <div class="upload">
+                    图片：
+                    <input type="file" name="image">
+                  </div>
+                  <label><input type="checkbox" name="time"<{if $TEMPLATE.data.time}> checked<{/if}>>定时发送</label>
+                  <input type="text" name="send_time" size="16" value="<{if $TEMPLATE.data.send_time}><{$TEMPLATE.data.send_time}><{else}><{date('Y-m-d H:i')}><{/if}>" class="border"<{if !$TEMPLATE.data.time}> disabled<{/if}>>
+                </div>
+              </div>
+              <{else}>
+              <textarea name="content" cols="65" rows="13" class="wb_tx"><{$TEMPLATE.data.content|htmlspecialchars}></textarea>
+              <{/if}> </td>
+          </tr>
+          <{if $TEMPLATE.data.cat == 'weibo'}>
+          <tr>
+            <td align="right"><b>图片：</b></td>
+            <td><{if $TEMPLATE.data.pic}> <a href="<{$TEMPLATE.data.pic|get_pic}>" target="_blank"><img src="<{$TEMPLATE.data.pic|get_pic}>" width="120" height="86"></a> <{else}>
+              无
+              <{/if}> </td>
+          </tr>
+          <{else}>
+          <tr>
+            <td align="right"><b></b></td>
+            <td><label><input type="checkbox" name="time"<{if $TEMPLATE.data.time}> checked<{/if}>>定时发送</label>
+                <input type="text" name="send_time" size="16" value="<{if $TEMPLATE.data.send_time}><{$TEMPLATE.data.send_time}><{else}><{date('Y-m-d H:i')}><{/if}>"<{if !$TEMPLATE.data.time}> disabled<{/if}>></td>
+          </tr>
+          <{/if}>
+          <tr>
+            <td colspan="2" align="center"><input name="action" type="submit" class="button" value="修改">
+              &nbsp;
+              <input name="action" type="submit" value="取消"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <b class="clear"></b>
+    </form>
+  </div>
+  <div class="right">
+    <{include file="inc_right_nav.html"}>
+  </div>
+  <b class="clear"></b>
+</div>
+<{if $TEMPLATE.data.cat != 'weibo'}> 
+<script src="resource/tiny_mce/tiny_mce.js"></script> 
+<script> 
+tinyMCE.init({
+	// General options
+	elements	: 'content',
+	mode		: 'exact',
+	theme		: 'advanced',
+	skin		: 'o2k7',
+	skin_variant: 'silver',
+	plugins		: 'safari,table,advimage,inlinepopups,media,searchreplace,contextmenu,paste,fullscreen,iframe',
+	language	: 'zh',
+	width		: '550',
+	height		: '250',
+	remove_script_host : false,
+	relative_urls : false,
+	document_base_url : '../../',
+	// Theme options
+	theme_advanced_buttons1: 'bold,italic,underline,|,forecolor,backcolor,fontsizeselect,justifyleft,justifycenter,justifyright,|,bullist,numlist,outdent,indent,|,image,link,unlink,|,code,fullscreen',
+	theme_advanced_buttons2: '',
+	theme_advanced_buttons3 : '',
+	theme_advanced_toolbar_location : 'top',
+	theme_advanced_toolbar_align : 'left',
+	theme_advanced_statusbar_location : 'none',
+	theme_advanced_resizing : false,
+	//content_css : 'css/content.css',
+	template_external_list_url : 'lists/template_list.js',
+	external_link_list_url : 'lists/link_list.js',
+	external_image_list_url : 'lists/image_list.js',
+	media_external_list_url : 'lists/media_list.js',
+	// Replace values for the template plugin
+	template_replace_values : {
+	}
+});
+</script> 
+<{/if}>
+<{include file="inc_footer.html"}> 

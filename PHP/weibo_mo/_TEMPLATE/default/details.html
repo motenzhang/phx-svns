@@ -1,0 +1,60 @@
+<{include file="inc_header.html"}>
+<div class="main">
+  <div class="left">
+    <form method="post">
+      <div class="blog_box">
+        <div class="gridborder">
+          <table width="100%" class="grid nohover">
+            <tr>
+              <th colspan="2" class="l"> <h2><{$TEMPLATE.title}></h2>
+              </th>
+            </tr>
+            <tr>
+              <td width="15%" align="right"><b>ID：</b></td>
+              <td><{$TEMPLATE.data.id}></td>
+            </tr>
+            <tr>
+              <td width="15%" align="right"><b>目标平台：</b></td>
+              <td><{if $TEMPLATE.data.url}><a href="<{$TEMPLATE.data.url}>" target="_blank"><{/if}><{$TEMPLATE.data.type|get_name:$TEMPLATE.data.cat}></td>
+            </tr>
+            <tr>
+              <td align="right"><b>标题：</b></td>
+              <td><{$TEMPLATE.data.title}></td>
+            </tr>
+            <tr>
+              <td align="right"><b>内容：</b></td>
+              <td><div style="width:605px;overflow:auto">
+                  <{$TEMPLATE.data.content}>
+                </div></td>
+            </tr>
+            <{if $TEMPLATE.data.cat == 'weibo'}>
+            <tr>
+              <td align="right"><b>图片：</b></td>
+              <td><{if $TEMPLATE.data.pic}> <a href="<{$TEMPLATE.data.pic}>" target="_blank"><img src="<{$TEMPLATE.data.pic}>" width="120" height="86"></a> <{else}>
+                无
+                <{/if}> </td>
+            </tr>
+            <{/if}>
+            <tr>
+              <td align="right"><b>发送时间：</b></td>
+              <td><{'Y-m-d H:i:s'|date:$TEMPLATE.data.send_time}></td>
+            </tr>
+            <tr>
+              <td align="right"><b>状态：</b></td>
+              <td><{$TEMPLATE.data.status_text}></td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center"><input type="button" value="&lt; 返回" onclick="history.go(-1)"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <b class="clear"></b>
+    </form>
+  </div>
+  <div class="right">
+    <{include file="inc_right_nav.html"}>
+  </div>
+  <b class="clear"></b>
+</div>
+<{include file="inc_footer.html"}> 
