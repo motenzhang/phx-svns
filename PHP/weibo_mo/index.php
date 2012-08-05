@@ -16,7 +16,7 @@ if (Request::IsPost()) {
 		$TEMPLATE['data'] = $_POST;
 	} else {
 		if ($_FILES['image']['tmp_name']) {
-			@mkdir(UPLOAD_PATH);
+			@mkdir(UPLOAD_PATH, 0777, true);
 			$save_file = $upload_file = UPLOAD_PATH . microtime(true) . '_' . Pinyin::get($_FILES['image']['name']);
 			move_uploaded_file($_FILES['image']['tmp_name'], $save_file);
 		}

@@ -104,5 +104,3 @@ CREATE TABLE IF NOT EXISTS `wt_user` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
-
-insert into `wt_user` (`username`, `password`, `type`) values ('admin', 'admin', 1);
