@@ -18,7 +18,7 @@ h2{margin-top:0}
 textarea{resize:none}
 fieldset{padding-bottom:5px; margin-left:0}
 legend{color:#99540A; font-weight:600}
-.button{padding:3px 12px;_padding:3px; font-weight:bold; line-height:1.0em; font-size:14px}
+.button{padding:3px 12px; font-weight:bold; line-height:1.0em; font-size:14px;}
 .err{color:#f00}
 .frm_login span{color:#f00}
 .frm_login{width:450px}
@@ -31,8 +31,8 @@ legend{color:#99540A; font-weight:600}
 .clear{clear:both; display:block;}
 .hide_text{text-indent:-999px; overflow:hidden;}
 
-.header .login_bar{float:right; margin:-35px 6px 0 0}
-.logo{margin:5px 0 5px 5px; height:35px}
+.header .login_bar{float:right; margin:-30px 6px 0 0}
+.logo{margin:5px 0 5px 5px; height:30px}
 .logo a{display:block; width:60px; height:60px; background:url(../img/logo.png); display:none}
 
 .main {background:#C9F1FF; 
@@ -42,7 +42,7 @@ legend{color:#99540A; font-weight:600}
 
 .footer{height:50px}
 
-.wb_report{background:#fc0; padding:10px; width:560px; color:#fff}
+.wb_report{background:#fc0; padding:10px; width:550px; color:#fff}
 .wb_report .close{float:right; background:url(../img/sprite.png) -232px -84px; width:15px; height:15px; overflow:hidden; text-indent:-999px}
 .wb_report h2{margin-bottom:5px}
 .wb_report span{padding:2px; font-size:13px}
@@ -50,13 +50,15 @@ legend{color:#99540A; font-weight:600}
 .wb_report .err{background:#f00; color:#fff}
 .wb_report .watch{background:#39f}
 
-.wb_box{background:#5FB901; padding:10px; float:left;color:#fff}
+.wb_box{background:#fff; padding:10px; float:left;color:#999;}
 .wb_box h2{}
-.wb_box textarea{border:3px solid #358103; font-size:14px;padding:2px; outline:0; overflow-x:hidden; overflow-y:auto;
+.wb_box textarea{border:1px solid #ccc;358103; font-size:14px;padding:2px; outline:0; overflow-x:hidden; overflow-y:auto;
 	border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:8px; 
+	box-shadow:inset 1px 1px 4px 0px rgba(220, 220, 220, 1);
+	padding:5px;
 }
 input[type=text].border, 
-.border{border:1px solid #358103; box-shadow:none}
+.border{box-shadow:none}
 
 .blog_report{width:auto; margin-right:3px}
 .blog_box{margin:5px 3px 10px 0}
@@ -68,10 +70,11 @@ input[type=text].border,
 	.right_small{margin-top:-28px}
 } 
 
-.wb_top_bar, .wb_bottom_bar{text-align:right; width:559px}
+.wb_top_bar, .wb_bottom_bar{text-align:right; width:559px; margin-top:5px\9;}
 .wb_top_bar{margin-top:-30px}
 .wb_top_bar em{font-family:Constantia,Georgia; font-size:30px; font-style:normal}
-.wb_tx{width:550px}
+.wb_tx{width:545px}
+.wb_bottom_bar{}
 .wb_bottom_bar .upload{float:left}
 .wb_bottom_bar .upload input{width:200px}
 .wb_bottom_bar label{}
