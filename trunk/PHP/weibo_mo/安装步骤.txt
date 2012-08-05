@@ -1,6 +1,11 @@
+PHP运行环境需求：
+1、打开short open tag
+2、支持curl
+
+安装步骤：
 1、新建数据库，/weibo_tools.sql
 2、修改数据库连接配置，/_LOCAL/config.inc.php
 3、上传全部文件。
 4、程序上传图片，默认路径是 /uploadfiles ，需要写权限
-   /LOG 目录，除了存储log外，还存储模拟登录的session、cookie，需要有写权限
-5、crontab 每隔几秒定时执行task_exec.php
+   /_LOG 目录，需要有写权限
+5、crontab 定时执行task_exec.php，建议间隔时间：1分钟

@@ -19,7 +19,7 @@ define('TEMPLATE_TYPE','html');
 //此项目日记文件地址
 define('LOG_PATH',ROOT_DIR . '_LOG/');
 // 上传文件夹
-define('UPLOAD_PATH_WWW', 'uploadfiles/');
+define('UPLOAD_PATH_WWW', 'uploadfiles/' . date('Y/m/d/'));
 define('UPLOAD_PATH', ROOT_DIR . UPLOAD_PATH_WWW);
 
 // 数据库
