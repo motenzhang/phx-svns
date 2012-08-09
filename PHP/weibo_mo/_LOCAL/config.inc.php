@@ -34,33 +34,27 @@ $CACHE['db'] = array(
 // 支持第三方平台列表
 $CACHE['platform_list'] = array(
 		'weibo' => array(
-			'kx001'	=> '开心记录',
 			'sina'	=> '新浪微博',
 			'qq'	=> '腾讯微博',
 			't_163'	=> '网易微博',
 			'sohu'	=> '搜狐微博',
 		),
 		'blog' => array(
-			'kx001'		=> '开心日志',
 			'b_163'		=> '网易博客',
 			'qzone'		=> 'QQ空间日志',
 			'qzone_simula'	=> 'QQ空间日志',
-			'diandian'	=> '点点轻博客',
 			'i_sohu'	=> '搜狐i空间博客',
 			'sina_blog'	=> '新浪博客',
-			'renren'	=> '人人网公共主页',
 			'douban'	=> '豆瓣小站',
 			'renren_zhan'	=> '人人小站',
 		),
 		// 使用开放平台的第三方
 		'open' => array(
-			'kx001'	=> '开心网',
 			'sina'	=> '新浪微博',
 			'qq'	=> '腾讯微博',
 			't_163'	=> '网易微博',
 			'sohu'	=> '搜狐微博',
 			'qzone'	=> 'QQ空间',
-			'renren'=> '人人网',
 		),
 );
 
