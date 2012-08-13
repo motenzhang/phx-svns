@@ -10,8 +10,8 @@ include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'init.php';
 $curl = curl_init();
 curl_close($curl);
 
-// 设置执行超时时间 100 秒
-set_time_limit(100);
+// 设置执行超时时间（秒）
+set_time_limit(500);
 
 // 更新脚本最后执行时间
 $user = new User();
@@ -38,11 +38,15 @@ foreach ($tasks as $id => $item) {
 	}
 	$type_arr = explode ('|', $item['type']);
 	$third = $thirdAccount->getThird($item['uid'], $type_arr[0], $type_arr[1]);
-	$api = Factory::CreateAPI2($type_arr[0], $type_arr[1], $third);
-	if ($item['cat'] == 'weibo') {
-		$ret = $api->upload($item['content'], $item['pic']);
+	if ($third && $third['valid'] == 1) {
+		$api = Factory::CreateAPI2($type_arr[0], $type_arr[1], $third);
+		if ($item['cat'] == 'weibo') {
+			$ret = $api->upload($item['content'], $item['pic']);
+		} else {
+			$ret = $api->publish($item['title'], $item['content']);
+		}
 	} else {
-		$ret = $api->publish($item['title'], $item['content']);
+		$ret = $third ? '账号绑定过期，尚未重新绑定' : '账号绑定已取消';
 	}
 	if ($ret === true) {
 		$task->UpdateStatus(Task::OK, $id);
@@ -54,7 +58,7 @@ foreach ($tasks as $id => $item) {
 		$task->UpdateStatus(Task::ERROR, $id, $ret);
 		echo "任务#{$id}：发送失败：$ret<br>\r\n";
 	}
-	usleep(1000 * 1000);
+	usleep(500 * 1000);
 }
 
 $watch->Stop();
