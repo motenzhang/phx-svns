@@ -73,6 +73,20 @@ class RenrenZhan extends SimulaLogin {
 			return '模拟登录已过期或个性域名填写错误！需重新<a href="bind.php">绑定账号</a>。';
 		}
 		$url = "http://zhan.renren.com/{$this->blogname}/word/create";
+		if (preg_match_all('#<img .*?src="(.+?)".*?>#i', $content, $matches)) {
+			foreach ($matches[1] as $img) {
+				$mappath = UPLOAD_PATH . basename($img);
+				$upload_data = array(
+					'theFile'	=> "@$mappath",
+				);
+				$this->referer = $url;
+				$ret = $this->post("http://upload.renren.com/uploadblog.do", $upload_data, 'UTF-8', true);
+				$ret = @json_decode($this->getMatch1('#\[\{(.*?)\}\]#', $ret), true);
+				if ($ret[0] && $ret[0]['url']) {
+					$content = str_replace($img, $ret[0]['url'], $content);
+				}
+			}
+		}
 		$param = array(
 			'subject'	=> $title,
 			'body'		=> $content,
@@ -84,8 +98,12 @@ class RenrenZhan extends SimulaLogin {
         	return '模拟登录已过期！需重新<a href="bind.php">绑定账号</a>。';
         }
         if ($ret['code'] != 0) {
-			Log::customLog('renren_zhan_error.log', '发布失败：' . print_r($param, true) . print_r($this->http_header, true) . print_r($ret, true));
-        	return '发布失败，详细原因请参阅<a href="_LOG/renren_zhan_error.log" target="_blank">renren_zhan_error.log</a>。';
+        	if ($ret['msg']) {
+        		return $ret['msg'];
+        	} else {
+				Log::customLog('renren_zhan_error.log', '发布失败：' . print_r($param, true) . print_r($this->http_header, true) . print_r($ret, true));
+	        	return '发布失败，详细原因请参阅<a href="_LOG/renren_zhan_error.log" target="_blank">renren_zhan_error.log</a>。';
+        	}
         }
         return true;
 	}
