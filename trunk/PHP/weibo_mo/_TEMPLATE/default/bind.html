@@ -107,7 +107,7 @@
                     <p>
                     <img src="connect/verify_code.php?t=<{$key}>&pid=<{$TEMPLATE.pid}>">
                       <label style="margin-top:50px">验证码：
-                        <input type="text" name="verify_code">
+                        <input type="text" name="verify_code" autocomplete="off">
                          </label>
                     </p>
                     <{/if}>
@@ -116,7 +116,7 @@
                         <{if $TEMPLATE.error.msg|strpos:'验证码' != false}>
                         <p>
                           <label>验证码：
-                            <input type="text" name="verify_code" style="width:40px">
+                            <input type="text" name="verify_code" style="width:40px" autocomplete="off">
                             <img src="connect/verify_code.php?t=<{$key}>&pid=<{$TEMPLATE.pid}>" style="cursor:pointer" 
                             onclick="this.src='connect/verify_code.php?t=<{$key}>&pid=<{$TEMPLATE.pid}>&' + new Date().getTime()"> </label>
                         </p>

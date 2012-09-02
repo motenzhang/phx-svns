@@ -20,30 +20,60 @@ class QZoneSimulaAPI extends SimulaLogin {
 	function md5_3 ($str) {
 		return strtoupper(md5(md5(md5($str, true), true)));
 	}
+	function hexchar2bin($hex) {
+		$ret = '';
+		for ($i=0; $i < strlen($hex); $i+= 2) {
+			$ret .= chr(hexdec(substr($hex, $i, 2)));
+		}
+		return $ret;
+	}
+	function uin2hex($qq) {
+		$hex = dechex($qq);
+		$hex = str_repeat('0', 16 - strlen($hex)) . $hex;
+		return $this->hexchar2bin($hex);
+	}
+	function encpwd($pwd, $qq, $vcode) {
+		$pbin = $this->hexchar2bin(md5($pwd));
+		$pbin_q = md5($pbin . $this->uin2hex($qq));
+		$ret = md5(strtoupper($pbin_q) . strtoupper($vcode));
+		return strtoupper($ret);
+	}
+	/**
+	 * 获取登录验证码
+	 */
+	public function showCode() {
+		echo $this->get("http://captcha.qq.com/getimage?aid=15000101&uin=" . Session::Get('qq'));
+	}
 	/**
 	 * 模拟登录
 	 */
-	public function Login() {
+	public function Login($verifycode) {
 		$data = $this->account;
 		if (!is_numeric($data['username']) && !str_contains($data['username'], '@')) {
 			return '用户名格式错误，请输入QQ号或QQ邮箱。';
 		}
-		$ret = $this->get('http://ptlogin2.qq.com/check?appid=15000101&uin=' . $data['username']);//
-		$arr = explode("'", $ret);
-		$verifycode = $arr[3];
-		if (strlen($verifycode) != 4) {
-			return '登录服务暂时不可用，请稍后再试！';
+		Session::Set('qq', $data['username']);
+		if (!$verifycode) {
+			$ret = $this->get('http://check.ptlogin2.qq.com/check?appid=15000101&uin=' . $data['username']);//
+			$arr = explode("'", $ret);
+			$verifycode = $arr[3];
+			if (strlen($verifycode) != 4) {
+				return '绑定账号失败：请输入验证码';//'登录服务暂时不可用，请稍后再试！';
+			}
 		}
 
+
+
 		$query = array(
-			'u'				=> $data['username'],
-			'p'				=> md5($this->md5_3($data['password']) . $verifycode),
-			'verifycode'	=> $verifycode,
 			'aid'			=> 15000101,
-			'u1'			=> 'http://imgcache.qq.com/qzone/v5/loginsucc.html?para=izone',
-			'h'				=> 1,
-			'from_ui'		=> 1,
 			'fp'			=> 'loginerroralert',
+			'from_ui'		=> 1,
+			'g'				=> 1,
+			'h'				=> 1,
+			'u'				=> $data['username'],
+			'p'				=> $this->encpwd($data['password'], $data['username'], $verifycode),
+			'verifycode'	=> $verifycode,
+			'u1'			=> 'http://imgcache.qq.com/qzone/v5/loginsucc.html?para=izone',
 		);
 		$ret = $this->get('http://ptlogin2.qq.com/login?' . http_build_query($query));
 		$arr = explode("'", $ret);
@@ -87,16 +117,17 @@ class QZoneSimulaAPI extends SimulaLogin {
 	 */
 	protected function _publish($title, $content) {
 		$skey = $this->getcookie('skey', '.qq.com');
+		$g_tk = $this->_DJB($skey);
 		$data = $this->account;
         $param = array(
            	'category'	=> '个人日记',
-        	'g_tk'		=> $this->_DJB($skey),
+        	'g_tk'		=> $g_tk,
 			'content'	=> strip_tags($content),
         	'html'		=> $content,
         	'title'		=> $title,
         	'uin'		=> $data['username'],
         );
-        $ret = $this->post('http://b1.cnc.qzone.qq.com/cgi-bin/blognew/blog_add', $param, 'gbk');
+        $ret = $this->post("http://b1.cnc.qzone.qq.com/cgi-bin/blognew/blog_add?g_tk={$g_tk}", $param, 'gbk');
 		$ret = iconv('gbk', 'utf-8', $ret);
         if (!$ret)	return '服务器返回 NULL。';
         $msg = $this->getMatch1('#"msg":"(.+?)"#', $ret);
