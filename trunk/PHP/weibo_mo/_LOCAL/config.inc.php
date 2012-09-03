@@ -18,6 +18,7 @@ define('COMPILER_PATH', ROOT_DIR . '_TEMPLATE_C/default');
 define('TEMPLATE_TYPE','html');
 //此项目日记文件地址
 define('LOG_PATH',ROOT_DIR . '_LOG/');
+@mkdir(LOG_PATH);
 // 上传文件夹
 define('UPLOAD_PATH_WWW', 'uploadfiles/' . date('Y/m/d/'));
 define('UPLOAD_PATH', ROOT_DIR . UPLOAD_PATH_WWW);
