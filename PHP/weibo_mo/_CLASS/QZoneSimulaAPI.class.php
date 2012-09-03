@@ -47,7 +47,7 @@ class QZoneSimulaAPI extends SimulaLogin {
 	/**
 	 * 模拟登录
 	 */
-	public function Login($verifycode) {
+	public function Login($verifycode = NULL) {
 		$data = $this->account;
 		if (!is_numeric($data['username']) && !str_contains($data['username'], '@')) {
 			return '用户名格式错误，请输入QQ号或QQ邮箱。';
