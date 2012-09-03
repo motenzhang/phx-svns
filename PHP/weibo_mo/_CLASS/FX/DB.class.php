@@ -65,7 +65,7 @@ class DB
      * @return object instance of Cache
      * @access public
      **/
-	public function getInstance($item, $master = true)
+	public static function getInstance($item, $master = true)
 	{
     	global $CACHE;
     	$obj = DB::$instance;

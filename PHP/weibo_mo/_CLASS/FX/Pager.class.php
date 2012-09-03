@@ -34,7 +34,7 @@ class Pager {
 	 * 获取GET参数
 	 * @param mixed $args	排除的key
 	 */
-	public function url_param(/*...*/)
+	public static function url_param(/*...*/)
 	{
 		$req = $_GET;
 		foreach(func_get_args() as $param)

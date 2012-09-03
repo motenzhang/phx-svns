@@ -96,7 +96,7 @@ class Passport {
 	/**
 	 * 从Cookie解析登录信息
 	 */
-	public function GetLoginInfo () {
+	public static function GetLoginInfo () {
 		$enc_passpott = $_COOKIE ['KM_PASSPORT_MEMBER'];
 		if (empty($enc_passpott))	$enc_passpott = $_GET['key'];
 		parse_str($enc_passpott, $info);

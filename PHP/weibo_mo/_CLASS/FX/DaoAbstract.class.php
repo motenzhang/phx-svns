@@ -423,6 +423,7 @@ abstract class DaoAbstract {
         if (!$result) {
             return false;
         }
-        return array_pop(array_pop($result));
+		$p0 = array_pop($result);
+        return array_pop($p0);
     }
 }
