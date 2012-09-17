@@ -11,7 +11,7 @@ class Passport {
 	 * @param string $username	用户名
 	 * @param string $password	密码
 	 */
-	public function Login ($username, $password) {
+	public static function Login ($username, $password) {
 		$user = new User();
 		$ret = $user->getByName($username);
 		if (!$ret) {
