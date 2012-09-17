@@ -38,7 +38,7 @@ class Log
 	 * @param string $ident 日志
 	 * @param string $string 日志信息
 	 */
-	public function sysLog($ident, $errstr)
+	public static function sysLog($ident, $errstr)
 	{
 		if(!defined('LOG_LOCAL4') && !empty($_ENV['OS']) && substr($_ENV['OS'], 0 , 7) == 'Windows')
 		{
