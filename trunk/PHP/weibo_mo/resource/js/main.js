@@ -69,7 +69,7 @@ $(function() {
 		$('form').submit(function(){
 			if (this['f[type]'].value == 'sina_blog') {
 				var username = this['f[token]'].value;
-				$.getJSONP('http://login.sina.com.cn/sso/prelogin.php?entry=boke&su=' + base64.encode(username) + '&rsakt=mod&client=ssologin.js(v1.4.2)', function(ret) {
+				$.getJSON('http://login.sina.com.cn/sso/prelogin.php?entry=boke&su=' + base64.encode(username) + '&rsakt=mod&client=ssologin.js(v1.4.2)&callback=?', function(ret) {
 					alert(ret);
 				});
 				return false;
