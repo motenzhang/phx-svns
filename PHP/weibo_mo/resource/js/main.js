@@ -64,4 +64,52 @@ $(function() {
         frm_weibo.submit(function () {
 		});
 	}
+	
+	if (location.href.toLowerCase().indexOf('bind.php') > -1) {
+		$('form').submit(function(){
+			if (this['f[type]'].value == 'sina_blog') {
+				var username = this['f[token]'].value;
+				$.getJSONP('http://login.sina.com.cn/sso/prelogin.php?entry=boke&su=' + base64.encode(username) + '&rsakt=mod&client=ssologin.js(v1.4.2)', function(ret) {
+					alert(ret);
+				});
+				return false;
+			}
+		});
+	}
 });
+
+var base64 = {
+        encode: function(a) {
+            a = "" + a;
+            if (a == "") return "";
+            var b = '';
+            var c,
+            chr2,
+            chr3 = '';
+            var d,
+            enc2,
+            enc3,
+            enc4 = '';
+            var i = 0;
+            do {
+                c = a.charCodeAt(i++);
+                chr2 = a.charCodeAt(i++);
+                chr3 = a.charCodeAt(i++);
+                d = c >> 2;
+                enc2 = ((c & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
+                if (isNaN(chr2)) {
+                    enc3 = enc4 = 64
+                } else if (isNaN(chr3)) {
+                    enc4 = 64
+                }
+                b = b + this._keys.charAt(d) + this._keys.charAt(enc2) + this._keys.charAt(enc3) + this._keys.charAt(enc4);
+                c = chr2 = chr3 = '';
+                d = enc2 = enc3 = enc4 = ''
+            }
+            while (i < a.length);
+            return b
+        },
+        _keys: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
+    };
