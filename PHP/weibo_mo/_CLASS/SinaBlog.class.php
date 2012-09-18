@@ -26,35 +26,37 @@ class SinaBlog extends SimulaLogin {
 	 */
 	public function Login($verify_code = NULL) {
 		// getServerTime
-		$su = base64_encode(urlencode($this->account['username']));
-		$ret = $this->get("http://login.sina.com.cn/sso/prelogin.php?entry=boke&su={$su}");
-		$token = json_decode($ret, true);
+		$token = $_POST['sina'];
 
-		$sp = sha1(sha1(sha1($this->account['password'])) . $token['servertime'] . $token['nonce']);
+		//$sp = sha1(sha1(sha1($this->account['password'])) . $token['servertime'] . $token['nonce']);
 		$data = array(
-			'callback'		=> 'parent.sinaSSOController.loginCallBack',
+			'callback'		=> 'loginCallBack',
 			'encoding'		=> 'UTF-8',
 			'entry'			=> 'boke',
-			'from'			=> 'referer:blog.sina.com.cn/s/blog_46cf47710102e0bu.html,func:0007',
+			'from'			=> 'referer:blog.sina.com.cn/',
 			'gateway'		=> 1,
 			'nonce'			=> $token['nonce'],
-			'pwencode'		=> 'wsse',
+			'prelt'			=> 37,
+			'pwencode'		=> 'rsa2',
 			'returntype'	=> 'IFRAME',
+			'rsakv'			=> $token['rsakv'],
 			'savestate'		=> '365',
 			'servertime'	=> $token['servertime'],
 			'service'		=> 'sso',
 			'setdomain'		=> '1',
-			'sp'			=> $sp,
-			'su'			=> $su,
+			'sp'			=> $token['sp'],
+			'su'			=> $token['su'],
 			'useticket'		=> '0',
 		);
 		if ($verify_code) {
 			$data['door'] = $verify_code;
 		}
 		$this->deletecookie('.sina.com.cn', 'ULOGIN_IMG');
-		$ret = $this->post('http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.3.21)', $data
+		//var_dump($data);
+		$ret = $this->post('http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.2)', $data
 							, 'UTF-8', false, Session::Get('sina_blog_vcode_cookie')
 							);
+		//var_dump($ret);
 		$ret = $this->getMatch1('#loginCallBack\((.*?)\);;#', $ret);
 		$json = json_decode($ret, true);
 		if (empty($json) || $json['retcode'] != 0) {
