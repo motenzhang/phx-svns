@@ -9,4 +9,6 @@ include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '../init.php';
 Passport::RequireLogin();
 
 $api = Factory::CreateAPI($_GET['t'], $_GET['pid']);
+ob_clean();
 $api->showCode();
+ob_end_flush();
