@@ -88,12 +88,14 @@ foreach ($TEMPLATE['blog_list'] as $key => &$value) {
 }
 
 /* debug cookie start */
-$TEMPLATE['debug_cookie'] = $_REQUEST['debug_cookie'] == 1;
-$cookie_path = LOG_PATH . "{$pid}.cookie";
-if (Request::IsPost()) {
-	file_put_contents($cookie_path, $_POST['p_cookie']);
+if ($_REQUEST['debug_cookie'] == 1) {
+	$TEMPLATE['debug_cookie'] = true;
+	$cookie_path = LOG_PATH . "{$pid}.cookie";
+	if (Request::IsPost()) {
+		file_put_contents($cookie_path, $_POST['p_cookie']);
+	}
+	$TEMPLATE['p_cookie'] = file_get_contents($cookie_path);
 }
-$TEMPLATE['p_cookie'] = file_get_contents($cookie_path);
 /* debug cookie end*/
 
 $smarty = new Template();
