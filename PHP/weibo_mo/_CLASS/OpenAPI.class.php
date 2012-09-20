@@ -50,7 +50,7 @@ class OpenAPI extends WeiboOAuth {
 		}
 
 		if (empty($token['oauth_token'])) {
-			Log::customLog('oauth_error.log', '获取 RequestToken 失败！
+			Log::customLog('oauth_error.txt', '获取 RequestToken 失败！
 请求信息：' . print_r($this, true));
 			return '获取 RequestToken 失败！请稍后再试。<span style="color:#fff">' . print_r($token, true) . '</span>';
 		}

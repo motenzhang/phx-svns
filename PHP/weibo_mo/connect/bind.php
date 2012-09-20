@@ -51,7 +51,7 @@ if ($token['oauth_token']) {
 		'url'	=> $api->getUrl(),
 		'valid'	=> 1,
 	);
-	Log::customLog('token_expires_error.log', "绑定 Token，信息：" . print_r($tableInfo, true));
+	Log::customLog('token_expires_error.txt', "绑定 Token，信息：" . print_r($tableInfo, true));
 	$user = new User();
 	$users = $user->getsAll();
 	foreach ($users as $uid => $item) {

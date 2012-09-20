@@ -40,7 +40,7 @@ class ThirdAccount extends DaoAbstract {
 		debug_print_backtrace();
 		$trace = ob_get_contents();
 		ob_clean();
-		Log::customLog('token_expires_error.log', $this->rep_platform("Token 过期，平台：{pid}|{type}, {platform}，{weibo}，原因：{$error_msg}\r\n调用堆栈：\r\n{$trace}", $pid, $type));
+		Log::customLog('token_expires_error.txt', $this->rep_platform("Token 过期，平台：{pid}|{type}, {platform}，{weibo}，原因：{$error_msg}\r\n调用堆栈：\r\n{$trace}", $pid, $type));
 		$mail = Config::get_mail('token_expire');
 		sendmail($mail['to'], $this->rep_platform($mail['subject'], $pid, $type), $this->rep_platform($mail['content'], $pid, $type) . "<br>原因：{$error_msg}");
 		return $this->update(array('valid'=>0), array('pid'=>$pid, 'type'=>$type));

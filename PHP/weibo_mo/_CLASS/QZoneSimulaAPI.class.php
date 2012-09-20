@@ -64,7 +64,7 @@ class QZoneSimulaAPI extends SimulaLogin {
 
 
 
-		$query = array(
+		$param = array(
 			'aid'			=> 15000101,
 			'fp'			=> 'loginerroralert',
 			'from_ui'		=> 1,
@@ -75,8 +75,14 @@ class QZoneSimulaAPI extends SimulaLogin {
 			'verifycode'	=> $verifycode,
 			'u1'			=> 'http://imgcache.qq.com/qzone/v5/loginsucc.html?para=izone',
 		);
-		$ret = $this->get('http://ptlogin2.qq.com/login?' . http_build_query($query));
-		$arr = explode("'", $ret);
+
+		Log::customLog('qzone.txt', "GET http://ptlogin2.qq.com/login:\r\n" . print_r($param, true));
+
+        $ret = $this->get('http://ptlogin2.qq.com/login?' . http_build_query($param));
+
+        Log::customLog('qzone.txt', "Response:\r\n" . print_r($ret, true));
+
+        $arr = explode("'", $ret);
 		$ret = $arr[9];
 		if (start_with($ret, '登录成功') ) {
 			return true;

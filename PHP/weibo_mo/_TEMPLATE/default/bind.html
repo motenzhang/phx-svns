@@ -1,6 +1,16 @@
 <{include file="inc_header.html"}>
 <div class="main">
   <div class="left">
+    
+    <{if $TEMPLATE.debug_cookie}>
+    	<h3>Debug Cookie</h3>
+    	<form method="post">
+	    	<textarea name="p_cookie" cols="110" rows="20" style="font-size:11px; font-family:Verdana;" wrap="off"><{$TEMPLATE.p_cookie|htmlspecialchars}></textarea>
+            <br>
+            <input type="submit" value="保存">
+    </form>
+    <{/if}>
+    
     <h2><{$TEMPLATE.title}></h2>
     <p>
       <label>请选择平台：
