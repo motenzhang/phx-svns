@@ -80,7 +80,7 @@ class QZoneSimulaAPI extends SimulaLogin {
 
         $ret = $this->get('http://ptlogin2.qq.com/login?' . http_build_query($param));
 
-        Log::customLog('qzone.txt', "Response:\r\n" . print_r($ret, true));
+        Log::customLog('qzone.txt', "Response:\r\n" . print_r($this->http_header, true) . print_r($ret, true));
 
         $arr = explode("'", $ret);
 		$ret = $arr[9];
