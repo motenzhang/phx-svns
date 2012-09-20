@@ -29,7 +29,7 @@ class SinaBlog extends SimulaLogin {
 		$token = $_POST['sina'];
 
 		//$sp = sha1(sha1(sha1($this->account['password'])) . $token['servertime'] . $token['nonce']);
-		$data = array(
+		$param = array(
 			'callback'		=> 'loginCallBack',
 			'encoding'		=> 'UTF-8',
 			'entry'			=> 'boke',
@@ -49,13 +49,18 @@ class SinaBlog extends SimulaLogin {
 			'useticket'		=> '0',
 		);
 		if ($verify_code) {
-			$data['door'] = $verify_code;
+			$param['door'] = $verify_code;
 		}
 		$this->deletecookie('.sina.com.cn', 'ULOGIN_IMG');
-		//var_dump($data);
-		$ret = $this->post('http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.2)', $data
-							, 'UTF-8', false, Session::Get('sina_blog_vcode_cookie')
-							);
+		//var_dump($param);
+
+		Log::customLog('sinablog.txt', "POST http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.2):\r\n" . print_r($param, true));
+
+        $ret = $this->post('http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.2)', $param
+							, 'UTF-8', false, Session::Get('sina_blog_vcode_cookie'));
+
+		Log::customLog('sinablog.txt', "Response:\r\n" . print_r($this->http_header, true) . print_r($ret, true));
+
 		//var_dump($ret);
 		$ret = $this->getMatch1('#loginCallBack\((.*?)\);;#', $ret);
 		$json = json_decode($ret, true);
