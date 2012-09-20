@@ -101,8 +101,8 @@ class RenrenZhan extends SimulaLogin {
         	if ($ret['msg']) {
         		return $ret['msg'];
         	} else {
-				Log::customLog('renren_zhan_error.log', '发布失败：' . print_r($param, true) . print_r($this->http_header, true) . print_r($ret, true));
-	        	return '发布失败，详细原因请参阅<a href="_LOG/renren_zhan_error.log" target="_blank">renren_zhan_error.log</a>。';
+				Log::customLog('renren_zhan_error.txt', '发布失败：' . print_r($param, true) . print_r($this->http_header, true) . print_r($ret, true));
+	        	return '发布失败，详细原因请参阅<a href="_LOG/renren_zhan_error.txt" target="_blank">renren_zhan_error.log</a>。';
         	}
         }
         return true;

@@ -49,7 +49,7 @@ class Task extends DaoAbstract {
 			'msg'=> $msg,
 		);
 		if (intval($tableInfo['uid']) <= 0) {
-			Log::customLog('uid_0_error.log', "产生UID为空的任务: \r\n" .
+			Log::customLog('uid_0_error.txt', "产生UID为空的任务: \r\n" .
 												print_r($tableInfo, true) .
 												"\r\n-----------------------------------------\r\n" .
 												print_r($_SERVER, true));

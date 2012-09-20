@@ -116,10 +116,10 @@ class DoubanSite extends SimulaLogin {
         	return '模拟登录已过期！需重新<a href="bind.php">绑定账号</a>。';
         }
         if (empty($this->http_header['Location'])) {
-			Log::customLog('douban_site_error.log', '发布失败：' . print_r($param, true) . print_r($this->http_header, true) . $ret);
-        	return '发布失败，详细原因请参阅<a href="_LOG/douban_site_error.log" target="_blank">douban_site_error.log</a>。';
+			Log::customLog('douban_site_error.txt', '发布失败：' . print_r($param, true) . print_r($this->http_header, true) . $ret);
+        	return '发布失败，详细原因请参阅<a href="_LOG/douban_site_error.txt" target="_blank">douban_site_error.log</a>。';
         } else if (str_contains($this->http_header['Location'], $nid)) {
-			Log::customLog('douban_site_error.log', '发布成功：' . print_r($param, true) . print_r($this->http_header, true) . $ret);
+			Log::customLog('douban_site_error.txt', '发布成功：' . print_r($param, true) . print_r($this->http_header, true) . $ret);
         	return true;
         }
 	}

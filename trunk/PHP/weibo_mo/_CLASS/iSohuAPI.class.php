@@ -109,8 +109,8 @@ class iSohuAPI extends SimulaLogin {
 	       		return $ret['statusText'];
 	        }
         } else {
-			Log::customLog('isohu_error.log', '发布失败：' . print_r($param, true) . print_r($this->http_header, true) . $ret);
-        	return '未知错误，详细原因请参阅<a href="_LOG/isohu_error.log" target="_blank">isohu_error.log</a>。';
+			Log::customLog('isohu_error.txt', '发布失败：' . print_r($param, true) . print_r($this->http_header, true) . $ret);
+        	return '未知错误，详细原因请参阅<a href="_LOG/isohu_error.txt" target="_blank">isohu_error.log</a>。';
         }
 	}
 

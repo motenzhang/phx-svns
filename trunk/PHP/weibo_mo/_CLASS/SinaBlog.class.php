@@ -79,9 +79,12 @@ class SinaBlog extends SimulaLogin {
 	protected function _publish($title, $content) {
 		$add_url = 'http://control.blog.sina.com.cn/admin/article/article_add.php';
 		$ret = $this->get($add_url);
+
+		Log::customLog('sinablog.txt', "GET http://control.blog.sina.com.cn/admin/article/article_add.php:\r\n{$ret}");
+
 		$vtoken = $this->getMatch1('/<input type="hidden" name="vtoken" value="([^"]+)"/', $ret);
 		if (empty($vtoken)) {
-			return '模拟登录已过期，需重新<a href="bind.php">绑定账号</a>。';
+			return '模拟登 录已过期，需重新<a href="bind.php">绑定账号</a>。';
 		}
 
         $param = array(
@@ -131,7 +134,13 @@ class SinaBlog extends SimulaLogin {
 			'x_cms_flag'	=> 0,
         );
         $this->referer = $add_url;
+
+        Log::customLog('sinablog.txt', "POST http://control.blog.sina.com.cn/admin/article/article_post.php:\r\n" . print_r($param, true));
+
         $ret = $this->post('http://control.blog.sina.com.cn/admin/article/article_post.php', $param);
+
+        Log::customLog('sinablog.txt', "Response:\r\n" . print_r($ret, true));
+
         if (!$ret)	return '服务器返回 NULL。';
         switch ($ret['code']) {
         	case 'B06001':
