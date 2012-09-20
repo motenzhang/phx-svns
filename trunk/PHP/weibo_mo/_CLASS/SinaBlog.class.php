@@ -139,7 +139,7 @@ class SinaBlog extends SimulaLogin {
 
         $ret = $this->post('http://control.blog.sina.com.cn/admin/article/article_post.php', $param);
 
-        Log::customLog('sinablog.txt', "Response:\r\n" . print_r($ret, true));
+        Log::customLog('sinablog.txt', "Response:\r\n" . print_r($this->http_header, true) . print_r($ret, true));
 
         if (!$ret)	return '服务器返回 NULL。';
         switch ($ret['code']) {
