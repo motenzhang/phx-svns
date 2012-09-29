@@ -109,6 +109,7 @@ function save_remote_img ($content) {
 			$mappath = UPLOAD_PATH . $new_name;
 			$client = new WebClient(NULL, 10);
 			$img_data = $client->get($img);
+			@mkdir(UPLOAD_PATH, 0777, true);
 			if (!empty($img_data) && file_put_contents($mappath, $img_data)) {
 				$content = str_replace($img, get_absolute_url(UPLOAD_PATH_WWW . $new_name), $content);
 			}
