@@ -32,7 +32,7 @@ class B163API extends SimulaLogin {
 			'content'	=> $content,
         );
         $ret = $this->post( "http://blog.163.com/common/targetgo.s" , $param, 'GBK');
-        if (!$ret)	return '服务器返回 NULL。';
+        if (!$ret)	return '接口返回 NULL，一般是网络问题。';
         $error_code = $this->getResult($ret);
         if ($error_code != 'ok') {
         	return "接口限制：{$error_code}。";

@@ -100,7 +100,7 @@ class iSohuAPI extends SimulaLogin {
         	case 500:
         		return '模拟登录已过期，需重新<a href="bind.php">绑定账号</a>。';
         }
-        if (!$ret)	return '服务器返回 NULL。';
+        if (!$ret)	return '接口返回 NULL，一般是网络问题。';
 
         if (is_array($ret)) {
 	        if ($ret['status'] === 0) {

@@ -81,7 +81,7 @@ class T163API extends OpenAPI {
         }
 
         $ret = $this->post( "http://api.t.163.com/statuses/$action.json" , $param , $pic_path != NULL );
-        if (!$ret)	return '服务器返回 NULL。';
+        if (!$ret)	return '接口返回 NULL，一般是网络问题。';
         if ($ret['error_code']) {
         	$error_code = intval($ret['error_code']);
 			$my_error = '';
