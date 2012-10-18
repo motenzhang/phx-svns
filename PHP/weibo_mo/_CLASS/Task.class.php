@@ -16,6 +16,8 @@ class Task extends DaoAbstract {
 	const EXECING= 1;	// 正在执行任务
 	const TASK_EDIT = 2; // 修改中
 
+	const RETRY_COUNT = 30;	// 失败重试次数
+
 	/**
 	 * 增加任务
 	 * @param string $type
@@ -86,9 +88,10 @@ class Task extends DaoAbstract {
 		$status = Task::TASK;
 		$status_err = Task::ERROR;
 		$now = time();
+		$retry_count = Task::RETRY_COUNT;
 		$sql = "select * from $this->tableName
 				where (status = $status
-						OR (status = $status_err AND retry_count < 10))
+						OR (status = $status_err AND retry_count < $retry_count))
 					AND send_time <= $now
 				order by send_time asc";
 		return $this->db->fetchAll($sql, $this->primary_key);

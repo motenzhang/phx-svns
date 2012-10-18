@@ -33,7 +33,7 @@ foreach ($tasks as $id => $item) {
 		}
 	}
 	if (str_contains($item['msg'], '重复发送') || str_contains($item['msg'], '用户调用次数超过限制')) {
-		$task->update(array('retry_count' => 10), array('id' => $id));
+		$task->update(array('retry_count' => Task::RETRY_COUNT), array('id' => $id));
 		continue;
 	}
 	$type_arr = explode ('|', $item['type']);
