@@ -146,7 +146,7 @@ class SinaBlog extends SimulaLogin {
 
         Log::customLog('sinablog.txt', "Response:\r\n" . print_r($this->http_header, true) . print_r($ret, true));
 
-        if (!$ret)	return '服务器返回 NULL。';
+        if (!$ret)	return '接口返回 NULL，一般是网络问题。';
         switch ($ret['code']) {
         	case 'B06001':
         	case 'B06011':

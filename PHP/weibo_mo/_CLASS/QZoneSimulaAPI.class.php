@@ -135,7 +135,7 @@ class QZoneSimulaAPI extends SimulaLogin {
         );
         $ret = $this->post("http://b1.cnc.qzone.qq.com/cgi-bin/blognew/blog_add?g_tk={$g_tk}", $param, 'gbk');
 		$ret = iconv('gbk', 'utf-8', $ret);
-        if (!$ret)	return '服务器返回 NULL。';
+        if (!$ret)	return '接口返回 NULL，一般是网络问题。';
         $msg = $this->getMatch1('#"msg":"(.+?)"#', $ret);
         return empty($msg) ? true : $msg;
 	}

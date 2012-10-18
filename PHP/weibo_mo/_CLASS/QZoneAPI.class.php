@@ -78,7 +78,7 @@ class QZoneAPI extends OpenAPI {
         );
 
         $ret = $this->post( "http://openapi.qzone.qq.com/blog/add_one_blog" , $param);
-        if (!$ret)	return '服务器返回 NULL。';
+        if (!$ret)	return '接口返回 NULL，一般是网络问题。';
 		if ($ret['ret'] == 0) {
 			return true;
 		}

@@ -78,7 +78,7 @@ class QQAPI extends OpenAPI {
 
 		usleep(200 * 1000);	// 防止网络不稳定，等待200毫秒再发送
 		$ret = $this->post ( "http://open.t.qq.com/api/t/$action", $param, $pic_path != NULL );
-        if (!$ret)	return '服务器返回 NULL。';
+        if (!$ret)	return '接口返回 NULL，一般是网络问题。';
 		//var_dump($ret);
 		if ($ret['ret'] == 0) {
 			return true;

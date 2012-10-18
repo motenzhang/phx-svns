@@ -82,7 +82,7 @@ class SohuAPI extends OpenAPI {
         	if (filesize($pic_path) > 1000 * 1024) {
         		return '上传图片超出限制(1Mb)!';
         	}
-        	return '服务器返回 NULL。';
+        	return '接口返回 NULL，一般是网络问题。';
         }
         if ($ret['code']) {
         	$error_code = intval($ret['code']);

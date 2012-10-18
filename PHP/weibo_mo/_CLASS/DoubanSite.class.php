@@ -111,7 +111,7 @@ class DoubanSite extends SimulaLogin {
 		}
 		$param['note_text'] = preg_replace('#\[(图片\d+)\]#', '<$1>', html_decode($content));
 		$ret = $this->post($url, $param);
-        if (!$ret)	return '服务器返回 NULL。';
+        if (!$ret)	return '接口返回 NULL，一般是网络问题。';
         if (start_with($this->http_code, '40')) {
         	return '模拟登录已过期！需重新<a href="bind.php">绑定账号</a>。';
         }
