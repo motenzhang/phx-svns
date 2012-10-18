@@ -27,7 +27,10 @@ $task->UpdateStatus(Task::EXECING, $taskIds);
 
 $thirdAccount = new ThirdAccount();
 foreach ($tasks as $id => $item) {
-	if (str_contains($item['msg'], '验证码') || str_contains($item['msg'], 'valCodeError')) {
+	$type_arr = explode ('|', $item['type']);
+	if (str_contains($item['msg'], '验证码') || 
+		str_contains($item['msg'], 'valCodeError') ||
+		$type_arr[0] == 'qzone_simula' ) {
 		if (time() - $item['last_send'] < 10 *60) {
 			continue;
 		}
@@ -36,7 +39,6 @@ foreach ($tasks as $id => $item) {
 		$task->update(array('retry_count' => Task::RETRY_COUNT), array('id' => $id));
 		continue;
 	}
-	$type_arr = explode ('|', $item['type']);
 	$third = $thirdAccount->getThird($item['uid'], $type_arr[0], $type_arr[1]);
 	if ($third && $third['valid'] == 1) {
 		$api = Factory::CreateAPI2($type_arr[0], $type_arr[1], $third);
