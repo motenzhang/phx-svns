@@ -1,0 +1,71 @@
+@import "common.css";
+.main { background:#fcfcfc; border:1px solid #e8e8e8; margin-top:40px;}
+.footer { background:none; border-top:0;}
+.main-left { width:716px; padding:21px 24px 0; background:#fff; border-right:1px solid #e8e8e8;}
+.main-right { margin-left:765px; padding-top:21px;}
+/**/
+#slides { width: 716px; position: relative; height: 252px; overflow: hidden; margin-bottom:28px; }
+.slide_cont { position: relative; height: 252px; width: 716px; overflow: hidden; }
+.slides { display:none; position: absolute; left: 0; top: 0; height: 252px; width: 716px; overflow: hidden;  }
+.slides img { height: 252px; width: 716px; }
+.slides-txt-bg { background:#000; opacity:.6; filter:Alpha(opacity=60);}
+.slides-txt-bg,.slide_cont .slides-txt { position:absolute; left:0; bottom:0; height:32px; line-height:32px; width:100%;  }
+.slides-txt { padding-left:14px; color:#fff;}
+.pagination { position:absolute; right:12px; bottom:10px; z-index:10;}
+.pagination li { float:left; height:9px; width:9px; overflow:hidden; padding:0 4px;}
+.pagination li a { background:url(img/silde_btn01.png) no-repeat; display:block; width:100%; height:100%; text-indent:-1000em;}
+.pagination li.current a { background:url(img/silde_btn02.png) no-repeat 1px 0;}
+/**/
+.navi {height:38px; line-height:38px; margin-bottom:21px; border-bottom:1px solid #e8e8e8; position:relative;}
+.navi table { float:left; background:url(img/naviBg.gif) repeat-x; position:relative; bottom:-1px; }
+.navi td { border:1px solid #e8e8e8; border-top:0; border-bottom:0; text-align:center;}
+.navi td a { color:#777; display:block; font-size:14px; font-family:Tahoma; padding:0 21px;}
+.navi td a:hover { text-decoration:none;}
+.navi td a.cur { background:#fff; border-top:1px solid #34c61c; height:37px; line-height:37px; font-weight:700;}
+.navi span { position:absolute; right:0; top:0;  font-size:14px}
+.navi span a { font-size:12px;}
+.navi span em {border:4px solid #fff; border-top:4px solid #bfbfbf; display:inline-block; *display:inline; zoom:1; height:0; width:0; margin-left:2px; vertical-align:-3px; * vertical-align:6px;}
+/*skin-lists*/
+.skin-lists { padding-bottom:21px;}
+.skin-lists ul:after{content:" "; display:block; height:0; clear:both; visibility:hidden;}
+.skin-lists ul {zoom:1; margin-right:-59px;}
+.skin-lists li { float:left; padding:14px 14px 11px; background:#fcfcfc; border:1px solid #e7e7e7; box-shadow:0 2px 0 #fafafa; width:313px; height:188px; margin:0 29px 24px 0; display:inline;}
+.skin-lists li h2,.skin-view h3 { color:#333; margin-bottom:13px; position:relative;}
+.skin-lists li h2 span,.skin-view h3 a { position:absolute; right:0; top:0; font-weight:normal; color:#808080;}
+.skin-lists li img,.skin-view img { display:block; width:309px; height:120px; margin:0 auto 11px;}
+.skin-lists li p,.skin-view p { position:relative; height:26px; line-height:26px; color:#808080;}
+.skin-lists li p a,.skin-view h3 a, .login ul li div h6 a { position:absolute; background:url(img/btnbg01.gif) repeat-x; color:#7c7c7c; border:1px solid #d9d9d9; border-radius:2px; box-shadow:0 1px 0 #f3f3f4; width:73px; height:24px; line-height:24px; text-align:center; top:0; right:0; font-family:\5b8b\4f53;}
+.skin-lists li p a:hover ,.skin-view h3 a{  background-position:0 -24px; border-color: #d6d6d6; text-decoration:none;}
+/**/
+.login { padding:0 20px; padding-bottom:28px; border-bottom:1px solid #ededed; posi---tion:relative;}
+.login-btn { background:url(img/btnbg02.png) no-repeat; display:block; _float:left; width:175px; height:38px; text-indent:-1000em;}
+.login-btn:hover { background-position:0 -38px;}
+.login h2,.oth h2 { font-size:14px; margin-top:18px;}
+.login p { margin-top:2px;}
+.oth { border-top:1px solid #fff; padding:0 20px;}
+.user { padding-top:14px;}
+.user,.user p,.oth dl,.oth dd,.login-user,.login-user p { overflow:hidden; zoom:1;}
+.user img { float:left; width:49px; height:47px; margin-right:13px; display:inline;}
+.user p { line-height:22px; color:#999;}
+.oth dl { margin-top:10px;line-height:22px;}
+.oth dt { float:left; color:#999;}
+.login-user img { float:left; margin-right:10px; display:inline; border:1px solid #e0e0e0; padding:2px; height:44px; width:44px;}
+.login-user p { color:#ccc; line-height:40px; margin-top:3px;}
+.login-user p span { color:#666; font-size:14px}
+.login ul { margin-top:10px;}
+.login ul li { background:url(img/dot.gif) no-repeat 0 12px; padding-left:14px; line-height:26px; position:relative; }
+.login ul li a { color:#666;}
+.login ul li a:hover { color:#1ba100; text-decoration:none;}
+.login ul li div{position:absolute; z-index:101; border:1px solid #BDBDBD;box-shadow:2px 3px 3px rgba(0, 0, 0, .18); border-radius:2px; width:342px; height:217px; left:-335px; _left:-359px; top:-3px; background:#fcfcfc; display:none}
+.login ul li:hover div, .login ul li.hover div{display:block}
+.login ul li div h6{background:#f4f4f4; height:38px; line-height:38px; margin:0; padding:0 16px; pos--ition:relative; font-size:12px}
+.login ul li div h6 a{right:16px; top:6px; font-weight:normal}
+.login ul li div h6 a:hover{color:#7C7C7C}
+.login ul li div img{width:309px; height:120px; margin:14px 0 6px 16px}
+.login ul li div p{padding-left:16px}
+/**/
+.skin-view { display:none; position:absolute; padding:0 0 11px; background:#f8f8f9; border:1px solid #bdbdbd; box-shadow:2px 3px 3px #dadada; width:343px; height:204px; left:-100px; top:100px; z-index:20;}
+.skin-view h3 { height:38px; line-height:38px; padding:0 14px; background:#f4f4f4;}
+.skin-view h3 a { right:14px; top:6px;}
+.skin-view img { margin:0 auto;}
+.skin-view p { padding:6px 14px 0;}
