@@ -1,4 +1,41 @@
-(function ($) {
+jQuery(function () {
+	var URLCONF={webroot:"/"};
+    var router;
+    //fix url#hash.within ie||chrome.
+    var url = document.location.href;
+    url = url.split("#");
+    var hash = url[1] || "";
+    url = url[0];
+	var webroot="";
+    var paths;
+    if (true || $.browser.msie||typeof history.pushState=="undefined") {
+        url = url.split(URLCONF['webroot']);
+		webroot=url[0];
+		url=url[1];
+        paths = url.split("/");
+        if (paths.length == 2) {
+            document.location.href = webroot+URLCONF['webroot']+"home#" + url;
+        } else {
+        }
+        router = new Router();
+        Backbone.history.start({ root:URLCONF['webroot']});
+    } else {
+		webroot=url.split(URLCONF['webroot'])[0];
+        if (hash) {			
+			document.location.href = webroot+URLCONF['webroot'] + hash;
+        } else {
+            router = new Router();
+			Backbone.history.start({pushState:true, root:URLCONF['webroot']});
+        }
+    }
+    window.router = router;    
+
+	$('.router').live('click', function(){
+		var path = $(this).attr('path');
+		router.navigate(path || '', {trigger:true});
+	});
+
+
 	$(function () {
 		nav();
 		$("#slides").slides({
@@ -56,71 +93,33 @@
 			}, "fast");
 		});
 	};
-	
-	/*function dialog(id) {
-		if (!$(".dialog-bg").length && !$(id).length) {
-			return;
-		}
-		var $doc = $('body',document),
-			$win = $(window),
-			$dialogWarp = $(".dialog-bg"),
-			$dialog = $(id),
-			$dialogCont = $(".dialog-cont"),
-			$clsBtn = $("#closed-btn"),
-			maxH = $doc.height(),
-			w = 850,
-			h = 646,
-			posL =  w/2,
-			posT =$win.height()/2 - $win.scrollTop() ;
-			$dialogWarp.fadeOut();
-			$dialogCont.hide();
-			$clsBtn.hide();
-		$doc.css({"overflow":"hidden","margin-right":17});
-		$doc.unbind("scroll");
-		$dialogWarp.css({
-			"height" : maxH
-		}).show();
-		$dialog.delay(200).show().stop(true, true).animate({
-			"width" : w,
-			"height" : h,
-			"margin-left" : -posL,
-			"margin-top" : -posT
-		}, "fast", "swing", function () {
-			$dialogCont.show();
-			$clsBtn.show();
-		});
-		$clsBtn.click(function () {
-			
-			$dialog.stop(true, false).animate({
-				"width" : 0,
-				"height" : 0,
-				"margin-left" : 0,
-				"margin-top" : 0
-			},function(){
-				$(this).removeAttr("style");
-			});
-			$dialogCont.hide();
-			$clsBtn.hide();
-			$doc.removeAttr("style");
-			$dialogWarp.removeAttr("style").hide();
-			
-		});
-		$dialogWarp.click(function () {
-			$dialog.stop(true, false).animate({
-				"width" : 0,
-				"height" : 0,
-				"margin-left" : 0,
-				"margin-top" : 0
-			},function(){
-				$(this).removeAttr("style");
-			});
-			$dialogCont.hide();
-			$clsBtn.hide();
-			$doc.removeAttr("style");
-			$dialogWarp.removeAttr("style").hide();
-		});
-	};*/
-	
-	
-		
-})(jQuery);
+});
+
+var Router = Backbone.Router.extend({
+	routes:{
+		"home": 'showIndex',
+		"classic": 'showClassic',
+		"category/:type":"showCategory",
+		"detail/:app_key":"showDetail",
+		"*actions":"defaultRoute"
+	},
+	initialize:function () {
+	},
+	showIndex: function() {
+		$('.router').removeClass('cur');
+		$('.router[path=home]').addClass('cur');
+	},
+	showClassic: function() {
+		$('.router').removeClass('cur');
+		$('.router[path=classic]').addClass('cur');
+	},
+	showCategory:function (type) {
+	},
+	loadData: function(type) {
+	},
+	showDetail:function (app_key) {
+	},
+	defaultRoute:function (actions) {
+		this.navigate('home', {trigger:true});
+	}
+});		
