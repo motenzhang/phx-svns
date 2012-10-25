@@ -32,7 +32,13 @@ jQuery(function () {
 
 	$('.router').live('click', function(){
 		var path = $(this).attr('path');
-		router.navigate(path || '', {trigger:true});
+		router.path = path || '';
+		router.navigate(router.path + '/' + router.sortby, {trigger:true});
+	});
+	$('.sort').live('click', function(){
+		var sortby = $(this).attr('sortby');
+		router.sortby = sortby || '';
+		router.navigate(router.path + '/' + router.sortby, {trigger:true});
 	});
 
 
@@ -96,20 +102,27 @@ jQuery(function () {
 });
 
 var Router = Backbone.Router.extend({
+	path: 'home',
+	sortby: 'hot',
 	routes:{
 		"home": 'showIndex',
 		"classic": 'showClassic',
-		"category/:type":"showCategory",
+		"home/:sort": 'showIndex',
+		"classic/:sort": 'showClassic',
 		"detail/:app_key":"showDetail",
 		"*actions":"defaultRoute"
 	},
 	initialize:function () {
 	},
-	showIndex: function() {
+	showIndex: function(sort) {
+		sort = sort || this.sortby;
+		alert(['index', sort]);
 		$('.router').removeClass('cur');
 		$('.router[path=home]').addClass('cur');
 	},
-	showClassic: function() {
+	showClassic: function(sort) {
+		sort = sort || this.sortby;
+		alert(['classic', sort]);
 		$('.router').removeClass('cur');
 		$('.router[path=classic]').addClass('cur');
 	},
