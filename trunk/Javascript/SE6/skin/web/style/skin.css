@@ -1,4 +1,15 @@
 @import "common.css";
+/*tip*/
+.tip { clear:both; width:980px; margin:2px auto -1px; display:none; }
+.tipt, .tipb { clear:both; overflow:hidden; height:5px; background:url(img/tip.png) no-repeat; }
+.tipc { clear:both; overflow:hidden; zoom:1; background:url(img/tipc.png) repeat-y; padding:6px 0; }
+.tipb { height:7px; background-position:0 -6px; }
+.tipc dl { clear:both; padding:0 18px; }
+.tipc dt { float:left; padding-right:20px; }
+.tipc dd { font-size:14px; color:#60666f; line-height:25px; padding:3px 0 0 0; }
+.tipc dd a { color:#2387B5 }
+.tipc dd a, .tipc dd a:hover { font-weight:bold; text-decoration:underline; }
+/**/
 .main { background:#fcfcfc; border:1px solid #e8e8e8; margin-top:40px;}
 .footer { background:none; border-top:0;}
 .main-left { width:716px; padding:21px 24px 0; background:#fff; border-right:1px solid #e8e8e8;}
