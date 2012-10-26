@@ -92,7 +92,7 @@ class Task extends DaoAbstract {
 		$sql = "select * from $this->tableName
 				where (status = $status
 						OR (status = $status_err AND retry_count < $retry_count))
-					AND send_time <= $now
+					AND send_time <= $now AND send_time > $now - 60 * 60 * 24
 				order by send_time asc";
 		return $this->db->fetchAll($sql, $this->primary_key);
 	}
