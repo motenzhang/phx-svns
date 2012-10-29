@@ -30,6 +30,15 @@ jQuery(function () {
     }
     window.router = router;    
 
+	se6api.GetSID(function(){
+		User.update();
+		$('.login-btn').live('click', function(){
+			se6api.Login(function(){
+				User.update();
+			});
+		});
+	});
+
 	$('.router').live('click', function(){
 		var path = $(this).attr('path');
 		router.path = path || '';
@@ -39,6 +48,9 @@ jQuery(function () {
 		var sortby = $(this).attr('sortby');
 		router.sortby = sortby || '';
 		router.navigate(router.path + '/' + router.sortby, {trigger:true});
+	});
+	$('.showdetail').live('click', function(){
+		Detail.show($(this).attr('key'));
 	});
 
 
@@ -71,18 +83,18 @@ jQuery(function () {
 	};*/
 		
 	function nav() {
-		var $liCur = $(".nav-box ul li.cur"),
+		var $liCur = $(".nav-box>ul>li.cur"),
 			curP = $liCur.position().left,
 			curW = $liCur.outerWidth(true),
 			$slider = $(".nav-line"),
-			$targetEle = $(".nav-box ul li:not('.last') a"),
+			$targetEle = $(".nav-box>ul>li:not('.last')"),
 			$navBox = $(".nav-box");
 		$slider.stop(true, true).animate({
 			"left" : curP,
 			"width" : curW
 		});
 		$targetEle.mouseenter(function () {
-			var $_parent = $(this).parent(),
+			var $_parent = $(this);//.parent(),
 			_width = $_parent.outerWidth(true),
 			posL = $_parent.position().left;
 			$slider.stop(true, true).animate({
@@ -116,23 +128,89 @@ var Router = Backbone.Router.extend({
 	},
 	showIndex: function(sort) {
 		sort = sort || this.sortby;
-		alert(['index', sort]);
 		$('.router').removeClass('cur');
 		$('.router[path=home]').addClass('cur');
+		
+		DataSource.get('all', sort);
 	},
 	showClassic: function(sort) {
 		sort = sort || this.sortby;
-		alert(['classic', sort]);
 		$('.router').removeClass('cur');
 		$('.router[path=classic]').addClass('cur');
+
+		DataSource.get('classic', sort);
 	},
-	showCategory:function (type) {
-	},
-	loadData: function(type) {
-	},
-	showDetail:function (app_key) {
+	showDetail:function (id) {
 	},
 	defaultRoute:function (actions) {
 		this.navigate('home', {trigger:true});
 	}
-});		
+});
+
+var User = {
+	update: function(){
+		se6api.IsLogin(function(islogin){
+			if (islogin) {
+				se6api.GetUserName(function(username){
+					$('.username').html(username);
+					//alert(username);
+					// 加载我试用过的皮肤
+				});
+				$('.unlogin').hide();
+				$('.logined').show();
+			} else {
+				$('.unlogin').show();
+				$('.logined').hide();
+			}
+		});
+	}
+};
+
+var DataSource = {
+	get: function(type, sort){
+		$.getJSON('ajax/skin_' + type + '_' + sort + '.txt', function(ret){
+			alert(ret)
+		});
+	}
+};
+
+var Detail = {
+	show: function(id) {
+		dialog('#dialog02');
+	}
+}
+
+function dialog(id){
+	if( !$(".dialog-bg").length && !$(id).length){
+		return ;
+	}
+	var $doc = $("body",document),
+		$dialogWarp = $(".dialog-bg"),
+		$dialog = $(id),
+		$dialogCont = $(".dialog-cont"),
+		$clsBtn = $("#closed-btn"),
+		maxH = $doc.height(),
+		posL = 425,
+		posT = $(".dialog-cont").height()/2,
+		w = 850, 
+		h = $(".dialog-cont").height();
+	//$dialogWarp.fadeOut();
+	$dialogCont.hide();
+	$clsBtn.hide();
+	//$doc.css({"overflow":"hidden","margin-right":17});
+	$dialogWarp.css({"height":maxH}).show();
+	$dialog.delay(200).show().stop(true,true).animate({"width":w,"height":h,"margin-left":-posL,"margin-top":-posT},"fast","swing",function(){
+		$dialogCont.show();
+		$clsBtn.show();
+	});
+	$clsBtn.click(function(){
+		$dialog.removeAttr("style");
+		$doc.removeAttr("style");
+		$dialogWarp.removeAttr("style").hide();
+	});
+	$dialogWarp.click(function(){
+		$dialog.removeAttr("style");
+		$doc.removeAttr("style");
+		$dialogWarp.removeAttr("style").hide();
+	});
+};
