@@ -40,7 +40,7 @@
 .skin-lists { padding-bottom:21px;}
 .skin-lists ul:after{content:" "; display:block; height:0; clear:both; visibility:hidden;}
 .skin-lists ul {zoom:1; margin-right:-59px;}
-.skin-lists li { float:left; padding:14px 14px 11px; background:#fcfcfc; border:1px solid #e7e7e7; box-shadow:0 2px 0 #fafafa; width:313px; height:188px; margin:0 29px 24px 0; display:inline;}
+.skin-lists li { float:left; padding:14px 14px 11px; background:#fcfcfc; border:1px solid #e7e7e7; box-shadow:0 2px 0 #fafafa; width:313px; height:188px; margin:0 29px 24px 0; display:inline; cursor:pointer}
 .skin-lists li h2,.skin-view h3 { color:#333; margin-bottom:13px; position:relative;}
 .skin-lists li h2 span,.skin-view h3 a { position:absolute; right:0; top:0; font-weight:normal; color:#808080;}
 .skin-lists li img,.skin-view img { display:block; width:309px; height:120px; margin:0 auto 11px;}
@@ -48,6 +48,7 @@
 .skin-lists li p a,.skin-view h3 a, .login ul li div h6 a { position:absolute; background:url(img/btnbg01.gif) repeat-x; color:#7c7c7c; border:1px solid #d9d9d9; border-radius:2px; box-shadow:0 1px 0 #f3f3f4; width:73px; height:24px; line-height:24px; text-align:center; top:0; right:0; font-family:\5b8b\4f53;}
 .skin-lists li p a:hover ,.skin-view h3 a{  background-position:0 -24px; border-color: #d6d6d6; text-decoration:none;}
 /**/
+.unlogin, .logined{display:none}
 .login { padding:0 20px; padding-bottom:28px; border-bottom:1px solid #ededed; posi---tion:relative;}
 .login-btn { background:url(img/btnbg02.png) no-repeat; display:block; _float:left; width:175px; height:38px; text-indent:-1000em;}
 .login-btn:hover { background-position:0 -38px;}
