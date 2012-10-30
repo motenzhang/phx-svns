@@ -35,6 +35,7 @@
 .navi td a.cur { background:#fff; border-top:1px solid #34c61c; height:37px; line-height:37px; font-weight:700;}
 .navi span { position:absolute; right:0; top:0;  font-size:14px}
 .navi span a { font-size:12px;}
+.navi span a.cur{font-weight:bold}
 .navi span em {border:4px solid #fff; border-top:4px solid #bfbfbf; display:inline-block; *display:inline; zoom:1; height:0; width:0; margin-left:2px; vertical-align:-3px; * vertical-align:6px;}
 /*skin-lists*/
 .skin-lists { padding-bottom:21px;}
@@ -47,6 +48,10 @@
 .skin-lists li p,.skin-view p { position:relative; height:26px; line-height:26px; color:#808080;}
 .skin-lists li p a,.skin-view h3 a, .login ul li div h6 a { position:absolute; background:url(img/btnbg01.gif) repeat-x; color:#7c7c7c; border:1px solid #d9d9d9; border-radius:2px; box-shadow:0 1px 0 #f3f3f4; width:73px; height:24px; line-height:24px; text-align:center; top:0; right:0; font-family:\5b8b\4f53;}
 .skin-lists li p a:hover ,.skin-view h3 a{  background-position:0 -24px; border-color: #d6d6d6; text-decoration:none;}
+.error{color:#F00; display:none}
+.loading{position:absolute; width:32px; height:32px; background:url(img/loading_3.gif); right:20px; top:-2px; display:none}
+.dialog .loading{top:23px; right:40px}
+.dialog .error{position:absolute;top:30px; right:130px}
 /**/
 .unlogin, .logined{display:none}
 .login { padding:0 20px; padding-bottom:28px; border-bottom:1px solid #ededed; posi---tion:relative;}

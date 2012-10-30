@@ -126,18 +126,20 @@ var Router = Backbone.Router.extend({
 		"*actions":"defaultRoute"
 	},
 	initialize:function () {
+		List.init();
+		Detail.init();
 	},
 	showIndex: function(sort) {
 		sort = sort || this.sortby;
-		$('.router').removeClass('cur');
-		$('.router[path=home]').addClass('cur');
+		$('.router,.sort').removeClass('cur');
+		$('.router[path=home],[sortby=' + sort + ']').addClass('cur');
 		
 		List.show('all', sort);
 	},
 	showClassic: function(sort) {
 		sort = sort || this.sortby;
-		$('.router').removeClass('cur');
-		$('.router[path=classic]').addClass('cur');
+		$('.router,.sort').removeClass('cur');
+		$('.router[path=classic],[sortby=' + sort + ']').addClass('cur');
 
 		List.show('classic', sort);
 	},
@@ -169,9 +171,34 @@ var User = {
 };
 
 var List = {
+	SkinData:null,
+	init: function(){
+		$('.install-skin').live('click', function(){
+			var id = $(this).attr('key');
+			var item = List.SkinData[id];
+			console.log(item);
+			$(this).hide().next().show();
+			se6api.InstallSkin(item.id, item.skinversion, item.skinurl, function(success, id){
+				var btn = $('.install-skin[key='+id+']');
+				if (success) {
+					//btn.html('安装成功');
+					btn.prevAll('.error').hide();
+					btn.prevAll('.num').show();
+				} else {
+					btn.prevAll('.error').show();
+					btn.prevAll('.num').hide();
+				}
+				btn.show().next().hide();
+			});
+			return false;
+		});
+	},
 	orderby: {'hot':'use', 'new':'dateline'},
 	show: function(type, sort){
 		$.getJSON('cf/order_' + type + '_' + this.orderby[sort] + '.html', function(ret){
+			if (type == 'all') {
+				List.SkinData = ret;
+			}
 			var list = $('#skin-list');
 			list.empty();
 			$.each(ret, function(i, item){
@@ -183,7 +210,26 @@ var List = {
 };
 
 var Detail = {
+	init: function(){
+		$('.dialog-bg, #closed-btn').live('click', function(){
+			$('.dialog-bg').hide();
+			$('.dialog').removeAttr("style");
+			router.navigate(router.path + '/' + router.sortby, {trigger:true});
+		});
+	},
 	show: function(id) {
+		if (List.SkinData) {
+			Detail.render(id);
+		} else {
+			$.getJSON('cf/order_all_use.html', function(ret){
+				List.SkinData = ret;
+				Detail.render(id);
+			});
+		}
+	},
+	render: function(id) {
+		var item = List.SkinData[id];
+		$('.dialog-cont').html(_.template($('#skin-detail').html())(item));
 		dialog('#dialog02');
 	}
 }
@@ -202,16 +248,17 @@ function dialog(id){
 		posT = $(".dialog-cont").height()/2,
 		w = 850, 
 		h = $(".dialog-cont").height();
+	var top = Math.max($(window).scrollTop() + $(window).height() / 2, 282);
 	//$dialogWarp.fadeOut();
 	$dialogCont.hide();
 	$clsBtn.hide();
 	//$doc.css({"overflow":"hidden","margin-right":17});
 	$dialogWarp.css({"height":maxH}).show();
-	$dialog.delay(200).show().stop(true,true).animate({"width":w,"height":h,"margin-left":-posL,"margin-top":-posT},"fast","swing",function(){
+	$dialog.delay(200).show().stop(true,true).animate({"width":w,"height":h,"margin-left":-posL,"margin-top":-posT, "top":top},"15000","swing",function(){
 		$dialogCont.show();
 		$clsBtn.show();
 	});
-	$clsBtn.click(function(){
+	/*$clsBtn.click(function(){
 		$dialog.removeAttr("style");
 		$doc.removeAttr("style");
 		$dialogWarp.removeAttr("style").hide();
@@ -220,5 +267,5 @@ function dialog(id){
 		$dialog.removeAttr("style");
 		$doc.removeAttr("style");
 		$dialogWarp.removeAttr("style").hide();
-	});
+	});*/
 };
