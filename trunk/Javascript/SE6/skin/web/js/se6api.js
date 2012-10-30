@@ -3,7 +3,18 @@
 	var se6api = {
 		sid2: '',
 		sid: '',
+		IsSE6: function(){
+			try {
+				var path = external.GetRunPath(external.GetSID(window));
+				return path.indexOf('360se') > -1;
+			} catch(e) {
+				return false;
+			}
+		},
 		GetSID: function(callback) {
+			if (!se6api.IsSE6()) {
+				callback('');
+			}
 			setTimeout(function(){
 				try {
 					external.AppCmd('', 'SeAppMgr', 'GetSID', '', '', function(code, data){

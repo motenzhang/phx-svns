@@ -52,6 +52,7 @@
 .loading{position:absolute; width:32px; height:32px; background:url(img/loading_3.gif); right:20px; top:-2px; display:none}
 .dialog .loading{top:23px; right:40px}
 .dialog .error{position:absolute;top:30px; right:130px}
+.skin-lists li p .notse6{width:120px}
 /**/
 .unlogin, .logined{display:none}
 .login { padding:0 20px; padding-bottom:28px; border-bottom:1px solid #ededed; posi---tion:relative;}
