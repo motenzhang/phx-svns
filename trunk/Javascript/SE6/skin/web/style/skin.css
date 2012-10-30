@@ -35,7 +35,7 @@
 .navi td a.cur { background:#fff; border-top:1px solid #34c61c; height:37px; line-height:37px; font-weight:700;}
 .navi span { position:absolute; right:0; top:0;  font-size:14px}
 .navi span a { font-size:12px;}
-.navi span a.cur{font-weight:bold}
+.navi span a.cur{font-weight:bold; color:#777}
 .navi span em {border:4px solid #fff; border-top:4px solid #bfbfbf; display:inline-block; *display:inline; zoom:1; height:0; width:0; margin-left:2px; vertical-align:-3px; * vertical-align:6px;}
 /*skin-lists*/
 .skin-lists { padding-bottom:21px;}
@@ -47,11 +47,12 @@
 .skin-lists li img,.skin-view img { display:block; width:309px; height:120px; margin:0 auto 11px;}
 .skin-lists li p,.skin-view p { position:relative; height:26px; line-height:26px; color:#808080;}
 .skin-lists li p a,.skin-view h3 a, .login ul li div h6 a { position:absolute; background:url(img/btnbg01.gif) repeat-x; color:#7c7c7c; border:1px solid #d9d9d9; border-radius:2px; box-shadow:0 1px 0 #f3f3f4; width:73px; height:24px; line-height:24px; text-align:center; top:0; right:0; font-family:\5b8b\4f53;}
-.skin-lists li p a:hover ,.skin-view h3 a{  background-position:0 -24px; border-color: #d6d6d6; text-decoration:none;}
+.skin-lists li p a:hover ,.skin-view h3 a{  background-position:0 -24px; border-color: #d6d6d6; text-decoration:none; color:#1BA100;}
 .error{color:#F00; display:none}
 .loading{position:absolute; width:32px; height:32px; background:url(img/loading_3.gif); right:20px; top:-2px; display:none}
 .dialog .loading{top:23px; right:40px}
 .dialog .error{position:absolute;top:30px; right:130px}
+.myskin .loading{top:5px; right:35px;}
 .skin-lists li p .notse6{width:120px}
 /**/
 .unlogin, .logined{display:none}
@@ -73,12 +74,13 @@
 .login ul { margin-top:10px;}
 .login ul li { background:url(img/dot.gif) no-repeat 0 12px; padding-left:14px; line-height:26px; position:relative; }
 .login ul li a { color:#666;}
-.login ul li a:hover { color:#1ba100; text-decoration:none;}
+.login ul li a:hover, .login ul li:hover a { color:#1ba100; text-decoration:none;}
+.login ul li:hover div h6 a{color:#7C7C7C}
 .login ul li div{position:absolute; z-index:101; border:1px solid #BDBDBD;box-shadow:2px 3px 3px rgba(0, 0, 0, .18); border-radius:2px; width:342px; height:217px; left:-335px; _left:-359px; top:-3px; background:#fcfcfc; display:none}
 .login ul li:hover div, .login ul li.hover div{display:block}
 .login ul li div h6{background:#f4f4f4; height:38px; line-height:38px; margin:0; padding:0 16px; pos--ition:relative; font-size:12px}
-.login ul li div h6 a{right:16px; top:6px; font-weight:normal}
-.login ul li div h6 a:hover{color:#7C7C7C}
+.login ul li div h6 a{right:16px; top:6px; font-weight:normal;}
+.login ul li div h6 a:hover{color:#1ba100}
 .login ul li div img{width:309px; height:120px; margin:14px 0 6px 16px}
 .login ul li div p{padding-left:16px}
 /**/

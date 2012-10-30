@@ -85,47 +85,12 @@
         <p>（登陆后可见）</p>
       </div>
       <div class="logined">
-        <div class="login-user"> <img src="images/tmp02.jpg" alt="" />
+        <div class="login-user"> <img class="headface" src="images/tmp02.jpg">
           <p><span class="username"></span> 
             <!--          <br><a href="#nogo">个人中心</a> | <a href="#nogo">退出</a>--></p>
         </div>
         <h2>我使用过的皮肤</h2>
         <ul class="myskin">
-          <li> <a href="#nogo">愤怒的小鸟</a>
-            <div>
-              <h6>愤怒的小鸟<a href="#">使用此皮肤</a></h6>
-              <img src="images/tmp03.jpg">
-              <p>作者：小甜甜</p>
-            </div>
-          </li>
-          <li> <a href="#nogo">仙人掌之旅</a>
-            <div>
-              <h6>仙人掌之旅<a href="#">使用此皮肤</a></h6>
-              <img src="images/tmp03.jpg">
-              <p>作者：小甜甜</p>
-            </div>
-          </li>
-          <li> <a href="#nogo">Chrome</a>
-            <div>
-              <h6>Chrome<a href="#">使用此皮肤</a></h6>
-              <img src="images/tmp03.jpg">
-              <p>作者：小甜甜</p>
-            </div>
-          </li>
-          <li> <a href="#nogo">6.0默认皮肤</a>
-            <div>
-              <h6>6.0默认皮肤<a href="#">使用此皮肤</a></h6>
-              <img src="images/tmp03.jpg">
-              <p>作者：小甜甜</p>
-            </div>
-          </li>
-          <li> <a href="#nogo">巨蟹座皮肤</a>
-            <div>
-              <h6>巨蟹座皮肤<a href="#">使用此皮肤</a></h6>
-              <img src="images/tmp03.jpg">
-              <p>作者：小甜甜</p>
-            </div>
-          </li>
         </ul>
         <div class="skin-view">
           <h3>仙人掌之旅<a href="#nogo">使用此皮肤</a></h3>
@@ -178,6 +143,15 @@
 	<h2><%= title %><span>作者：<%= author %></span></h2>
 	<img src="<%= logourl %>">
 	<p><span class="num">已有<%= num %>人使用</span><span class="error">安装失败</span><a class="install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;"><% if(se6api.IsSE6()){print('使用此皮肤')}else{print('适用于360安全浏览器')} %></a><span class="loading"></span></p>
+  </li>
+</script>
+<script type="text/template" id="myskin-item">
+  <li> <a href="javascript:;"><%= title %></a>
+	<div>
+	  <h6><%= title %><a class="install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;"><% if(se6api.IsSE6()){print('使用此皮肤')}else{print('适用于360安全浏览器')} %></a><span class="loading"></span></h6>
+	  <img src="<%= logourl %>">
+	  <p>作者：<%= author %></p>
+	</div>
   </li>
 </script>
 <script src="js/jquery.js"></script> 
