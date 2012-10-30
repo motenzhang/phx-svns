@@ -1,6 +1,7 @@
 // se6api.js
 (function () {
 	var se6api = {
+        _qt: ['',''],
 		sid2: '',
 		sid: '',
 		IsSE6: function(){
@@ -45,7 +46,6 @@
 		GetUserHeadUrl: function(callback) {
 			try {
 				external.AppCmd(this.sid,"loginenrol","GetUserHeadUrl","","",function(code,url) {
-					alert(url);
 					callback(url);
 				});				
 			} catch (e) {
@@ -53,9 +53,14 @@
 		},
 		GetQT: function(callback) {
 			try {
+                var self = this;
 				external.AppCmd(this.sid,"loginenrol","GetLoginSection","","",function(code,qt) {
-					console.log([code, qt]);
-					callback(user);
+                    if (code == 0) {
+                        self._qt = qt.split("\r\n");
+                        self._qt[0] = decodeURIComponent(self._qt[0].substr(2));
+                        self._qt[1] = decodeURIComponent(self._qt[1].substr(2));
+                    }
+					callback();
 				});				
 			} catch (e) {
 			}

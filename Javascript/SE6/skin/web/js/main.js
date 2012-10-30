@@ -37,7 +37,7 @@ jQuery(function () {
 			$('.login').hide();
 		}
 		User.update();
-		setInterval(User.update, 1000);
+		window.user_update_tt = setInterval(User.update, 1000);
 		$('.login-btn').live('click', function(){
 			se6api.Login(function(){
 				User.update();
@@ -161,11 +161,14 @@ var User = {
 	update: function(){
 		se6api.IsLogin(function(islogin){
 			if (islogin) {
+                clearInterval(user_update_tt);
 				se6api.GetUserName(function(username){
 					$('.username').html(username.substr(0, 15));
-					//alert(username);
-					// 加载我试用过的皮肤
 				});
+                se6api.GetUserHeadUrl(function(url){
+                    $('.headface').attr('src', url);
+                });
+                User.updateHistory();
 				$('.unlogin').hide();
 				$('.logined').show();
 			} else {
@@ -173,7 +176,32 @@ var User = {
 				$('.logined').hide();
 			}
 		});
-	}
+	},
+    updateHistory: function(){
+        se6api.GetQT(function(){
+            $.getJSON('skin/?ac=history&ucq=' + encodeURIComponent(se6api._qt[0]) + '&uct=' + encodeURIComponent(se6api._qt[1]), function(ret){
+                if (ret && ret.skinids) {
+                    var arr = ret.skinids.slice(0, 5);
+                    if (List.SkinData) {
+                        User.showHistory(arr);
+                    } else {
+                        $.getJSON('cf/order_all_use.html', function(ret){
+                            List.SkinData = ret;
+                            User.showHistory(arr);
+                        });
+                    }
+                }
+            });
+        });
+    },
+    showHistory: function(arr){
+        $('.myskin').empty();
+        $.each(arr, function(i, id){
+            var item = List.SkinData[id];
+            var el = _.template($('#myskin-item').html())(item);
+            $('.myskin').append(el);
+        });
+    }
 };
 
 var List = {
@@ -184,6 +212,7 @@ var List = {
 				window.open('http://se.360.cn/v6');
 				return false;
 			}
+			$(this).hide().next().show();
 			var id = $(this).attr('key');
 			var skinversion = $(this).attr('ver');
 			var skinurl = $(this).attr('skinurl');
@@ -192,6 +221,9 @@ var List = {
 				var btn = $('.install-skin[key='+id+']');
 				switch (code) {
 					case 1:
+                        $.get('skin/?ac=use&sid=' + id + '&ucq=' + encodeURIComponent(se6api._qt[0]) + '&uct=' + encodeURIComponent(se6api._qt[1]), function(){
+                            User.updateHistory();
+                        });
 						//btn.html('安装成功');
 						btn.prevAll('.error').hide();
 						btn.prevAll('.num').show();
@@ -206,7 +238,6 @@ var List = {
 				}
 				btn.show().next().hide();
 			});
-			$(this).hide().next().show();
 			return false;
 		});
 	},
