@@ -37,6 +37,7 @@ jQuery(function () {
 			$('.login').hide();
 		}
 		User.update();
+		setInterval(User.update, 1000);
 		$('.login-btn').live('click', function(){
 			se6api.Login(function(){
 				User.update();
