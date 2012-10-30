@@ -72,7 +72,7 @@
 .login-user p { color:#ccc; line-height:40px; margin-top:3px;}
 .login-user p span { color:#666; font-size:14px}
 .login ul { margin-top:10px;}
-.login ul li { background:url(img/dot.gif) no-repeat 0 12px; padding-left:14px; line-height:26px; position:relative; }
+.login ul li { background:url(img/dot.gif) no-repeat 0 12px; padding-left:14px; line-height:26px; position:relative; cursor:pointer }
 .login ul li a { color:#666;}
 .login ul li a:hover, .login ul li:hover a { color:#1ba100; text-decoration:none;}
 .login ul li:hover div h6 a{color:#7C7C7C}

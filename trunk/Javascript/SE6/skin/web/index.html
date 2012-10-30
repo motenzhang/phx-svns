@@ -12,7 +12,7 @@
   <div class="tipc">
     <dl>
       <dt></dt>
-      <dd> 很抱歉，我们目前尚不支持您的浏览器。您需要使用"360安全浏览器6.0"才能安装应用程序。<br>
+      <dd> 温馨提示，您的浏览器版本过低或暂不支持皮肤功能，请使用最新版360安全浏览器。<br>
         <a target="_blank" href="http://se.360.cn/v6/">下载 360安全浏览器6.0</a> </dd>
     </dl>
   </div>
@@ -146,7 +146,7 @@
   </li>
 </script>
 <script type="text/template" id="myskin-item">
-  <li> <a href="javascript:;"><%= title %></a>
+  <li class="showdetail" key="<%= id %>"> <a href="javascript:;"><%= title %></a>
 	<div>
 	  <h6><%= title %><a class="install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;"><% if(se6api.IsSE6()){print('使用此皮肤')}else{print('适用于360安全浏览器')} %></a><span class="loading"></span></h6>
 	  <img src="<%= logourl %>">
