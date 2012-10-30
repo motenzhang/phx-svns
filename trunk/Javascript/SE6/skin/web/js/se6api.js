@@ -59,8 +59,7 @@
 		InstallSkin: function(id, ver, url, callback) {
 			try {
 				external.AppCmd(this.sid2,"","installskin","ID:" + id + "\tVERSION:" + ver + "\tURL:" + url, "0", function(code, msg){
-					alert([code, msg]);
-					callback(code == 1, id);
+					callback(code, msg);
 				}) ;
 			} catch(e) {
 			}
@@ -71,3 +70,5 @@
 	} catch (e) {}
 	window.se6api = se6api;
 })();
+
+window.console = window.console || {log:function(){}};

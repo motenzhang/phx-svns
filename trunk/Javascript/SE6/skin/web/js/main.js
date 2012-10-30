@@ -156,7 +156,7 @@ var User = {
 		se6api.IsLogin(function(islogin){
 			if (islogin) {
 				se6api.GetUserName(function(username){
-					$('.username').html(username);
+					$('.username').html(username.substr(0, 15));
 					//alert(username);
 					// 加载我试用过的皮肤
 				});
@@ -175,18 +175,25 @@ var List = {
 	init: function(){
 		$('.install-skin').live('click', function(){
 			var id = $(this).attr('key');
-			var item = List.SkinData[id];
-			console.log(item);
+			var skinversion = $(this).attr('ver');
+			var skinurl = $(this).attr('skinurl');
 			$(this).hide().next().show();
-			se6api.InstallSkin(item.id, item.skinversion, item.skinurl, function(success, id){
+			se6api.InstallSkin(id, skinversion, skinurl, function(code, ret_id){
+				if (ret_id)	id = ret_id;
 				var btn = $('.install-skin[key='+id+']');
-				if (success) {
-					//btn.html('安装成功');
-					btn.prevAll('.error').hide();
-					btn.prevAll('.num').show();
-				} else {
-					btn.prevAll('.error').show();
-					btn.prevAll('.num').hide();
+				switch (code) {
+					case 1:
+						//btn.html('安装成功');
+						btn.prevAll('.error').hide();
+						btn.prevAll('.num').show();
+						break;
+					case 0:
+						btn.prevAll('.error').show();
+						btn.prevAll('.num').hide();
+						break;
+					case -1:	// 取消
+					case -2:	// 超时
+						break;
 				}
 				btn.show().next().hide();
 			});
