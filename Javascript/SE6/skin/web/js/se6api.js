@@ -40,6 +40,15 @@
 			} catch (e) {
 			}
 		},
+		GetQT: function(callback) {
+			try {
+				external.AppCmd(this.sid,"loginenrol","GetLoginSection","","",function(code,qt) {
+					console.log([code, qt]);
+					callback(user);
+				});				
+			} catch (e) {
+			}
+		},
 		Login: function(callback) {
 			try {
 				external.AppCmd(this.sid,"loginenrol","ReloginByManual","","",function(code,user) {
