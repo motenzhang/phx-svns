@@ -1,6 +1,7 @@
 // se6api.js
 (function () {
 	var se6api = {
+		sid2: '',
 		sid: '',
 		GetSID: function(callback) {
 			setTimeout(function(){
@@ -45,7 +46,19 @@
 				});				
 			} catch (e) {
 			}
+		},
+		InstallSkin: function(id, ver, url, callback) {
+			try {
+				external.AppCmd(this.sid2,"","installskin","ID:" + id + "\tVERSION:" + ver + "\tURL:" + url, "0", function(code, msg){
+					alert([code, msg]);
+					callback(code == 1, id);
+				}) ;
+			} catch(e) {
+			}
 		}
 	};
+	try {
+		se6api.sid2 = external.GetSID(window);
+	} catch (e) {}
 	window.se6api = se6api;
 })();

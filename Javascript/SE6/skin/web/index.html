@@ -156,26 +156,28 @@
     隐私权政策 京ICP证080047号 </p>
 </div>
 <div class="dialog-bg" style=""></div>
-<div class="dialog" style="" id="dialog02"> <a id="closed-btn" href="#nogo" title="关闭">×</a>
+<div class="dialog" style="" id="dialog02"> <a id="closed-btn" href="javascript:;" title="关闭">×</a>
   <div class="dialog-cont">
-    <div class="dialog-head">
-      <div class="f-txt">
-        <h2>仙人掌之旅</h2>
-        <div class="f-infor"> 作者：360 | 已有138634人使用
-          | <a href="#nogo">分享到微博</a> </div>
-        <a class="download-btn skin-btn" href="#nogo">使用此皮肤</a> </div>
-    </div>
-    <div class="skin-cont clearfix"> <img src="images/skin-tmp.jpg" alt="" />
-      <p><span>简介：</span>说明文字说明文字说明文字。</p>
-    </div>
   </div>
 </div>
 </div>
+<script type="text/template" id="skin-detail">
+    <div class="dialog-head">
+      <div class="f-txt">
+        <h2><%= title %></h2>
+        <div class="f-infor"> 作者：<%= author %> | 已有<%= num %>人使用
+          | <a href="">分享到微博</a> </div>
+        <span class="error">安装失败</span><a class="download-btn skin-btn install-skin" key="<%= id %>" href="javascript:;">使用此皮肤</a><span class="loading"></span> </div>
+    </div>
+    <div class="skin-cont clearfix"> <img src="<%= detailurl %>">
+      <p><span>简介：</span><%= content %></p>
+    </div>
+</script>>
 <script type="text/template" id="skin-item">
-  <li class="showdetail" key="1">
+  <li class="showdetail" key="<%= id %>">
 	<h2><%= title %><span>作者：<%= author %></span></h2>
-	<img src="images/tmp03.jpg" alt="">
-	<p>已有<%= num %>人使用<a class="install-skin" href="javascript:;">使用此皮肤</a></p>
+	<img src="<%= logourl %>">
+	<p><span class="num">已有<%= num %>人使用</span><span class="error">安装失败</span><a class="install-skin" key="<%= id %>" href="javascript:;">使用此皮肤</a><span class="loading"></span></p>
   </li>
 </script>
 <script src="js/jquery.js"></script> 
