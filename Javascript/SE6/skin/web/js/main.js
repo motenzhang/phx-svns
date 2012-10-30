@@ -43,6 +43,7 @@ jQuery(function () {
 		var path = $(this).attr('path');
 		router.path = path || '';
 		router.navigate(router.path + '/' + router.sortby, {trigger:true});
+		return false;
 	});
 	$('.sort').live('click', function(){
 		var sortby = $(this).attr('sortby');
@@ -50,7 +51,7 @@ jQuery(function () {
 		router.navigate(router.path + '/' + router.sortby, {trigger:true});
 	});
 	$('.showdetail').live('click', function(){
-		Detail.show($(this).attr('key'));
+		router.navigate('detail/' + $(this).attr('key'), {trigger:true});
 	});
 
 
@@ -131,16 +132,17 @@ var Router = Backbone.Router.extend({
 		$('.router').removeClass('cur');
 		$('.router[path=home]').addClass('cur');
 		
-		DataSource.get('all', sort);
+		List.show('all', sort);
 	},
 	showClassic: function(sort) {
 		sort = sort || this.sortby;
 		$('.router').removeClass('cur');
 		$('.router[path=classic]').addClass('cur');
 
-		DataSource.get('classic', sort);
+		List.show('classic', sort);
 	},
 	showDetail:function (id) {
+		Detail.show(id);
 	},
 	defaultRoute:function (actions) {
 		this.navigate('home', {trigger:true});
@@ -166,10 +168,16 @@ var User = {
 	}
 };
 
-var DataSource = {
-	get: function(type, sort){
-		$.getJSON('ajax/skin_' + type + '_' + sort + '.txt', function(ret){
-			alert(ret)
+var List = {
+	orderby: {'hot':'use', 'new':'dateline'},
+	show: function(type, sort){
+		$.getJSON('cf/order_' + type + '_' + this.orderby[sort] + '.html', function(ret){
+			var list = $('#skin-list');
+			list.empty();
+			$.each(ret, function(i, item){
+				//console.log(item);
+				list.append(_.template($('#skin-item').html())(item));
+			});
 		});
 	}
 };
