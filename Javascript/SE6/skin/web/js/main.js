@@ -31,6 +31,11 @@ jQuery(function () {
     window.router = router;    
 
 	se6api.GetSID(function(){
+		if (!se6api.sid) {
+			var ie6 = $.browser.msie && $.browser.version < 7;
+			ie6 ? $('#tip').show() : $('#tip').slideDown();
+			$('.login').hide();
+		}
 		User.update();
 		$('.login-btn').live('click', function(){
 			se6api.Login(function(){
@@ -174,10 +179,13 @@ var List = {
 	SkinData:null,
 	init: function(){
 		$('.install-skin').live('click', function(){
+			if (!se6api.IsSE6()) {
+				window.open('http://se.360.cn/v6');
+				return false;
+			}
 			var id = $(this).attr('key');
 			var skinversion = $(this).attr('ver');
 			var skinurl = $(this).attr('skinurl');
-			$(this).hide().next().show();
 			se6api.InstallSkin(id, skinversion, skinurl, function(code, ret_id){
 				if (ret_id)	id = ret_id;
 				var btn = $('.install-skin[key='+id+']');
@@ -197,6 +205,7 @@ var List = {
 				}
 				btn.show().next().hide();
 			});
+			$(this).hide().next().show();
 			return false;
 		});
 	},
@@ -210,7 +219,11 @@ var List = {
 			list.empty();
 			$.each(ret, function(i, item){
 				//console.log(item);
-				list.append(_.template($('#skin-item').html())(item));
+				var el = _.template($('#skin-item').html())(item);
+				list.append(el);
+				if (!se6api.IsSE6()) {
+					$('.install-skin').addClass('notse6');
+				}
 			});
 		});
 	}
@@ -261,7 +274,7 @@ function dialog(id){
 	$clsBtn.hide();
 	//$doc.css({"overflow":"hidden","margin-right":17});
 	$dialogWarp.css({"height":maxH}).show();
-	$dialog.delay(200).show().stop(true,true).animate({"width":w,"height":h,"margin-left":-posL,"margin-top":-posT, "top":top},"15000","swing",function(){
+	$dialog.delay(200).show().stop(true,true).animate({"width":w,"height":h,"margin-left":-posL,"margin-top":-posT, "top":top},"fast","swing",function(){
 		$dialogCont.show();
 		$clsBtn.show();
 	});

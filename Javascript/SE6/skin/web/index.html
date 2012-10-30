@@ -167,7 +167,7 @@
         <h2><%= title %></h2>
         <div class="f-infor"> 作者：<%= author %> | 已有<%= num %>人使用
           | <a href="">分享到微博</a> </div>
-        <span class="error">安装失败</span><a class="download-btn skin-btn install-skin" key="<%= id %>" href="javascript:;">使用此皮肤</a><span class="loading"></span> </div>
+        <span class="error">安装失败</span><a class="download-btn skin-btn install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;">使用此皮肤</a><span class="loading"></span> </div>
     </div>
     <div class="skin-cont clearfix"> <img src="<%= detailurl %>">
       <p><span>简介：</span><%= content %></p>
@@ -177,7 +177,7 @@
   <li class="showdetail" key="<%= id %>">
 	<h2><%= title %><span>作者：<%= author %></span></h2>
 	<img src="<%= logourl %>">
-	<p><span class="num">已有<%= num %>人使用</span><span class="error">安装失败</span><a class="install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;">使用此皮肤</a><span class="loading"></span></p>
+	<p><span class="num">已有<%= num %>人使用</span><span class="error">安装失败</span><a class="install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;"><% if(se6api.IsSE6()){print('使用此皮肤')}else{print('适用于360安全浏览器')} %></a><span class="loading"></span></p>
   </li>
 </script>
 <script src="js/jquery.js"></script> 
