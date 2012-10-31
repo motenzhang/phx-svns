@@ -213,6 +213,8 @@ var List = {
 				return false;
 			}
 			$(this).hide().next().show();
+			$(this).prevAll('.num').hide();
+			$(this).prevAll('.error').html('加载中...').addClass('normal').show();
 			var id = $(this).attr('key');
 			var skinversion = $(this).attr('ver');
 			var skinurl = $(this).attr('skinurl');
@@ -229,11 +231,14 @@ var List = {
 						btn.prevAll('.num').show();
 						break;
 					case 0:
-						btn.prevAll('.error').show();
-						btn.prevAll('.num').hide();
+						btn.prevAll('.error').removeClass('normal').html('安装失败');
 						break;
 					case -1:	// 取消
+						btn.prevAll('.error').hide();
+						btn.prevAll('.num').show();
+						break;
 					case -2:	// 超时
+						btn.prevAll('.error').removeClass('normal').html('加载失败');
 						break;
 				}
 				btn.show().next().hide();

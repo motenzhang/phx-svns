@@ -49,6 +49,7 @@
 .skin-lists li p a,.skin-view h3 a, .login ul li div h6 a { position:absolute; background:url(img/btnbg01.gif) repeat-x; color:#7c7c7c; border:1px solid #d9d9d9; border-radius:2px; box-shadow:0 1px 0 #f3f3f4; width:73px; height:24px; line-height:24px; text-align:center; top:0; right:0; font-family:\5b8b\4f53;}
 .skin-lists li p a:hover ,.skin-view h3 a{  background-position:0 -24px; border-color: #d6d6d6; text-decoration:none; color:#1BA100;}
 .error{color:#F00; display:none}
+.normal{color:#808080}
 .loading{position:absolute; width:32px; height:32px; background:url(img/loading_3.gif); right:20px; top:-2px; display:none}
 .dialog .loading{top:23px; right:40px}
 .dialog .error{position:absolute;top:30px; right:130px}
