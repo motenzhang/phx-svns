@@ -131,7 +131,7 @@
       <div class="f-txt">
         <h2><%= title %></h2>
         <div class="f-infor"> 作者：<%= author %> | 已有<%= num %>人使用
-          | <a href="">分享到微博</a> </div>
+          | <a href="http://service.weibo.com/share/share.php?url=<%= encodeURIComponent('http://skin.se.360.cn/#detail/' + id) %>&appkey=&title=我刚发现的@360安全浏览器 皮肤“<%= title %>”你喜欢吗？更换漂亮的皮肤，拥有美丽的心情，快来试试吧！&pic=<%= detailurl %>" target="_blank">分享到微博</a> </div>
         <span class="error">安装失败</span><a class="download-btn skin-btn install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;">使用此皮肤</a><span class="loading"></span> </div>
     </div>
     <div class="skin-cont clearfix"> <img src="<%= detailurl %>">
