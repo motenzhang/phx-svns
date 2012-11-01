@@ -163,7 +163,7 @@ var User = {
 			if (islogin) {
                 clearInterval(user_update_tt);
 				se6api.GetUserName(function(username){
-					$('.username').html(username.substr(0, 15));
+					$('.username').attr('title', username).html(username.substr(0, 15));
 				});
                 se6api.GetUserHeadUrl(function(url){
                     $('.headface').attr('src', url);
