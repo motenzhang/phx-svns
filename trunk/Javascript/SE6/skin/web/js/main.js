@@ -252,9 +252,29 @@ var List = {
 			if (type == 'all') {
 				List.SkinData = ret;
 			}
+			var arr = [];
+			$.each(ret, function(i, item){
+				arr.push(item);
+			});
+			arr.sort(function(x, y){
+				switch(sort) {
+					case 'hot':
+						return parseInt(y.num) - parseInt(x.num);
+						break;
+					default:
+						if (x.dateline < y.dateline) {
+							return 1;
+						} else if (x.dateline > y.dateline) {
+							return -1;
+						} else {
+							return 0;
+						}
+						break;
+				}
+			});
 			var list = $('#skin-list');
 			list.empty();
-			$.each(ret, function(i, item){
+			$.each(arr, function(i, item){
 				//console.log(item);
 				var el = _.template($('#skin-item').html())(item);
 				list.append(el);
