@@ -74,9 +74,11 @@
 		},
 		InstallSkin: function(id, ver, url, callback) {
 			try {
-				external.AppCmd(this.sid2,"","installskin","ID:" + id + "\tVERSION:" + ver + "\tURL:" + url, "0", function(code, msg){
-					callback(code, msg);
-				}) ;
+				setTimeout(function(){
+					external.AppCmd(this.sid2,"","installskin","ID:" + id + "\tVERSION:" + ver + "\tURL:" + url, "0", function(code, msg){
+						callback(code, msg);
+					}) ;
+				}, 100);
 			} catch(e) {
 			}
 		}
