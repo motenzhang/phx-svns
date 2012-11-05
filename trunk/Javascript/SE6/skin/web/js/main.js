@@ -31,18 +31,12 @@ jQuery(function () {
     window.router = router;    
 
 	se6api.GetSID(function(){
-		if (!se6api.sid) {
+		if (se6api.GetVersion() < '6.0.1.233') {
 			var ie6 = $.browser.msie && $.browser.version < 7;
-			ie6 ? $('#tip').show() : $('#tip').slideDown();
+			ie6 ? $('#tip').show() : $('#tip').show();//slideDown();
 			$('.login').hide();
 		}
 		User.update();
-		window.user_update_tt = setInterval(User.update, 1000);
-		$('.login-btn').live('click', function(){
-			se6api.Login(function(){
-				User.update();
-			});
-		});
 	});
 
 	$('.router').live('click', function(){
@@ -159,40 +153,20 @@ var Router = Backbone.Router.extend({
 
 var User = {
 	update: function(){
-		se6api.IsLogin(function(islogin){
-			if (islogin) {
-                clearInterval(user_update_tt);
-				se6api.GetUserName(function(username){
-					$('.username').attr('title', username).html(username.substr(0, 15));
-				});
-                se6api.GetUserHeadUrl(function(url){
-                    $('.headface').attr('src', url);
-                });
-                User.updateHistory();
-				$('.unlogin').hide();
-				$('.logined').show();
-			} else {
-				$('.unlogin').show();
-				$('.logined').hide();
-			}
-		});
+		User.updateHistory();
+		$('.unlogin').hide();
+		$('.logined').show();
 	},
     updateHistory: function(){
-        se6api.GetQT(function(){
-            $.getJSON('skin/?ac=history&ucq=' + encodeURIComponent(se6api._qt[0]) + '&uct=' + encodeURIComponent(se6api._qt[1]), function(ret){
-                if (ret && ret.skinids) {
-                    var arr = ret.skinids.slice(0, 5);
-                    if (List.SkinData) {
-                        User.showHistory(arr);
-                    } else {
-                        $.getJSON('cf/order_all_use.html', function(ret){
-                            List.SkinData = ret;
-                            User.showHistory(arr);
-                        });
-                    }
-                }
-            });
-        });
+		var arr = [51, 54, 53, 52, 2];
+		if (List.SkinData) {
+			User.showHistory(arr);
+		} else {
+			$.getJSON('cf/order_all_use.html', function(ret){
+				List.SkinData = ret;
+				User.showHistory(arr);
+			});
+		}
     },
     showHistory: function(arr){
         $('.myskin').empty();
@@ -223,7 +197,7 @@ var List = {
 				var btn = $('.install-skin[key='+id+']');
 				switch (code) {
 					case 1:
-                        $.get('skin/?ac=use&sid=' + id + '&ucq=' + encodeURIComponent(se6api._qt[0]) + '&uct=' + encodeURIComponent(se6api._qt[1]), function(){
+                        $.get('skin.html?sid=' + id, function(){
                             User.updateHistory();
                         });
 						//btn.html('安装成功');
@@ -238,7 +212,7 @@ var List = {
 						btn.prevAll('.num').show();
 						break;
 					case -2:	// 超时
-						btn.prevAll('.error').removeClass('normal').html('加载失败');
+						btn.prevAll('.error').removeClass('normal').html('加载超时，请重试');
 						break;
 				}
 				btn.show().next().hide();
@@ -306,6 +280,8 @@ var Detail = {
 	},
 	render: function(id) {
 		var item = List.SkinData[id];
+		item.shortAuthor = StringH.subByte(item.author, 10);
+		item.shortContent = StringH.subByte(item.content, 220);
 		$('.dialog-cont').html(_.template($('#skin-detail').html())(item));
 		dialog('#dialog02');
 	}
@@ -320,10 +296,10 @@ function dialog(id){
 		$dialog = $(id),
 		$dialogCont = $(".dialog-cont"),
 		$clsBtn = $("#closed-btn"),
-		maxH = $doc.height(),
-		posL = 425,
+		maxH = Math.max($doc.height(), $(window).height()),
+		posL = 385,
 		posT = $(".dialog-cont").height()/2,
-		w = 850, 
+		w = 770, 
 		h = $(".dialog-cont").height();
 	var top = Math.max($(window).scrollTop() + $(window).height() / 2, 282);
 	//$dialogWarp.fadeOut();
@@ -345,4 +321,20 @@ function dialog(id){
 		$doc.removeAttr("style");
 		$dialogWarp.removeAttr("style").hide();
 	});*/
+};
+
+var StringH = {
+		byteLen: function(s) {
+			return s.replace(/[^\x00-\xff]/g, "--").length;
+		},
+
+		subByte: function(s, len, tail) {
+			if (StringH.byteLen(s) <= len) {return s; }
+			tail = tail || '...';
+			len -= StringH.byteLen(tail);
+			return s.substr(0, len).replace(/([^\x00-\xff])/g, "$1 ") //双字节字符替换成两个
+				.substr(0, len) //截取长度
+				.replace(/[^\x00-\xff]$/, "") //去掉临界双字节字符
+				.replace(/([^\x00-\xff]) /g, "$1") + tail; //还原
+		}
 };

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>安全浏览器_皮肤</title>
+<title>360皮肤中心</title>
 <link href="style/skin.css" rel="stylesheet" />
 </head>
 
@@ -50,27 +50,14 @@
   </div>
   <div class="main-right">
     <div class="login">
-      <div class="unlogin"><a class="login-btn" href="javascript:;">登录</a>
-        <h2>我使用过的皮肤</h2>
-        <p>（登陆后可见）</p>
-      </div>
       <div class="logined">
-        <div class="login-user"> <img class="headface" src="images/tmp02.jpg">
-          <p><span class="username"></span> 
-            <!--          <br><a href="#nogo">个人中心</a> | <a href="#nogo">退出</a>--></p>
-        </div>
-        <h2>我使用过的皮肤</h2>
+        <h2>您可能喜欢的皮肤</h2>
         <ul class="myskin">
         </ul>
-        <div class="skin-view">
-          <h3>仙人掌之旅<a href="#nogo">使用此皮肤</a></h3>
-          <img src="images/tmp03.jpg" alt="" />
-          <p>作者：小甜甜</p>
-        </div>
       </div>
     </div>
     <div class="oth">
-      <h2>优秀作者皮肤介绍</h2>
+      <h2>优秀皮肤作者介绍</h2>
       <div class="user"> <img src="style/img/YingFengLing_LOGO.jpg" alt="" />
         <p>姓名：<span>YingFengLing</span><br>
           作品：<span>《紫夜魅影》</span></p>
@@ -99,18 +86,18 @@
 <script type="text/template" id="skin-detail">
     <div class="dialog-head">
       <div class="f-txt">
-        <h2><%= title %></h2>
-        <div class="f-infor"> 作者：<%= author %> | 已有<%= num %>人使用
+        <h2 title="<%= title %>"><%= title %></h2>
+        <div class="f-infor"> 作者：<span title="<%= author %>"><%= shortAuthor %></span> | 已有<%= num %>人使用
           | <a href="http://service.weibo.com/share/share.php?url=<%= encodeURIComponent('http://skin.se.360.cn/#detail/' + id) %>&appkey=&title=我刚发现的@360安全浏览器 皮肤“<%= title %>”你喜欢吗？更换漂亮的皮肤，拥有美丽的心情，快来试试吧！&pic=<%= detailurl %>" target="_blank">分享到微博</a> </div>
         <span class="error">安装失败</span><a class="download-btn skin-btn install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;">使用此皮肤</a><span class="loading"></span> </div>
     </div>
     <div class="skin-cont clearfix"> <img src="<%= detailurl %>">
-      <p><span>简介：</span><%= content %></p>
+      <p title="<%= content %>"><span>简介：</span><%= shortContent %></p>
     </div>
 </script>
 <script type="text/template" id="skin-item">
   <li class="showdetail" key="<%= id %>">
-	<h2><%= title %><span>作者：<%= author %></span></h2>
+	<h2><em title="<%= title %>"><%= title %></em><span>作者：<%= author %></span></h2>
 	<img src="<%= logourl %>">
 	<p><span class="num">已有<%= num %>人使用</span><span class="error">安装失败</span><a class="install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;"><% if(se6api.IsSE6()){print('使用此皮肤')}else{print('适用于360安全浏览器')} %></a><span class="loading"></span></p>
   </li>
@@ -118,7 +105,7 @@
 <script type="text/template" id="myskin-item">
   <li class="showdetail" key="<%= id %>"> <a href="javascript:;"><%= title %></a>
 	<div>
-	  <h6><%= title %><a class="install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;"><% if(se6api.IsSE6()){print('使用此皮肤')}else{print('适用于360安全浏览器')} %></a><span class="loading"></span></h6>
+	  <h6><em title="<%= title %>"><%= title %></em><span class="error">安装失败</span><a class="install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;"><% if(se6api.IsSE6()){print('使用此皮肤')}else{print('适用于360安全浏览器')} %></a><span class="loading"></span></h6>
 	  <img src="<%= logourl %>">
 	  <p>作者：<%= author %></p>
 	</div>
