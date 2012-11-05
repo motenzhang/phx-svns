@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>测试 垃圾回收</title>
+</head>
+
+<body>
+测试 installskin 回调, 点击按钮，等待回调函数执行（会弹msgbox提示）
+<p>
+  <button type="button" onClick="testA()">匿名函数</button>
+  <button type="button" onClick="testG()">全局函数</button>
+</p>
+<p id="second"></p>
+<script>
+var sec = 1;
+
+function callback(code, msg){
+	alert('回调：code:' + code + ', msg:' + msg);
+}
+
+
+function testA() {
+	alert('匿名函数回调');
+	external.AppCmd(external.GetSID(window),"","installskin","ID:54\tVERSION:6.0.1.0\tURL:http://download.se.360.cn/skin/fenseqinghuai.srx", "0", function(code, msg){
+		alert('回调：code:' + code + ', msg:' + msg);
+	});
+	sec = 1;
+}
+
+function testG() {
+	alert('全局函数回调');
+	external.AppCmd(external.GetSID(window),"","installskin","ID:54\tVERSION:6.0.1.0\tURL:http://download.se.360.cn/skin/fenseqinghuai.srx", "0", callback);
+	sec = 1;
+}
+
+
+setInterval(function(){
+	document.getElementById('second').innerHTML = ++sec;
+}, 1000);
+
+</script>
+</body>
+</html>

@@ -12,6 +12,16 @@
 				return false;
 			}
 		},
+		GetVersion: function(){
+			try {
+				if (!se6api.IsSE6()) {
+					return '';
+				}
+				return external.GetVersion(external.GetSID(window));
+			} catch (e) {
+				return '';
+			}
+		},
 		GetSID: function(callback) {
 			if (!se6api.IsSE6()) {
 				callback('');
@@ -74,11 +84,9 @@
 		},
 		InstallSkin: function(id, ver, url, callback) {
 			try {
-				setTimeout(function(){
-					external.AppCmd(this.sid2,"","installskin","ID:" + id + "\tVERSION:" + ver + "\tURL:" + url, "0", function(code, msg){
-						callback(code, msg);
-					}) ;
-				}, 100);
+				external.AppCmd(this.sid2,"","installskin","ID:" + id + "\tVERSION:" + ver + "\tURL:" + url, "0", function(code, msg){
+					callback(code, msg);
+				}) ;
 			} catch(e) {
 			}
 		}
