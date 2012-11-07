@@ -44,7 +44,7 @@
 .skin-lists li { float:left; padding:14px 14px 11px; background:#fcfcfc; border:1px solid #e7e7e7; box-shadow:0 2px 0 #fafafa; width:313px; height:188px; margin:0 29px 24px 0; display:inline; cursor:pointer}
 .skin-lists li h2,.skin-view h3 { color:#333; margin-bottom:13px; position:relative;}
 .skin-lists li h2 em, .skin-lists li h2 span{ font-style:normal; display:block; width:200px; white-space:nowrap; overflow:hidden;text-overflow:ellipsis;}
-.skin-lists li h2 span{width:100px; text-align:right}
+.skin-lists li h2 span{width:120px; text-align:right}
 .skin-lists li h2 span,.skin-view h3 a { position:absolute; right:4px; top:0; font-weight:normal; color:#808080;}
 .skin-lists li img,.skin-view img { display:block; width:309px; height:120px; margin:0 auto 11px;}
 .skin-lists li p,.skin-view p { position:relative; height:26px; line-height:26px; color:#808080;}
@@ -57,7 +57,7 @@
 .dialog .error{position:absolute;top:30px; right:130px}
 .myskin .error{position:absolute;top:0px; right:95px; font-weight:normal}
 .myskin .loading{top:5px; right:35px;}
-.skin-lists li p .notse6{width:120px}
+.skin-lists li p .notse6, .login ul li div h6 .notse6{width:125px}
 /**/
 .unlogin, .logined{display:none}
 .login { padding:0 20px; padding-bottom:28px; border-bottom:1px solid #ededed; posi---tion:relative; margin-bottom:18px;}
@@ -88,7 +88,7 @@
 .login ul li div h6 a{right:16px; top:6px; font-weight:normal;}
 .login ul li div h6 a:hover{color:#1ba100}
 .login ul li div img{width:309px; height:120px; margin:14px 0 6px 16px}
-.login ul li div p{padding-left:16px;width:100px; white-space:nowrap; overflow:hidden;text-overflow:ellipsis;}
+.login ul li div p{padding-left:16px;width:120px; white-space:nowrap; overflow:hidden;text-overflow:ellipsis;}
 /**/
 .skin-view { display:none; position:absolute; padding:0 0 11px; background:#f8f8f9; border:1px solid #bdbdbd; box-shadow:2px 3px 3px #dadada; width:343px; height:204px; left:-100px; top:100px; z-index:20;}
 .skin-view h3 { height:38px; line-height:38px; padding:0 14px; background:#f4f4f4;}

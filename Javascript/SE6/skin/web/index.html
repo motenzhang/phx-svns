@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta charset="utf-8">
 <title>360皮肤中心</title>
 <link href="style/skin.css" rel="stylesheet" />
@@ -13,7 +14,7 @@
     <dl>
       <dt></dt>
       <dd> 温馨提示，您的浏览器版本过低或暂不支持皮肤功能，请使用最新版360安全浏览器。<br>
-        <a target="_blank" href="http://se.360.cn/v6/">下载 360安全浏览器6.0</a> </dd>
+        <a target="_blank" href="http://down.360safe.com/se/360se6_setup.exe">下载 360安全浏览器6.0</a> </dd>
     </dl>
   </div>
   <div class="tipb"> </div>
@@ -24,9 +25,9 @@
     <div class="nav-box">
       <ul>
         <li><a href="http://se.360.cn/v6/">首页</a></li>
-        <li><a href="http://ext.se.360.cn/#home">扩展</a></li>
+        <li><a href="http://ext.se.360.cn/#home" target="_blank">扩展</a></li>
         <li class="cur"><a href="http://skin.se.360.cn/#home">皮肤</a></li>
-        <li><a href="http://se.360.cn/v6/help/">帮助</a></li>
+        <li><a href="http://se.360.cn/v6/help/" target="_blank">帮助</a></li>
         <li><a href="http://bbs.360safe.com/forum.php?mod=forumdisplay&fid=141" target="_blank">论坛</a>
           <ul>
             <li><a href="http://e.weibo.com/360se" target="_blank">微博</a></li>
@@ -88,7 +89,7 @@
       <div class="f-txt">
         <h2 title="<%= title %>"><%= title %></h2>
         <div class="f-infor"> 作者：<span title="<%= author %>"><%= shortAuthor %></span> | 已有<%= num %>人使用
-          | <a href="http://service.weibo.com/share/share.php?url=<%= encodeURIComponent('http://skin.se.360.cn/#detail/' + id) %>&appkey=&title=我刚发现的@360安全浏览器 皮肤“<%= title %>”你喜欢吗？更换漂亮的皮肤，拥有美丽的心情，快来试试吧！&pic=<%= detailurl %>" target="_blank">分享到微博</a> </div>
+          | <a href="http://service.weibo.com/share/share.php?url=<%= encodeURIComponent('http://skin.se.360.cn/#detail/' + id) %>&appkey=&title=<%= encodeURIComponent('我刚发现的@360安全浏览器 皮肤"' + title + '"你喜欢吗？更换漂亮的皮肤，拥有美丽的心情，快来试试吧！') %>&pic=<%= detailurl %>" target="_blank">分享到微博</a> </div>
         <span class="error">安装失败</span><a class="download-btn skin-btn install-skin" key="<%= id %>" ver="<%= skinversion %>" skinurl="<%= skinurl %>" href="javascript:;">使用此皮肤</a><span class="loading"></span> </div>
     </div>
     <div class="skin-cont clearfix"> <img src="<%= detailurl %>">

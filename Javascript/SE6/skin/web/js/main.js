@@ -34,9 +34,8 @@ jQuery(function () {
 		if (se6api.GetVersion() < '6.0.1.233') {
 			var ie6 = $.browser.msie && $.browser.version < 7;
 			ie6 ? $('#tip').show() : $('#tip').show();//slideDown();
-			$('.login').hide();
+			//$('.login').hide();
 		}
-		User.update();
 	});
 
 	$('.router').live('click', function(){
@@ -205,6 +204,7 @@ var List = {
 						btn.prevAll('.num').show();
 						break;
 					case 0:
+					case -3:
 						btn.prevAll('.error').removeClass('normal').html('安装失败');
 						break;
 					case -1:	// 取消
@@ -226,6 +226,9 @@ var List = {
 			if (type == 'all') {
 				List.SkinData = ret;
 			}
+		
+			User.update();
+		
 			var arr = [];
 			$.each(ret, function(i, item){
 				arr.push(item);
@@ -280,7 +283,7 @@ var Detail = {
 	},
 	render: function(id) {
 		var item = List.SkinData[id];
-		item.shortAuthor = StringH.subByte(item.author, 10);
+		item.shortAuthor = StringH.subByte(item.author, 15);
 		item.shortContent = StringH.subByte(item.content, 220);
 		$('.dialog-cont').html(_.template($('#skin-detail').html())(item));
 		dialog('#dialog02');
