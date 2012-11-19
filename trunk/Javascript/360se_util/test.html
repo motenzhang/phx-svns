@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+</head>
+
+<body>
+<script src="se_util.js"></script> 
+<script>
+console.log(SEUtil.Native.GetSID());
+console.log(SEUtil.Native.GetMID());
+console.log(SEUtil.Native.GetRunPath());
+console.log(SEUtil.Native.IsSE6());
+console.log(SEUtil.Native.Is360Chrome());
+alert(SEUtil.Native.IsSE5_());
+alert(SEUtil.Native.GetVersion());
+</script> 
+
+<script src="yellow_tips.js"></script> 
+<script id="whenyellowtipshow" type="text/jsfunction">
+	(function(){
+		return true;
+	})()
+</script>
+<div id="yellowtip" style="width:100%;background:#feffe5;border:1px solid #e7cf7b;border-left:none;border-right:none;height:29px;display:none;min-width:920px;">
+  <div style="margin:0 auto;width:900px;line-height:28px;text-align:center;">无法转动图片？背面只有笑话没有奖品？<a class="se6_download" style="color:#48c034" href="http://down.360safe.com/se/360se6_setup.exe">立即下载</a>360浏览器超速版，即有机会赢取安仔和360特供机！</div>
+  <div id="yellowtipclose" style="width:20px;height:20px;cursor:pointer;position:absolute;right:5px;top:5px;background:url(http://p0.qhimg.com/d/360browser/20121025/yellowtipclose.png) no-repeat center center;"></div>
+</div>
+</body>
+</html>
