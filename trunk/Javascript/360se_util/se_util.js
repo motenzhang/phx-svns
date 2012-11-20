@@ -55,7 +55,33 @@ var SEUtil = function() {
 	};
 	
 	var UA = {
-		
+		ua: navigator.userAgent,
+		IsSE: function(){
+			return this.ua.indexOf('QIHU') > -1 && this.ua.indexOf('360SE') > -1;
+		},
+		Is360Chrome: function(){
+			return this.ua.indexOf('QIHU') > -1 && this.ua.indexOf('360EE') > -1;
+		},
+		GetOS: function(){
+			var matches = this.ua.match(/Windows NT ([\w.]+)/i);
+			if (matches.length == 2) {
+				switch(matches[1]) {
+					case '5.0':
+						return 'win2000';
+					case '5.1':
+						return 'xp';
+					case '5.2':
+						return 'win2003';
+					case '6.0':
+						return 'vista';
+					case '6.1':
+						return 'win7';
+					case '6.2':
+						return 'win8';
+				}
+			}
+			return 'unknown';
+		},
 	};
 	return {
 		Native: Native,
