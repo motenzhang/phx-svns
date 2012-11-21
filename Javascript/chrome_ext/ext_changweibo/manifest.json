@@ -1,7 +1,7 @@
 ﻿{
   "name": "长微博工具-360浏览器服务端组",
   "version": "1.0",
-  "manifest_version": 1,
+  "manifest_version": 2,
   "description": "可以发任意长度的微博，可插入图片",
   "browser_action": {
     "default_icon": "icon.png",
@@ -9,6 +9,6 @@
   },
   "permissions": [
     "webNavigation",
-    "tabs", "http://*/*","https://*/*"  
+    "tabs", "http://*/*","https://*/*","<all_urls>"
   ]
 }
