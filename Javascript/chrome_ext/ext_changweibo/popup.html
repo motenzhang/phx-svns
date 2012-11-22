@@ -6,8 +6,11 @@
 </head>
 
 <body>
-<textarea id="content" style="width:440px; height:450px"></textarea>
-<input id="btnSend" type="button" value="发布长微博">
+<form method="post" target="_blank" action="http://localhost/php/ext_weibo/capture.html">
+  <textarea id="content" style="width:440px; height:450px"></textarea>
+  <input id="btnSend" type="button" value="发布长微博">
+  <input type="submit">
+</form>
 <p><img id="preview" width="200" height="200"></p>
 <script src="tiny_mce/tiny_mce_src.js"></script> 
 <script src="popup.js"></script>
