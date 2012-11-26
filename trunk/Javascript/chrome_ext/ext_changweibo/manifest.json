@@ -8,9 +8,12 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "persistent": false,
-    "scripts": ["background.js"]
+    "page": "background.html",
+    "persistent": false
   },
+  "plugins": [{
+    "path": "plugin/screen_capture.dll"
+  }],
   "permissions": [
     "webNavigation", "pageCapture",
     "tabs", "http://*/*","https://*/*","<all_urls>"
