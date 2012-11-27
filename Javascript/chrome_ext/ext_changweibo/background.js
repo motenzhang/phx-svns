@@ -3,7 +3,7 @@ chrome.webNavigation.onCompleted.addListener(function(e){
         case 'http://www.baidu.com/':
             console.log(e);
             
-            chrome.pageCapture.saveAsMHTML({tabId:e.tabId}, function(mhtmlData){
+            /*chrome.pageCapture.saveAsMHTML({tabId:e.tabId}, function(mhtmlData){
                 console.log(mhtmlData);
                 var reader = new FileReader();
                 reader.onload = function(e2){
@@ -11,7 +11,10 @@ chrome.webNavigation.onCompleted.addListener(function(e){
                     console.log(imgData);
                 } 
                 reader.readAsDataURL(mhtmlData);  
-            });
+            });*/
+            
+            
+            
             break;
     }
 });
