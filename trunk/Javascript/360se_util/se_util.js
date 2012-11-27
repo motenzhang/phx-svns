@@ -194,24 +194,9 @@ var SEUtil = function() {
 	} ();
 
 	var Cookie = function () {
-		var prevCookie = null;
 		var domain = null;
-		var _user = {};
 		
-		window.jQuery(function($){
-			window.setInterval(function () {
-				if (!prevCookie || prevCookie != document.cookie) {
-					prevCookie = document.cookie;
-					$(Cookie).trigger('cookie_change', prevCookie);
-					// 奇怪的问题 jQuery()和 $() 居然有一点点小差别， 绑定和广播，必须使用同一个。 但之前确实是可以的来着。 
-				}
-			}, 1000);
-		});
-	
 		return {
-			change: function(fn){
-				$(Cookie).bind('cookie_change', fn);
-			},
 			clear: function (name) {
 				var date = new Date();
 				date.setTime(date.getTime() - 24 * 60 * 60 * 1000);
