@@ -1,5 +1,5 @@
 var page = {
-    scrollCount: 0,
+    screen_num: 0,
     getWindowSize: function() {
         var result = {
           width: document.documentElement.clientWidth,
@@ -18,20 +18,21 @@ chrome.extension.onRequest.addListener(function(request, sender, response) {
     var ret = request;
     switch (request.msg) {
         case 'capture':
-            page.scrollCount = 0;
+            page.screen_num = 0;
             window.scrollTo(0, 0);
+            ret.page_width = document.body.scrollWidth;
+            ret.page_height = document.body.scrollHeight;
+            ret.start_y = 0;
             response(ret);
             break;
         case 'capture_next':
-            debugger;
             var winSize = page.getWindowSize();
-            var scrollTop = ++page.scrollCount * winSize.height;
+            var scrollTop = ++page.screen_num * winSize.height;
             window.scrollTo(0, scrollTop);
             if (scrollTop >= document.body.scrollHeight) {
                 ret.msg = 'capture_end';
-            } else {
-                ret.msg = 'capture';
             }
+            ret.start_y = scrollTop;
             response(ret);
             break;
         default:
