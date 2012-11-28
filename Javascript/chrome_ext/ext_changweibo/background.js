@@ -8,7 +8,14 @@ var background = {
     onResponse: function(response){
         switch (response.msg) {
             case 'capture':
-                background.capture(function(){
+                background.canvas.width = response.page_width;
+                background.canvas.height = response.page_height;
+                background.capture(response.start_y, function(){
+                    background.sendMessage(background.tabId, 'capture_next');
+                });
+                break;
+            case 'capture_next':
+                background.capture(response.start_y, function(){
                     background.sendMessage(background.tabId, 'capture_next');
                 });
                 break;
@@ -20,22 +27,23 @@ var background = {
                 break;
         }
     },
-    capture: function(callback){
+    capture: function(start_y, callback){
         chrome.tabs.captureVisibleTab(null, {format: 'png'}, function(data) {
-            debugger;
             var img = new Image();
             img.onload = function(){
-                var context = background.canvas.getContext('2d');
-                context.drawImage(img, 0, 0/*, 1024, 768, 0, 0, 1024, 768*/);
-                	chrome.tabs.create({
+                    var context = background.canvas.getContext('2d');
+                    context.drawImage(img, 0, 0, 440, img.height, 0, start_y, 440, img.height);
+                    chrome.tabs.create({
                         url: data,
                         selected:false
                     });
-                	chrome.tabs.create({
+                    chrome.tabs.create({
                         url: background.canvas.toDataURL('image/png'),
                         selected:false
                     });
-                callback();
+                setTimeout(function(){
+                    callback();
+                }, 1000);
             };
             img.src = data;
         });
