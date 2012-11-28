@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>html5_face</title>
+<style>
+.camera { display:none }
+.cut { width:300px; height:300px; border:1px solid #999 }
+</style>
+</head>
+
+<body>
+<input id="file" type="file" value="本地照片" style="width:70px">
+<input type="button" value="拍照上传">
+<div class="preview">
+  <div class="cut">
+    <div class="img"> <img id="img"> </div>
+    <div class="tips"> <b>选择你要上传的头像方式</b> </div>
+  </div>
+</div>
+<div class="camera">
+  <video id="cam_stream" width="300" height="300" style="background:#aaa" autoplay></video>
+  <p>
+    <input type="button" value="拍照">
+  </p>
+</div>
+<script src="jquery.js"></script> 
+<script>
+$('#file').change(function(){
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		$('#img').attr('src', e.target.result);
+	};
+	reader.readAsDataURL(this.files[0]);
+});
+</script>
+</body>
+</html>
