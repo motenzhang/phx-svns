@@ -4,8 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>html5_face</title>
 <style>
+img{ -webkit-user-select: none;  
+    -khtml-user-select: none;  
+    user-select: none;  }
 .camera { display:none }
-.cut { width:300px; height:300px; border:1px solid #999 }
+.cut { width:300px; height:300px; border:1px solid #999; display:table-cell; text-align:center; vertical-align:middle }
+.cut .img{display:none}
 </style>
 </head>
 
@@ -14,7 +18,7 @@
 <input type="button" value="拍照上传">
 <div class="preview">
   <div class="cut">
-    <div class="img"> <img id="img"> </div>
+    <div class="img"> <img class="img"> </div>
     <div class="tips"> <b>选择你要上传的头像方式</b> </div>
   </div>
 </div>
@@ -27,11 +31,21 @@
 <script src="jquery.js"></script> 
 <script>
 $('#file').change(function(){
+	var file = this.files[0];
 	var reader = new FileReader();
 	reader.onload = function(e) {
-		$('#img').attr('src', e.target.result);
+		$('img.img').on('load', function(){
+			if (this.width > this.height) {
+				$('.img').css({width:300, height:'auto'});
+			} else {
+				$('.img').css({width:'auto', height:300});
+			}
+			$('.cut .tips').hide();
+			$('.img').show();
+		});
+		$('img.img').attr('src', e.target.result);
 	};
-	reader.readAsDataURL(this.files[0]);
+	reader.readAsDataURL(file);
 });
 </script>
 </body>
