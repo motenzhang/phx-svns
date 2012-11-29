@@ -54,7 +54,7 @@ btnSend.onclick = function(){
 						console.log(dataUrl);
 						ajax.post('http://localhost/php/ext_weibo/save_base64.php', function(){
 						}, {dataUrl: encodeURIComponent(dataUrl)});
-						//chrome.tabs.update(tab.id, {url:'http://service.weibo.com/share/share.php?url=http%3A%2F%2Fskin.se.360.cn%2F%23detail%2F1&appkey=&title=%E6%88%91%E5%88%9A%E5%8F%91%E7%8E%B0%E7%9A%84%40360%E5%AE%89%E5%85%A8%E6%B5%8F%E8%A7%88%E5%99%A8%20%E7%9A%AE%E8%82%A4%22%E9%BB%98%E8%AE%A4%E7%9A%AE%E8%82%A4%22%E4%BD%A0%E5%96%9C%E6%AC%A2%E5%90%97%EF%BC%9F%E6%9B%B4%E6%8D%A2%E6%BC%82%E4%BA%AE%E7%9A%84%E7%9A%AE%E8%82%A4%EF%BC%8C%E6%8B%A5%E6%9C%89%E7%BE%8E%E4%B8%BD%E7%9A%84%E5%BF%83%E6%83%85%EF%BC%8C%E5%BF%AB%E6%9D%A5%E8%AF%95%E8%AF%95%E5%90%A7%EF%BC%81&pic=http://p4.qhimg.com/d/360browser/20121105/morenpifu_full.jpg'});
+						//chrome.tabs.update(tab.id, {url:'http://service.weibo.com/share/share.php?appkey=&title=这是一条长微博，点击下方图片查看内容。' + new Date().toLocaleTimeString() + '&pic=http://p4.qhimg.com/d/360browser/20121105/morenpifu_full.jpg'});
 						//chrome.tabs.remove(tab.id);
 					});
 				}, 1000);
@@ -65,7 +65,7 @@ btnSend.onclick = function(){
 };
 
 var ajax = {
-	request: function (type, url, callback, data) {
+	request: function (type, url, data, callback) {
 		var xhr = new window.XMLHttpRequest();
 		var _cb = function(){
 			if (_cb && xhr.readyState === 4) {
@@ -84,9 +84,9 @@ var ajax = {
 		xhr.send(data);
 	},
 	get: function (url, callback) {
-		this.request('GET', url, callback);
+		this.request('GET', url, null, callback);
 	},
-	post: function (url, callback, data) {
-		this.request('POST', url, callback, data);
+	post: function (url, data, callback) {
+		this.request('POST', url, data, callback);
 	}
 };
