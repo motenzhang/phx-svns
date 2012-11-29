@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>插入/编辑 图片</title>
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="../../utils/mctabs.js"></script>
+	<script type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script type="text/javascript" src="../../utils/validate.js"></script>
+	<script type="text/javascript" src="../../utils/editable_selects.js"></script>
+	<script type="text/javascript" src="js/image.js"></script>
+	<link href="css/advimage.css" rel="stylesheet" type="text/css" />
+</head>
+<body id="advimage" style="display: none">
+    <form onsubmit="ImageDialog.insert();return false;" action="#"> 
+		<input id="style" name="style" type="hidden" value="" onchange="ImageDialog.changeAppearance();" />
+		<div class="tabs">
+			<ul>
+				<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">插入图片</a></span></li>
+				<!--li id="appearance_tab"><span><a href="javascript:mcTabs.displayTab('appearance_tab','appearance_panel');" onmousedown="return false;">{#advimage_dlg.tab_appearance}</a></span></li>
+				<li id="advanced_tab"><span><a href="javascript:mcTabs.displayTab('advanced_tab','advanced_panel');" onmousedown="return false;">{#advimage_dlg.tab_advanced}</a></span></li-->
+			</ul>
+		</div>
+
+		<div class="panel_wrapper">
+			<div id="general_panel" class="panel current">
+				<fieldset>
+						<legend>属性</legend>
+
+						<table class="properties">
+							<tr>
+								<td valign="top" class="column1"><label id="srclabel" for="src">路径</label>
+                                <div style="color:#999">支持多选</div></td>
+						  <td colspan="2"><table border="0" cellspacing="0" cellpadding="0">
+									<tr> 
+									  <td valign="top"><input name="src" type="hidden" id="src" value="" class="mceFocus1" onchange="ImageDialog.showPreviewImage(this.value);" />
+                                          <script type="text/javascript">
+                                              function FillFromString(o, s) { if (s.substr(0, 1) == '?') s = s.substr(1); var len = (s != null) ? s.length : 0; for (var i = 0; i < len; i++) { var start = i; var end = -1; exitWhile: while (i < len) { var c = s.substr(i, 1); switch (c) { case '=': if (end < 0) { end = i; }; break; case '&': break exitWhile; }; i++; }; var name = null; var value = null; if (end >= 0) { name = s.substring(start, end); value = s.substring(end + 1, i); } else { value = s.substring(start, i - start); }; value.replace(/\+/g, ' '); try { value = decodeURI(value) } catch (e) { }; o[name] = unescape(value); }; };
+                                              var _queryString = {};
+                                              FillFromString(_queryString, location.search);
+                                              //获取 url 参数  ,  Request.QueryString['q'];
+                                              var Request = { QueryString: _queryString };
+
+                                              window.onload = function() {
+                                                  var uploader = document.mceImageUploader;
+                                                  uploader.SetVariable('subfolder', Request.QueryString['docid']);
+                                                  var cks = document.cookie.split(';');
+                                                  var ck_passport;
+                                                  for (var i in cks) {
+                                                      if (!isNaN(i)) {
+                                                          var item = (cks[i]);
+                                                          var kv = item.split('=');
+                                                          if (kv[0] == 'KM.PASSPORT.MEMBER') {
+                                                        	  ck_passport = kv[1];
+                                                              break;
+                                                          }
+                                                      }
+                                                  }
+                                                  uploader.SetVariable('key', ck_passport);
+                                              }
+
+                                              function mecImageUploader_LabelChanged(text) {
+                                                  document.forms[0].insert.disabled = false;
+                                                  document.forms[0].src.value = text;
+                                                  ImageDialog.showPreviewImage(text);
+                                              }
+                                              function mecImageUploader_SelectFile() {
+                                                  document.forms[0].insert.disabled = true;
+                                              }
+                                              function mecImageUploader_Uploaded(filename) {
+                                                  document.forms[0].insert.disabled = false;
+                                                  document.forms[0].src.value = filename;
+                                                  ImageDialog.showPreviewImage(filename);
+                                              }
+                                          </script>
+                                          <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="350" height="34" id="mceImageUploader">
+                                            <param name="movie" value="mceImageUploader.swf" />
+                                            <param name="quality" value="high" />
+                                            <param name="wmode" value="transparent" />
+                                            <embed src="mceImageUploader.swf" width="350" height="34" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" wmode="transparent" name="mceImageUploader"></embed>
+                                          </object>
+                                      </td> 
+									  <td id="srcbrowsercontainer">&nbsp;</td>
+									</tr>
+								  </table></td>
+							</tr>
+							<tr>
+								<td><label for="align">对齐</label></td>
+								<td><select id="align" name="align" onchange="ImageDialog.updateStyle('align');ImageDialog.changeAppearance();">
+								  <option value="">默认值</option>
+								  <option value="left">左对齐</option>
+								  <option value="right">右对齐</option>
+								  <option value="middle">居中</option>
+								  <option value="top">顶端</option>
+								  <option value="bottom">底部</option>
+								</select></td>
+							</tr>
+							<tr> 
+								<td class="column1"><label id="titlelabel" for="title">鼠标文本</label></td> 
+								<td colspan="2"><input id="title" name="title" type="text" value="" /></td> 
+							</tr>
+						</table>
+				</fieldset>
+
+				<fieldset>
+					<legend>预览</legend>
+					<div id="prev">
+                    	<img />
+                    </div>
+				</fieldset>
+			</div>
+
+			<div id="appearance_panel" class="panel">
+			</div>
+
+			<div id="advanced_panel" class="panel">
+			</div>
+		</div>
+
+		<div class="mceActionPanel">
+			<div style="float: left">
+				<input type="submit" id="insert" name="insert" value="{#insert}" />
+			</div>
+
+			<div style="float: right">
+				<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+			</div>
+		</div>
+    </form>
+</body> 
+</html> 
