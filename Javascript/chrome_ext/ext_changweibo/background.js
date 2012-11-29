@@ -1,3 +1,6 @@
+var startUrl = 'http://localhost/work/Javascript/chrome_ext/ext_changweibo/changewibo/';
+var captureUrl = 'http://localhost/work/Javascript/chrome_ext/ext_changweibo/changewibo/capture.php';
+
 var background = {
     tabId: null,
     canvas: document.createElement("canvas"),
@@ -47,16 +50,22 @@ var background = {
 };
 
 chrome.webNavigation.onCompleted.addListener(function(e){
-	switch (e.url) {
-        case 'http://www.blueidea.com/':
-            console.log(e);
-            setTimeout(function(){
-                background.sendMessage(e.tabId, 'capture');
-            }, 100);
-            break;
+    if (e.url && e.url.toLowerCase().indexOf(captureUrl.toLowerCase()) > -1 ) {
+        console.log(e);
+        setTimeout(function(){
+            background.sendMessage(e.tabId, 'capture');
+        }, 100);
     }
 });
 
 chrome.browserAction.onClicked.addListener(function(e){
-    
+  chrome.tabs.getAllInWindow(undefined, function(tabs) {
+    for (var i = 0, tab; tab = tabs[i]; i++) {
+      if (tab.url && tab.url.toLowerCase().indexOf(startUrl.toLowerCase()) > -1 ) {
+        chrome.tabs.update(tab.id, {selected: true});
+        return;
+      }
+    }
+    chrome.tabs.create({url: startUrl});
+  });
 });
