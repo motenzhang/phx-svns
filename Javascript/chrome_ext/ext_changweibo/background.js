@@ -28,34 +28,35 @@ var background = {
         }
     },
     capture: function(start_y, callback){
-        chrome.tabs.captureVisibleTab(null, {format: 'png'}, function(data) {
-            var img = new Image();
-            img.onload = function(){
+        setTimeout(function(){
+            chrome.tabs.captureVisibleTab(null, {format: 'png'}, function(data) {
+                var img = new Image();
+                img.onload = function(){
                     var context = background.canvas.getContext('2d');
-                    context.drawImage(img, 0, 0, 440, img.height, 0, start_y, 440, img.height);
-                    chrome.tabs.create({
-                        url: data,
-                        selected:false
-                    });
-                    chrome.tabs.create({
-                        url: background.canvas.toDataURL('image/png'),
-                        selected:false
-                    });
-                setTimeout(function(){
-                    callback();
-                }, 1000);
-            };
-            img.src = data;
-        });
+                    context.drawImage(img, 0, 0, 940, img.height, 0, start_y, 940, img.height);
+                        
+                    setTimeout(function(){
+                        callback();
+                    }, 100);
+                };
+                img.src = data;
+            });
+        }, 100);
+
     }
 };
 
 chrome.webNavigation.onCompleted.addListener(function(e){
 	switch (e.url) {
-        case 'http://www.baidu.com/':
+        case 'http://www.blueidea.com/':
             console.log(e);
-            
-            background.sendMessage(e.tabId, 'capture');
+            setTimeout(function(){
+                background.sendMessage(e.tabId, 'capture');
+            }, 100);
             break;
     }
+});
+
+chrome.browserAction.onClicked.addListener(function(e){
+    
 });
