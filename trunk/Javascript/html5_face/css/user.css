@@ -1,0 +1,270 @@
+.body {
+	border: 1px solid #d7d7d7;
+	padding: 30px;
+	width: 890px;
+	position: relative;
+}
+/* user-level */
+.u-l-i {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	text-align: left;
+	margin: 0 auto;
+}
+.r {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	text-align: right;
+	margin: 0 auto;
+}
+.u-l-i i {
+	background-image: url('img/u-l-i.png');
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	margin-right: 2px;
+	line-height: 16px;
+	overflow: hidden;
+	position: relative;
+	top: 1px;
+}
+.u-l-i .u-l-0 {
+	background-position: -32px 0;
+}
+.u-l-i .u-l-1 {
+	background-position: -16px 0;
+}
+.u-l-i .u-l-2 {
+	background-position: 0px 0;
+}
+.u-b {
+	font-size: 14px;
+}
+.u-b .u-b-l {
+	color: #f2f2f2;
+	border: 1px solid #369d12;
+	background: url('img/u-b-l.png') repeat-x;
+	display: block;
+	float:left;
+	height: 31px;
+	line-height: 31px;
+	padding-left: 6px;
+	padding-right: 6px;
+	min-width: 60px;
+	*width: 60px;
+	text-align: center;
+	border-top-left-radius: 1px;
+	border-bottom-left-radius: 1px;
+}
+.u-b .u-b-l:hover {
+	color: #fff; 
+}
+.u-b .u-b-d {
+	color: #aaa;
+	/* border: 1px solid #bcbcbc; 
+	background: url('img/u-b-d.png') repeat-x;
+	padding-left: 6px;
+	padding-right: 6px;
+	display: block;*/
+	float:left;
+	height: 31px;
+	line-height: 31px;
+	text-align: center;
+	border-top-right-radius: 1px;
+	border-bottom-right-radius: 1px;
+}
+
+.u-b .u-b-d.u-b-n {
+	border-left: none;
+	font-size: 14px;
+	color:#000;
+}
+.u-b .u-b-d:hover {
+	cursor: default;
+}
+
+/* user-user */
+.u-u {
+	/* background-image: url('img/u-u.png') */; 
+	background-repeat: no-repeat;
+	height: 120px;
+	padding-bottom: 28px;
+	border-bottom: 1px solid #ededed;
+	overflow: hidden;
+}
+.u-u .u-u-n,.u-u .u-u-l,.u-u .u-u-e,.u-u .u-u-o,.u-u .u-u-a {
+	margin-left: 160px;
+	font-size: 14px;
+	color: #aaa;
+}
+.u-u .u-u-l span,.u-u .u-u-e span,.u-u .u-u-o span,.u-u .u-u-a span {
+	color: #000;
+}
+/* 用户名 */
+.u-u .u-u-n span {
+	font-size: 18px;
+	color: #000;
+	margin-bottom: 12px;
+	margin-right: 6px;
+}
+.u-u .u-u-n span em {
+	font-size: 12px;
+	color: #999;
+}
+.u-u .u-u-n a {
+	color: #3BA815;
+	font-size: 12px;
+}
+.u-u .u-u-l,.u-u .u-u-e,.u-u .u-u-o,.u-u .u-u-a {
+	margin-bottom: 5px;
+}
+
+.u-u .u-b {
+	position: absolute;
+	left: 425px;
+	top: 112px;
+}
+.u-r h4,.u-e h4,.u-w h4,.u-a h4,.u-s h4,.u-l h4 {
+	padding-top: 25px;
+	padding-bottom: 15px;
+	font-size: 16px;
+}
+.u-r, .u-e,.u-w {
+	padding-right: 30px;
+	width: 595px;
+}
+.u-r {
+	
+}
+.u-r h4 {
+	margin-bottom: 0px;
+}
+.u-r table,.u-e table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.u-r table td,.u-e table td {
+	border: 1px solid #f3f3f3;
+	height: 35px;
+	line-height: 35px;
+	font-size: 14px;
+	text-align: center;
+}
+.u-r table thead td,.u-e table thead td{
+	color:#979797;
+}
+.u-r table tbody td,.u-e table tbody td{
+	color:#666666;
+}
+.u-r i.u-r {
+	display: block;
+	width: 18px;
+	height: 18px;
+	background-image: url('img/u-r-i.png');
+}
+.u-r i.u-r-0 {
+	background-position: 0 0;
+}
+.u-r i.u-r-1 {
+	background-position: 18px 0;
+}
+.u-r i.u-r-2 {
+	background-position: 36px 0;
+}
+
+.u-e {
+	margin-bottom: 10px;
+}
+.u-a {
+	position: absolute;
+	left: 650px;
+	bottom: 0px;
+	background: url('img/u-a-b.png') no-repeat;
+	padding: 25px;
+}
+.u-a .u-a-r {
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+	border-bottom: 1px solid #f5f5f5;
+}
+.u-a .u-a-r div {
+	font-size: 16px;
+}
+.u-a .u-a-r div span {
+	position: relative;
+	top: 2px;
+	font-size: 26px;
+	color: #299c01;
+}
+
+.u-a h4 {
+	padding-top: 0;
+	padding-bottom: 25px;
+}
+
+.u-p {
+	color: #818181;
+	font-size: 14px;
+}
+.u-r em {
+	display: block;
+	width: 18px;
+	height: 18px;
+	background-image: url('img/u-r-e.png');
+	line-height: 15px;
+	font-size: 11px;
+	font-family: Tahoma,Arial;
+	text-indent: -1px;
+	margin: 0 auto;
+}
+.u-r .u-r-t em {
+	background-position: 0 0;
+	color: #fff;
+}
+.u-r .u-r-u td {
+	color: #f09409;
+	font-weight: bold;
+}
+.u-r .u-r-u em {
+	background-position: -36px 0;
+	color: #fff;
+}
+.u-r .u-r-n em {
+	background-position: -18px 0;
+	color: #999;
+}
+
+
+/* 非SE浏览器 */
+.u-s,.u-l {
+	padding-bottom: 28px;
+	border-bottom: 1px solid #ededed;
+}
+.u-s h4,.u-l h4{
+	color: #6ace33;
+	padding-top: 0;
+}
+
+.u-s .u-s-b {
+	background-color: #5ec625;
+	border: 1px solid #54bf1a;
+	padding: 5px 10px;
+	color: #fff;
+	font-size: 16px;
+
+}
+.u-s .u-s-b:hover {
+	background-color: #78d844;	
+}
+.u-l {
+	text-align: center;
+}
+.u-l h4 {
+	font-size: 18px;
+	padding-bottom: 0;
+}
+.u-l a {
+	color: #3e9ef6;
+}
