@@ -1,7 +1,7 @@
 tinyMCE.addI18n('zh.advanced',{
 style_select:"\u6837\u5F0F",
-font_size:"\u5B57\u4F53\u5927\u5C0F",
-fontdefault:"\u5B57\u4F53",
+font_size:"12px",//\u5B57\u4F53\u5927\u5C0F",
+fontdefault:"\u5B8B\u4F53",//\u5B57\u4F53",
 block:"\u683C\u5F0F",
 paragraph:"\u6BB5\u843D",
 div:"Div",
