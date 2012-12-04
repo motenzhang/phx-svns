@@ -1,0 +1,37 @@
+@charset "utf-8";
+.block {position:fixed;left:0;top:0;width:100%;height:100%;z-index:50000; background:#b5b5b5;opacity:.7;}
+.dialog {position:fixed;left:0;z-index:50010; width:100%;}
+
+.file-open a{background:url(../img/ui-face.png)}
+
+.change-face-layer{width:738px; height:521px; margin:auto; background:#fff; box-shadow:0 0 5px rgba(0, 0, 0, .3); position:relative; display:none; font-family:'宋体'}
+.change-face-layer .dialog-close{position:absolute; top:5px; right:5px}
+.change-face-layer h3{font-family:'Microsoft Yahei'; font-size:18px; color:#666; background:#f7fbfb; border-bottom:1px solid #e4ebec; height:44px; line-height:44px; padding-left:25px}
+
+.change-face-layer .operate{margin:35px 0 0 50px; float:left; width:450px}
+.tab-title li{float:left;}
+.tab-title li a{float:left; background:#fbfbfb; border:1px solid #e8e8e8; font-family:'宋体'; font-size:14px; color:#777; text-align:center; width:139px; height:36px; line-height:36px; margin-right:-1px; _margin-right:0}
+.tab-title li a.current, .tab-title li a:hover{text-decoration:none; background:#fff; border-bottom-color:#fff; border-top-color:#34C61C; font-weight:bold}
+.tab-cont{clear:both; padding-top:26px}
+.tab-cont > div{display:none}
+.tab-cont > div.current{display:block}
+
+.recommend{margin-left:-3px; clear:both}
+.recommend img{width:60px; height:60px; float:left; padding:1px; border:2px solid #fff; cursor:pointer; margin:0 24px 26px 0}
+.recommend img:hover{border-color:#7AC3FF}
+
+.change-face-layer .upload{border:1px solid #e8e8e8; background:#fcfcfc; width:419px; height:257px; display:table-cell; vertical-align:middle; text-align:center; color:#999; font-size:24px; line-height:2.8; position:relative}
+.change-face-layer .upload input{position:absolute; visibility:hidden}
+.change-face-layer .upload .file-open{font-size:14px}
+.file-open a{display:inline-block; width:117px; height:36px; background-position:0 -80px; text-indent:-9999px; vertical-align:middle}
+
+.change-face-layer .cut canvas{border:1px solid #e8e8e8; width:419px; height:257px;}
+
+.change-face-layer .side{float:left; margin:62px 0 0 60px; color:#999}
+.preview{width:120px; line-height:1.8}
+.preview div{text-align:center; margin:15px 0; font-size:12px; font-family:Tahoma, Geneva, sans-serif}
+.preview canvas{border:1px solid #eaeaea; padding:1px; box-shadow:0 0 5px rgba(0, 0, 0, .18);}
+.preview .p110 canvas{width:110px; height:110px}
+.preview .p48 canvas{width:48px; height:48px}
+
+.my-face img{width:30px; height:30px; margin:9px 9px 0 0; cursor:pointer}

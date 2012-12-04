@@ -1,0 +1,147 @@
+.button {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	border: 1px solid #54BF1A;
+	background-color: #78D844;
+	padding: 5px 10px;
+	font-size: 16px;
+	color: #fff;
+}
+.body {
+	border: 1px solid #d7d7d7;
+	padding: 30px;
+	width: 890px;
+	overflow: hidden;
+}
+/* 登陆标志 */
+.body-login {
+
+}
+.body .login,.body .setup,.body .user {
+	padding-bottom: 22px;
+	border-bottom: 1px solid #ededed;
+	text-align: center;
+	margin-bottom: 20px;
+}
+.body .user {
+	text-align: left;
+}
+.body h4 {
+	font-size: 18px;
+	padding-bottom: 0;
+}
+.body .login h4, .body .setup h4 {
+	color: #6ace33;
+}
+
+.body .setup {
+	text-align: center;
+}
+.body .setup h4{
+	margin-bottom: 5px;
+}
+.body .rank,.body .what,.body .map {
+	float: left;
+	width: 625px;
+	margin-bottom: 15px;
+	padding-right: 15px;
+}
+
+.body .user h4 {
+	color: #222;
+}
+.body .user h4 a {
+	font-size: 12px;
+}
+.body .user img {
+	float: left;
+}
+.body .user h4, .body .user .info {
+	margin-left: 160px;
+	margin-bottom: 3px;
+}
+
+.body .user .info span {
+	color: #222;
+}
+.body .user .info span b {
+	color: #3BA815;
+}
+.body .user .info.sign {
+	position: absolute;
+	margin-top: -54px;
+	margin-left: 420px;
+}
+.body .rank h5,.body .what h5,.body .map h5,.body .side h5{
+	font-size: 16px;
+	margin-bottom: 15px;
+}
+.body .side .user-rank h5.current {
+	margin-bottom: 5px;
+}
+.body .side .user-rank h5.current span {
+	color: #3BA815;
+	font-size: 24px;
+}
+.body .side .user-rank h5.compare {
+	padding-bottom: 20px;
+	border-bottom: 1px solid #ededed;
+}
+.body .side {
+	margin-left: 640px;
+	padding-left: 20px;
+	background: #fff url(/img/body-side-bg.png) repeat-y;
+	*height: 700px;
+	min-height: 700px;
+}
+.body .side .desc {
+	font-size: 12px;
+}
+.body .map table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.body .map table td {
+	border: 1px solid #F3F3F3;
+}
+
+.foot {
+	clear: both;
+}
+.body.bl .user,
+.body.bl .setup,
+.body.bl .user-rank,
+.body.bl .rank {
+	display: none;
+}
+.body.bu .login,
+.body.bu .setup {
+	display: none;
+}
+
+.ui-rank {
+	display: inline-block;
+	*display: inline;
+	height: 18px;
+	width: 18px;
+	line-height: 16px;
+	background-image: url(/img/ui-rank.png);
+	background-repeat: no-repeat;
+	background-position: -18px 0; 
+	font-size: 10px;
+	font-family: Tahoma,Arial;
+	text-align: center;
+}
+.rank-top .ui-rank{
+	color: #fff;
+	background-position: 0 0; 
+}
+.rank-self {
+	color: #f09409;
+	font-weight: bold;
+}
+.rank-self .ui-rank {
+	color: #fff;
+	background-position: -36px 0; 
+}

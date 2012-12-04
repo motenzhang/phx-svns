@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>  
+
+<head>  
+
+<title>HTML5之FileReader对象事件顺序演示</title>  
+
+<script>  
+
+    //检查浏览器支持   
+
+    var result = document.getElementById('result');   
+
+    var file = document.getElementById('file');   
+
+    if(typeof FileReader == 'undefined')   
+
+    {   
+
+        result.innerHTML = "不支持";      
+
+        file.setAttribute('disable','disable');   
+
+    }   
+
+       
+
+    function readData()   
+
+    {   
+
+        var file = document.getElementById("file").files[0];   
+
+        var reader = new FileReader();   
+
+        //绑定事件处理函数   
+
+        reader.onload = function(e)   
+
+        {   
+
+            var result = document.getElementById('result');   
+
+            result.innerHTML = '<img src="' + this.result + '" alt="" />';   
+
+            alert("load");   
+
+        }   
+
+        reader.onprogress = function(e)   
+
+        {   
+
+            alert("progress");     
+
+        }   
+
+        reader.onabort = function(e)   
+
+        {   
+
+            alert("abort");    
+
+        }   
+
+        reader.onerror = function(e)   
+
+        {   
+
+            alert("error");    
+
+        }   
+
+        reader.onloadstart = function(e)   
+
+        {   
+
+            alert("loadstart");    
+
+        }   
+
+        reader.onloadend = function(e)   
+
+        {   
+
+            alert("loadend");      
+
+        }   
+
+        reader.readAsDataURL(file);//读取   
+
+    }   
+
+</script>  
+
+</head>  
+
+<p>  
+
+    <label>请选择一个文件：</label>  
+
+    <input type="file" id="file" accept="image/*" /><!–file控件的accept属性限定选择的文件为图像–>  
+
+    <br />  
+
+    <input type="button" value="读取图像" onclick="readData();" />  
+
+</p>  
+
+<div name="result" id="result">  
+
+    <!–用以显示结果–>  
+
+</div>  

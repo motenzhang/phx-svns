@@ -1,0 +1,27 @@
+.ui-grade {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	text-align: left;
+	margin: 0 auto;
+}
+.ui-grade i {
+	background-image: url('/img/ui-grade.png');
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	margin-right: 2px;
+	line-height: 16px;
+	overflow: hidden;
+	position: relative;
+	top: 1px;
+}
+.ui-grade .ui-grade-0 {
+	background-position: -32px 0;
+}
+.ui-grade .ui-grade-1 {
+	background-position: -16px 0;
+}
+.ui-grade .ui-grade-2 {
+	background-position: 0px 0;
+}
