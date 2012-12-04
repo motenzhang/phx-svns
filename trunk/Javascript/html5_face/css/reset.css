@@ -9,11 +9,12 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input
 html{
 	background: #f5f5f5;
 	color: #101010;
-	font-size: 12px;
+	font-size: 14px;
 	font-family: "微软雅黑","黑体","Tahoma";
 	line-height: 24px;
 }
 a {
+	color: #3E9EF6;
 	text-decoration: none;
 }
 .head,.body,.foot {
@@ -37,4 +38,17 @@ a {
 	padding-bottom: 25px;
 	text-align: center;
 	color: #818181;
+}
+.desc {
+	color: #818181;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+table td {
+	border: 1px solid #F3F3F3;
+	padding: 6px 0px;
+	text-align: center;
 }

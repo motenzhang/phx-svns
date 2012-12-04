@@ -4,282 +4,201 @@
 <title>个人中心 - 360安全浏览器</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="/js/jquery-1.8.2.min.js"></script>
-<link rel="styleSheet" href="css/reset.css" />
-<link rel="styleSheet" href="css/user.css" />
+<script src="/js/core.js"></script>
+<link rel="styleSheet" href="/css/reset.css" />
+<link rel="styleSheet" href="/css/ui.refactor.css" />
+<script src="/js/ui.grade.js"></script>
+<link rel="styleSheet" href="/css/ui.grade.css" />
 </head>
 <body>
-<script src="/js/core.js"></script> 
-<script src="/js/level/view.js"></script> 
-<script src="/js/fetch.js"></script> 
 <script>
-        var level_image = new user.level.View({text:false});
-        var user_info = {"qid":"116920899","userName":"panliu888","nickName":"panliu888","realName":"","imageId":"2302a21q10d73","theme":"360","src":"i360","type":"formal","loginEmail":"panliu888@gmail.com","loginTime":"1354255917","imgUrl":"http:\/\/u1.qhimg.com\/qhimg\/quc\/110_110\/23\/02\/a2\/2302a21q10d73.fd26f4.jpg","imgFlag":0};
-        function duration(minutes) {
-            var years = parseInt(minutes / (1440 *365) );
-            minutes = minutes % (1440*365);
-            var days = parseInt(minutes / 1440);
-            minutes = minutes % 1440;
-            var hours = parseInt(minutes / 60);
-            minutes = minutes % 60;
-
-            var r = '';
-            if(years || days || hours || minutes) {
-                if(years > 0) {
-                    r+= years+' 年 ';
-                }
-                if(days > 0) {
-                    r+= days+' 天 ';
-                }
-                if(hours > 0) {
-                    r+= hours+' 小时 ';
-                }
-                if(minutes>0) {
-                    r+= minutes+' 分钟 ';
-                }
-            }else{
-                r+= '< 10 分钟';
-            }
-            
-            return r;
-        }
-        function change_headshot() {
-            var url = "http://p"+parseInt(Math.random()*10)+".qhimg.com/d/360browser/20121029/110.png";
-            $('.u-u').css('background-image',"url('"+url+"')");
-            // 与当前浏览器登陆用户相同时，通知客户端更新头像图片
-            try{
-                // SE5
-                var sid = external.twGetSecurityID(window);                                
-                if( external.twExtSendMessage2(sid,"LoginEnrol","GetQid","","") == user_info['qid'] ) {
-                    external.twExtSendMessage2(sid,"LoginEnrol","NotifyUserHeadImageChanged",url,"");
-                }
-            }catch(e){}
-            try{
-                // SE6
-                external.AppCmd("","SeAppMgr","GetSID","","",function(t,sid){
-                    external.AppCmd(sid,"loginenrol","GetQid","","",function(code,qid) {
-                        if(qid == user_info['qid']) {
-                            external.AppCmd(n,"loginenrol","NotifyUserHeadImageChanged",url,"",function(e,t){})
-                        }
-                    });
-                });
-            }catch(e){}
-        }
-        $(document).ready(function() {
-            if(user_info['qid']) {
-                // TODO 默认头像的修改
-                if(user_info['imgFlag'] == '1') {
-                    $.get('/fetch/defaultHead?_='+Math.random(),function(data) {
-                        if(data['error']) {
-
-                        }else{
-                            user_info['imgUrl'] = data['url'];
-                        }
-                    },'json');
-                    
-                    change_headshot();
-                }else if(user_info['imageId'] == '2701c59qeea4') {
-                    change_headshot();
-                }else{
-                    $('.u-u').css('background-image',"url('"+user_info['imgUrl']+"')");
-                }
-                var user_fetch = new user.Fetch();
-                user_fetch.fetch(['Expr','Rank'],function(data){
-                    if(data['error']) {
-                        
-                    }else if(data['Expr']['profile']['qid'] != user_info['qid']) {
-						window.location = '/index/logout';
-					}else{
-                        // 用户信息显示
-                        // 等级
-                        $('.u-u-l span').html( level_image.render( parseInt(data['Expr']['profile']['grade']), {"text":true}) );
-                        $('.u-u-e span').html( data['Expr']['profile']['exp'] );
-                        $('.u-u-e em').html( '(距离下一等级还差'+(parseInt(data['Expr']['profile']['max_exp']) - parseInt(data['Expr']['profile']['exp']))+'点经验)' );
-                        $('.u-u-o span').html( duration(data['Expr']['profile']['online_time']) );
-                        $('.u-u-a span').html( duration(data['Expr']['profile']['total_online_time']));
-                        // 右侧排行
-
-                        var crank = parseInt('0'+data['Expr']['profile']['rank'],10);
-                        if(crank === 1000001) {
-                            $('.u-a-r-c').html( "您当前排名 <span>大于100万</span>" );
-                            $('.u-a-r-y').html( '加油啦！'  );
-                        }else if(crank){
-                            var lrank = parseInt('0'+data['Expr']['profile']['last_rank'],10);
-
-                            $('.u-a-r-c').html( "您当前排名 <span>"+crank+"</span>" );
-                            if(lrank === 0) {
-                                $('.u-a-r-y').hide();
-                            }else if(crank - lrank === 0) {
-                                $('.u-a-r-y').html( '较昨日排名未发生变化'  );
-                            }else if(crank - lrank < 0){
-                                $('.u-a-r-y').html( '较昨日上涨了 <span>'+(lrank - crank)+'</span> 名' );
-                            }else{
-                                $('.u-a-r-y').html( '较昨日下降了 <span>'+(crank - lrank)+'</span> 名'  );
-                            }
-                        }else{
-                            $('.u-a-r-c').hide();
-                            $('.u-a-r-y').hide();
-                            
-                        }
-                        // if(parseInt(data['Expr']['sign']['informations']['finished'])) {
-                        //     $('.u-b a').removeClass('u-b-l').addClass('u-b-d').html('连续签到');
-                        // }
-                        // 持续签到
-                        $('.u-b span').html( parseInt('0'+data['Expr']['sign']['informations']['lasts_day'],10) );
-                        // 排行列表信息显示
-                        $rank = $('.u-r table tbody');
-                        for(var i=0;i<data['Rank'].length;++i) {
-                            var tr = '';
-                            if(data['Rank'][i]['qid'] == user_info['qid']) {
-                                tr += '<tr class="u-r-u">';
-                            }else if(i<3) {
-                                tr += '<tr class="u-r-t">';
-                            }else {
-                                tr += '<tr class="u-r-n">';
-                            }
-                            tr += '<td style="text-align: center;"><em>'+(i+1)+'</em></td><td>'+data['Rank'][i]['username']+'</td>';
-                            tr += '<td>'+level_image.render(parseInt(data['Rank'][i]['grade']))+'</td>';
-                            tr += '</tr>';
-                            $rank.append(tr);
-                        }
-                        level_image.fix_width('.u-r table','.u-l-i');
-                    }
-                });
-            }
-        });
-        </script>
+			var user = {"qid":"116920899","src":"i360","imgUrl":"http:\/\/u1.qhimg.com\/qhimg\/quc\/110_110\/23\/02\/a2\/2302a21q10d73.fd26f4.jpg","imgFlag":0,"name":"panliu888@gmail.com"};
+		</script>
 <div class="head">安全浏览器个人中心</div>
-<div class="body">
-<div class="u-l" style="display: none;">
-  <h4>个人中心需要登录才能使用</h4>
-  <h4>
-  请 <a href="http://i.360.cn/login?destUrl=http%3A%2F%2Fmy.browser.360.cn%2F">登录</a> 360帐号。如果您没有帐号，请 <a href="http://i.360.cn/reg/?destUrl=http%3A%2F%2Fmy.browser.360.cn%2F">注册</a> </div>
-<div class="u-s" style="display: none;">
-  <h4>使用360安全浏览器，提升浏览器帐号等级</h4>
-  <a href="http://se.360.cn/" target="_blank" class="u-s-b">立即安装</a> </div>
-<div class="u-u" style="display: block;">
-  <div class="u-face"><a class="change-face" href="javascript:;">修改头像</a></div>
-  <div class="u-u-n"><span>panliu888@gmail.com</span> <a href="/index/logout">退出</a></div>
-  <div class="u-u-l">用户等级：<span></span></div>
-  <div class="u-u-e">当前经验：<span></span> <em style="color: #222;"></em></div>
-  <div class="u-u-o">今日在线：<span></span></div>
-  <div class="u-u-a">累计在线：<span></span></div>
-  <div class="u-b"> <a class="u-b-d">连续签到：</a>
-    <div class="u-b-d u-b-n"><span style="color:#3ba815;">0</span> 天</div>
+<div class="body bu">
+  <div class="login">
+    <h4>个人中心需要登录才能使用</h4>
+    <h4>
+    请 <a href="http://i.360.cn/login?destUrl=http%3A%2F%2Fmy.browser.360.cn%2F">登录</a> 360帐号。如果您没有帐号，请 <a href="http://i.360.cn/reg/?destUrl=http%3A%2F%2Fmy.browser.360.cn%2F">注册</a> </div>
+  <div class="setup">
+    <h4>使用360安全浏览器，提升浏览器帐号等级</h4>
+    <a href="http://se.360.cn/" class="button" target="_blank">立即安装</a> </div>
+  <div class="user desc">
+    <div style="float:left"><img src="img/360.png" width="120" height="120" style="float:none" />
+      <p style="text-align:center"><a href="javascript:;" class="change-face">修改头像</a></p>
+    </div>
+    <h4><span>panliu888@gmail.com</span> <a href="/index/logout">退出</a></h4>
+    <div class="info grade">用户等级：<span></span></div>
+    <div class="info expr">当前经验：<span></span> <em style="color: #222;"></em></div>
+    <div class="info time">今日在线：<span></span></div>
+    <div class="info total">累计在线：<span></span></div>
+    <div class="info sign">连续签到：<span></span></div>
+  </div>
+  <div class="rank">
+    <h5>英雄榜</h5>
+    <table class="desc">
+      <thead>
+        <tr style="background-color:#fdfdfd;">
+          <td style="width:105px;">排名</td>
+          <td>用户</td>
+          <td style="width:235px;">等级</td>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="what">
+    <h5>360用户等级有什么用？</h5>
+    <div class="desc">360注册用户通过积累经验值升级，在达到一定级别后，将有机会获得一些有趣的奖励，包括：各种浏览器等级特权，参加不定期举办的活动的资格，获取参与新产品新功能内测和试用，以及获赠各种奖品的机会等。当然，这一切都是免费的。</div>
+  </div>
+  <div class="map">
+    <h5>等级经验值对应关系</h5>
+    <table class="desc">
+      <thead>
+        <tr style="background-color:#fdfdfd;">
+          <td>等级</td>
+          <td>等级标识</td>
+          <td>所需经验值</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>LV1</td>
+          <td><script>new ui.Grade({grade:1}).render();</script></td>
+          <td><div class="r">0</div></td>
+        </tr>
+        <tr>
+          <td>LV2</td>
+          <td><script>new ui.Grade({grade:2}).render();</script></td>
+          <td><div class="r">20</div></td>
+        </tr>
+        <tr>
+          <td>LV3</td>
+          <td><script>new ui.Grade({grade:3}).render();</script></td>
+          <td><div class="r">50</div></td>
+        </tr>
+        <tr>
+          <td>LV4</td>
+          <td><script>new ui.Grade({grade:4}).render();</script></td>
+          <td><div class="r">100</div></td>
+        </tr>
+        <tr>
+          <td>LV5</td>
+          <td><script>new ui.Grade({grade:5}).render();</script></td>
+          <td><div class="r">150</div></td>
+        </tr>
+        <tr>
+          <td>LV6</td>
+          <td><script>new ui.Grade({grade:6}).render();</script></td>
+          <td><div class="r">250</div></td>
+        </tr>
+        <tr>
+          <td>LV7</td>
+          <td><script>new ui.Grade({grade:7}).render();</script></td>
+          <td><div class="r">450</div></td>
+        </tr>
+        <tr>
+          <td>LV8</td>
+          <td><script>new ui.Grade({grade:8}).render();</script></td>
+          <td><div class="r">750</div></td>
+        </tr>
+        <tr>
+          <td>LV12</td>
+          <td><script>new ui.Grade({grade:12}).render();</script></td>
+          <td><div class="r">2950</div></td>
+        </tr>
+        <tr>
+          <td>LV16</td>
+          <td><script>new ui.Grade({grade:16}).render();</script></td>
+          <td><div class="r">6750</div></td>
+        </tr>
+        <tr>
+          <td>LV32</td>
+          <td><script>new ui.Grade({grade:32}).render();</script></td>
+          <td><div class="r">37950</div></td>
+        </tr>
+      </tbody>
+    </table>
+    <script>
+					ui.Grade.fixWidth('table');
+				</script> 
+  </div>
+  <div class="side">
+    <div class="user-rank">
+      <h5 class="current">正在获取您的排名<span></span></h5>
+      <h5 class="compare">请稍候...</h5>
+    </div>
+    <h5>经验值积累规则</h5>
+    <div class="desc">A. 时长累计： <br/>
+      登录时每10分钟统计一次在线时长<br/>
+      保持登录2小时可以获得5点经验<br/>
+      每天时长累计最多获得10点经验<br/>
+      不足两小时的时长不累计到第二天<br/>
+    </div>
+    <div class="desc"> B. 手动签到： <br/>
+      点击浏览器大头像"签到"按钮，可获5~25点经验：<br/>
+      每天允许签到一次<br/>
+      第1天签到获5点经验<br/>
+      连续签到每天增加5点经验<br/>
+      连续5天以上每次获25点经验<br/>
+      如中断签到，则重新从5点开始累计<br/>
+    </div>
   </div>
 </div>
-<div class="u-r" style="display: block;">
-  <h4>英雄榜</h4>
-  <table>
-    <thead>
-      <tr style="background-color:#fdfdfd;">
-        <td style="width:105px;">排名</td>
-        <td>用户</td>
-        <td style="width:235px;">等级</td>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
-</div>
-<div class="u-w">
-  <h4>360用户等级有什么用？</h4>
-  <div class="u-p">360注册用户通过积累经验值升级，在达到一定级别后，将有机会获得一些有趣的奖励，包括：各种浏览器等级特权，参加不定期举办的活动的资格，获取参与新产品新功能内测和试用，以及获赠各种奖品的机会等。当然，这一切都是免费的。</div>
-</div>
-<div class="u-e">
-  <h4>等级经验值对应关系</h4>
-  <table>
-    <thead>
-      <tr style="background-color:#fdfdfd;">
-        <td>等级</td>
-        <td>等级标识</td>
-        <td>所需经验值</td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>LV1</td>
-        <td><script>document.write(level_image.render(1));</script></td>
-        <td><div class="r">0</div></td>
-      </tr>
-      <tr>
-        <td>LV2</td>
-        <td><script>document.write(level_image.render(2));</script></td>
-        <td><div class="r">20</div></td>
-      </tr>
-      <tr>
-        <td>LV3</td>
-        <td><script>document.write(level_image.render(3));</script></td>
-        <td><div class="r">50</div></td>
-      </tr>
-      <tr>
-        <td>LV4</td>
-        <td><script>document.write(level_image.render(4));</script></td>
-        <td><div class="r">100</div></td>
-      </tr>
-      <tr>
-        <td>LV5</td>
-        <td><script>document.write(level_image.render(5));</script></td>
-        <td><div class="r">150</div></td>
-      </tr>
-      <tr>
-        <td>LV6</td>
-        <td><script>document.write(level_image.render(6));</script></td>
-        <td><div class="r">250</div></td>
-      </tr>
-      <tr>
-        <td>LV7</td>
-        <td><script>document.write(level_image.render(7));</script></td>
-        <td><div class="r">450</div></td>
-      </tr>
-      <tr>
-        <td>LV8</td>
-        <td><script>document.write(level_image.render(8));</script></td>
-        <td><div class="r">750</div></td>
-      </tr>
-      <tr>
-        <td>LV12</td>
-        <td><script>document.write(level_image.render(12));</script></td>
-        <td><div class="r">2950</div></td>
-      </tr>
-      <tr>
-        <td>LV16</td>
-        <td><script>document.write(level_image.render(16));</script></td>
-        <td><div class="r">6750</div></td>
-      </tr>
-      <tr>
-        <td>LV32</td>
-        <td><script>document.write(level_image.render(32));</script></td>
-        <td><div class="r">37950</div></td>
-      </tr>
-    </tbody>
-  </table>
-  <script>
-                    level_image.fix_width('.u-e table','.u-l-i');
-                    level_image.fix_width('.u-e table','.r');
-                </script> 
-</div>
-<div class="u-a" style="top: 170px;">
-  <div class="u-a-r" style="display: block;">
-    <div class="u-a-r-c"></div>
-    <div class="u-a-r-y"></div>
+<div class="foot">Copyright©2005-2012 360.CN All Rights Reserved 360安全中心  隐私权政策 京ICP证080047号.</div>
+<script src="/js/ui.data.js"></script> 
+<script>
+			var data = new ui.Data('.user','.rank tbody','.user-rank');
+			data.ajax(['user','rank']);
+		</script>
+<link rel="stylesheet" href="css/ui.face.css">
+<script src="js/ui.face.js"></script>
+<div class="change-face-layer"> <a class="dialog-close close" href="javascript:;" title="关闭">关闭</a>
+  <h3>设置新头像</h3>
+  <div class="operate">
+    <ul class="tab-title">
+      <li><a href="javascript:;" class="current">推荐头像</a></li>
+      <li><a href="javascript:;">上传头像</a></li>
+      <li><a href="javascript:;">自拍头像</a></li>
+    </ul>
+    <div class="tab-cont">
+      <div class="cur-rent recommend"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png"> <img src="img/face01.png">
+        <p><a href="javascript:;">保存头像</a></p>
+      </div>
+      <div class="current">
+        <div class="upload">
+          <input type="file" accept="image/*" >
+          <p>将您的照片拖至此处</p>
+          <p class="file-open">您也可以 <a href="javascript:;">上传照片</a></p>
+        </div>
+      </div>
+      <div class="camera">
+      	<p><a href="javascript:;">拍照</a></p>
+      </div>
+      <div class="cut ">
+        <canvas id="cropper"></canvas>
+        <p><a class="rotate-left" href="javascript:;">向左旋转</a><a class="rotate-right" href="javascript:;">向右旋转</a></p>
+        <p><a class="save-face" href="javascript:;">保存</a><a class="close" href="javascript:;">取消</a></p>
+      </div>
+    </div>
   </div>
-  <h4>经验值积累规则</h4>
-  <div class="u-p" style="margin-bottom: 25px;font-size: 12px;">A. 时长累计： <br/>
-    登录时每10分钟统计一次在线时长<br/>
-    保持登录2小时可以获得5点经验<br/>
-    每天时长累计最多获得10点经验<br/>
-    不足两小时的时长不累计到第二天<br/>
-  </div>
-  <div class="u-p" style="margin-bottom: 25px;font-size: 12px;"> B. 手动签到： <br/>
-    点击浏览器大头像“签到“按钮，可获5~25点经验：<br/>
-    每天允许签到一次<br/>
-    第1天签到获5点经验<br/>
-    连续签到每天增加5点经验<br/>
-    连续5天以上每次获25点经验<br/>
-    如中断签到，则重新从5点开始累计<br/>
+  <div class="side">
+    <div class="preview">
+      <p>预览：</p>
+      <div class="p110">
+        <canvas id="p110"></canvas>
+        <br>
+        110×110</div>
+      <div class="p48">
+        <canvas id="p48"></canvas>
+        <br>
+        48×48</div>
+    </div>
+    <div class="my-face"> 我使用过的头像：
+      <div><img src="img/face01.png"><img src="img/face01.png"><img src="img/face01.png"><img src="img/face01.png"></div>
+    </div>
   </div>
 </div>
-<div class="foot">Copyright?2005-2012 360.CN All Rights Reserved 360安全中心  隐私权政策 京ICP证080047号.</div>
-<script src="face.js"></script>
 </body>
 </html>
