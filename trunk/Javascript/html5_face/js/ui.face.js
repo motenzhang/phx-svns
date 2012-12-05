@@ -58,9 +58,47 @@ jQuery(function($){
 		});
 
 		/* camera */
-		
+		tab.onshow(function(e, index){
+			if (index == 2) {
+				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+				if (navigator.getUserMedia) {
+					navigator.getUserMedia({video:true}, function(stream) {
+						$('.camera .tips').hide();
+						$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).show();;
+					}, function(err) {
+						console.log(err);
+					});
+				} else {
+					console.log('not support navigator.getUserMedia');
+				}
+			}
+		});
 	}
 });
+
+var Tab = function(title, cont){
+	var _this = this;
+	var init = function() {
+		$(title).find('a').click(function(){
+			_this.show($(this).parent().index());
+			return false;
+		});
+	};
+	this.show = function(index) {
+		$(title).find('a').removeClass('current');
+		$(title).find('li:eq(' + index + ')').find('a').addClass('current');
+		this.hide();
+		$(cont).children('div:eq(' + index + ')').show();
+		$(this).trigger('onshow', index);
+	};
+	this.hide = function() {
+		$(cont).children('div').hide();
+	};
+	this.onshow = function(handler) {
+		$(this).on('onshow', handler);
+	}
+	init();
+};
 
 var Http = function(){
 	return {
@@ -120,26 +158,6 @@ var Dialog = function(){
 		}
 	};
 }();
-
-var Tab = function(title, cont){
-	var _this = this;
-	var init = function() {
-		$(title).find('a').click(function(){
-			_this.show($(this).parent().index());
-			return false;
-		});
-	};
-	this.show = function(index) {
-		$(title).find('a').removeClass('current');
-		$(title).find('li:eq(' + index + ')').find('a').addClass('current');
-		this.hide();
-		$(cont).children('div:eq(' + index + ')').show();
-	};
-	this.hide = function() {
-		$(cont).children('div').hide();
-	};
-	init();
-};
 
 
 (function(scope){
