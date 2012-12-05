@@ -74,7 +74,15 @@ jQuery(function($){
 		});
 		$('.shutter').click(function(){
 			show_cut();
-			cropper.setImage($('#camera_stream')[0].toDataURL('image/png'));
+			
+			var video = $('#camera_stream')[0];
+			var canvas =document.createElement('canvas');  
+			canvas.width = video.width;
+			canvas.height = video.height;
+			
+			var context = canvas.getContext('2d');  
+			context.drawImage(video);
+			crpper.setImage(canvas.toDataURL('image/png'));
 		});
 
 		function show_cut() {
