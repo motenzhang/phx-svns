@@ -15,24 +15,50 @@ jQuery(function($){
 	function init_change_face() {
 		var tab = new Tab($('.tab-title'), $('.tab-cont'));
 
-		$('.file-open a').click(function(){
-			$('.upload input').click();
+		/* recommend */
+		$('.recommend img').click(function(){
+			$('.recommend img').removeClass('current');
+			$(this).addClass('current');
+			$('.preview .bor img').attr('src', $(this).attr('src'));
+			$('.preview .bor canvas').hide();
+			$('.preview .bor img').show();
+		});
+		$('.save-recommend').click(function(){
+			Dialog.hide();
 		});
 
+		/* cut */
 		var cropper = new ImageCropper(419, 257, 110, 110);
 		cropper.setCanvas("cropper");
 		cropper.addPreview("p110");
 		cropper.addPreview("p48");
+
+		$('.rotate').click(function(){
+			if ($(this).hasClass('rotate-left')) {
+				cropper.rotate(-90);
+			} else if ($(this).hasClass('rotate-right')) {
+				cropper.rotate(90);
+			}
+		});
+
+		/* upload */
+		$('.file-open a').click(function(){
+			$('.upload input').click();
+		});
 
 		$('.upload input').change(function(){
 			var file = this.files[0];
 			if (cropper.isImage(file)) {
 				tab.hide();
 				$('.cut').show();
+				$('.preview .bor canvas').show();
+				$('.preview .bor img').hide();
 				cropper.loadImage(file);
 			}
 		});
 
+		/* camera */
+		
 	}
 });
 
