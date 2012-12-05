@@ -77,12 +77,13 @@ jQuery(function($){
 			
 			var video = $('#camera_stream')[0];
 			var canvas =document.createElement('canvas');  
-			canvas.width = video.width;
-			canvas.height = video.height;
+			canvas.height = 257;
+			canvas.width = video.videoWidth / video.videoHeight * canvas.height;
+
 			
 			var context = canvas.getContext('2d');  
-			context.drawImage(video);
-			crpper.setImage(canvas.toDataURL('image/png'));
+			context.drawImage(video, 0, 0, canvas.width, canvas.height);
+			cropper.setImage(canvas.toDataURL('image/png'));
 		});
 
 		function show_cut() {
