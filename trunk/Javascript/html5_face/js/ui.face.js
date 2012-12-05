@@ -76,14 +76,15 @@ jQuery(function($){
 			show_cut();
 			cropper.setImage($('#camera_stream')[0].toDataURL('image/png'));
 		});
+
+		function show_cut() {
+			tab.hide();
+			$('.cut').show();
+			$('.preview .bor canvas').show();
+			$('.preview .bor img').hide();
+		}
 	}
 	
-	function show_cut() {
-		tab.hide();
-		$('.cut').show();
-		$('.preview .bor canvas').show();
-		$('.preview .bor img').hide();
-	}
 });
 
 var Tab = function(title, cont){
