@@ -1,4 +1,8 @@
 jQuery(function($){
+	if (ImageCropper.prototype.isAvaiable()) {
+		$('.face img').addClass('change-face');
+		$('.change-face').show();
+	}
 	ChangeFace.init();
 });
 
@@ -37,8 +41,8 @@ var ChangeFace = function(){
 		initRecommend: function(){
 			/* recommend */
 			$('.recommend img').click(function(){
-				$('.recommend img').removeClass('current');
-				$(this).addClass('current');
+				$('.recommend img').removeClass('active');
+				$(this).addClass('active');
 				$('.preview .bor img').attr('src', $(this).attr('src'));
 				$('.preview .bor canvas').hide();
 				$('.preview .bor img').show();
@@ -143,8 +147,8 @@ var Tab = function(title, cont){
 		});
 	};
 	this.show = function(index) {
-		$(title).find('a').removeClass('current');
-		$(title).find('li:eq(' + index + ')').find('a').addClass('current');
+		$(title).find('a').removeClass('active');
+		$(title).find('li:eq(' + index + ')').find('a').addClass('active');
 		this.hide();
 		$(cont).children('div:eq(' + index + ')').show();
 		$(this).trigger('onshow', index);
