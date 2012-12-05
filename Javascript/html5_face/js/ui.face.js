@@ -49,20 +49,19 @@ jQuery(function($){
 		$('.upload input').change(function(){
 			var file = this.files[0];
 			if (cropper.isImage(file)) {
-				tab.hide();
-				$('.cut').show();
-				$('.preview .bor canvas').show();
-				$('.preview .bor img').hide();
+				show_cut();
 				cropper.loadImage(file);
 			}
 		});
 
 		/* camera */
+		var camera_ok = false;
 		tab.onshow(function(e, index){
-			if (index == 2) {
+			if (index == 2 && !camera_ok) {
 				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 				if (navigator.getUserMedia) {
 					navigator.getUserMedia({video:true}, function(stream) {
+						camera_ok = true;
 						$('.camera .tips').hide();
 						$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).show();;
 					}, function(err) {
@@ -73,6 +72,17 @@ jQuery(function($){
 				}
 			}
 		});
+		$('.shutter').click(function(){
+			show_cut();
+			cropper.setImage($('#camera_stream')[0].toDataURL('image/png'));
+		});
+	}
+	
+	function show_cut() {
+		tab.hide();
+		$('.cut').show();
+		$('.preview .bor canvas').show();
+		$('.preview .bor img').hide();
 	}
 });
 
@@ -251,6 +261,15 @@ ImageCropper.prototype.loadImage = function(file)
 	}
 	reader.readAsDataURL(file);
 }
+
+ImageCropper.prototype.setImage = function(dataUrl)
+{
+	var me = this;
+	if(!me.image) me.image = new Image();
+	me.image.onload = function(e){me._init()};
+	me.image.src = dataUrl;
+}
+
 
 ImageCropper.prototype._init = function()
 {	
