@@ -15,8 +15,8 @@ var ChangeFace = function(){
 	function show_cut() {
 		tab.hide();
 		$('.cut').show();
-		$('.preview .bor canvas').show();
-		$('.preview .bor img').hide();
+		$('.preview .shadow canvas').show();
+		$('.preview .shadow img').hide();
 	}
 
 	return {
@@ -43,9 +43,9 @@ var ChangeFace = function(){
 			$('.recommend img').click(function(){
 				$('.recommend img').removeClass('active');
 				$(this).addClass('active');
-				$('.preview .bor img').attr('src', $(this).attr('src'));
-				$('.preview .bor canvas').hide();
-				$('.preview .bor img').show();
+				$('.preview .shadow img').attr('src', $(this).attr('src'));
+				$('.preview .shadow canvas').hide();
+				$('.preview .shadow img').show();
 			});
 			$('.save-recommend').click(function(){
 				// ajax save
@@ -76,6 +76,7 @@ var ChangeFace = function(){
 			});
 			
 			$('.file-open a').click(function(){
+				$('.upload form')[0].reset();
 				$('.upload input').click();
 			});
 	
@@ -122,7 +123,7 @@ var ChangeFace = function(){
 		},
 		initCut: function(){
 			/* cut */
-			cropper = new ImageCropper(419, 257, 110, 110);
+			cropper = new ImageCropper(257, 257, 110, 110);
 			cropper.setCanvas("cropper");
 			cropper.addPreview("p110");
 			cropper.addPreview("p48");
@@ -211,7 +212,7 @@ var Dialog = function(){
 			block.hide();
 		},
 		repos: function(){
-			var offset = 0;
+			var offset = document.body.scrollTop;
 			var top = offset + ($(window).height() - dialog.height()) / 3;
 			dialog.css('top', top);
 		}
@@ -238,13 +239,15 @@ var ImageCropper = function(width, height, cropWidth, cropHeight)
 	this.imageTop = 0;
 	this.imageViewLeft = 0;
 	this.imageViewTop = 0;
+	this.imageViewWidth = 0;
+	this.imageViewHeight = 0;
 
 	this.canvas = null;
 	this.context = null;
 	this.previews = [];
 	
 	this.maskGroup = [];
-	this.maskAlpha = 0.4;
+	this.maskAlpha = 0.75;
 	this.maskColor = "#000";
 
 	this.cropLeft = 0;
@@ -281,7 +284,7 @@ ImageCropper.prototype.setCanvas = function(canvas)
 	this.context = this.canvas.getContext("2d");
 	this.canvas.width = this.width;
 	this.canvas.height = this.height;
-	this.canvas.oncontextmenu = this.canvas.onselectstart = function(){return false;};
+	//this.canvas.oncontextmenu = this.canvas.onselectstart = function(){return false;};
 	
 	//caching canvas
 	this.imageCanvas = document.createElement("canvas");
@@ -328,10 +331,12 @@ ImageCropper.prototype._init = function()
 	if (this.image.width*scale<this.cropViewWidth) scale = Math.min(scale, this.cropViewWidth/this.image.width);
 	if (this.image.height*scale<this.cropViewHeight) scale = Math.min(scale, this.cropViewHeight/this.image.height);
 
-	this.imageViewLeft = this.imageLeft = (this.width - this.image.width*scale)/2;
-	this.imageViewTop = this.imageTop = (this.height - this.image.height*scale)/2;
-	this.imageScale = scale;
 	this.imageRotation = 0;
+	this.imageScale = scale;
+	this.imageViewWidth = this.image.width * this.imageScale;
+	this.imageViewHeight = this.image.height * this.imageScale;
+	this.imageViewLeft = this.imageLeft = (this.width - this.imageViewWidth)/2;
+	this.imageViewTop = this.imageTop = (this.height - this.imageViewHeight)/2;
 
 	//crop view size
 	var minSize = Math.min(this.image.width*scale, this.image.height*scale);
@@ -348,9 +353,12 @@ ImageCropper.prototype._init = function()
 	
 	//register event handlers
 	var me = this;
-	this.canvas.onmousedown = function(e){me._mouseHandler.call(me, e)};
-	this.canvas.onmouseup = function(e){me._mouseHandler.call(me, e)};
-	this.canvas.onmousemove = function(e){me._mouseHandler.call(me, e)};
+	var handler = function(e){
+		me._mouseHandler.call(me, e);
+		return false;
+	}
+	$(this.canvas).mousedown(handler).mousemove(handler);
+	$(document).mouseup(handler);
 }
 
 ImageCropper.prototype._mouseHandler = function(e)
@@ -358,8 +366,8 @@ ImageCropper.prototype._mouseHandler = function(e)
 	if(e.type == "mousemove")
 	{
 		var clientRect = this.canvas.getClientRects()[0];
-		this.mouseX = e.pageX - clientRect.left;
-		this.mouseY = e.pageY - clientRect.top;
+		this.mouseX = e.clientX - clientRect.left;
+		this.mouseY = e.clientY - clientRect.top;
 		this._checkMouseBounds();
 		this.canvas.style.cursor = (this.inCropper || this.isMoving)  ? "move" : (this.inDragger || this.isResizing) ? "se-resize" : "";
 		this.isMoving ? this._move() : this.isResizing ? this._resize() : null;
@@ -430,6 +438,8 @@ ImageCropper.prototype.rotate = function(angle)
 	var rotateVertical = Math.abs(this.imageRotation%180)==90;
 	this.imageViewLeft = rotateVertical ? this.imageTop : this.imageLeft;
 	this.imageViewTop = rotateVertical ? this.imageLeft : this.imageTop;
+	this.imageViewWidth = rotateVertical ? this.image.height * this.imageScale : this.image.width * this.imageScale;
+	this.imageViewHeight = rotateVertical ? this.image.width * this.imageScale : this.image.height * this.imageScale;
 	
 	//更新裁剪和变形的位置
 	this.cropLeft = (this.width - this.cropViewWidth)/2;
@@ -494,11 +504,14 @@ ImageCropper.prototype._drawPreview = function()
 
 ImageCropper.prototype._drawMask = function()
 {
-	
-	this._drawRect(this.imageViewLeft, this.imageViewTop, this.cropLeft-this.imageViewLeft, this.height-this.imageViewTop, this.maskColor, null, this.maskAlpha);
-	this._drawRect(this.cropLeft+this.cropViewWidth, this.imageViewTop, this.width-this.cropViewWidth-this.cropLeft-this.imageViewLeft, this.height, this.maskColor, null, this.maskAlpha);
+	// left
+	this._drawRect(this.imageViewLeft, this.imageViewTop, this.cropLeft-this.imageViewLeft + .3, this.imageViewHeight, this.maskColor, null, this.maskAlpha);
+	// right
+	this._drawRect(this.cropLeft+this.cropViewWidth - .3, this.imageViewTop, this.width-this.cropViewWidth-this.cropLeft-this.imageViewLeft, this.imageViewHeight, this.maskColor, null, this.maskAlpha);
+	// top
 	this._drawRect(this.cropLeft, this.imageViewTop, this.cropViewWidth, this.cropTop-this.imageViewTop, this.maskColor, null, this.maskAlpha);
-	this._drawRect(this.cropLeft, this.cropTop+this.cropViewHeight, this.cropViewWidth, this.height-this.cropViewHeight-this.cropTop+this.imageViewTop, this.maskColor, null, this.maskAlpha);
+	// bottom
+	this._drawRect(this.cropLeft, this.cropTop+this.cropViewHeight, this.cropViewWidth, this.imageViewHeight-this.cropViewHeight-this.cropTop+this.imageViewTop, this.maskColor, null, this.maskAlpha);
 }
 
 ImageCropper.prototype._drawDragger = function()
