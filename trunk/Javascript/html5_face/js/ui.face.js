@@ -1,4 +1,6 @@
 jQuery(function($){
+	ChangeFace.init();
+	return;
 	if (Http.request('changeface') == 1) {
 		show_change_face();
 	}
@@ -96,6 +98,138 @@ jQuery(function($){
 	
 });
 
+var ChangeFace = function(){
+	var tab, cropper;
+	function show_change_face() {
+		Dialog.show($('.change-face-layer'));
+		return false;
+	}
+	function show_cut() {
+		tab.hide();
+		$('.cut').show();
+		$('.preview .bor canvas').show();
+		$('.preview .bor img').hide();
+	}
+
+	return {
+		init: function(){
+			this.initTab();
+			this.initRecommend();
+			this.initUpload();
+			this.initCamera();
+			this.initCut();
+			this.initEntryPoint();
+		},
+		initEntryPoint: function(){
+			$('.change-face').live('click', show_change_face);
+			$('.close').live('click', Dialog.hide);
+			if (Http.request('changeface') == 1) {
+				show_change_face();
+			}
+		},
+		initTab: function(){
+			tab = new Tab($('.tab-title'), $('.tab-cont'));
+		},
+		initRecommend: function(){
+			/* recommend */
+			$('.recommend img').click(function(){
+				$('.recommend img').removeClass('current');
+				$(this).addClass('current');
+				$('.preview .bor img').attr('src', $(this).attr('src'));
+				$('.preview .bor canvas').hide();
+				$('.preview .bor img').show();
+			});
+			$('.save-recommend').click(function(){
+				// ajax save
+				Dialog.hide();
+			});
+		},
+		initUpload: function(){
+			/* upload */
+			
+			$('.change-face-layer .upload').on('dragover', function(){
+				$(this).addClass('hover');
+				return false;
+			});
+			$('.change-face-layer .upload').on('dragleave', function(){
+				$(this).removeClass('hover');
+				return false;
+			});
+			$('.change-face-layer .upload').on('drop', function(e){
+				var fileList = e.originalEvent.dataTransfer.files;
+				if (fileList.length > 0) {
+					var file = fileList[0];
+					if (cropper.isImage(file)) {
+						show_cut();
+						cropper.loadImage(file);
+						return false;
+					}
+				}
+			});
+			
+			$('.file-open a').click(function(){
+				$('.upload input').click();
+			});
+	
+			$('.upload input').change(function(){
+				var file = this.files[0];
+				if (cropper.isImage(file)) {
+					show_cut();
+					cropper.loadImage(file);
+				}
+			});
+		},
+		initCamera: function(){
+			/* camera */
+			var camera_ok = false;
+			tab.onshow(function(e, index){
+				if (index == 2 && !camera_ok) {
+					navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+					if (navigator.getUserMedia) {
+						navigator.getUserMedia({video:true}, function(stream) {
+							camera_ok = true;
+							$('.camera .tips').hide();
+							$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).show();;
+						}, function(err) {
+							console.log(err);
+						});
+					} else {
+						console.log('not support navigator.getUserMedia');
+					}
+				}
+			});
+			$('.shutter').click(function(){
+				show_cut();
+				
+				var video = $('#camera_stream')[0];
+				var canvas =document.createElement('canvas');  
+				canvas.height = 257;
+				canvas.width = video.videoWidth / video.videoHeight * canvas.height;
+	
+				
+				var context = canvas.getContext('2d');  
+				context.drawImage(video, 0, 0, canvas.width, canvas.height);
+				cropper.setImage(canvas.toDataURL('image/png'));
+			});
+		},
+		initCut: function(){
+			/* cut */
+			cropper = new ImageCropper(419, 257, 110, 110);
+			cropper.setCanvas("cropper");
+			cropper.addPreview("p110");
+			cropper.addPreview("p48");
+	
+			$('.rotate').click(function(){
+				if ($(this).hasClass('rotate-left')) {
+					cropper.rotate(-90);
+				} else if ($(this).hasClass('rotate-right')) {
+					cropper.rotate(90);
+				}
+			});
+		}
+	}
+}();
+
 var Tab = function(title, cont){
 	var _this = this;
 	var init = function() {
@@ -170,9 +304,6 @@ var Dialog = function(){
 		},
 		repos: function(){
 			var offset = 0;
-			//if ( $.browser.msie && $.browser.version < 7 ){
-			//	offset = document.documentElement.scrollTop
-			//}
 			var top = offset + ($(window).height() - dialog.height()) / 3;
 			dialog.css('top', top);
 		}
