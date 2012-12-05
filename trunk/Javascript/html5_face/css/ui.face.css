@@ -30,7 +30,7 @@
 .file-open a:hover{background-position:0 -128px}
 .file-open a, .file-open a:active{display:inline-block; width:117px; height:36px; background-position:0 -80px; text-indent:-9999px; vertical-align:middle}
 
-.change-face-layer .camera video{display:none}
+.change-face-layer .camera video{display:none; width:419px; height:257px}
 .change-face-layer .camera p{text-align:center}
 .change-face-layer .camera > div h4, .change-face-layer .camera > div p{text-align:left; margin:10px 50px; line-height:1.5}
 .change-face-layer .camera > div h4{font-weight:normal; font-size:14px; color:#494848}
