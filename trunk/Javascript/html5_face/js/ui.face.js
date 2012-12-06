@@ -128,6 +128,7 @@ var ChangeFace = function(){
 			function open_camera() {
 					if (!ChangeFace.camera_ok) {
 						$('#camera_stream').hide();
+						$('.camera .tips').removeClass('nocam');
 						$('.camera .tips').show();
 						$('.shutter').hide();
 						navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
@@ -138,6 +139,7 @@ var ChangeFace = function(){
 								$('.shutter').css('display', 'inline-block');
 								$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).css('display', 'block');;
 							}, function(err) {
+								$('.camera .tips').addClass('nocam');
 								console.log(err);
 							});
 						} else {
@@ -169,7 +171,7 @@ var ChangeFace = function(){
 				
 				var video = $('#camera_stream')[0];
 				var canvas =document.createElement('canvas');  
-				canvas.height = 257;
+				canvas.height = 287;
 				canvas.width = video.videoWidth / video.videoHeight * canvas.height;
 	
 				
@@ -181,7 +183,7 @@ var ChangeFace = function(){
 		},
 		initCut: function(){
 			/* cut */
-			cropper = new ImageCropper(257, 257, 110, 110);
+			cropper = new ImageCropper(257, 257, 140, 140);
 			cropper.setCanvas("cropper");
 			cropper.addPreview("p110");
 			cropper.addPreview("p48");

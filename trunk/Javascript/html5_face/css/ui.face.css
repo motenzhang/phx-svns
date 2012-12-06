@@ -29,9 +29,9 @@
 .recommend .save-recommend:hover{background-position:0 -45px;}
 .recommend .save-recommend, .recommend .save-recommend:active{display:inline-block; width:75px; height:32px; background-position:0 -0px; text-indent:-9999px; margin-top:10px}
 
-.change-face-layer .border{border:1px solid #e8e8e8; background:#fcfcfc; width:419px; height:257px;text-align:center; }
+.change-face-layer .border{border:1px solid #e8e8e8; background:#fcfcfc; width:419px; height:287px;text-align:center; }
 
-.change-face-layer .upload, .change-face-layer .camera .tips{display:table-cell; height:257px; vertical-align:middle; color:#999; font-size:24px; position:relative}
+.change-face-layer .upload, .change-face-layer .camera .tips{display:table-cell; height:287px; vertical-align:middle; color:#999; font-size:24px; position:relative}
 .change-face-layer .upload.hover{border:1px dashed #39F}
 .change-face-layer .upload input{position:absolute; visibility:hidden}
 .change-face-layer .upload p{margin-bottom:25px}
@@ -39,7 +39,8 @@
 .file-open a:hover{background-position:0 -128px}
 .file-open a, .file-open a:active{display:inline-block; width:117px; height:36px; background-position:0 -80px; text-indent:-9999px; vertical-align:middle}
 
-.change-face-layer .camera video{display:none; width:419px; height:257px}
+.change-face-layer .camera .tips.nocam{background:url(../img/ui-face-nc.png); text-indent:-9999px; width:419px}
+.change-face-layer .camera video{display:none; width:419px; height:287px}
 .change-face-layer .camera p{text-align:center}
 .change-face-layer .camera > div h4, .change-face-layer .camera > div p{text-align:left; margin:10px 50px; line-height:1.5}
 .change-face-layer .camera > div h4{font-weight:normal; font-size:14px; color:#494848}
@@ -48,7 +49,7 @@
 .shutter, .shutter:active{display:inline-block; width:79px; height:38px; text-indent:-9999px; background-position:0 -260px; margin:25px 0; display:none}
 
 .change-face-layer .cut{ display:none}
-.change-face-layer .cut .border{margin-bottom:12px}
+.change-face-layer .cut .border{margin-bottom:12px; height:257px}
 .change-face-layer .cut canvas{width:257px; height:257px;}
 .change-face-layer .cut a{display:inline-block; font-size:12px; line-height:15px}
 .change-face-layer .cut .rotate-left{ background-position:-90px -260px; float:left; padding-left:24px}
