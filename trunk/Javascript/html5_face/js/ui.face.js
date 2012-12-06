@@ -91,7 +91,9 @@ var ChangeFace = function(){
 					var file = fileList[0];
 					if (cropper.isImage(file)) {
 						show_cut();
-						cropper.loadImage(file);
+						cropper.loadImage(file, function(dataUrl){
+							ChangeFace.localeImgData = dataUrl;
+						});
 						return false;
 					}
 				}
@@ -106,29 +108,61 @@ var ChangeFace = function(){
 				var file = this.files[0];
 				if (cropper.isImage(file)) {
 					show_cut();
-					cropper.loadImage(file);
+					cropper.loadImage(file, function(dataUrl){
+						ChangeFace.localeImgData = dataUrl;
+					});
+				}
+			});
+			tab.onshow(function(e, index){
+				if (index == 1) {
+					var childs = tab.currentPanel.children();
+					if (childs.length == 1 && childs.first().css('display') == 'none') {
+						show_cut();
+						cropper.setImage(ChangeFace.localeImgData);
+					}
 				}
 			});
 		},
 		initCamera: function(){
 			/* camera */
-			var camera_ok = false;
-			tab.onshow(function(e, index){
-				if (index == 2 && !camera_ok) {
-					navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-					if (navigator.getUserMedia) {
-						navigator.getUserMedia({video:true}, function(stream) {
-							camera_ok = true;
-							$('.camera .tips').hide();
-							$('.shutter').show();
-							$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).show();;
-						}, function(err) {
-							console.log(err);
-						});
-					} else {
-						console.log('not support navigator.getUserMedia');
+			function open_camera() {
+					if (!ChangeFace.camera_ok) {
+						$('#camera_stream').hide();
+						$('.camera .tips').show();
+						$('.shutter').hide();
+						navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+						if (navigator.getUserMedia) {
+							navigator.getUserMedia({video:true}, function(stream) {
+								ChangeFace.camera_ok = true;
+								$('.camera .tips').hide();
+								$('.shutter').css('display', 'inline-block');
+								$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).css('display', 'block');;
+							}, function(err) {
+								console.log(err);
+							});
+						} else {
+							console.log('not support navigator.getUserMedia');
+						}
 					}
+			}
+			tab.onshow(function(e, index){
+				if (index == 2) {
+					var childs = tab.currentPanel.children();
+					if (childs.length == 1 && childs.first().css('display') == 'none') {
+						show_cut();
+						cropper.setImage(ChangeFace.cameraDataUrl);
+						return;
+					}
+					open_camera();
 				}
+			});
+			Dialog.onshow(function(){
+				if ($('.change-face-layer .tab-cont').children().last().css('display') == 'block') {
+					open_camera();
+				}
+			});
+			Dialog.onhide(function(){
+				ChangeFace.camera_ok = false;
 			});
 			$('.shutter').click(function(){
 				show_cut();
@@ -141,7 +175,8 @@ var ChangeFace = function(){
 				
 				var context = canvas.getContext('2d');  
 				context.drawImage(video, 0, 0, canvas.width, canvas.height);
-				cropper.setImage(canvas.toDataURL('image/png'));
+				ChangeFace.cameraDataUrl = canvas.toDataURL('image/png');
+				cropper.setImage(ChangeFace.cameraDataUrl);
 			});
 		},
 		initCut: function(){
@@ -243,17 +278,25 @@ var Dialog = function(){
 			Dialog.repos();
 			block.show();
 			dialog.show();
+			$(Dialog).trigger('onshow');
 		},
 		hide: function(){
 			init();
 			ele_parent.append(dialog.children());
 			dialog.hide().empty();
 			block.hide();
+			$(Dialog).trigger('onhide');
 		},
-		repos: function(){
+		repos: function() {
 			var offset = document.body.scrollTop;
 			var top = offset + ($(window).height() - dialog.height()) / 3;
 			dialog.css('top', top);
+		},
+		onshow: function(handler) {
+			$(Dialog).on('onshow', handler);
+		},
+		onhide: function(handler) {
+			$(Dialog).on('onhide', handler);
 		}
 	};
 }();
@@ -339,16 +382,18 @@ ImageCropper.prototype.addPreview = function(canvas)
 	this.previews.push(context);
 }
 
-ImageCropper.prototype.loadImage = function(file)
+ImageCropper.prototype.loadImage = function(file, callback)
 {
 	if(!this.isAvaiable() || !this.isImage(file)) return;
 	var reader = new FileReader();
 	var me = this;
+	me.clear();
 	reader.onload = function(evt)
 	{
 		if(!me.image) me.image = new Image();
 		me.image.onload = function(e){me._init()};
 		me.image.src = evt.target.result;
+		callback(evt.target.result);
 	}
 	reader.readAsDataURL(file);
 }
@@ -356,11 +401,15 @@ ImageCropper.prototype.loadImage = function(file)
 ImageCropper.prototype.setImage = function(dataUrl)
 {
 	var me = this;
+	me.clear();
 	if(!me.image) me.image = new Image();
 	me.image.onload = function(e){me._init()};
 	me.image.src = dataUrl;
 }
 
+ImageCropper.prototype.clear = function(){
+	this.context.clearRect(0, 0, this.width, this.height);
+};
 
 ImageCropper.prototype._init = function()
 {	
@@ -544,9 +593,9 @@ ImageCropper.prototype._drawPreview = function()
 ImageCropper.prototype._drawMask = function()
 {
 	// left
-	this._drawRect(this.imageViewLeft, this.imageViewTop, this.cropLeft-this.imageViewLeft + .3, this.imageViewHeight, this.maskColor, null, this.maskAlpha);
+	this._drawRect(this.imageViewLeft, this.imageViewTop, this.cropLeft-this.imageViewLeft + .2, this.imageViewHeight, this.maskColor, null, this.maskAlpha);
 	// right
-	this._drawRect(this.cropLeft+this.cropViewWidth - .3, this.imageViewTop, this.width-this.cropViewWidth-this.cropLeft-this.imageViewLeft, this.imageViewHeight, this.maskColor, null, this.maskAlpha);
+	this._drawRect(this.cropLeft+this.cropViewWidth - .2, this.imageViewTop, this.width-this.cropViewWidth-this.cropLeft-this.imageViewLeft, this.imageViewHeight, this.maskColor, null, this.maskAlpha);
 	// top
 	this._drawRect(this.cropLeft, this.imageViewTop, this.cropViewWidth, this.cropTop-this.imageViewTop, this.maskColor, null, this.maskAlpha);
 	// bottom
