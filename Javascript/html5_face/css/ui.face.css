@@ -47,6 +47,7 @@
 .shutter:hover{background-position:0 -308px}
 .shutter, .shutter:active{display:inline-block; width:79px; height:38px; text-indent:-9999px; background-position:0 -260px; margin:25px 0; display:none}
 
+.change-face-layer .cut{ display:none}
 .change-face-layer .cut .border{margin-bottom:12px}
 .change-face-layer .cut canvas{width:257px; height:257px;}
 .change-face-layer .cut a{display:inline-block; font-size:12px; line-height:15px}
