@@ -275,8 +275,8 @@ var ImageCropper = function(width, height, cropWidth, cropHeight)
 	this.previews = [];
 	
 	this.maskGroup = [];
-	this.maskAlpha = 0.75;
-	this.maskColor = "#000";
+	this.maskAlpha = 0.60;
+	this.maskColor = "#fff";
 
 	this.cropLeft = 0;
 	this.cropTop = 0;
