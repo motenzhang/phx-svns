@@ -60,8 +60,11 @@ var ChangeFace = function(){
 			});
 			$('.save-recommend').click(function(){
 				$.get('Fetch/editHead', {imgid: faceid}, function(ret){
+					if (ret.url) {
+						$('img.change-face').attr('src', ret.url);
+					}
 					Dialog.hide();
-				});
+				}, 'json');
 			});
 		},
 		initUpload: function(){
@@ -150,12 +153,15 @@ var ChangeFace = function(){
 			
 			$('.save-cut').click(function(){
 				$.post('Fetch/uploadHead', {imgdata: getBase64('p110')/*, img48: getBase64('p48')*/}, function(ret){
+					if (ret.url) {
+						$('img.change-face').attr('src', ret.url);
+					}
 					Dialog.hide();
-				});
+				}, 'json');
 			});
 			
 			function getBase64(canvasid) {
-				return $('#' + canvasid + '')[0].toDataURL('image/png').replace('data:image/png;base64,', '');
+				return $('#' + canvasid + '')[0].toDataURL('image/jpeg').replace('data:image/jpeg;base64,', '');
 			}
 		}
 	}
