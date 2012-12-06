@@ -178,22 +178,24 @@ var systemdefaultimg = {"2701c59qeea4":{"path":"http:\/\/u1.qhimg.com\/qhimg\/qu
         </div>
       </div>
       <div>
-        <div class="camera border">
-          <div class="tips">
-            <h4>请点击"允许"按钮，授权网页访问您的摄像头！</h4>
-            <p>若您并未看到任何授权提示，则表示您的浏览器不支持
-              Media Capture或您的机器没有链接摄像头设备</p>
+        <div>
+          <div class="camera border">
+            <div class="tips">
+              <h4>请点击"允许"按钮，授权网页访问您的摄像头！</h4>
+              <p>若您并未看到任何授权提示，则表示您的浏览器不支持
+                Media Capture或您的机器没有链接摄像头设备</p>
+            </div>
+            <video id="camera_stream" autoplay />
           </div>
-          <video id="camera_stream" autoplay />
+          <p><a class="shutter" href="javascript:;">拍照</a></p>
         </div>
-        <p><a class="shutter" href="javascript:;">拍照</a></p>
       </div>
       <div class="cut">
         <div class="border">
           <canvas id="cropper"></canvas>
         </div>
         <p><a class="rotate rotate-left" href="javascript:;">向左旋转</a><a class="rotate rotate-right" href="javascript:;">向右旋转</a></p>
-        <p><a class="cutbtn save-cut" href="javascript:;">保存</a><a class="cutbtn close" href="javascript:;">取消</a></p>
+        <p><a class="cutbtn save-cut" href="javascript:;">保存</a><a class="cutbtn cancel-cut" href="javascript:;">取消</a></p>
       </div>
     </div>
   </div>
