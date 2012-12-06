@@ -40,16 +40,28 @@ var ChangeFace = function(){
 		},
 		initRecommend: function(){
 			/* recommend */
-			$('.recommend img').click(function(){
-				$('.recommend img').removeClass('active');
+			var user = window.user || {};
+			var recom_list = window.systemdefaultimg || {};
+			var faceid = user.imageId;
+			$('.preview .shadow img').attr('src', user.imgUrl);
+			var sb = [];
+			for (var x in recom_list) {
+				sb.push('<img faceid="' + x + '" src="' + recom_list[x].url + '"' + (faceid == x ? ' class="active"' : '') + '>');
+			}
+			$('.recommend-face').html(sb.join(''));
+			//$('.recommend')
+			$('.recommend-face img').click(function(){
+				faceid = $(this).attr('faceid');
+				$('.recommend-face img').removeClass('active');
 				$(this).addClass('active');
 				$('.preview .shadow img').attr('src', $(this).attr('src'));
 				$('.preview .shadow canvas').hide();
 				$('.preview .shadow img').show();
 			});
 			$('.save-recommend').click(function(){
-				// ajax save
-				Dialog.hide();
+				$.get('Fetch/editHead', {imgid: faceid}, function(ret){
+					Dialog.hide();
+				});
 			});
 		},
 		initUpload: function(){
@@ -135,6 +147,16 @@ var ChangeFace = function(){
 					cropper.rotate(90);
 				}
 			});
+			
+			$('.save-cut').click(function(){
+				$.post('Fetch/uploadHead', {imgdata: getBase64('p110')/*, img48: getBase64('p48')*/}, function(ret){
+					Dialog.hide();
+				});
+			});
+			
+			function getBase64(canvasid) {
+				return $('#' + canvasid + '')[0].toDataURL('image/png').replace('data:image/png;base64,', '');
+			}
 		}
 	}
 }();
