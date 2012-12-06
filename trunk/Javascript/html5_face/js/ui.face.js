@@ -13,8 +13,9 @@ var ChangeFace = function(){
 		return false;
 	}
 	function show_cut() {
-		tab.hide();
-		$('.cut').show();
+		//tab.hide();
+		tab.currentPanel.children().first().hide();
+		tab.currentPanel.append($('.change-face-layer .cut').show());
 		$('.preview .shadow canvas').show();
 		$('.preview .shadow img').hide();
 	}
@@ -42,6 +43,13 @@ var ChangeFace = function(){
 			/* recommend */
 			var user = window.user || {};
 			var recom_list = window.systemdefaultimg || {};
+			if (user.imgFlag == 1) {
+				$.get('Fetch/editHead', {imgid: '2702154q11581'}, function(ret){
+					if (ret.url) {
+						$('img.change-face').attr('src', ret.url);
+					}
+				}, 'json');
+			}
 			var faceid = user.imageId;
 			$('.preview .shadow img').attr('src', user.imgUrl);
 			var sb = [];
@@ -49,7 +57,6 @@ var ChangeFace = function(){
 				sb.push('<img faceid="' + x + '" src="' + recom_list[x].url + '"' + (faceid == x ? ' class="active"' : '') + '>');
 			}
 			$('.recommend-face').html(sb.join(''));
-			//$('.recommend')
 			$('.recommend-face img').click(function(){
 				faceid = $(this).attr('faceid');
 				$('.recommend-face img').removeClass('active');
@@ -69,8 +76,7 @@ var ChangeFace = function(){
 		},
 		initUpload: function(){
 			/* upload */
-			
-			$('.change-face-layer .upload').on('dragover', function(){
+			$('.change-face-layer .upload').on('dragover', function(e){
 				$(this).addClass('hover');
 				return false;
 			});
@@ -79,6 +85,7 @@ var ChangeFace = function(){
 				return false;
 			});
 			$('.change-face-layer .upload').on('drop', function(e){
+				$(this).removeClass('hover');
 				var fileList = e.originalEvent.dataTransfer.files;
 				if (fileList.length > 0) {
 					var file = fileList[0];
@@ -113,6 +120,7 @@ var ChangeFace = function(){
 						navigator.getUserMedia({video:true}, function(stream) {
 							camera_ok = true;
 							$('.camera .tips').hide();
+							$('.shutter').show();
 							$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).show();;
 						}, function(err) {
 							console.log(err);
@@ -151,6 +159,9 @@ var ChangeFace = function(){
 				}
 			});
 			
+			$('.cancel-cut').click(function(){
+				$(this).parents('div.cut').hide().prev().show();
+			});
 			$('.save-cut').click(function(){
 				$.post('Fetch/uploadHead', {imgdata: getBase64('p110')/*, img48: getBase64('p48')*/}, function(ret){
 					if (ret.url) {
@@ -179,7 +190,7 @@ var Tab = function(title, cont){
 		$(title).find('a').removeClass('active');
 		$(title).find('li:eq(' + index + ')').find('a').addClass('active');
 		this.hide();
-		$(cont).children('div:eq(' + index + ')').show();
+		this.currentPanel = $(cont).children('div:eq(' + index + ')').show();
 		$(this).trigger('onshow', index);
 	};
 	this.hide = function() {
