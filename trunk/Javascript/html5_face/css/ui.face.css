@@ -21,7 +21,7 @@
 .tab-cont{clear:both; padding-top:26px}
 .tab-cont > div{display:none}
 .tab-cont > div.active{display:block}
-.tab-cont > div > p{width:420px; text-align:center; clear:both}
+.tab-cont div > p{width:420px; text-align:center; clear:both}
 
 .recommend{margin-left:-3px; clear:both}
 .recommend img{width:60px; height:60px; float:left; padding:1px; border:2px solid #fff; cursor:pointer; margin:0 24px 26px 0}
@@ -43,7 +43,7 @@
 .change-face-layer .camera p{text-align:center}
 .change-face-layer .camera > div h4, .change-face-layer .camera > div p{text-align:left; margin:10px 50px; line-height:1.5}
 .change-face-layer .camera > div h4{font-weight:normal; font-size:14px; color:#494848}
-.change-face-layer .camera > div p{font-size:12px; color:#999}
+.change-face-layer .camera > div p{font-size:12px; color:#999; width:auto}
 .shutter:hover{background-position:0 -308px}
 .shutter, .shutter:active{display:inline-block; width:79px; height:38px; text-indent:-9999px; background-position:0 -260px; margin:25px 0; display:none}
 
