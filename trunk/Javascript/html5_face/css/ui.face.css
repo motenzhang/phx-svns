@@ -8,7 +8,7 @@
 
 .change-face{display:none; cursor:pointer}
 
-.change-face-camera-tip {position:fixed; top:5px; left:325px; z-index:50005; background:url(../img/ui-face-cam-tip.png); width:34px; height:85px; display:none}
+.change-face-camera-tip {position:fixed; top:5px; left:365px; z-index:50005; background:url(../img/ui-face-cam-tip.png); width:34px; height:85px; display:none}
 
 .change-face-layer .dialog-close, .recommend .save-recommend, .file-open a, .shutter, .change-face-layer .cut a{background:url(../img/ui-face.png)}
 
@@ -33,7 +33,7 @@
 
 .change-face-layer .border{border:1px solid #e8e8e8; background:#fcfcfc; width:419px; height:287px;text-align:center; }
 
-.change-face-layer .upload, .change-face-layer .camera .tips{display:table-cell; height:287px; vertical-align:middle; color:#999; font-size:24px; position:relative}
+.change-face-layer .upload, .change-face-layer .camera .tips{display:table-cell; height:287px; vertical-align:middle; color:#999; font-size:22px; position:relative}
 .change-face-layer .upload.hover{border:1px dashed #39F}
 .change-face-layer .upload input{position:absolute; visibility:hidden}
 .change-face-layer .upload p{margin-bottom:25px}
