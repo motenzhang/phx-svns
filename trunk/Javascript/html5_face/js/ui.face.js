@@ -13,11 +13,14 @@ var ChangeFace = function(){
 		return false;
 	}
 	function show_cut() {
-		//tab.hide();
+		$('.recommend-face img').removeClass('active');
 		tab.currentPanel.children().first().hide();
 		tab.currentPanel.append($('.change-face-layer .cut').show());
 		$('.preview .shadow canvas').show();
 		$('.preview .shadow img').hide();
+	}
+	function hide_cut(){
+		$('.change-face-layer div.cut').hide().prev().show();
 	}
 
 	return {
@@ -32,7 +35,7 @@ var ChangeFace = function(){
 		initEntryPoint: function(){
 			$('.change-face').live('click', show_change_face);
 			$('.close').live('click', Dialog.hide);
-			if (Http.request('changeface') == 1) {
+			if (Http.request('avatar') == 1) {
 				show_change_face();
 			}
 		},
@@ -58,6 +61,7 @@ var ChangeFace = function(){
 			}
 			$('.recommend-face').html(sb.join(''));
 			$('.recommend-face img').click(function(){
+				hide_cut();
 				faceid = $(this).attr('faceid');
 				$('.recommend-face img').removeClass('active');
 				$(this).addClass('active');
@@ -117,8 +121,10 @@ var ChangeFace = function(){
 				if (index == 1) {
 					var childs = tab.currentPanel.children();
 					if (childs.length == 1 && childs.first().css('display') == 'none') {
-						show_cut();
+						childs.first().show();
+						/* show_cut();
 						cropper.setImage(ChangeFace.localeImgData);
+						*/
 					}
 				}
 			});
@@ -151,8 +157,11 @@ var ChangeFace = function(){
 				if (index == 2) {
 					var childs = tab.currentPanel.children();
 					if (childs.length == 1 && childs.first().css('display') == 'none') {
+						childs.first().show();
+						/*
 						show_cut();
 						cropper.setImage(ChangeFace.cameraDataUrl);
+						*/
 						return;
 					}
 					open_camera();
