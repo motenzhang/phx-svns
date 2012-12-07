@@ -8,11 +8,13 @@ jQuery(function($){
 
 var ChangeFace = function(){
 	var tab, cropper;
+	var faceid;
 	function show_change_face() {
 		Dialog.show($('.change-face-layer'));
 		return false;
 	}
 	function show_cut() {
+		faceid = '';
 		$('.recommend-face img').removeClass('active');
 		tab.currentPanel.children().first().hide();
 		tab.currentPanel.append($('.change-face-layer .cut').show());
@@ -21,6 +23,17 @@ var ChangeFace = function(){
 	}
 	function hide_cut(){
 		$('.change-face-layer div.cut').hide().prev().show();
+	}
+	function getbase64(canvasid) {
+		return $('#' + canvasid + '')[0].toDataURL('image/jpeg').replace('data:image/jpeg;base64,', '');
+	}
+	function post_img() {
+		$.post('Fetch/uploadHead', {imgdata: getbase64('p110')/*, img48: getBase64('p48')*/}, function(ret){
+			if (ret.url) {
+				ChangeFace.updateFace(ret.url);
+			}
+			Dialog.hide();
+		}, 'json');
 	}
 
 	return {
@@ -53,7 +66,7 @@ var ChangeFace = function(){
 					}
 				}, 'json');
 			}
-			var faceid = user.imageId;
+			faceid = user.imageId;
 			$('.preview .shadow img').attr('src', user.imgUrl);
 			var sb = [];
 			for (var x in recom_list) {
@@ -70,12 +83,16 @@ var ChangeFace = function(){
 				$('.preview .shadow img').show();
 			});
 			$('.save-recommend').click(function(){
-				$.get('Fetch/editHead', {imgid: faceid}, function(ret){
-					if (ret.url) {
-						ChangeFace.updateFace(ret.url);
-					}
-					Dialog.hide();
-				}, 'json');
+				if (faceid) {
+					$.get('Fetch/editHead', {imgid: faceid}, function(ret){
+						if (ret.url) {
+							ChangeFace.updateFace(ret.url);
+						}
+						Dialog.hide();
+					}, 'json');
+				} else {
+					post_img();
+				}
 			});
 		},
 		initUpload: function(){
@@ -208,18 +225,7 @@ var ChangeFace = function(){
 			$('.cancel-cut').click(function(){
 				$(this).parents('div.cut').hide().prev().show();
 			});
-			$('.save-cut').click(function(){
-				$.post('Fetch/uploadHead', {imgdata: getBase64('p110')/*, img48: getBase64('p48')*/}, function(ret){
-					if (ret.url) {
-						ChangeFace.updateFace(ret.url);
-					}
-					Dialog.hide();
-				}, 'json');
-			});
-			
-			function getBase64(canvasid) {
-				return $('#' + canvasid + '')[0].toDataURL('image/jpeg').replace('data:image/jpeg;base64,', '');
-			}
+			$('.save-cut').click(post_img);
 		},
 		updateFace: function(url) {
 			$('img.change-face').attr('src', url);
