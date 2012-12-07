@@ -66,24 +66,13 @@ var ChangeFace = function(){
 					}
 				}, 'json');
 			}
-			faceid = user.imageId;
-			$('.preview .shadow img').attr('src', user.imgUrl);
-			var sb = [];
-			for (var x in recom_list) {
-				sb.push('<img faceid="' + x + '" src="' + recom_list[x].url + '"' + (faceid == x ? ' class="active"' : '') + '>');
-			}
-			$('.recommend-face').html(sb.join(''));
-			$('.recommend-face img').click(function(){
-				hide_cut();
-				faceid = $(this).attr('faceid');
-				$('.recommend-face img').removeClass('active');
-				$(this).addClass('active');
-				$('.preview .shadow img').attr('src', $(this).attr('src'));
-				$('.preview .shadow canvas').hide();
-				$('.preview .shadow img').show();
-			});
+			_reset();
 			$('.save-recommend').click(function(){
 				if (faceid) {
+					if (faceid == user.imageId) {
+						Dialog.hide();
+						return;
+					}
 					$.get('Fetch/editHead', {imgid: faceid}, function(ret){
 						if (ret.url) {
 							ChangeFace.updateFace(ret.url);
@@ -94,6 +83,29 @@ var ChangeFace = function(){
 					post_img();
 				}
 			});
+			Dialog.onshow(function(){
+				_reset();
+				tab.show(0);
+				hide_cut();
+			});
+			function _reset() {
+				faceid = user.imageId;
+				$('.preview .shadow img').attr('src', user.imgUrl);
+				var sb = [];
+				for (var x in recom_list) {
+					sb.push('<img faceid="' + x + '" src="' + recom_list[x].url + '"' + (faceid == x ? ' class="active"' : '') + '>');
+				}
+				$('.recommend-face').html(sb.join(''));
+				$('.recommend-face img').click(function(){
+					hide_cut();
+					faceid = $(this).attr('faceid');
+					$('.recommend-face img').removeClass('active');
+					$(this).addClass('active');
+					$('.preview .shadow img').attr('src', $(this).attr('src'));
+					$('.preview .shadow canvas').hide();
+					$('.preview .shadow img').show();
+				});
+			}
 		},
 		initUpload: function(){
 			/* upload */
@@ -150,15 +162,14 @@ var ChangeFace = function(){
 			/* camera */
 			function open_camera() {
 					if (!ChangeFace.camera_ok) {
-						$('#camera_stream').hide();
+						$('#camera_stream, .shutter').hide();
 						$('.camera .tips').removeClass('nocam');
-						$('.camera .tips').show();
-						$('.shutter').hide();
+						$('.camera .tips, .change-face-camera-tip').show();
 						navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 						if (navigator.getUserMedia) {
 							navigator.getUserMedia({video:true}, function(stream) {
 								ChangeFace.camera_ok = true;
-								$('.camera .tips').hide();
+								$('.camera .tips, .change-face-camera-tip').hide();
 								$('.shutter').css('display', 'inline-block');
 								$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).css('display', 'block');;
 							}, function(err) {
