@@ -202,6 +202,7 @@ var ChangeFace = function(){
 			});
 			Dialog.onhide(function(){
 				ChangeFace.camera_ok = false;
+				$('.change-face-camera-tip').hide();
 			});
 			$('.shutter').click(function(){
 				show_cut();
@@ -317,7 +318,7 @@ var Dialog = function(){
 		},
 		hide: function(){
 			init();
-			ele_parent.append(dialog.children());
+			ele_parent.append(dialog.children().hide());
 			dialog.hide().empty();
 			block.hide();
 			$(Dialog).trigger('onhide');
