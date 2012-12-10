@@ -594,17 +594,17 @@ ImageCropper.prototype._calc = function()
 	if (imgHeight*scale<this.cropViewHeight) scale = Math.min(scale, this.cropViewHeight/imgHeight);
 
 	this.imageScale = scale;
-	this.imageViewWidth = imgWidth * this.imageScale;
-	this.imageViewHeight = imgHeight * this.imageScale;
-	this.imageViewLeft = this.imageLeft = (this.width - this.imageViewWidth)/2;
-	this.imageViewTop = this.imageTop = (this.height - this.imageViewHeight)/2;
+	this.imageViewWidth = Math.round(imgWidth * this.imageScale);
+	this.imageViewHeight = Math.round(imgHeight * this.imageScale);
+	this.imageViewLeft = this.imageLeft = Math.round((this.width - this.imageViewWidth)/2);
+	this.imageViewTop = this.imageTop = Math.round((this.height - this.imageViewHeight)/2);
 
 	//crop view size
 	var minSize = Math.min(imgWidth*scale, imgHeight*scale);
 	this.cropViewWidth = Math.min(minSize, this.cropWidth);
 	this.cropViewHeight = Math.min(minSize, this.cropHeight);
-	this.cropLeft = (this.width - this.cropViewWidth)/2;
-	this.cropTop = (this.height - this.cropViewHeight)/2;
+	this.cropLeft = Math.round((this.width - this.cropViewWidth)/2);
+	this.cropTop = Math.round((this.height - this.cropViewHeight)/2);
 
 	//resize rectangle dragger
 	this.dragLeft = this.cropLeft + this.cropViewWidth - this.dragSize/2;
@@ -617,19 +617,7 @@ ImageCropper.prototype.rotate = function(angle)
 	this.imageRotation += angle;
 
 	//根据旋转角度来改变图片视域的left和top
-	this._calc();
-	var rotateVertical = Math.abs(this.imageRotation%180)==90;
-	//this.imageViewLeft = rotateVertical ? this.imageTop : this.imageLeft;
-	//this.imageViewTop = rotateVertical ? this.imageLeft : this.imageTop;
-	this.imageViewWidth = rotateVertical ? this.image.height * this.imageScale : this.image.width * this.imageScale;
-	this.imageViewHeight = rotateVertical ? this.image.width * this.imageScale : this.image.height * this.imageScale;
-	
-	//更新裁剪和变形的位置
-	this.cropLeft = (this.width - this.cropViewWidth)/2;
-	this.cropTop = (this.height - this.cropViewHeight)/2;
-	this.dragLeft = this.cropLeft + this.cropViewWidth - this.dragSize/2;
-	this.dragTop = this.cropTop + this.cropViewHeight - this.dragSize/2;
-	
+	this._calc();	
 	this._update();
 }
 
