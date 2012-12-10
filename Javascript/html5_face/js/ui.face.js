@@ -8,6 +8,7 @@ jQuery(function($){
 
 var ChangeFace = function(){
 	var tab, cropper;
+	var user = window.user || {};
 	var faceid;
 	function show_change_face() {
 		Dialog.show($('.change-face-layer'));
@@ -23,6 +24,9 @@ var ChangeFace = function(){
 	}
 	function hide_cut(){
 		$('.change-face-layer div.cut').hide().prev().show();
+		$('.preview .shadow img').attr('src', user.imgUrl);
+		$('.preview .shadow canvas').hide();
+		$('.preview .shadow img').show();
 	}
 	function getbase64(canvasid) {
 		return $('#' + canvasid + '')[0].toDataURL('image/jpeg').replace('data:image/jpeg;base64,', '');
@@ -30,6 +34,7 @@ var ChangeFace = function(){
 	function post_img() {
 		$.post('Fetch/uploadHead', {imgdata: getbase64('p110')/*, img48: getBase64('p48')*/}, function(ret){
 			if (ret.url) {
+				user.imageId = '';
 				ChangeFace.updateFace(ret.url);
 			}
 			Dialog.hide();
@@ -46,9 +51,15 @@ var ChangeFace = function(){
 			this.initEntryPoint();
 		},
 		initEntryPoint: function(){
+			Dialog.onshow(function(){
+				history.pushState(null, '', '#avatar');
+			});
+			Dialog.onhide(function(){
+				history.pushState(null, '', '/');
+			});
 			$('.change-face').live('click', show_change_face);
 			$('.close').live('click', Dialog.hide);
-			if (Http.request('avatar') == 1) {
+			if (location.hash.toLowerCase() == '#avatar' || Http.request('avatar') == 1) {
 				show_change_face();
 			}
 		},
@@ -57,7 +68,6 @@ var ChangeFace = function(){
 		},
 		initRecommend: function(){
 			/* recommend */
-			var user = window.user || {};
 			var recom_list = window.systemdefaultimg || {};
 			if (user.imgFlag == 1) {
 				$.get('Fetch/editHead', {imgid: '2702154q11581'}, function(ret){
@@ -73,6 +83,7 @@ var ChangeFace = function(){
 						Dialog.hide();
 						return;
 					}
+					user.imageId = faceid;
 					$.get('Fetch/editHead', {imgid: faceid}, function(ret){
 						if (ret.url) {
 							ChangeFace.updateFace(ret.url);
@@ -81,6 +92,13 @@ var ChangeFace = function(){
 					}, 'json');
 				} else {
 					post_img();
+				}
+			});
+			tab.onshow(function(e, index){
+				if (index == 0) {
+					$('.my-face').show();
+				} else {
+					$('.my-face').hide();
 				}
 			});
 			Dialog.onshow(function(){
@@ -96,14 +114,26 @@ var ChangeFace = function(){
 					sb.push('<img faceid="' + x + '" src="' + recom_list[x].url + '"' + (faceid == x ? ' class="active"' : '') + '>');
 				}
 				$('.recommend-face').html(sb.join(''));
-				$('.recommend-face img').click(function(){
+
+				$.get('index/getHistoryHead', {}, function(ret){
+					if (ret && ret.historydata) {
+						sb = [];
+						$.each(ret.historydata, function(i, item){
+							if (i > 3) {
+								return false;
+							}
+							sb.push('<img faceid="' + item[0] + '" src="' + item[1] + '">');
+						});
+						$('.my-face > div').html(sb.join(''));
+					}
+				}, 'json');
+
+				$('.recommend-face img, .my-face img').die('click').live('click', function(){
 					hide_cut();
 					faceid = $(this).attr('faceid');
-					$('.recommend-face img').removeClass('active');
+					$('.recommend-face img, .my-face img').removeClass('active');
 					$(this).addClass('active');
 					$('.preview .shadow img').attr('src', $(this).attr('src'));
-					$('.preview .shadow canvas').hide();
-					$('.preview .shadow img').show();
 				});
 			}
 		},
@@ -173,6 +203,7 @@ var ChangeFace = function(){
 								$('.shutter').css('display', 'inline-block');
 								$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).css('display', 'block');;
 							}, function(err) {
+								$('.change-face-camera-tip').hide();
 								$('.camera .tips').addClass('nocam');
 								console.log(err);
 							});
@@ -193,6 +224,8 @@ var ChangeFace = function(){
 						return;
 					}
 					open_camera();
+				} else {
+					$('.change-face-camera-tip').hide();
 				}
 			});
 			Dialog.onshow(function(){
@@ -234,13 +267,12 @@ var ChangeFace = function(){
 				}
 			});
 			
-			$('.cancel-cut').click(function(){
-				$(this).parents('div.cut').hide().prev().show();
-			});
+			$('.cancel-cut').click(hide_cut);
 			$('.save-cut').click(post_img);
 		},
 		updateFace: function(url) {
 			$('img.change-face').attr('src', url);
+			user.imgUrl = url;
 			try {
 				external.AppCmd(external.GetSID(window), "loginenrol", "NotifyUserHeadImageChanged", url, "", function(){});
 			} catch(e) {
@@ -326,7 +358,7 @@ var Dialog = function(){
 		repos: function() {
 			var offset = document.body.scrollTop;
 			var top = offset + ($(window).height() - dialog.height()) / 3;
-			dialog.css('top', top);
+			dialog.css('top', Math.max(top, 10));
 		},
 		onshow: function(handler) {
 			$(Dialog).on('onshow', handler);
@@ -374,7 +406,7 @@ var ImageCropper = function(width, height, cropWidth, cropHeight)
 	this.cropViewHeight = cropHeight;
 
 	this.dragSize = 7;
-	this.dragColor = "#fff";
+	this.dragColor = "#000";
 	this.dragLeft = 0;
 	this.dragTop = 0;
 
@@ -426,9 +458,15 @@ ImageCropper.prototype.loadImage = function(file, callback)
 	me.clear();
 	reader.onload = function(evt)
 	{
+		var url = evt.target.result;
 		if(!me.image) me.image = new Image();
-		me.image.onload = function(e){me._init()};
-		me.image.src = evt.target.result;
+		me.image.onload = function(e){
+			me._init()
+		};
+		if (me.image.src == url) {
+			me.image.src = '';
+		}
+		me.image.src = url;
 		callback(evt.target.result);
 	}
 	reader.readAsDataURL(file);
@@ -481,8 +519,8 @@ ImageCropper.prototype._init = function()
 		me._mouseHandler.call(me, e);
 		return false;
 	}
-	$(this.canvas).mousedown(handler).mousemove(handler);
-	$(document).mouseup(handler);
+	$(this.canvas).mousedown(handler);
+	$(document).mousemove(handler).mouseup(handler);
 }
 
 ImageCropper.prototype._mouseHandler = function(e)
@@ -490,6 +528,9 @@ ImageCropper.prototype._mouseHandler = function(e)
 	if(e.type == "mousemove")
 	{
 		var clientRect = this.canvas.getClientRects()[0];
+		if (!clientRect) {
+			return;
+		}
 		this.mouseX = e.clientX - clientRect.left;
 		this.mouseY = e.clientY - clientRect.top;
 		this._checkMouseBounds();
@@ -629,9 +670,9 @@ ImageCropper.prototype._drawPreview = function()
 ImageCropper.prototype._drawMask = function()
 {
 	// left
-	this._drawRect(this.imageViewLeft, this.imageViewTop, this.cropLeft-this.imageViewLeft + .2, this.imageViewHeight, this.maskColor, null, this.maskAlpha);
+	this._drawRect(this.imageViewLeft, this.imageViewTop, this.cropLeft-this.imageViewLeft, this.imageViewHeight, this.maskColor, null, this.maskAlpha);
 	// right
-	this._drawRect(this.cropLeft+this.cropViewWidth - .2, this.imageViewTop, this.width-this.cropViewWidth-this.cropLeft-this.imageViewLeft, this.imageViewHeight, this.maskColor, null, this.maskAlpha);
+	this._drawRect(this.cropLeft+this.cropViewWidth, this.imageViewTop, this.width-this.cropViewWidth-this.cropLeft-this.imageViewLeft, this.imageViewHeight, this.maskColor, null, this.maskAlpha);
 	// top
 	this._drawRect(this.cropLeft, this.imageViewTop, this.cropViewWidth, this.cropTop-this.imageViewTop, this.maskColor, null, this.maskAlpha);
 	// bottom
@@ -640,7 +681,7 @@ ImageCropper.prototype._drawMask = function()
 
 ImageCropper.prototype._drawDragger = function()
 {
-	this._drawRect(this.dragLeft, this.dragTop, this.dragSize, this.dragSize, null, this.dragColor, null);
+	this._drawRect(this.dragLeft, this.dragTop, this.dragSize, this.dragSize, null, this.dragColor, .6);
 }
 
 ImageCropper.prototype._drawRect = function(x, y, width, height, color, border, alpha)
@@ -649,8 +690,9 @@ ImageCropper.prototype._drawRect = function(x, y, width, height, color, border, 
 	if(color !== null) this.context.fillStyle = color;
 	if(border !== null) this.context.strokeStyle = border;
 	if(alpha !== null) this.context.globalAlpha = alpha;
+	//this.context.lineJoin = 'bevel';
 	this.context.beginPath();
-	this.context.rect(x, y, width, height);
+	this.context.rect(x + .5, y + .5, width, height);
 	this.context.closePath();
 	if(color !== null) this.context.fill();
 	if(border !== null) this.context.stroke();
