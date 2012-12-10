@@ -55,6 +55,7 @@ var ChangeFace = function(){
 				history.pushState(null, '', '#avatar');
 			});
 			Dialog.onhide(function(){
+				localStorage['change-face-current-tab'] = 0;
 				history.pushState(null, '', '/');
 			});
 			$('.change-face').live('click', show_change_face);
@@ -95,6 +96,7 @@ var ChangeFace = function(){
 				}
 			});
 			tab.onshow(function(e, index){
+				localStorage['change-face-current-tab'] = index;
 				if (index == 0) {
 					$('.my-face').show();
 				} else {
@@ -103,7 +105,7 @@ var ChangeFace = function(){
 			});
 			Dialog.onshow(function(){
 				_reset();
-				tab.show(0);
+				tab.show(parseInt(localStorage['change-face-current-tab']) || 0);
 				hide_cut();
 			});
 			function _reset() {
@@ -195,21 +197,25 @@ var ChangeFace = function(){
 						$('#camera_stream, .shutter').hide();
 						$('.camera .tips').removeClass('nocam');
 						$('.camera .tips, .change-face-camera-tip').show();
-						navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-						if (navigator.getUserMedia) {
-							navigator.getUserMedia({video:true}, function(stream) {
-								ChangeFace.camera_ok = true;
-								$('.camera .tips, .change-face-camera-tip').hide();
-								$('.shutter').css('display', 'inline-block');
-								$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).css('display', 'block');;
-							}, function(err) {
-								$('.change-face-camera-tip').hide();
-								$('.camera .tips').addClass('nocam');
-								console.log(err);
-							});
-						} else {
-							console.log('not support navigator.getUserMedia');
-						}
+						clearInterval(ChangeFace._cam_tt);
+						ChangeFace._cam_tt = setTimeout(function(){
+							navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+							if (navigator.getUserMedia) {
+								navigator.getUserMedia({video:true}, function(stream) {
+									ChangeFace.camera_ok = true;
+									$('.camera .tips, .change-face-camera-tip').hide();
+									$('.shutter').css('display', 'inline-block');
+									$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).css('display', 'block');;
+								}, function(err) {
+									$('.change-face-camera-tip').hide();
+									$('.camera .tips').addClass('nocam');
+									console.log(err);
+								});
+								console.log('call open camera');
+							} else {
+								console.log('not support navigator.getUserMedia');
+							}
+						}, 0);
 					}
 			}
 			tab.onshow(function(e, index){
@@ -229,9 +235,9 @@ var ChangeFace = function(){
 				}
 			});
 			Dialog.onshow(function(){
-				if ($('.change-face-layer .tab-cont').children().last().css('display') == 'block') {
+				/*if ($('.change-face-layer .tab-cont').children().last().css('display') == 'block') {
 					open_camera();
-				}
+				}*/
 			});
 			Dialog.onhide(function(){
 				ChangeFace.camera_ok = false;
@@ -274,7 +280,11 @@ var ChangeFace = function(){
 			$('img.change-face').attr('src', url);
 			user.imgUrl = url;
 			try {
-				external.AppCmd(external.GetSID(window), "loginenrol", "NotifyUserHeadImageChanged", url, "", function(){});
+				external.AppCmd(external.GetSID(window), "loginenrol", "GetQid", "", "", function(code, qid){
+					if (qid == user.qid) {
+						external.AppCmd(external.GetSID(window), "loginenrol", "NotifyUserHeadImageChanged", url, "", function(){});
+					}
+				});
 			} catch(e) {
 			}
 		}
@@ -686,6 +696,10 @@ ImageCropper.prototype._drawDragger = function()
 
 ImageCropper.prototype._drawRect = function(x, y, width, height, color, border, alpha)
 {
+	x = Math.round(x);
+	y = Math.round(y);
+	width = Math.round(width);
+	height = Math.round(height);
 	this.context.save();
 	if(color !== null) this.context.fillStyle = color;
 	if(border !== null) this.context.strokeStyle = border;
