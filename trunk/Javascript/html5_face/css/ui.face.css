@@ -72,4 +72,7 @@
 .preview .p48, .preview .p48 canvas, .preview .p48 img{width:48px; height:48px}
 
 .my-face{display:none}
-.my-face img{width:30px; height:30px; margin:9px 9px 0 0; cursor:pointer}
+.my-face img{width:30px; height:30px; margin:6px 6px 0 0; cursor:pointer;padding:1px;border:1px solid #fff}
+.my-face img.active{border-color:#7AC3FF}
+
+
