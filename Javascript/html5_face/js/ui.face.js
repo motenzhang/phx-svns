@@ -260,7 +260,7 @@ var ChangeFace = function(){
 		},
 		initCut: function(){
 			/* cut */
-			cropper = new ImageCropper(257, 257, 140, 140);
+			cropper = new ImageCropper(419, 257, 140, 140);
 			cropper.setCanvas("cropper");
 			cropper.addPreview("p110");
 			cropper.addPreview("p48");
@@ -497,30 +497,8 @@ ImageCropper.prototype.clear = function(){
 
 ImageCropper.prototype._init = function()
 {	
-	//初始化图片的缩放比例和位置
-	var scale = Math.min(this.width/this.image.width, this.height/this.image.height);
-	//if (scale > 1) scale = Math.min(this.cropViewWidth/this.image.width, this.cropViewHeight/this.image.height);
-	if (this.image.width*scale<this.cropViewWidth) scale = Math.min(scale, this.cropViewWidth/this.image.width);
-	if (this.image.height*scale<this.cropViewHeight) scale = Math.min(scale, this.cropViewHeight/this.image.height);
-
 	this.imageRotation = 0;
-	this.imageScale = scale;
-	this.imageViewWidth = this.image.width * this.imageScale;
-	this.imageViewHeight = this.image.height * this.imageScale;
-	this.imageViewLeft = this.imageLeft = (this.width - this.imageViewWidth)/2;
-	this.imageViewTop = this.imageTop = (this.height - this.imageViewHeight)/2;
-
-	//crop view size
-	var minSize = Math.min(this.image.width*scale, this.image.height*scale);
-	this.cropViewWidth = Math.min(minSize, this.cropWidth);
-	this.cropViewHeight = Math.min(minSize, this.cropHeight);
-	this.cropLeft = (this.width - this.cropViewWidth)/2;
-	this.cropTop = (this.height - this.cropViewHeight)/2;
-
-	//resize rectangle dragger
-	this.dragLeft = this.cropLeft + this.cropViewWidth - this.dragSize/2;
-	this.dragTop = this.cropTop + this.cropViewHeight - this.dragSize/2;
-
+	this._calc();
 	this._update();
 	
 	//register event handlers
@@ -604,15 +582,45 @@ ImageCropper.prototype._resize = function()
 	this._update();
 }
 
+ImageCropper.prototype._calc = function()
+{
+	var rotateVertical = Math.abs(this.imageRotation%180) == 90;
+	var imgWidth = rotateVertical ? this.image.height : this.image.width;
+	var imgHeight = rotateVertical ? this.image.width : this.image.height;
+	//初始化图片的缩放比例和位置
+	var scale = Math.min(this.width/imgWidth, this.height/imgHeight);
+	//if (scale > 1) scale = Math.min(this.cropViewWidth/imgWidth, this.cropViewHeight/imgHeight);
+	if (imgWidth*scale<this.cropViewWidth) scale = Math.min(scale, this.cropViewWidth/imgWidth);
+	if (imgHeight*scale<this.cropViewHeight) scale = Math.min(scale, this.cropViewHeight/imgHeight);
+
+	this.imageScale = scale;
+	this.imageViewWidth = imgWidth * this.imageScale;
+	this.imageViewHeight = imgHeight * this.imageScale;
+	this.imageViewLeft = this.imageLeft = (this.width - this.imageViewWidth)/2;
+	this.imageViewTop = this.imageTop = (this.height - this.imageViewHeight)/2;
+
+	//crop view size
+	var minSize = Math.min(imgWidth*scale, imgHeight*scale);
+	this.cropViewWidth = Math.min(minSize, this.cropWidth);
+	this.cropViewHeight = Math.min(minSize, this.cropHeight);
+	this.cropLeft = (this.width - this.cropViewWidth)/2;
+	this.cropTop = (this.height - this.cropViewHeight)/2;
+
+	//resize rectangle dragger
+	this.dragLeft = this.cropLeft + this.cropViewWidth - this.dragSize/2;
+	this.dragTop = this.cropTop + this.cropViewHeight - this.dragSize/2;
+}
+
 ImageCropper.prototype.rotate = function(angle)
 {
 	if(!this.image) return;
 	this.imageRotation += angle;
-	
+
 	//根据旋转角度来改变图片视域的left和top
+	this._calc();
 	var rotateVertical = Math.abs(this.imageRotation%180)==90;
-	this.imageViewLeft = rotateVertical ? this.imageTop : this.imageLeft;
-	this.imageViewTop = rotateVertical ? this.imageLeft : this.imageTop;
+	//this.imageViewLeft = rotateVertical ? this.imageTop : this.imageLeft;
+	//this.imageViewTop = rotateVertical ? this.imageLeft : this.imageTop;
 	this.imageViewWidth = rotateVertical ? this.image.height * this.imageScale : this.image.width * this.imageScale;
 	this.imageViewHeight = rotateVertical ? this.image.width * this.imageScale : this.image.height * this.imageScale;
 	
@@ -696,17 +704,13 @@ ImageCropper.prototype._drawDragger = function()
 
 ImageCropper.prototype._drawRect = function(x, y, width, height, color, border, alpha)
 {
-	x = Math.round(x);
-	y = Math.round(y);
-	width = Math.round(width);
-	height = Math.round(height);
 	this.context.save();
 	if(color !== null) this.context.fillStyle = color;
 	if(border !== null) this.context.strokeStyle = border;
 	if(alpha !== null) this.context.globalAlpha = alpha;
 	//this.context.lineJoin = 'bevel';
 	this.context.beginPath();
-	this.context.rect(x + .5, y + .5, width, height);
+	this.context.rect(x, y, width, height);
 	this.context.closePath();
 	if(color !== null) this.context.fill();
 	if(border !== null) this.context.stroke();

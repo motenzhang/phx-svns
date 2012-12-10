@@ -52,7 +52,7 @@
 
 .change-face-layer .cut{ display:none}
 .change-face-layer .cut .border{margin-bottom:12px; height:257px}
-.change-face-layer .cut canvas{width:257px; height:257px;}
+.change-face-layer .cut canvas{width:419px; height:257px;}
 .change-face-layer .cut a{display:inline-block; font-size:12px; line-height:15px}
 .change-face-layer .cut .rotate-left{ background-position:-90px -260px; float:left; padding-left:24px}
 .change-face-layer .cut .rotate-right{ background-position:-95px -280px; float:right; padding-right:22px}
