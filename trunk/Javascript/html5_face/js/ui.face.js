@@ -194,9 +194,6 @@ var ChangeFace = function(){
 					var childs = tab.currentPanel.children();
 					if (childs.length == 1 && childs.first().css('display') == 'none') {
 						childs.first().show();
-						/* show_cut();
-						cropper.setImage(ChangeFace.localeImgData);
-						*/
 					}
 				}
 			});
@@ -237,10 +234,6 @@ var ChangeFace = function(){
 					var childs = tab.currentPanel.children();
 					if (childs.length == 1 && childs.first().css('display') == 'none') {
 						childs.first().show();
-						/*
-						show_cut();
-						cropper.setImage(ChangeFace.cameraDataUrl);
-						*/
 						return;
 					}
 					open_camera();
@@ -431,8 +424,6 @@ var ImageCropper = function(width, height, cropWidth, cropHeight)
 
 	this.dragSize = 7;
 	this.dragColor = "#000";
-	this.dragLeft = 0;
-	this.dragTop = 0;
 
 	this.mouseX = 0;
 	this.mouseY = 0;
@@ -448,6 +439,8 @@ var ImageCropper = function(width, height, cropWidth, cropHeight)
 	this.cropStartTop = 0;
 	this.cropStartWidth = 0;
 	this.cropStartHeight = 0;
+	
+	this.diagonal_pos = {};
 }
 scope.ImageCropper = ImageCropper;
 
@@ -553,9 +546,29 @@ ImageCropper.prototype._mouseHandler = function(e)
 		}
 		this.mouseX = e.clientX - clientRect.left;
 		this.mouseY = e.clientY - clientRect.top;
-		this._checkMouseBounds();
-		this.canvas.style.cursor = (this.inCropper || this.isMoving)  ? "move" : (this.inDragger || this.isResizing) ? "se-resize" : "";
-		this.isMoving ? this._move() : this.isResizing ? this._resize() : null;
+		this.mouseAction = this._checkMouseBounds();
+		if (this.isResizing) {
+			var eventPos = {x: this.mouseX, y: this.mouseY};
+			var dist = this._distance(this.diagonal_pos, eventPos);
+			var ratio = {
+				x: dist / this.startDist.left * (eventPos.x - this.diagonal_pos.x > 0 ? 1 : -1),
+				y: dist / this.startDist.top * (eventPos.y - this.diagonal_pos.y > 0 ? 1 : -1)
+			};
+			var left = (this.cropStartLeft - this.diagonal_pos.x) * ratio.x + this.diagonal_pos.x;
+			var top = (this.cropStartTop - this.diagonal_pos.y) * ratio.y + this.diagonal_pos.y;
+			this._resize2(left, top, this.cropStartWidth * ratio.x, this.cropStartHeight * ratio.y);
+		} else if (this.isMoving) {
+			this._move();
+		} else {
+			switch (this.mouseAction) {
+				case 'nw': case 'ne': case'se': case 'sw':
+					this.canvas.style.cursor = this.mouseAction + '-resize';
+					break;
+				default:
+					this.canvas.style.cursor = this.mouseAction;
+					break;
+			}
+		}
 	}else if(e.type == "mousedown")
 	{
 		this.mouseStartX = this.mouseX;
@@ -564,22 +577,69 @@ ImageCropper.prototype._mouseHandler = function(e)
 		this.cropStartTop = this.cropTop;
 		this.cropStartWidth = this.cropViewWidth;
 		this.cropStartHeight = this.cropViewHeight;
-		this.inCropper ? this.isMoving = true : this.inDragger ? this.isResizing = true : null;
-	}else if(e.type == "mouseup")
-	{
+		var cropRect = {left: this.cropLeft, top: this.cropTop, right: this.cropLeft + this.cropViewWidth, bottom:this.cropTop + this.cropViewHeight};
+		switch (this.mouseAction) {
+			case 'nw':
+				this.diagonal_pos.x = cropRect.right;
+				this.diagonal_pos.y = cropRect.bottom;
+				break;
+			case 'ne':
+				this.diagonal_pos.x = cropRect.left;
+				this.diagonal_pos.y = cropRect.bottom;
+				break;
+			case 'se':
+				this.diagonal_pos.x = cropRect.left;
+				this.diagonal_pos.y = cropRect.top;
+				break;
+			case 'sw':
+				this.diagonal_pos.x = cropRect.right;
+				this.diagonal_pos.y = cropRect.top;
+				break;
+		}
+		switch (this.mouseAction) {
+			case 'nw': case 'ne': case'se': case 'sw':
+				var eventPos = {x: this.mouseX, y: this.mouseY};
+				this.startDist = this._distance(this.diagonal_pos, eventPos);
+				this.startDist = {
+					left:this.startDist * (eventPos.x - this.diagonal_pos.x > 0 ? 1 : -1),
+					top: this.startDist * (eventPos.y - this.diagonal_pos.y > 0 ? 1 : -1)
+				};
+				this.isResizing = true;
+				break;
+			case 'move':
+				this.isMoving = true;
+				break;
+		}
+	} else if(e.type == "mouseup") {
 		this.isMoving = this.isResizing = false;
 	}
 }
 
+ImageCropper.prototype._distance = function(point1, point2)
+{
+	return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2));
+}
+
+ImageCropper.prototype._mouseInRect = function(rect)
+{
+	return this.mouseX >= rect.left && this.mouseX <= rect.right &&
+			this.mouseY >= rect.top && this.mouseY <= rect.bottom;
+}
+
 ImageCropper.prototype._checkMouseBounds = function()
 {
-	this.inCropper = (this.mouseX >= this.cropLeft && this.mouseX <= this.cropLeft+this.cropViewWidth &&
-					  this.mouseY >= this.cropTop && this.mouseY <= this.cropTop+this.cropViewHeight);
-
-	this.inDragger = (this.mouseX >= this.dragLeft && this.mouseX <= this.dragLeft+this.dragSize &&
-					  this.mouseY >= this.dragTop && this.mouseY <= this.dragTop+this.dragSize);
-	
-	this.inCropper = this.inCropper && !this.inDragger;
+	if (this._mouseInRect(this.nw_rect)) {
+		return 'nw';
+	} else if (this._mouseInRect(this.ne_rect)) {
+		return 'ne';
+	} else if (this._mouseInRect(this.se_rect)) {
+		return 'se';
+	} else if (this._mouseInRect(this.sw_rect)) {
+		return 'sw';
+	} else if (this._mouseInRect({left:this.cropLeft, top:this.cropTop, right:this.cropLeft+this.cropViewWidth, bottom:this.cropTop+this.cropViewHeight})) {
+		return 'move';
+	}
+	return '';
 }
 
 ImageCropper.prototype._move = function()
@@ -591,9 +651,6 @@ ImageCropper.prototype._move = function()
 	this.cropLeft = Math.min(this.cropLeft, this.width-this.imageViewLeft-this.cropViewWidth);
 	this.cropTop = Math.max(this.imageViewTop, this.cropStartTop + deltaY);
 	this.cropTop = Math.min(this.cropTop, this.height-this.imageViewTop-this.cropViewHeight);
-
-	this.dragLeft = this.cropLeft + this.cropViewWidth - this.dragSize/2;
-	this.dragTop = this.cropTop + this.cropViewHeight - this.dragSize/2;
 	
 	this._update();
 }
@@ -611,6 +668,18 @@ ImageCropper.prototype._resize = function()
 	this.dragLeft = this.cropLeft + this.cropViewWidth - this.dragSize/2;
 	this.dragTop = this.cropTop + this.cropViewHeight - this.dragSize/2;
 	
+	this._update();
+}
+
+ImageCropper.prototype._resize2 = function(left, top, width, height)
+{
+	width = Math.min(width, this.width-this.cropStartLeft-this.imageViewLeft);
+	height = Math.min(height, this.height-this.cropStartTop-this.imageViewTop);
+	this.cropViewWidth = this.cropViewHeight = Math.min(width, height);
+
+	this.cropLeft = left;
+	this.cropTop = top;
+
 	this._update();
 }
 
@@ -637,10 +706,6 @@ ImageCropper.prototype._calc = function()
 	this.cropViewHeight = Math.min(minSize, this.cropHeight);
 	this.cropLeft = Math.floor((this.width - this.cropViewWidth)/2);
 	this.cropTop = Math.floor((this.height - this.cropViewHeight)/2);
-
-	//resize rectangle dragger
-	this.dragLeft = this.cropLeft + this.cropViewWidth - this.dragSize/2;
-	this.dragTop = this.cropTop + this.cropViewHeight - this.dragSize/2;
 }
 
 ImageCropper.prototype.rotate = function(angle)
@@ -742,7 +807,29 @@ ImageCropper.prototype._drawMask = function()
 
 ImageCropper.prototype._drawDragger = function()
 {
-	this._drawRect(this.dragLeft, this.dragTop, this.dragSize, this.dragSize, null, this.dragColor, .6);
+	this.nw_rect = {left:this.cropLeft - this.dragSize/2, top:this.cropTop - this.dragSize/2};
+	this.ne_rect = {left:this.cropLeft + this.cropViewWidth - this.dragSize/2, top:this.nw_rect.top};
+	this.se_rect = {left:this.ne_rect.left, top:this.cropTop + this.cropViewHeight - this.dragSize/2};
+	this.sw_rect = {left:this.nw_rect.left, top:this.se_rect.top};
+	this._fixDraggerRects([this.nw_rect, this.ne_rect, this.se_rect, this.sw_rect]);
+	this._drawRectR(this.nw_rect, null, this.dragColor, .6);
+	this._drawRectR(this.ne_rect, null, this.dragColor, .6);
+	this._drawRectR(this.se_rect, null, this.dragColor, .6);
+	this._drawRectR(this.sw_rect, null, this.dragColor, .6);
+}
+
+ImageCropper.prototype._fixDraggerRects = function(rects)
+{
+	var _this = this;
+	rects.forEach(function(item){
+		item.right = item.left + _this.dragSize;
+		item.bottom = item.top + _this.dragSize;
+	});
+}
+
+ImageCropper.prototype._drawRectR = function(rect, color, border, alpha)
+{
+	return this._drawRect(rect.left, rect.top, rect.right-rect.left, rect.bottom-rect.top, color, border, alpha);
 }
 
 ImageCropper.prototype._drawRect = function(x, y, width, height, color, border, alpha)
