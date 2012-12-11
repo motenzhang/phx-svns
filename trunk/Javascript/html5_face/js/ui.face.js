@@ -32,7 +32,7 @@ var ChangeFace = function(){
 		return $('#' + canvasid + '')[0].toDataURL('image/jpeg').replace('data:image/jpeg;base64,', '');
 	}
 	function post_img() {
-		$.post('Fetch/uploadHead', {imgdata: cropper.getCroppedImageData(110, 110).replace('data:image/jpeg;base64,', '')}, function(ret){
+		$.post('Fetch/uploadHead', {imgdata: getbase64('p110')}, function(ret){
 			if (ret.url) {
 				user.imageId = '';
 				ChangeFace.updateFace(ret.url);
@@ -471,7 +471,6 @@ ImageCropper.prototype.setCanvas = function(canvas)
 	this.oriContext = this.oriCanvas.getContext("2d");
 	this.prevOriCanvas = document.createElement("canvas");
 	this.prevOriContext = this.prevOriCanvas.getContext("2d");
-	document.body.appendChild(this.prevOriCanvas);
 }
 
 ImageCropper.prototype.addPreview = function(canvas)
@@ -524,12 +523,10 @@ ImageCropper.prototype._init = function()
 {
 	this.oriCanvas.width = this.image.width;
 	this.oriCanvas.height = this.image.height;
-	this.oriContext.clearRect(0, 0, this.image.width, this.image.height);
 	this.oriContext.drawImage(this.image, 0, 0);
 		
 	this.prevOriCanvas.width = this.image.width;
 	this.prevOriCanvas.height = this.image.height;
-	this.prevOriContext.clearRect(0, 0, this.image.width, this.image.height);
 	this.prevOriContext.drawImage(this.oriCanvas, 0, 0);
 		
 	this.imageRotation = 0;
@@ -609,7 +606,7 @@ ImageCropper.prototype._resize = function()
 	var ch = Math.max(10, this.cropStartHeight + delta);
 	var cw = Math.min(cw, this.width-this.cropStartLeft-this.imageViewLeft);
 	var ch = Math.min(ch, this.height-this.cropStartTop-this.imageViewTop);
-	this.cropViewWidth = this.cropViewHeight = Math.round(Math.min(cw, ch));
+	this.cropViewWidth = this.cropViewHeight = Math.floor(Math.min(cw, ch));
 
 	this.dragLeft = this.cropLeft + this.cropViewWidth - this.dragSize/2;
 	this.dragTop = this.cropTop + this.cropViewHeight - this.dragSize/2;
@@ -629,17 +626,17 @@ ImageCropper.prototype._calc = function()
 	if (imgHeight*scale<this.cropViewHeight) scale = Math.min(scale, this.cropViewHeight/imgHeight);
 
 	this.imageScale = scale;
-	this.imageViewWidth = Math.round(imgWidth * this.imageScale);
-	this.imageViewHeight = Math.round(imgHeight * this.imageScale);
-	this.imageViewLeft = this.imageLeft = Math.round((this.width - this.imageViewWidth)/2);
-	this.imageViewTop = this.imageTop = Math.round((this.height - this.imageViewHeight)/2);
+	this.imageViewWidth = Math.floor(imgWidth * this.imageScale);
+	this.imageViewHeight = Math.floor(imgHeight * this.imageScale);
+	this.imageViewLeft = this.imageLeft = Math.floor((this.width - this.imageViewWidth)/2);
+	this.imageViewTop = this.imageTop = Math.floor((this.height - this.imageViewHeight)/2);
 
 	//crop view size
 	var minSize = Math.min(imgWidth*scale, imgHeight*scale);
 	this.cropViewWidth = Math.min(minSize, this.cropWidth);
 	this.cropViewHeight = Math.min(minSize, this.cropHeight);
-	this.cropLeft = Math.round((this.width - this.cropViewWidth)/2);
-	this.cropTop = Math.round((this.height - this.cropViewHeight)/2);
+	this.cropLeft = Math.floor((this.width - this.cropViewWidth)/2);
+	this.cropTop = Math.floor((this.height - this.cropViewHeight)/2);
 
 	//resize rectangle dragger
 	this.dragLeft = this.cropLeft + this.cropViewWidth - this.dragSize/2;
@@ -650,6 +647,28 @@ ImageCropper.prototype.rotate = function(angle)
 {
 	if(!this.image) return;
 	this.imageRotation += angle;
+	
+	var rotateVertical = Math.abs(this.imageRotation%180) == 90;
+	this.prevOriCanvas.width = rotateVertical ? this.image.height : this.image.width;
+	this.prevOriCanvas.height = rotateVertical ? this.image.width : this.image.height;	
+	this.prevOriContext.rotate(this.imageRotation*Math.PI/180);
+	angle = this.imageRotation%360;	
+	switch((360-angle)%360)
+	{		
+		case 90:
+			this.prevOriContext.drawImage(this.oriCanvas, -this.image.width, 0);
+			break;
+		case 180:
+			this.prevOriContext.drawImage(this.oriCanvas, -this.image.width, -this.image.height);
+			break;
+		case 270:
+			this.prevOriContext.drawImage(this.oriCanvas, 0, -this.image.height);
+			break;
+		case 0:
+		default:
+			this.prevOriContext.drawImage(this.oriCanvas, 0, 0);
+			break;
+	}	
 
 	//根据旋转角度来改变图片视域的left和top
 	this._calc();	
@@ -704,8 +723,7 @@ ImageCropper.prototype._drawPreview = function()
 		var preview = this.previews[i];
 		preview.clearRect(0, 0, preview.canvas.width, preview.canvas.height);
 		preview.save();
-		//console.log(Math.round((this.cropLeft - this.imageViewLeft)/this.imageScale), Math.round((this.cropTop - this.imageViewTop)/this.imageScale), Math.round(this.cropViewWidth/this.imageScale), Math.round(this.cropViewHeight/this.imageScale));
-		preview.drawImage(this.prevOriCanvas, Math.floor((this.cropLeft - this.imageViewLeft)/this.imageScale), Math.floor((this.cropTop - this.imageViewTop)/this.imageScale), Math.round(this.cropViewWidth/this.imageScale), Math.round(this.cropViewHeight/this.imageScale), 0, 0, preview.canvas.width, preview.canvas.height);
+		preview.drawImage(this.prevOriCanvas, Math.floor((this.cropLeft - this.imageViewLeft)/this.imageScale), Math.floor((this.cropTop - this.imageViewTop)/this.imageScale), Math.floor(this.cropViewWidth/this.imageScale), Math.floor(this.cropViewHeight/this.imageScale), 0, 0, preview.canvas.width, preview.canvas.height);
 		preview.restore();
 	}	
 }
@@ -740,15 +758,6 @@ ImageCropper.prototype._drawRect = function(x, y, width, height, color, border, 
 	if(color !== null) this.context.fill();
 	if(border !== null) this.context.stroke();
 	this.context.restore();
-}
-
-ImageCropper.prototype.getCroppedImageData = function(width, height, mime)
-{
-	var output = document.createElement("canvas");
-	output.width = width || this.cropWidth;
-	output.height = height || this.cropHeight;
-	output.getContext("2d").drawImage(this.imageCanvas, this.cropLeft, this.cropTop, this.cropViewWidth, this.cropViewHeight, 0, 0, output.width, output.height);
-	return output.toDataURL(mime || "image/jpeg");
 }
 
 ImageCropper.prototype.isAvaiable = function()
