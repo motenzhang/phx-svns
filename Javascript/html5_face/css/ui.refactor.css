@@ -89,7 +89,8 @@
 	border-bottom: 1px solid #ededed;
 }
 .body .side {
-	margin-left: 640px;
+	float:right;
+	width:225px;
 	padding-left: 20px;
 	background: #fff url(/img/body-side-bg.png) repeat-y;
 	*height: 700px;

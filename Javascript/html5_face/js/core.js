@@ -91,7 +91,7 @@ core.provide = function(name,parent) {
 /**
  * 定义一个类，并继承基类
  */
-core.class = function(childCtor,parentCtor,member) {
+core.Class = function(childCtor,parentCtor,member) {
 	if(parentCtor) {
 		core.inherits(childCtor,parentCtor);
 	}
