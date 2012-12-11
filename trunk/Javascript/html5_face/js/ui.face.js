@@ -2,8 +2,8 @@ jQuery(function($){
 	if (ImageCropper.prototype.isAvaiable()) {
 		$('.face img').addClass('change-face');
 		$('.change-face').show();
+		ChangeFace.init();
 	}
-	ChangeFace.init();
 });
 
 var ChangeFace = function(){
@@ -32,7 +32,7 @@ var ChangeFace = function(){
 		return $('#' + canvasid + '')[0].toDataURL('image/jpeg').replace('data:image/jpeg;base64,', '');
 	}
 	function post_img() {
-		$.post('Fetch/uploadHead', {imgdata: getbase64('p110')/*, img48: getBase64('p48')*/}, function(ret){
+		$.post('Fetch/uploadHead', {imgdata: cropper.getCroppedImageData(110, 110).replace('data:image/jpeg;base64,', '')}, function(ret){
 			if (ret.url) {
 				user.imageId = '';
 				ChangeFace.updateFace(ret.url);
@@ -158,7 +158,13 @@ var ChangeFace = function(){
 						show_cut();
 						cropper.loadImage(file, function(dataUrl){
 							ChangeFace.localeImgData = dataUrl;
+						}, function(){
+							hide_cut();
+							show_format_error();
 						});
+						return false;
+					} else {
+						show_format_error();
 						return false;
 					}
 				}
@@ -175,7 +181,12 @@ var ChangeFace = function(){
 					show_cut();
 					cropper.loadImage(file, function(dataUrl){
 						ChangeFace.localeImgData = dataUrl;
+					}, function(){
+						hide_cut();
+						show_format_error();
 					});
+				} else {
+					show_format_error();
 				}
 			});
 			tab.onshow(function(e, index){
@@ -189,6 +200,9 @@ var ChangeFace = function(){
 					}
 				}
 			});
+			function show_format_error() {
+				$('.upload .format-error').css({opacity:0}).stop(true, true).animate({opacity:1}, 'normal').delay(5000).animate({opacity:0});
+			}
 		},
 		initCamera: function(){
 			/* camera */
@@ -215,7 +229,7 @@ var ChangeFace = function(){
 							} else {
 								console.log('not support navigator.getUserMedia');
 							}
-						}, 0);
+						}, 50);
 					}
 			}
 			tab.onshow(function(e, index){
@@ -451,6 +465,13 @@ ImageCropper.prototype.setCanvas = function(canvas)
 	this.imageContext = this.imageCanvas.getContext("2d");
 	this.imageCanvas.width = this.width;
 	this.imageCanvas.height = this.height;
+	
+	// ori canvas
+	this.oriCanvas = document.createElement("canvas");
+	this.oriContext = this.oriCanvas.getContext("2d");
+	this.prevOriCanvas = document.createElement("canvas");
+	this.prevOriContext = this.prevOriCanvas.getContext("2d");
+	document.body.appendChild(this.prevOriCanvas);
 }
 
 ImageCropper.prototype.addPreview = function(canvas)
@@ -460,7 +481,7 @@ ImageCropper.prototype.addPreview = function(canvas)
 	this.previews.push(context);
 }
 
-ImageCropper.prototype.loadImage = function(file, callback)
+ImageCropper.prototype.loadImage = function(file, onload, onerror)
 {
 	if(!this.isAvaiable() || !this.isImage(file)) return;
 	var reader = new FileReader();
@@ -470,14 +491,18 @@ ImageCropper.prototype.loadImage = function(file, callback)
 	{
 		var url = evt.target.result;
 		if(!me.image) me.image = new Image();
-		me.image.onload = function(e){
+		me.image.onload = function(){
 			me._init()
+			onload && onload(evt.target.result);
 		};
 		if (me.image.src == url) {
+			me.image.onerror = null;
 			me.image.src = '';
 		}
+		me.image.onerror = function(){
+			onerror && onerror();
+		};
 		me.image.src = url;
-		callback(evt.target.result);
 	}
 	reader.readAsDataURL(file);
 }
@@ -496,7 +521,17 @@ ImageCropper.prototype.clear = function(){
 };
 
 ImageCropper.prototype._init = function()
-{	
+{
+	this.oriCanvas.width = this.image.width;
+	this.oriCanvas.height = this.image.height;
+	this.oriContext.clearRect(0, 0, this.image.width, this.image.height);
+	this.oriContext.drawImage(this.image, 0, 0);
+		
+	this.prevOriCanvas.width = this.image.width;
+	this.prevOriCanvas.height = this.image.height;
+	this.prevOriContext.clearRect(0, 0, this.image.width, this.image.height);
+	this.prevOriContext.drawImage(this.oriCanvas, 0, 0);
+		
 	this.imageRotation = 0;
 	this._calc();
 	this._update();
@@ -635,6 +670,7 @@ ImageCropper.prototype._drawImage = function()
 {	
 	this.imageContext.clearRect(0, 0, this.width, this.height);
 	this.imageContext.save();	
+
 	var angle = this.imageRotation%360;	
 	this.imageContext.translate(this.imageViewLeft, this.imageViewTop);	
 	this.imageContext.scale(this.imageScale, this.imageScale);
@@ -643,17 +679,17 @@ ImageCropper.prototype._drawImage = function()
 	switch((360-angle)%360)
 	{		
 		case 90:
-			this.imageContext.drawImage(this.image, -this.image.width, 0);
+			this.imageContext.drawImage(this.oriCanvas, -this.image.width, 0);
 			break;
 		case 180:
-			this.imageContext.drawImage(this.image, -this.image.width, -this.image.height);
+			this.imageContext.drawImage(this.oriCanvas, -this.image.width, -this.image.height);
 			break;
 		case 270:
-			this.imageContext.drawImage(this.image, 0, -this.image.height);
+			this.imageContext.drawImage(this.oriCanvas, 0, -this.image.height);
 			break;
 		case 0:
 		default:
-			this.imageContext.drawImage(this.image, 0, 0);
+			this.imageContext.drawImage(this.oriCanvas, 0, 0);
 			break;
 	}
 	this.imageContext.restore();
@@ -668,7 +704,8 @@ ImageCropper.prototype._drawPreview = function()
 		var preview = this.previews[i];
 		preview.clearRect(0, 0, preview.canvas.width, preview.canvas.height);
 		preview.save();
-		preview.drawImage(this.imageCanvas, this.cropLeft, this.cropTop, this.cropViewWidth, this.cropViewHeight, 0, 0, preview.canvas.width, preview.canvas.height);
+		//console.log(Math.round((this.cropLeft - this.imageViewLeft)/this.imageScale), Math.round((this.cropTop - this.imageViewTop)/this.imageScale), Math.round(this.cropViewWidth/this.imageScale), Math.round(this.cropViewHeight/this.imageScale));
+		preview.drawImage(this.prevOriCanvas, Math.floor((this.cropLeft - this.imageViewLeft)/this.imageScale), Math.floor((this.cropTop - this.imageViewTop)/this.imageScale), Math.round(this.cropViewWidth/this.imageScale), Math.round(this.cropViewHeight/this.imageScale), 0, 0, preview.canvas.width, preview.canvas.height);
 		preview.restore();
 	}	
 }

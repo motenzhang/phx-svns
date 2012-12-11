@@ -1,5 +1,5 @@
 core.provide('ui.Grade');
-ui.Grade = core.class(function(options) {
+ui.Grade = core.Class(function(options) {
 	this.init(options);
 }, false, {
 	init: function(options) {

@@ -36,6 +36,7 @@
 .change-face-layer .upload, .change-face-layer .camera .tips{display:table-cell; height:287px; vertical-align:middle; color:#999; font-size:22px; position:relative}
 .change-face-layer .upload.hover{border:1px dashed #39F}
 .change-face-layer .upload input{position:absolute; visibility:hidden}
+.change-face-layer .upload .format-error{position:absolute; top:50px; opacity:.0; left:50%; margin-left:-99px; background:#D94F38; border:1px solid #E37F6F; padding:0 7px; color:#fff; font-size:12px; /*font-family:'Microsoft Yahei'*/}
 .change-face-layer .upload p{margin-bottom:25px}
 .change-face-layer .upload .file-open{font-size:14px}
 .file-open a:hover{background-position:0 -128px}

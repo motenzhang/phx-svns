@@ -1,5 +1,5 @@
 core.provide('ui.Data');
-ui.Data = core.class(function(user,rank,userRank) {
+ui.Data = core.Class(function(user,rank,userRank) {
 	this.$user = $(user);
 	this.$rank = $(rank);
 	this.$urank = $(userRank);
@@ -68,7 +68,7 @@ ui.Data = core.class(function(user,rank,userRank) {
 			this.$rank.append( tr );
 		}
 		ui.Grade.fixWidth( this.$rank );
-	},
+	}
 });
 
 
