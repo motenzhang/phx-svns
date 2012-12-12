@@ -212,15 +212,18 @@ var ChangeFace = function(){
 						ChangeFace._cam_tt = setTimeout(function(){
 							navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 							if (navigator.getUserMedia) {
+								ChangeFace.open_camera_tip = true;
 								navigator.getUserMedia({video:true}, function(stream) {
 									ChangeFace.camera_ok = true;
 									$('.camera .tips, .change-face-camera-tip').hide();
 									$('.shutter').css('display', 'inline-block');
 									$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).css('display', 'block');;
+									ChangeFace.open_camera_tip = false;
 								}, function(err) {
 									$('.change-face-camera-tip').hide();
 									$('.camera .tips').addClass('nocam');
 									console.log(err);
+									ChangeFace.open_camera_tip = false;
 								});
 								console.log('call open camera');
 							} else {
@@ -231,6 +234,9 @@ var ChangeFace = function(){
 			}
 			tab.onshow(function(e, index){
 				if (index == 2) {
+					if (ChangeFace.open_camera_tip == true) {
+						location.reload();
+					}
 					var childs = tab.currentPanel.children();
 					if (childs.length == 1 && childs.first().css('display') == 'none') {
 						childs.first().show();
@@ -673,14 +679,19 @@ ImageCropper.prototype._resize = function()
 
 ImageCropper.prototype._resize2 = function(left, top, width, height)
 {
-	width = Math.min(width, this.width-this.cropStartLeft-this.imageViewLeft);
-	height = Math.min(height, this.height-this.cropStartTop-this.imageViewTop);
+	if (width > this.dragSize && height > this.dragSize  && 
+		left >= this.imageViewLeft && top >= this.imageViewTop &&
+		width <= this.width-this.cropStartLeft-this.imageViewLeft &&
+		height <= this.height-this.cropStartTop-this.imageViewTop) {
+	//width = Math.min(width, this.width-this.cropStartLeft-this.imageViewLeft);
+	//height = Math.min(height, this.height-this.cropStartTop-this.imageViewTop);
 	this.cropViewWidth = this.cropViewHeight = Math.min(width, height);
 
-	this.cropLeft = left;
-	this.cropTop = top;
+	this.cropLeft = Math.max(left, this.imageViewLeft);
+	this.cropTop = Math.max(top, this.imageViewTop);
 
 	this._update();
+	}
 }
 
 ImageCropper.prototype._calc = function()
@@ -788,6 +799,7 @@ ImageCropper.prototype._drawPreview = function()
 		var preview = this.previews[i];
 		preview.clearRect(0, 0, preview.canvas.width, preview.canvas.height);
 		preview.save();
+		console.log(Math.floor((this.cropLeft - this.imageViewLeft)/this.imageScale), Math.floor((this.cropTop - this.imageViewTop)/this.imageScale), Math.floor(this.cropViewWidth/this.imageScale), Math.floor(this.cropViewHeight/this.imageScale));
 		preview.drawImage(this.prevOriCanvas, Math.floor((this.cropLeft - this.imageViewLeft)/this.imageScale), Math.floor((this.cropTop - this.imageViewTop)/this.imageScale), Math.floor(this.cropViewWidth/this.imageScale), Math.floor(this.cropViewHeight/this.imageScale), 0, 0, preview.canvas.width, preview.canvas.height);
 		preview.restore();
 	}	
@@ -838,7 +850,6 @@ ImageCropper.prototype._drawRect = function(x, y, width, height, color, border, 
 	if(color !== null) this.context.fillStyle = color;
 	if(border !== null) this.context.strokeStyle = border;
 	if(alpha !== null) this.context.globalAlpha = alpha;
-	//this.context.lineJoin = 'bevel';
 	this.context.beginPath();
 	this.context.rect(x, y, width, height);
 	this.context.closePath();
