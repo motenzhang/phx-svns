@@ -1,5 +1,5 @@
 jQuery(function($){
-	if (ImageCropper.prototype.isAvaiable()) {
+	if (navigator.webkitGetUserMedia) {
 		$('.face img').addClass('change-face');
 		$('.change-face').show();
 		ChangeFace.init();
@@ -210,11 +210,10 @@ var ChangeFace = function(){
 						$('.camera .tips, .change-face-camera-tip').show();
 						clearInterval(ChangeFace._cam_tt);
 						ChangeFace._cam_tt = setTimeout(function(){
-							navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-							if (navigator.getUserMedia) {
+							if (navigator.webkitGetUserMedia) {
 								if (!ChangeFace.camera_tip_showed) {
 									ChangeFace.camera_tip_showed = true;
-									navigator.getUserMedia({video:true}, function(stream) {
+									navigator.webkitGetUserMedia({video:true}, function(stream) {
 										ChangeFace.camera_stream = stream;
 										ChangeFace.camera_opened = true;
 										$('.camera .tips, .change-face-camera-tip').hide();
@@ -230,7 +229,7 @@ var ChangeFace = function(){
 									console.log('call open camera');
 								}
 							} else {
-								console.log('not support navigator.getUserMedia');
+								console.log('not support navigator.webkitGetUserMedia');
 							}
 						}, 50);
 					}
