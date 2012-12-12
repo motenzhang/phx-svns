@@ -45,9 +45,10 @@
 .change-face-layer .camera .tips.nocam{background:url(../img/ui-face-nc.png); text-indent:-9999px; width:419px}
 .change-face-layer .camera video{display:none; width:419px; height:287px}
 .change-face-layer .camera p{text-align:center}
-.change-face-layer .camera > div h4, .change-face-layer .camera > div p{text-align:left; margin:10px 50px; line-height:1.5}
+.change-face-layer .camera > div h4, .change-face-layer .camera > div p{text-align:left; margin:10px 30px 10px 50px; line-height:1.5}
 .change-face-layer .camera > div h4{font-weight:normal; font-size:14px; color:#494848}
 .change-face-layer .camera > div p{font-size:12px; color:#999; width:auto}
+.change-face-layer .camera > div p a:hover{text-decoration:underline}
 .shutter:hover{background-position:0 -308px}
 .shutter, .shutter:active{display:inline-block; width:79px; height:38px; text-indent:-9999px; background-position:0 -260px; margin:25px 0; display:none}
 
