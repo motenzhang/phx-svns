@@ -685,8 +685,6 @@ ImageCropper.prototype._resize2 = function(left, top, width, height)
 		left >= this.imageViewLeft && top >= this.imageViewTop &&
 		left + width <= this.imageViewLeft + this.imageViewWidth &&
 		top + height <= this.imageViewTop + this.imageViewHeight) {
-	//width = Math.min(width, this.width-this.cropStartLeft-this.imageViewLeft);
-	//height = Math.min(height, this.height-this.cropStartTop-this.imageViewTop);
 	this.cropViewWidth = this.cropViewHeight = Math.min(width, height);
 
 	this.cropLeft = Math.max(left, this.imageViewLeft);
