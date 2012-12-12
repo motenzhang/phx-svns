@@ -236,9 +236,6 @@ var ChangeFace = function(){
 			}
 			tab.onshow(function(e, index){
 				if (index == 2) {
-					if (ChangeFace.camera_require_refresh == true) {
-						location.reload();
-					}
 					var childs = tab.currentPanel.children();
 					if (childs.length == 1 && childs.first().css('display') == 'none') {
 						childs.first().show();
@@ -261,6 +258,9 @@ var ChangeFace = function(){
 				}
 				if (ChangeFace.camera_tip_showed == true) {
 					ChangeFace.camera_require_refresh = true;
+				}
+				if (ChangeFace.camera_require_refresh == true) {
+					location = '/';
 				}
 				ChangeFace.camera_opened = false;
 				$('.change-face-camera-tip').hide();
