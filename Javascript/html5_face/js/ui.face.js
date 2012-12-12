@@ -214,6 +214,7 @@ var ChangeFace = function(){
 							if (navigator.getUserMedia) {
 								ChangeFace.open_camera_tip = true;
 								navigator.getUserMedia({video:true}, function(stream) {
+									stream.stop();
 									ChangeFace.camera_ok = true;
 									$('.camera .tips, .change-face-camera-tip').hide();
 									$('.shutter').css('display', 'inline-block');
@@ -654,9 +655,9 @@ ImageCropper.prototype._move = function()
 	var deltaY = this.mouseY - this.mouseStartY;
 
 	this.cropLeft = Math.max(this.imageViewLeft, this.cropStartLeft + deltaX);
-	this.cropLeft = Math.min(this.cropLeft, this.width-this.imageViewLeft-this.cropViewWidth);
+	this.cropLeft = Math.min(this.cropLeft, this.imageViewLeft + this.imageViewWidth - this.cropViewWidth);
 	this.cropTop = Math.max(this.imageViewTop, this.cropStartTop + deltaY);
-	this.cropTop = Math.min(this.cropTop, this.height-this.imageViewTop-this.cropViewHeight);
+	this.cropTop = Math.min(this.cropTop, this.imageViewTop + this.imageViewHeight - this.cropViewHeight);
 	
 	this._update();
 }
@@ -679,10 +680,11 @@ ImageCropper.prototype._resize = function()
 
 ImageCropper.prototype._resize2 = function(left, top, width, height)
 {
+	console.log(this.width-this.cropStartLeft-this.imageViewLeft, this.height-this.cropStartTop-this.imageViewTop);
 	if (width > this.dragSize && height > this.dragSize  && 
 		left >= this.imageViewLeft && top >= this.imageViewTop &&
-		width <= this.width-this.cropStartLeft-this.imageViewLeft &&
-		height <= this.height-this.cropStartTop-this.imageViewTop) {
+		left + width <= this.imageViewLeft + this.imageViewWidth &&
+		top + height <= this.imageViewTop + this.imageViewHeight) {
 	//width = Math.min(width, this.width-this.cropStartLeft-this.imageViewLeft);
 	//height = Math.min(height, this.height-this.cropStartTop-this.imageViewTop);
 	this.cropViewWidth = this.cropViewHeight = Math.min(width, height);
@@ -712,7 +714,7 @@ ImageCropper.prototype._calc = function()
 	this.imageViewTop = this.imageTop = Math.floor((this.height - this.imageViewHeight)/2);
 
 	//crop view size
-	var minSize = Math.min(imgWidth*scale, imgHeight*scale);
+	var minSize = Math.floor(Math.min(imgWidth*scale, imgHeight*scale));
 	this.cropViewWidth = Math.min(minSize, this.cropWidth);
 	this.cropViewHeight = Math.min(minSize, this.cropHeight);
 	this.cropLeft = Math.floor((this.width - this.cropViewWidth)/2);
@@ -799,7 +801,6 @@ ImageCropper.prototype._drawPreview = function()
 		var preview = this.previews[i];
 		preview.clearRect(0, 0, preview.canvas.width, preview.canvas.height);
 		preview.save();
-		console.log(Math.floor((this.cropLeft - this.imageViewLeft)/this.imageScale), Math.floor((this.cropTop - this.imageViewTop)/this.imageScale), Math.floor(this.cropViewWidth/this.imageScale), Math.floor(this.cropViewHeight/this.imageScale));
 		preview.drawImage(this.prevOriCanvas, Math.floor((this.cropLeft - this.imageViewLeft)/this.imageScale), Math.floor((this.cropTop - this.imageViewTop)/this.imageScale), Math.floor(this.cropViewWidth/this.imageScale), Math.floor(this.cropViewHeight/this.imageScale), 0, 0, preview.canvas.width, preview.canvas.height);
 		preview.restore();
 	}	
