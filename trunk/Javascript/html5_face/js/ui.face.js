@@ -214,7 +214,6 @@ var ChangeFace = function(){
 							if (navigator.getUserMedia) {
 								ChangeFace.open_camera_tip = true;
 								navigator.getUserMedia({video:true}, function(stream) {
-									stream.stop();
 									ChangeFace.camera_ok = true;
 									$('.camera .tips, .change-face-camera-tip').hide();
 									$('.shutter').css('display', 'inline-block');
