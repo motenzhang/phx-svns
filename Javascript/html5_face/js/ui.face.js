@@ -212,21 +212,23 @@ var ChangeFace = function(){
 						ChangeFace._cam_tt = setTimeout(function(){
 							navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 							if (navigator.getUserMedia) {
-								ChangeFace.camera_tip_showed = true;
-								navigator.getUserMedia({video:true}, function(stream) {
-									ChangeFace.camera_stream = stream;
-									ChangeFace.camera_opened = true;
-									$('.camera .tips, .change-face-camera-tip').hide();
-									$('.shutter').css('display', 'inline-block');
-									$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).css('display', 'block');;
-									ChangeFace.camera_tip_showed = false;
-								}, function(err) {
-									$('.change-face-camera-tip').hide();
-									$('.camera .tips').addClass('nocam');
-									console.log(err);
-									ChangeFace.camera_tip_showed = false;
-								});
-								console.log('call open camera');
+								if (!ChangeFace.camera_tip_showed) {
+									ChangeFace.camera_tip_showed = true;
+									navigator.getUserMedia({video:true}, function(stream) {
+										ChangeFace.camera_stream = stream;
+										ChangeFace.camera_opened = true;
+										$('.camera .tips, .change-face-camera-tip').hide();
+										$('.shutter').css('display', 'inline-block');
+										$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).css('display', 'block');;
+										ChangeFace.camera_tip_showed = false;
+									}, function(err) {
+										$('.change-face-camera-tip').hide();
+										$('.camera .tips').addClass('nocam');
+										console.log(err);
+										ChangeFace.camera_tip_showed = false;
+									});
+									console.log('call open camera');
+								}
 							} else {
 								console.log('not support navigator.getUserMedia');
 							}
