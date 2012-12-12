@@ -204,7 +204,7 @@ var ChangeFace = function(){
 		initCamera: function(){
 			/* camera */
 			function open_camera() {
-					if (!ChangeFace.camera_ok) {
+					if (!ChangeFace.camera_opened) {
 						$('#camera_stream, .shutter').hide();
 						$('.camera .tips').removeClass('nocam');
 						$('.camera .tips, .change-face-camera-tip').show();
@@ -212,18 +212,19 @@ var ChangeFace = function(){
 						ChangeFace._cam_tt = setTimeout(function(){
 							navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 							if (navigator.getUserMedia) {
-								ChangeFace.open_camera_tip = true;
+								ChangeFace.camera_tip_showed = true;
 								navigator.getUserMedia({video:true}, function(stream) {
-									ChangeFace.camera_ok = true;
+									ChangeFace.camera_stream = stream;
+									ChangeFace.camera_opened = true;
 									$('.camera .tips, .change-face-camera-tip').hide();
 									$('.shutter').css('display', 'inline-block');
 									$('#camera_stream').attr('src', window.webkitURL.createObjectURL(stream)).css('display', 'block');;
-									ChangeFace.open_camera_tip = false;
+									ChangeFace.camera_tip_showed = false;
 								}, function(err) {
 									$('.change-face-camera-tip').hide();
 									$('.camera .tips').addClass('nocam');
 									console.log(err);
-									ChangeFace.open_camera_tip = false;
+									ChangeFace.camera_tip_showed = false;
 								});
 								console.log('call open camera');
 							} else {
@@ -234,7 +235,7 @@ var ChangeFace = function(){
 			}
 			tab.onshow(function(e, index){
 				if (index == 2) {
-					if (ChangeFace.open_camera_tip == true) {
+					if (ChangeFace.camera_require_refresh == true) {
 						location.reload();
 					}
 					var childs = tab.currentPanel.children();
@@ -253,7 +254,14 @@ var ChangeFace = function(){
 				}*/
 			});
 			Dialog.onhide(function(){
-				ChangeFace.camera_ok = false;
+				if (ChangeFace.camera_stream) {
+					ChangeFace.camera_stream.stop();
+					ChangeFace.camera_stream = null;
+				}
+				if (ChangeFace.camera_tip_showed == true) {
+					ChangeFace.camera_require_refresh = true;
+				}
+				ChangeFace.camera_opened = false;
 				$('.change-face-camera-tip').hide();
 			});
 			$('.shutter').click(function(){
@@ -679,8 +687,7 @@ ImageCropper.prototype._resize = function()
 
 ImageCropper.prototype._resize2 = function(left, top, width, height)
 {
-	console.log(this.width-this.cropStartLeft-this.imageViewLeft, this.height-this.cropStartTop-this.imageViewTop);
-	if (width > this.dragSize && height > this.dragSize  && 
+	if (width > this.dragSize + 2 && height > this.dragSize + 2  && 
 		left >= this.imageViewLeft && top >= this.imageViewTop &&
 		left + width <= this.imageViewLeft + this.imageViewWidth &&
 		top + height <= this.imageViewTop + this.imageViewHeight) {
