@@ -63,8 +63,8 @@ ui.Data = core.Class(function(user,rank,userRank) {
 				tr = '<tr>';
 			}
 			tr += '<td><em class="ui-rank">'+(i+1)+'</em></td>';
-			tr += '<td>'+ (new ui.Grade({grade: rank[i].grade}).render(true))+'</td>';
 			tr += '<td>'+ rank[i].username +'</td>';
+			tr += '<td>'+ (new ui.Grade({grade: rank[i].grade}).render(true))+'</td>';
 			this.$rank.append( tr );
 		}
 		ui.Grade.fixWidth( this.$rank );
