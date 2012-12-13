@@ -259,9 +259,11 @@ var ChangeFace = function(){
 				if (ChangeFace.camera_tip_showed == true) {
 					ChangeFace.camera_require_refresh = true;
 				}
-				if (ChangeFace.camera_require_refresh == true) {
-					location = '/';
-				}
+				setTimeout(function(){
+					if (ChangeFace.camera_require_refresh == true) {
+						location = '?home';
+					}
+				}, 0);
 				ChangeFace.camera_opened = false;
 				$('.change-face-camera-tip').hide();
 			});

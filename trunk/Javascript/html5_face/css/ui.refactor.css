@@ -56,6 +56,8 @@
 }
 .body .user img {
 	float: left;
+	width:110px;
+	height:110px;
 }
 .body .user h4, .body .user .info {
 	margin-left: 160px;
