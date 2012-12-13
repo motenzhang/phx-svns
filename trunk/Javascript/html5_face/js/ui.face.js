@@ -274,9 +274,10 @@ var ChangeFace = function(){
 				var canvas =document.createElement('canvas');  
 				canvas.height = 287;
 				canvas.width = video.videoWidth / video.videoHeight * canvas.height;
-	
-				
+
 				var context = canvas.getContext('2d');  
+				context.translate(canvas.width, 0);
+				context.scale(-1, 1);
 				context.drawImage(video, 0, 0, canvas.width, canvas.height);
 				ChangeFace.cameraDataUrl = canvas.toDataURL('image/png');
 				cropper.setImage(ChangeFace.cameraDataUrl);
