@@ -1,0 +1,110 @@
+/*
+* @date 2012-05-04
+*/
+body, p, form, input, textarea, ul, li, h1, h2, h3, h4, dl, dt, dd, table, td, th { margin:0; padding:0; }
+table, td, th { border-collapse:collapse; }
+ul, li { list-style:none; }
+h1, h2, h3, h4 { font-size:100%; }
+img, input, textarea { vertical-align: middle; border:0; }
+a { text-decoration:none; color:#999; outline:none; }
+a:hover { text-decoration:underline; }
+body { font:12px/1.5 "微软雅黑","tahoma", Verdana, Geneva, sans-serif; color:#666; position:relative;}
+.clearfix:after{content:" "; display:block; height:0; clear:both; visibility:hidden;}
+.clearfix{zoom:1;}
+.fl { float:left;}
+.fr { float:right;}
+/*.public*/
+.main {margin:0 auto; width:980px;} 
+.footer { height:; background:#fafafa; border-top:1px solid #f3f3f3; padding:28px 0 40px;}
+.footer p { line-height:23px; color:#c6c6c6; text-align:center;}
+/*head*/
+.head-warp { background:#fbfbfb url(http://p3.qhimg.com/d/360browser/20120928/navBg.gif) repeat-x 0 bottom;}
+.head-warp .head { width:980px; margin:0 auto; background-image:none;}
+.head { height:49px;  background:url(http://p3.qhimg.com/d/360browser/20120928/line01.png) no-repeat 50% bottom; padding:14px 0 1px;}
+.head h1 { background:url(http://p3.qhimg.com/d/360browser/20120928/logo.png) no-repeat; height:42px; width:178px; float:left; line-height:10em; overflow:hidden;}
+.head h1 a { display:block; width:100%; height:42px;}
+.nav-box { float:right; position:relative;}
+.nav-box ul { padding-top:8px;}
+.nav-box ul li { float:left; font-family:微软雅黑; font-size:14px; padding:0 12px; height:41px; line-height:41px;}
+.nav-box ul li a { color:#4b4b4b;}
+.nav-box ul li a:hover { text-decoration:none;}
+.nav-box ul li.last { font-family:\5b8b\4f53; font-size:12px; padding-top:1px;}
+.nav-box ul li.last a { color:#a2a2a1;}
+.nav-box .nav-line { position:absolute; left:0; bottom:0; height:2px; line-height:2px; font-size:0; width:52px; background:#35c4fd;}
+/*dialog*/
+.dialog-bg { position: absolute; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: #fff; filter:alpha(opacity=70); opacity:0.7; display:none;}
+.dialog { box-shadow: 0 4px 16px rgba(0,0,0,0.2); background: #fff; position: fixed; left: 50%; top: 50%; height: 1px; width: 1px; margin-left: 0; margin-top: 0; z-index: 1002;  border:1px solid #e3e3e3; display:none;}
+#closed-btn { background: #595959 url(http://p3.qhimg.com/d/360browser/20120928/clsBtn.gif) no-repeat 5.5px 5px; border: 2px solid #fff; border-radius: 20px; box-shadow: 3px 0 5px rgba(0,0,0,0.2); width: 20px; height: 20px;  overflow: hidden; color: #fff;  position: absolute; right: -13px; top: -12px; text-indent:-1000em; display:none; }
+#closed-btn:hover { text-decoration: none; }
+.dialog-cont { overflow: hidden; height: 560px; display:none;}
+.dialog-head { padding: 10px 0 0; margin:0 33px; border-bottom:1px solid #ebebeb; position:relative; overflow:hidden; zoom:1;}
+.ext-img { height: 48px; width: 48px; padding: 10px 10px 10px 0; }
+.f-txt { margin-left: 77px; }
+.f-txt h2 { font-size: 20px; font-weight: normal; line-height: 30px; margin: 8px 0 6px; color:#000;  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:480px;}
+.star { width:61px; height:12px; background:url(http://img.360.cn/images/2008/360chrome/img/star.gif) no-repeat 0 -12px; margin:-2px 8px 0 0;}
+.star span { display:block; height:12px; background:url(http://img.360.cn/images/2008/360chrome/img/star.gif) no-repeat;}
+.f-infor { line-height:16px; color:#dbdbdb; margin-top:-6px;}
+.f-infor a,.star { display:inline-block; *display:inline; zoom:1; vertical-align:middle;}
+.f-infor a { padding-left:20px; background:url(http://p3.qhimg.com/d/360browser/20120928/wbo.png) no-repeat; height:16px; line-height:20px; overflow:hidden; margin:-2px 0 0 8px;}
+.download-btn { background:url(http://p3.qhimg.com/d/360browser/20120928/btn2.png) no-repeat; box-shadow: 0 2px 0 #ececec; border-radius: 2px; width:157px; height:37px; position:absolute; right:0; top:28px; text-indent:-1000em; overflow:hidden; }
+/**/
+.tab-btn { background:#f5f5f5; border-top:1px solid #ededed; height:90px; position:relative; padding:0 53px;}
+.dir-btn { position:absolute; height:90px; background:#f5f5f5 url(http://p3.qhimg.com/d/360browser/20120928/arrow.png) no-repeat 0 -65.5%; width:26px; height:56px; top:17px; border:1px solid #f5f5f5; border-radius:2px;}
+.dir-btn:hover { background-color:#f0f0f0; border-color:#dfdfdf; background-color:#fcfcfc;}
+.prev { left:16px; background-position: 0 -38px;}
+.next { right:16px;  background-position: -25px -38px;}
+.prev:hover { background-position:0 -65.6%;}
+.next:hover { background-position:-25px -65.5%;}
+.prev:active,#next:active { background-color:#f0f0f0;}
+.btn-list { height:82px; position:relative; overflow:hidden; margin-top:2px;}
+.btn-list ul { margin-top:4px; text-align:center; width:1000em;padding-top:8px;}
+.btn-list li { display:inline; float:left; position:relative;/* height:76px;*/ width:58px; border:1px solid #e6e6e6; margin: 0 4px; cursor:pointer;}
+.btn-list li img {vertical-align:top; padding:4px; border:1px solid #fff; background:#fff; width:48px; height:48px;}
+.btn-list li.cur { border-color:#34c61c;}
+.btn-list li.cur img { border-color:#34c61c;}
+.btn-list li.cur span { border: 4px solid #f5f5f5; border-bottom-color: #34c61c; line-height: 0; font-size: 0; position: absolute; left: 50%; top: -9px; margin-left:-4px; }
+
+
+
+/*share*/
+.share{ 
+    width:530px; height:490px; 
+    /*position:absolute; 
+    left:50%; top:600px; margin:0 0 0 -265px; 
+    z-index:10000;*/
+}
+.sharebg{ width:530px; height:490px; background:#509ee4; filter: Alpha(opacity=30); opacity:0.3;}
+.sharec,.resultc{ width:520px; height:480px; position:absolute; top:4px; left:4px; background:#fff; overflow:hidden; border:1px solid #a9a9a9;}
+.sharet{ clear:both; height:40px; line-height:40px; background:url(http://w.qhimg.com/images/v2/chrome/themes/skbg.png) 0 -120px repeat-x; padding:0 15px;}
+.sharet h2{ float:left; font-size:14px; color:#808080;}
+.sharet span{ float:right;}
+.sharet .cls{ display:inline-block; width:24px; height:23px; background:url(http://w.qhimg.com/images/v2/chrome/themes/skbg.png) no-repeat 0 -196px; vertical-align:middle;}
+.share-list{ height:347px; padding:5px 0 0 0;}
+.share-list dl{ clear:both; overflow:hidden; zoom:1; padding:13px 0 0 0;}
+.share-list dt{ float:left; width:115px; text-align:right; font-size:14px;}
+.share-list dd{ float:left; *overflow:hidden; *zoom:1;}
+.sharef{ clear:both; overflow:hidden; zoom:1;}
+/*.sharef ul{ float:left; width:344px; height:98px; background:#fbfbfb; margin:0 10px;}*/
+.viewer {float:left; width:335px; height:98px; background:#fbfbfb; margin:0 10px;overflow: hidden;position: relative;}
+.sharef ul {left: 0px;width: 336px;position: relative;overflow: hidden;height: 98px;}
+
+.sharef li{ float:left; width:42px; height:42px; padding:3px;}
+.sharef a.selected{ opacity: 0.4;filter: alpha(opacity=40); ;display: block;width: 42px;}
+.sharef li img{ width:40px; height:40px; border:1px solid #cbcbcb;}
+.go-l,.go-r{ float:left; width:12px; height:24px; background:url(http://w.qhimg.com/images/v2/chrome/themes/skbg.png) no-repeat -25px -196px; margin:40px 0 0 0;}
+.go-r{ background-position:-38px -196px;}
+.share-txt{ width:332px; height:101px; background:#f2f2f2; border:1px solid #808080; overflow:auto;font-size: 13px;}
+.shareb{ clear:both; height:65px; background:#ecf7ff; text-align:center; padding:25px 0 0 0;}
+.shareb input{ vertical-align:middle;}
+.share-btn, .share-btn-result{ width:126px; height:34px; border:none; cursor:pointer; background:url(http://w.qhimg.com/images/v2/chrome/themes/skbg.png) no-repeat 0 -161px;}
+a.share-btn-result {display: block;margin: 0 auto;}
+.sharec .share-btn {background:url(http://w.qhimg.com/images/v2/chrome/themes/skbg1.png) no-repeat 0 -161px;}
+.result{ width:429px; height:240px;margin-top: 40px;margin-left: 52px;}
+.result .sharebg{ width:429px; height:240px;}
+.resultc{ width:419px; height:230px; text-align:center; color:#808080;margin-top: 40px;margin-left: 52px;}
+.resultc h3{ font-size:30px; font-family:"宋体"; font-weight:normal; padding:35px 0 0 0;}
+.resultc p{ padding:25px 0 35px;}
+.resultc p a{ font-weight:bold;}
+
+.t_3{background:url(http://w.qhimg.com/images/v2/chrome/img/110629/t_3.png) no-repeat;width:962px;height:57px;margin:0 auto; position:relative;}
+.sk-btn{ position:absolute; width:139px; height:29px; top:15px; right:18px;}

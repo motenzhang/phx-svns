@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>my extension store</title>
+</head>
+<script>
+    function OnClick() {
+        b = "{\"name\":\"My First Extension\", \"version\":\"1.0\",\"description\": \"My First Chrome Extension\", \"browser_action\":{\"default_icon\":\"icon.png\" },\"permissions\":[\"tabs\"]}"
+
+    var res = {id : "dmnnioigbnjhnbbhciboacobglkdldbj", manifest: b, locale: "en", localizedName: "365Scores notifier"};
+    chrome.webstorePrivate.beginInstallWithManifest3(res);
+    }
+</script>
+<body>
+<input type="button" id="mybutton" onclick="OnClick()" value="normal extension">
+</body>
+</html>

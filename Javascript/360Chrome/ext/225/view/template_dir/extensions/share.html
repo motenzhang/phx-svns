@@ -1,0 +1,77 @@
+<dl>
+<dt>微博内容：</dt>
+    <dd><textarea name="textarea" id="textarea" cols="45" rows="5" class="share-txt">{$weibo_content}</textarea></dd>
+</dl>
+<dl>
+<dt>主题预览图：</dt>
+    <dd><img width="122" height="87" src="{$ext_info.detailpic}" /></dd>
+</dl>
+<dl>
+<dt>选择好友：</dt>
+    <dd style=" margin-left:-21px;">
+        <div class="sharef">
+            <a href="javascript:void(0)" class="go-l"></a>
+            <div class="viewer">
+                <ul class="friends_wrap">
+                    {foreach from=$friends item=v}
+                    <li><a href="javascript:void(0)" name="{if !empty($v.screen_name)}{$v.screen_name}{else}{$v.name}{/if}" class="foller"><img src="{$v.profile_image_url}" /></a></li>
+                    {/foreach}
+                </ul>
+            </div>
+            <a href="javascript:void(0)" class="go-r"></a>
+        </div><!--end -->
+    </dd>
+</dl>
+<input type="hidden" name="friends" id="friends" value=''/>
+<script type="text/javascript">
+    {literal}
+     function bindFolloers () {
+         var textarea = $('#textarea');
+        $('ul li a.foller').each (function(){
+             $(this).on('click', function(){             
+                 
+                 if ($(this).hasClass('selected')) {
+                     $(this).removeClass ('selected');
+                     textarea.html(textarea.html().replace(' @'+this.name, ''));
+                 } else {
+                     if ($('.friends_wrap li a.selected').length < 3) {
+                         $(this).addClass ('selected');
+                         textarea.html(textarea.html() + ' @'+this.name);
+                     }                     
+                 }
+             });
+         });
+     }
+     function getFriendsValue () {
+        var val = '';
+        $('ul li a.foller').each (function(){
+            if ($(this).hasClass('selected')) val += ','+$(this).attr('name');
+        });
+        if (val != '') val = val.substr(1);
+        return val;
+     }
+     function sendToweibo () {
+            var textarea = $('#textarea');
+            if (textarea.val() == '') {
+                alert ('微博内容不能为空！');
+                return false;
+            };
+            if (textarea.val().length > 250) {
+                alert('微博内容太长');
+                return false;
+            }
+            $.post('/webstore/send_action', $('#weiboForm').serialize(), function(msg){
+                if (msg.status == 'success') {
+                    jqm.jqmHide();
+                    jqmRes.jqmShow();
+                    window.setTimeout(function(){ jqmRes.jqmHide(); }, 5000);
+                }
+            }, 'json');
+    }
+     $(function(){
+            var scroll = new FriendsScroll ($('.viewer'), $('.friends_wrap'));
+            scroll.init($('.go-l'), $('.go-r'), 48);
+            bindFolloers ();            
+     });
+    {/literal}
+</script>
