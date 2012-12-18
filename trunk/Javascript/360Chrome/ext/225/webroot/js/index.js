@@ -622,14 +622,14 @@ var CategoryView = Backbone.View.extend({
     events:{
     },
     initialize:function () {
-		
+		this.el_offsetTop = this.el.offset().top
     },
     update:function () {
         var queryobj = new QueryObj(PATH.type, PATH.param, 20, PATH.sorttype, CategoryController.getInstance().lasttoken);
         DC.getData(queryobj, this.updatedata);
     },
     more:function (scrolltop, height) {
-        if (this.el.height() - scrolltop - height < 400) {
+        if (this.el.height() + this.el_offsetTop - scrolltop - height < 200) {
             this.update();
         }
     },
@@ -1083,9 +1083,8 @@ $(function () {
         }
         return false;
     });
-    $(".extend-list").bind("scroll", function (e) {
-        var $this = $(this);
-        PATH.more($this.scrollTop(), $this.height());
+    $(window).bind("scroll", function (e) {
+        PATH.more($(this).scrollTop(), $(this).height());
     });
 	
     var clientheight = document.documentElement.clientHeight;
