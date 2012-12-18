@@ -80,12 +80,12 @@ body { background:#f6f6f6;}
 .ext-lists ul li .ext-btns p { line-height:18px; padding-right:14px; overflow:hidden; height:54px}
 /**/
 .btns { width:49px; height:22px; display:inline-block; line-height:22px; text-align:center; border:1px solid #d3d3d3; border-radius:2px; box-shadow:inset 0 1px 0 #fff, 0 2px 0 #fafafa;}
-.inst-btns { background-image:-webkit-linear-gradient(#fefefe,#f5f5f5);}
-.inst-btns:hover { background-image:-webkit-linear-gradient(#fcfcfc,#f0f0f0);}
+.add-btn { background-image:-webkit-linear-gradient(#fefefe,#f5f5f5);}
+.add-btn:hover { background-image:-webkit-linear-gradient(#fcfcfc,#f0f0f0);}
 .insting-btns { color:#1794dd; background-image:-webkit-linear-gradient(#fefefe,#f5f5f5);}
-.insted-btns { color:#b2b2b2; background-image:-webkit-linear-gradient(#fefefe,#f5f5f5);}
-.up-btns { border-color:#37b723; background-image:-webkit-linear-gradient(#44cc2d,#40c929);box-shadow:inset 0 1px 0 #60d44c, 0 2px 0 #fafafa; color:#fff;}
-.up-btns:hover { border-color:#50aa1d; background-image:-webkit-linear-gradient(#86df4e,#6ccf2c);box-shadow:inset 0 1px 0 #86df4e, 0 2px 0 #fafafa;}
+.installed-btn { color:#b2b2b2; background-image:-webkit-linear-gradient(#fefefe,#f5f5f5);}
+.update-btn { border-color:#37b723; background-image:-webkit-linear-gradient(#44cc2d,#40c929);box-shadow:inset 0 1px 0 #60d44c, 0 2px 0 #fafafa; color:#fff;}
+.update-btn:hover { border-color:#50aa1d; background-image:-webkit-linear-gradient(#86df4e,#6ccf2c);box-shadow:inset 0 1px 0 #86df4e, 0 2px 0 #fafafa;}
 /**/
 .content-r { width:221px; font-family:SimSun;}
 .search { padding:14px;}
@@ -105,7 +105,7 @@ body { background:#f6f6f6;}
 .list-box dl { background-color:#fafafa; border-top:1px solid #ededed; border-bottom:1px solid #ededed; padding:0 0 0 16px; height:46px; display:none; position:relative;}
 .list-box dl dt { float:left; width:33px; margin-right:8px; border-left:1px solid #e8e8e8; padding:6px 0 6px 8px;}
 .list-box dl dt img { width:33px; height:33px;}
-.list-box dl dd { overflow:hidden; padding:6px 0;}
+.list-box dl dd { overflow:hidden; padding:6px 0; line-height:1}
 .list-box dl dd h3 { margin:3px 0 5px;}
 .list-box dl dd p { color:#999;}
 .list-box dl dd a { position:absolute; top:50%; right:14px; margin-top:-11px;}
@@ -145,6 +145,12 @@ body { background:#f6f6f6;}
 .f-infor a,.star { display:inline-block; *display:inline; zoom:1; vertical-align:middle;}
 .f-infor a { padding-left:20px; background:url(http://p3.qhimg.com/d/360browser/20120928/wbo.png) no-repeat; height:16px; line-height:20px; overflow:hidden; margin:-2px 0 0 8px;}
 .download-btn { background:url(http://p3.qhimg.com/d/360browser/20120928/btn2.png) no-repeat; box-shadow: 0 2px 0 #ececec; border-radius: 2px; width:157px; height:37px; position:absolute; right:0; top:28px; text-indent:-1000em; overflow:hidden; }
+.dialog_detail .download-btn{right:50px;}
+.dialog_detail .add-btn{background-position:0 0;}
+.dialog_detail .add-btn:hover{background-position:0 -39px;}
+.dialog_detail .update-btn{background-position:0 -117px}
+.dialog_detail .update-btn:hover{background-position:0 -156px}
+.dialog_detail .installed-btn{background-position:0 -234px;}
 /**/
 .tab-btn { background:#f5f5f5; border-top:1px solid #ededed; height:90px; position:relative; padding:0 53px;}
 .dir-btn { position:absolute; height:90px; background:#f5f5f5 url(http://p3.qhimg.com/d/360browser/20120928/arrow.png) no-repeat 0 -65.5%; width:26px; height:56px; top:17px; border:1px solid #f5f5f5; border-radius:2px;}

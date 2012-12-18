@@ -32,6 +32,7 @@
       <ul id="category-type">
         <li><a href="http://open.chrome.360.cn/" target="_blank"><img src="/css/img/icon08.png">开发者中心</a></li>
         <li><a href="javascript:;" id="myextensions"><img src="/css/img/icon09.png">管理扩展</a></li>
+        <li><a href="https://ext.chrome.360.cn/webstore/skip" target="_blank"><img src="/css/img/icon09.png">Chrome<br>网上应用店</a></li>
       </ul>
     </div>
     <div id="content" class="clearfix">
@@ -48,19 +49,10 @@
         </div>
         <div class="ext-lists">
           <ul class="app-list">
-            <li>
-              <dl>
-                <dt><img src="http://p1.qhimg.com/d/360browser/20121112/ruyitao_logo-48.png"></dt>
-                <dd>
-                  <h2>火车票刷票机</h2>
-                  <p>版本号：3.31</p>
-                </dd>
-              </dl>
-              <div class="ext-btns"> <a class="btns inst-btns fl" href="javascript:;">安装</a>
-                <p>一款非常实用的订票辅助工具，春节回家必备！</p>
-              </div>
-            </li>
           </ul>
+          <div class="loading-tip" style="width: 100%; height: 180px; text-align: center; ">
+            <div class="spinner" style="width: 232px;height: 32px;background: url('http://w.qhimg.com/images/v2/chrome/2012/03/30/loading.gif') no-repeat;display: inline-block;line-height:34px;color:#888;">正在搜索中，请稍候...</div>
+          </div>
         </div>
       </div>
       <div class="content-r fr">
@@ -404,7 +396,7 @@
 		  <p>版本号：<%= version %></p>
 		</dd>
 	  </dl>
-	  <div class="ext-btns"> <a class="btns inst-btns fl" href="javascript:;">安装</a>
+	  <div extid="<%= crx_id %>" class="ext-btns"> <a class="btns fl <%= ({"install":"add-btn","installed":"installed-btn","update":"update-btn"})[status] %>" href="javascript:;"><%= ({"install":"安装","installed":"已安装","update":"可更新"})[status] %></a>
 		<p><%= shortdesc||"简短说明" %></p>
 	  </div>
     <!--<div class="ext-block" extid="<%= crx_id %>">
@@ -448,7 +440,7 @@
 	</div>
   </div>
 </div>
-</script>
+</script> 
 <script type="text/template" id="template-view-ext-detail">
 	<div class="dialog_detail" extid="<%= crx_id %>">
     <div class="dialog-head"> <img class="ext-img fl" src="<%= logo %>" alt="">
