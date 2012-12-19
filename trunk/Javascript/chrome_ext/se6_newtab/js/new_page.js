@@ -112,9 +112,9 @@ $(function(host, undef){
           item.short_url = item.url.shorting(50);
           item.pic = item.local_pic || 'chrome://thumb/' + item.url;
           item.drag = drag;
-          lis += $.tmpl(tileTmplStr, item);
+          lis += $.tmpl(tileTmplStr, item)[0].outerHTML;
         }else{
-          lis += $.tmpl(emptyLiStr, {drag:drag});
+          lis += $.tmpl(emptyLiStr, {drag:drag})[0].outerHTML;
         }
         if(i+1<gridCount){
           return true;
@@ -124,7 +124,7 @@ $(function(host, undef){
       });
 
       if(datas.length < gridCount){
-        lis += new Array(gridCount - datas.length + 1).join($.tmpl(emptyLiStr,{drag:drag}));
+        lis += new Array(gridCount - datas.length + 1).join($.tmpl(emptyLiStr,{drag:drag})[0].outerHTML);
       }
 
       $('.grid ul').html(lis);
