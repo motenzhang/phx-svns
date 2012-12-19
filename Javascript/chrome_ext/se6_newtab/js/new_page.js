@@ -112,9 +112,9 @@ $(function(host, undef){
           item.short_url = item.url.shorting(50);
           item.pic = item.local_pic || 'chrome://thumb/' + item.url;
           item.drag = drag;
-          lis += $.tmpl(tileTmplStr, item)[0].outerHTML;
+          lis += $.tmpl(tileTmplStr, item);
         }else{
-          lis += $.tmpl(emptyLiStr, {drag:drag})[0].outerHTML;
+          lis += $.tmpl(emptyLiStr, {drag:drag});
         }
         if(i+1<gridCount){
           return true;
@@ -124,7 +124,7 @@ $(function(host, undef){
       });
 
       if(datas.length < gridCount){
-        lis += new Array(gridCount - datas.length + 1).join($.tmpl(emptyLiStr,{drag:drag})[0].outerHTML);
+        lis += new Array(gridCount - datas.length + 1).join($.tmpl(emptyLiStr,{drag:drag}));
       }
 
       $('.grid ul').html(lis);
@@ -841,5 +841,17 @@ $(function(host, undef){
   $('.link').live('click', function(e){
     ntpApis.onClickThumbnail(this.href);
   });
+
+  /**/
+  
+  var img = new Image();
+  img.onload = function(){
+	  var canvas = document.createElement('canvas');
+	  var context = canvas.getContext('2d');
+	  context.drawImage(img, 0, 0);
+	  console.log(canvas.toDataURL());
+	};
+  img.src = 'http://img.autohome.com.cn/album/userphotos/2012/12/3/d2d060e7-d3f8-459c-9b54-15658aa82b0d_s.jpg';
+  /**/
 
 });
