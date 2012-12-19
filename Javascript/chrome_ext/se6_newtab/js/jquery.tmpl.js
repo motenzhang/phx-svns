@@ -117,9 +117,11 @@
   jQuery.extend({
     // Return wrapped set of template items, obtained by rendering template against data.
     tmpl: function( tmpl, data, options, parentItem ) {
-		return tmpl.replace(/\$\{(\w+)\}/g, function($0, $1){
+		var result = tmpl.replace(/\$\{(\w+)\}/g, function($0, $1){
 			return data[$1];
 		});
+		return jQuery(result);
+		////////////////////////////
       var ret, topLevel = !parentItem;
       if ( topLevel ) {
         // This is a top-level tmpl call (not from a nested template using {{tmpl}})
