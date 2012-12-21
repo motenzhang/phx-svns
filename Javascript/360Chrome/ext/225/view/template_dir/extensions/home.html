@@ -26,13 +26,29 @@
     <div class="space"></div>
   </div>
 </div>
+{literal} 
+<!--[if lt IE 8]>
+	<script>
+    ___lt8 = true;
+    </script>
+	<div style="height:400px;padding:40px;text-align:left;font-size:14px;width:400px;margin:0 auto;">
+		<div>
+		您需要在360极速浏览器的极速模式下访问本站才能安装扩展。</div>
+		<br /><br />
+		<div style="text-align:left;">
+			<a href="http://dl.360safe.com/cse/360cse_official.exe" style="color:#1c5ac4;">下载 360极速浏览器</a><br />
+		</div>
+	</div>
+    <style>
+    #bd{display:none}
+    </style>
+<![endif]-->
+{/literal} 
 <div id="bd">
   <div class="bdr">
     <div id="side">
       <ul id="category-type">
-        <li><a href="http://open.chrome.360.cn/" target="_blank"><img src="/css/img/icon08.png">开发者中心</a></li>
-        <li><a href="javascript:;" id="myextensions"><img src="/css/img/icon09.png">管理扩展</a></li>
-        <li><a href="https://ext.chrome.360.cn/webstore/skip" target="_blank"><img src="/css/img/icon09.png">Chrome<br>网上应用店</a></li>
+        <li id="myextensions"><a href="javascript:;"><img src="/css/img/icon09.png">我的扩展<span id="myext_count"></span></a></li>
       </ul>
     </div>
     <div id="content" class="clearfix">
@@ -40,16 +56,19 @@
         <div id="slides" class="slides">
           <div class="slides-box">
             <ul>
-              <li><a href="javascript:;"><img src="http://p5.qhimg.com/d/360browser/20121119/adblock_b.png"></a></li>
-              <li><a href="javascript:;"><img src="http://p3.qhimg.com/d/360browser/20121121/yunpan.jpg"></a></li>
-              <li><a href="javascript:;"><img src="http://p6.qhimg.com/d/360browser/20121206/express.png"></a></li>
-              <li><a href="javascript:;"><img src="http://p4.qhimg.com/d/360browser/20121017/592-272-login.png"></a></li>
+              <li><a href="javascript:;" class="navigate" path="detail/cfhdojbkjhnklbpkdaibdccddilifddb"><img src="http://p0.qhimg.com/d/360browser/20121221/banner583-204.jpg"></a></li>
             </ul>
           </div>
         </div>
         <div class="ext-lists">
-          <ul class="app-list">
-          </ul>
+          <div id="app-container">
+            <h3 id="header-category"></h3>
+            <ul class="app-list">
+            </ul>
+            <h3 id="header-search"><span></span> 的搜索结果</h3>
+            <ul class="search-app-list">
+            </ul>
+          </div>
           <div class="loading-tip" style="width: 100%; height: 180px; text-align: center; ">
             <div class="spinner" style="width: 232px;height: 32px;background: url('http://w.qhimg.com/images/v2/chrome/2012/03/30/loading.gif') no-repeat;display: inline-block;line-height:34px;color:#888;">正在搜索中，请稍候...</div>
           </div>
@@ -57,326 +76,30 @@
       </div>
       <div class="content-r fr">
         <div class="search">
-          <form action="">
-            <input type="text" value="" />
-            <button>搜索</button>
+          <form id="search-form">
+            <input type="text" name="q">
+            <button type="submit">搜索</button>
           </form>
-          <p>搜索热词：<a href="javascript:;">游戏工具</a><a href="javascript:;">购物比价</a></p>
+          <!--<p>搜索热词：<a href="javascript:;">游戏工具</a><a href="javascript:;">购物比价</a></p>--> 
         </div>
         <div class="list-box">
-          <h2>本周热门<a href="javascript:;">更多</a></h2>
-          <ul>
-            <li>
-              <div class="s-num"><span>1</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns s-insting-btns" href="javascript:;">安装中</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>2</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>3</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>4</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>5</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>6</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>7</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>8</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>9</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>10</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
+          <h2>本周热门<a href="javascript:;" class="sort" sort="download">更多</a></h2>
+          <ul id="topview-download">
           </ul>
         </div>
         <div class="list-box">
-          <h2>最受欢迎<a href="javascript:;">更多</a></h2>
-          <ul>
-            <li>
-              <div class="s-num"><span>1</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns s-insting-btns" href="javascript:;">安装中</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>2</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>3</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>4</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>5</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>6</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>7</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>8</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>9</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>10</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
+          <h2>最受欢迎<a href="javascript:;" class="sort" sort="hot">更多</a></h2>
+          <ul id="topview-hot">
           </ul>
         </div>
         <div class="list-box">
-          <h2>最新入库<a href="javascript:;">更多</a></h2>
-          <ul>
-            <li>
-              <div class="s-num"><span>1</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns s-insting-btns" href="javascript:;">安装中</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>2</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>3</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>4</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>5</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>6</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>7</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>8</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>9</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
-            <li>
-              <div class="s-num"><span>10</span>360游戏</div>
-              <dl>
-                <dt><img src="http://w.qhimg.com/images/v2/chrome/2012/04/18/npgame.png"></dt>
-                <dd>
-                  <h3>360游戏</h3>
-                  <p>12860次安装</p>
-                  <a class="s-btns" href="javascript:;">安装</a> </dd>
-              </dl>
-            </li>
+          <h2>最新入库<a href="javascript:;" class="sort" sort="lastupdate">更多</a></h2>
+          <ul id="topview-lastupdate">
           </ul>
+        </div>
+        <div class="link-box">
+          <li><a href="http://open.chrome.360.cn/" target="_blank"><img src="/css/img/icon08.png" align="absmiddle">开发者中心</a></li>
+          <li class="l2"><a href="https://ext.chrome.360.cn/webstore/skip" target="_blank"><img src="/css/img/icon_chrome.png" align="absmiddle">Chrome网上应用店</a></li>
         </div>
       </div>
     </div>
@@ -388,6 +111,18 @@
 </div>
 <div class="dialog-bg" style="display:none;"></div>
 {literal} 
+<script type="text/template" id="template-topview-ext">
+	<li extid="<%= crx_id %>">
+	  <div class="s-num"><span><%= index %></span><%= name %></div>
+	  <dl>
+		<dt><img src="<%= logo %>" title="<%= name %>"></dt>
+		<dd>
+		  <h3 title="<%= name %>"><%= name %></h3>
+		  <p><%= download %>次安装</p>
+		  <a class="s-btns install-status <%= {"install":"add-btn","installed":"installed-btn","update":"update-btn"}[status] %>" href="<%= filename %>"><%= {"install":"安装","installed":"已安装","update":"可更新"}[status] %></a> </dd>
+	  </dl>
+	</li>
+</script> 
 <script type="text/template" id="template-view-ext">
 	  <dl>
 		<dt><img src="<%= logo %>" title="<%= name %>"></dt>
@@ -396,20 +131,9 @@
 		  <p>版本号：<%= version %></p>
 		</dd>
 	  </dl>
-	  <div extid="<%= crx_id %>" class="ext-btns"> <a class="btns fl <%= ({"install":"add-btn","installed":"installed-btn","update":"update-btn"})[status] %>" href="javascript:;"><%= ({"install":"安装","installed":"已安装","update":"可更新"})[status] %></a>
+	  <div extid="<%= crx_id %>" class="ext-btns"> <a class="install-status btns fl <%= {"install":"add-btn","installed":"installed-btn","update":"update-btn"}[status] %>" href="javascript:;"><%= {"install":"安装","installed":"已安装","update":"可更新"}[status] %></a></a>
 		<p><%= shortdesc||"简短说明" %></p>
 	  </div>
-    <!--<div class="ext-block" extid="<%= crx_id %>">
-		<a class="ext-logo"><span class="<%= ({"install":"install","installed":"installed","update":"update"})[status] %> "></span>
-			<div style="width:148px;height:87px;background:#f4f4f4;"><img src="<%= logo %>" style="margin:auto auto;top:50%;left:50%;position:absolute;margin-top:-24px;margin-left:-24px;" width="48" height="48"></div>
-		</a>
-        <h1><%= name %></h1>
-        <p class="first-info"><%= shortdesc||"简短说明" %></p>
-        <p class="two-info"><span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= author %></span>
-          版本号：<%= version %><br>
-          更新于：<%= _lastupdate %></p>
-        <p><a class="ext-btn <%= ({"install":"add-btn","installed":"installed-btn","update":"update-btn"})[status] %> ">增加到浏览器</a></p>
-    </div>-->
 </script> 
 <script type="text/template" id="template-view-ext-search">
     <div class="ext-block-search" extid="<%= crx_id %>">
@@ -449,7 +173,7 @@
         <div class="f-infor">
           <div class="star"><span style="width:<%= parseInt(hot) %>%;"></span></div>
            <a class="weiboshare" href="" style="display:none;">| 分享到微博</a> </div>
-        <a class="download-btn <%= ({"install":"add-btn","installed":"installed-btn","update":"update-btn"})[status] %>" href="">添加到浏览器</a> </div>
+        <a class="install-status download-btn <%= ({"install":"add-btn","installed":"installed-btn","update":"update-btn"})[status] %>" href="">添加到浏览器</a> </div>
     </div>
     <div class="tab-cont clearfix">
       <div class="slide-box fl" id="slides">
@@ -488,7 +212,11 @@ var __aurl='{$aurl}';
 <script src="/js/jqModal.js"></script> 
 <script src="/js/underscore-1.1.6.js"></script> 
 <script src="/js/backbone.js"></script> 
-<script src="/js/index.js"></script> 
 <script src="/js/main.js"></script>
+<script>
+if (!window['___lt8']) {
+	document.write('<script src="/js/index.js"></scr'+'ipt>');
+}
+</script>
 </body>
 </html>

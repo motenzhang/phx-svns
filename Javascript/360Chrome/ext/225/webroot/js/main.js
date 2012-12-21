@@ -1,3 +1,4 @@
+
 (function($){
 	$(function(){
 		nav();
@@ -12,20 +13,16 @@
 		$('#slides').slides({
 			container: '.slides-box ul'
 		});
-		listBox();
 		goTop();
-		$('#myextensions').click(function(){
-			chrome.tabs.create({url: "chrome://myextensions/extensions", selected: true});
-		});
+		if (window.chromeapi && chromeapi.Is360Chrome()) {
+			$('#myextensions a').click(function(){
+				chrome.tabs.create({url: "chrome://myextensions/extensions", selected: true});
+			});
+		} else {
+			$('#myextensions').hide();
+		}
 	});
 	
-	function listBox(){
-		var $liTarget = $('.list-box li');
-		$liTarget.mouseenter(function(){
-			$(this).children('dl').show().end().children('div').hide();
-			$(this).siblings().children('dl').hide().end().children('div').show();
-		});
-	}
 	function goTop(){
 		var $goTop = $('#go-top'),sclTopVal;
 		$(window).scroll(function(){
@@ -446,6 +443,4 @@ function fixNav(){
 		}
 	});
 }
-
-
 

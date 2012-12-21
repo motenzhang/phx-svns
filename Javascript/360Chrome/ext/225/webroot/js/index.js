@@ -15,6 +15,8 @@ if(!window.console){
 var __d=__d||[],__presetdata=__initData;
 var URLCONF={domain:__d[0]||"https://ext.chrome.360.cn",webroot:__d[1]||"/webstore/"};
 var CATETYPEMAP = {}, CATENAMEMAP = {}, CATEIDMAP = {}, SORTTYPEMAP = {};
+var SORTMAP = {'download':'本周热门', 'hot':'最受欢迎', 'lastupdate':'最新入库'};
+var SORTMAP2 = {"本周热门":"download", "最受欢迎":"hot", "最新入库":"lastupdate"};
 (function () {
     for (var i = 0, len = _ExtCate.length; i < len; i++) {
         CATETYPEMAP[_ExtCate[i]["id"]] = _ExtCate[i]['cate'];
@@ -25,7 +27,7 @@ var CATETYPEMAP = {}, CATENAMEMAP = {}, CATEIDMAP = {}, SORTTYPEMAP = {};
 var ExtRouter = Backbone.Router.extend({
     routes:{
         "search/:keyword":"viewsearch",
-        "category/:type":"viewcategory",
+        "category/:type/:sort":"viewcategory",
         "detail/:id":"viewdetail",
         "*actions":"defaultroute"
     },
@@ -36,22 +38,24 @@ var ExtRouter = Backbone.Router.extend({
         PATH.update("search", keyword);
         $("#search-form input[name=q]").val(keyword);
     },
-    viewcategory:function (type) {		
-        if (CATEIDMAP[type]) {
+    viewcategory:function (type, sort) {
+        if (CATEIDMAP[type] && SORTMAP2[sort]) {
+			$('#header-category').text(sort);
             $("#category-type li").removeClass("cur").parent().find("a[type=" + CATEIDMAP[type] + "]").parent().addClass("cur");
 			fixNav();
             document.title = "扩展中心 - 360极速浏览器 - " + type;
+			PATH.sorttype = SORTMAP2[sort];
             PATH.update("category", type);
             $("#search-form input[name=q]").val("");
         } else {
-            this.navigate("category/" + CATENAMEMAP[_ExtCate[0]['id']], {trigger:true});
+            this.navigate("category/" + CATENAMEMAP[_ExtCate[0]['id']] + '/' + SORTMAP[PATH.sorttype], {trigger:true});
         }
     },
     viewdetail:function (extid) {
         PATH.update("detail", extid);
     },
     defaultroute:function (actions) {
-        this.navigate("category/" + CATETYPEMAP[_ExtCate[0]['id']], {trigger:true});
+        this.navigate("category/" + CATETYPEMAP[_ExtCate[0]['id']] + '/' + SORTMAP[PATH.sorttype], {trigger:true});
     }
 });
 (function () {
@@ -106,6 +110,17 @@ var ExtRouter = Backbone.Router.extend({
             window.open(extobj['filename'], "_self");
             return false;
         },
+		GetRunPath: function(){
+			try {
+				var path = external.GetRunPath(external.GetSID(window));
+				return path.toLowerCase();
+			} catch (e) {
+				return '';
+			}
+		},
+		Is360Chrome: function(){
+			return this.GetRunPath().indexOf('360chrome.exe') > -1;
+		},
         is360chrome:function () {
             return navigator.userAgent.toLowerCase().indexOf('360ee') !== -1;
         }
@@ -132,51 +147,47 @@ var ExtRouter = Backbone.Router.extend({
 		}
     }
     try {
-        chrome.management.onUninstalled.addListener(function (items) {
-			alert('onUninstalled');
-			delete window.DC.installedextcache[items];
-            if (!DC.extcache[items]) {
+        chrome.management.onUninstalled.addListener(function (id) {
+			chromeapi.updateExtCount();
+			delete window.DC.installedextcache[id];
+            if (!DC.extcache[id]) {
                 return;
             }
-            DC.extcache[items]["status"] = "install";
-//            DC.installedextcache[items] = DC.extcache[items];
-            var $target = $("div[extid=" + items + "]");
-            if ($target) {
-                for (var i = 0, len = $target.length; i < len; i++) {
-					$target.find(".installed-btn,.update-btn").removeClass("installed-btn update-btn").addClass("add-btn");
-					$target.find(".ext-logo span.installed,.ext-logo span.update").removeClass();
-                    if ($target.parents(".app-list").length > 0) {
-                        
-                    }
-                }
-            }
+            DC.extcache[id]["status"] = "install";
+			chromeapi.updateStatus(id, DC.extcache[id]["status"]);
             return;
         });
         chrome.management.onInstalled.addListener(function (items) {
-				alert('onInstalled');
-				if(DC.extcache[items["id"]]){
-					DC.extcache[items["id"]]["status"] = "installed";				
-					if (depends.version.lt(items['version'], DC.extcache[items["id"]]['version'])) {
-						DC.extcache[items["id"]]["status"] = "update";
+				chromeapi.updateExtCount();
+				var id = items["id"];
+				if(DC.extcache[id]){
+					DC.extcache[id]["status"] = "installed";				
+					if (depends.version.lt(items['version'], DC.extcache[id]['version'])) {
+						DC.extcache[id]["status"] = "update";
 					}
 				}
-				DC.installedextcache[items["id"]] = items;
-				var $target = $("div[extid=" + items["id"] + "]");
-				if ($target) {
-					for (var i = 0, len = $target.length; i < len; i++) {
-						$target.find(".add-btn,.update-btn").removeClass("add-btn update-btn").addClass({"installed":"installed-btn","update":"update-btn"}[DC.extcache[items['id']]['status']]);
-						$target.find('a.ext-logo span').removeClass().addClass(({"installed":"installed","update":"update"})[DC.extcache[items['id']]['status']]);
-						if ($target.parents("#app-container").length > 0) {
-							//$('<a class="'+({"installed":"ext-tag","update":"update-tag"}[DC.extcache[items["id"]]["status"]])+'" style="top: 0px; "></a>').insertBefore($target.find(".ext-wrap"));
-						}
-					}
-				}
+				DC.installedextcache[id] = items;
+				chromeapi.updateStatus(id, DC.extcache[id]['status']);
                 return;
             }
         );
     } catch (e) {
 
     }
+	
+	chromeapi.updateStatus = function(id, status) {
+		$('[extid=' + id + '] .install-status').removeClass('add-btn installed-btn update-btn').addClass({"install":"add-btn", "installed":"installed-btn","update":"update-btn"}[status]);
+		$('[extid=' + id + '] .install-status').text({"install":"安装","installed":"已安装","update":"可更新"}[status]);
+	};
+	
+	chromeapi.updateExtCount = function(){
+		try {
+			chrome.management.getAll(function (extlist) {
+				$('#myext_count').text('(' + extlist.length + ')');
+			});
+		} catch(e) {}
+	};
+
     window.chromeapi = chromeapi;
 })();
 
@@ -347,30 +358,20 @@ var DC =window.DC|| {
         try {
             chrome.management.getAll(function (extlist) {
 				function oninstalled(items) {		
-					console.log('ongetinstalleddata..');
-					if(DC.extcache[items["id"]]){
-						DC.extcache[items["id"]]["status"]="installed";
-						if (depends.version.lt(items['version'], DC.extcache[items["id"]]['version'])) {
-							DC.extcache[items["id"]]["status"] = "update";
+					console.log('onGetInstalledData');
+					var id = items["id"];
+					if(DC.extcache[id]){
+						DC.extcache[id]["status"]="installed";
+						if (depends.version.lt(items['version'], DC.extcache[id]['version'])) {
+							DC.extcache[id]["status"] = "update";
 
 						}
-						DC.installedextcache[items["id"]] = DC.extcache[items["id"]];
+						DC.installedextcache[id] = DC.extcache[id];
 					}else{
-						DC.installedextcache[items["id"]] = items;
+						DC.installedextcache[id] = items;
 					}
-					var $target = $("div[extid=" + items["id"] + "]");
-					if ($target) {
-						for (var i = 0, len = $target.length; i < len; i++) {
-							$target.find(".add-btn").removeClass("add-btn").addClass(({"installed":"installed-btn","update":"update-btn"}[DC.extcache[items["id"]]&&DC.extcache[items["id"]]["status"]||"installed"]));
-							if ($target.parents(".app-list").length > 0) {
-								$target.find('.ext-logo span').removeClass().addClass(({"install":"aaaa","installed":"installed","update":"update"})[DC.extcache[items["id"]]["status"]]);
-								//console.log($target.find('.ext-logo span'));
-								//$('<a class="'+({"installed":"ext-tag","update":"update-tag"}[DC.extcache[items["id"]]&&DC.extcache[items["id"]]["status"]||"installed"])+'" style="top: 0px; "></a>').insertBefore($target.find(".ext-wrap"));
-//								$('<a class="ext-tag" style="top: 0px; "></a>').insertBefore($target.find(".ext-wrap"));
-							}
-						}						
-					}
-					var $target2=$('')
+					var status = DC.extcache[id]&&DC.extcache[id]["status"]||"installed";
+					chromeapi.updateStatus(status);
 					return;
 				}
                 for (var i = 0, len = extlist.length; i < len; i++) {
@@ -812,7 +813,7 @@ var DetailView = Backbone.View.extend({
 });
 
 var PATH = {
-    _type:"", _param:"", type:"", param:"", sorttype:"hot", _sorttype:"",_type2:'',_param2:'',
+    _type:"", _param:"", type:"", param:"", sorttype:"download", _sorttype:"",_type2:'',_param2:'',
     update:function (type, para) {
         this._type = this.type;
         this._param = this.param;
@@ -825,8 +826,8 @@ var PATH = {
                 case "search":
                     this.resetnav('all')
                 case "category":
-                    if (para != this._param) {
                         controllers[this.type].getInstance().clear();
+                    if (para != this._param) {
                     }
                     break;
                 case "detail":
@@ -843,7 +844,8 @@ var PATH = {
         switch (type) {
             case "search":
                 this.resetnav('search');
-                $("#header-search").find("h2").html('"' + htmlspecialchars(this.param) + '"的搜索结果<span></span>').end().show();
+				$('#slides').hide();
+                $("#header-search").find("span").text('"' + (this.param) + '"').end().show();
                 $("#header-category").hide();
                 if (this.param != this._param) {
                     SearchController.getInstance().clear();
@@ -853,11 +855,21 @@ var PATH = {
                 CategoryController.getInstance().el.addClass("searchview");
                 DetailController.getInstance().hide();
                 SearchController.getInstance().update();
+
+				SideTopView.update('全部');
                 break;
             case "detail":
                 DetailController.getInstance().show(para);
                 break;
             case "category":
+				switch (PATH.param) {
+					case '全部':
+						$('#slides').show();
+						break;
+					default:
+						$('#slides').hide();
+						break;
+				}
                 $("#header-search").hide();
                 $("#header-category").show();
                 SearchController.getInstance().el.remove();
@@ -865,6 +877,8 @@ var PATH = {
                 CategoryController.getInstance().param = this.param;
                 CategoryController.getInstance().update();
                 DetailController.getInstance().hide();
+		
+				SideTopView.update(PATH.param);
                 break;
         }
     },
@@ -901,6 +915,52 @@ var PATH = {
 		}
 		
     }
+};
+
+var SideTopView = {
+	cache: {},
+	update: function(cat) {
+		$.each(SORTMAP, function(sort){
+			if (!SideTopView.cache[cat]) {
+				SideTopView.cache[cat] = {};
+			}
+			var data = SideTopView.cache[cat][sort];
+			if (data) {
+				SideTopView.render(sort, data);
+			} else {
+				$.getJSON('/provider/extlist/', {category:cat, count:10, sortType:sort, token:0}, function(ret){
+					if (ret && ret.list) {
+						SideTopView.cache[cat][sort] = ret.list;
+						SideTopView.render(sort, ret.list);
+					}
+				});
+			}
+		});
+	},
+	render: function(sort, data) {
+		var box = $('#topview-' + sort).empty();
+		$.each(data, function(i, item){
+			item['index'] = i + 1;
+			item['status'] = (DC.extcache[item.crx_id] && DC.extcache[item.crx_id]['status']) || 'install';
+			box.append(_.template($('#template-topview-ext').html())(item));
+		});
+		this.bind();
+	},
+	bind: function(){
+		$('.list-box li').unbind()/*.mouseenter(function(){
+			$(this).children('dl').show().end().children('div').hide();
+			$(this).siblings().children('dl').hide().end().children('div').show();
+		})*/.click(function(){
+			extrouter.navigate("detail/" + $(this).attr("extid"), {trigger:true});
+			return false;
+		});	
+		$('.list-box li .s-btns').unbind().click(function(e){
+			e.stopPropagation();
+			if ($(this).hasClass('installed-btn')) {
+				return false;
+			}
+		});
+	}
 };
 
 var CategoryController = {
@@ -971,6 +1031,8 @@ var controllers = {
 }
 
 $(function () {
+	chromeapi.updateExtCount();
+
     var tmp = _.template($("#template-category-type").html());
 	//添加分类
 	var ori=$("#category-type").children().detach();
@@ -979,7 +1041,7 @@ $(function () {
 		if (icon < 10) icon = '0' + icon.toString();
         $("#category-type").append(tmp({catename:CATENAMEMAP[cateobj['id']], catetype:cateobj['id'], icon:icon}));
     });
-	$("#category-type").append(ori);
+	$("#category-type").prepend(ori);
 
     var extrouter;
     //fix url#hash.within ie||chrome.
@@ -1010,19 +1072,28 @@ $(function () {
         }
     }
     window.extrouter = extrouter;
+	$('.navigate').live('click', function(){
+		extrouter.navigate($(this).attr('path'), {trigger:true});
+	});
     $("#category-type .cat").click(function (e) {
         var type = $(this).attr('type');
 		if(type){
-			extrouter.navigate("category/" + CATETYPEMAP[type], {trigger:true});
+			extrouter.navigate("category/" + CATETYPEMAP[type] + '/' + SORTMAP[PATH.sorttype], {trigger:true});
 			PATH.resetnav(type);
 			document.title = "扩展中心 - 360极速浏览器 - " + CATETYPEMAP[type];
 			return false;
 		}
     });
+	$('.sort').click(function(){
+		PATH.sorttype = $(this).attr('sort');
+		extrouter.navigate("category/" + PATH.param + '/' + SORTMAP[PATH.sorttype], {trigger:true});
+		window.scroll(0, 0);
+		return false;
+	});
     $("#search-form").bind("submit", function (e) {
         var key = $(this).find("input[name=q]").val();
 		if(key!=""){
-			extrouter.navigate("search/" + key, {trigger:true});
+			extrouter.navigate("search/" + (key), {trigger:true});
 		}else{
 			alert('请输入搜索条件');
 			$(this).find("input[name=q]").focus();
