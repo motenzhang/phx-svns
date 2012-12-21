@@ -4,7 +4,7 @@
  * @version: 1.0
  * @mail: lichao3@360.cn
  */
-$(function(host, undef){
+(function(host, undef){
 
   var CAPTURE_TIMEOUT = 10 * 1000,
   CAPTURE_ERRNO_TIMEOUT = 2,
@@ -38,11 +38,12 @@ $(function(host, undef){
   tileEmptyTempStr = $('#tile-empty-temp').html();
 
 
-  function saveSetting(item, exec){
+  function saveSetting(type, value, key){
+	key = key || type;
     var settings = localStorage['settings'] = localStorage['settings'] || '{}',
     settings = JSON.parse(settings);
 
-    settings[item] = exec;
+    settings[key] = [type, value];
 
     localStorage['settings'] = JSON.stringify(settings);
   }
@@ -52,7 +53,18 @@ $(function(host, undef){
     settings = JSON.parse(settings);
     
     for(var k in settings){
-    //  eval(settings[k]);
+		var val = settings[k];
+		switch (val[0]) {
+			case 'search':
+				setSearch(val[1]);
+				break;
+			case 'checkbox':
+				$('#' + k).attr('checked', val[1]);
+				break;
+			default:
+				$('#' + k).val(val[1]);
+				break;
+		}
     }
   }
 
@@ -184,7 +196,7 @@ $(function(host, undef){
       setSearch(searchItem);
       $('.search-menu').slideUp(200);
 
-      saveSetting('search', 'setSearch('+JSON.stringify(searchItem)+');');
+      saveSetting('search', searchItem);
     }
   });
 
@@ -534,12 +546,7 @@ $(function(host, undef){
 
 
   $('.js-auto-save').live('change', function(){
-
-    if($(this).attr('type') == 'checkbox'){
-      saveSetting(this.id ,'$("#'+this.id+'").attr("checked",'+this.checked+')');
-    }else{
-      saveSetting([this.id], '$("#'+this.id+'").val("'+$(this).val()+'")');
-    }
+    saveSetting($(this).attr('type'), $(this).attr('type') == 'checkbox' ? this.checked : $(this).val(), this.id);
   });
 
   $('#add-url-form input[type=text]').live('keypress', function(e){
@@ -574,7 +581,7 @@ $(function(host, undef){
             title: title||url,
             short_url: url.shorting(50),
             url: url
-          }).html()).fadeIn().find('.tile-logo img').attr('src', 'images/loading.gif').css('height', imgHeight);;
+          }).html()).fadeIn().find('.tile-logo img').attr('src', 'img/loading.gif').css('height', imgHeight);;
 
           if($('#js-show-in-newtab')[0].checked){
             $(this).find('.link').attr('target', '_blank');
@@ -600,7 +607,7 @@ $(function(host, undef){
     clearTimeout(window['capture_timeout_' + url]);
     if(url && errno){
       url = url.replace(/\/$/,'');
-      var query = '.tile a[href^="'+url+'"] img[src="images/loading.gif"]',
+      var query = '.tile a[href^="'+url+'"] img[src="img/loading.gif"]',
       img = $(query)[0];
       if(!img){
         query = '.tile a[href^="'+url+'"] img';
@@ -844,7 +851,7 @@ $(function(host, undef){
 
   /**/
   
-  var img = new Image();
+/*  var img = new Image();
   img.onload = function(){
 	  var canvas = document.createElement('canvas');
 	  var context = canvas.getContext('2d');
@@ -854,4 +861,4 @@ $(function(host, undef){
   img.src = 'http://img.autohome.com.cn/album/userphotos/2012/12/3/d2d060e7-d3f8-459c-9b54-15658aa82b0d_s.jpg';
   /**/
 
-});
+})();

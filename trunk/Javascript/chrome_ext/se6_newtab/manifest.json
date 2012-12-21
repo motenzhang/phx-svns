@@ -1,16 +1,11 @@
 ﻿{
   "name": "新标签页",
-  "version": "1.0",
+  "version": "1.0.0.1001",
   "manifest_version": 2,
   "description": "新标签页",
-  "icons": {
-    "128": "icon.png"
-  },
    "chrome_url_overrides": {
       "newtab": "newtab.html"
    },
   "permissions": [
-    "webNavigation", "pageCapture",
-    "tabs", "http://*/*","https://*/*","<all_urls>"
   ]
 }
