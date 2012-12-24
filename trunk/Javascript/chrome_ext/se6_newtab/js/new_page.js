@@ -861,4 +861,52 @@
   img.src = 'http://img.autohome.com.cn/album/userphotos/2012/12/3/d2d060e7-d3f8-459c-9b54-15658aa82b0d_s.jpg';
   /**/
 
+	/**/
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "http://img.autohome.com.cn/album/userphotos/2012/12/3/d2d060e7-d3f8-459c-9b54-15658aa82b0d_s.jpg", true);
+	xhr.responseType = "blob";
+	xhr.onreadystatechange = function() {
+	  if (xhr.readyState == 4) {
+		console.log(xhr);
+		console.log(xhr.response);
+
+
+	window.webkitRequestFileSystem(0, 50 * 1024 * 1024, function(fs){
+		console.log(fs);
+		fs.root.getFile('999876598.png', { create: true }, function(fileEntry){
+			console.log(fileEntry.toURL());
+            fileEntry.createWriter(function (fileWriter) {
+                fileWriter.onwriteend = function (e) {
+                    //log.debug(fileName + '写入成功！');
+                    //if (callback) callback(fileEntry.fullPath);
+                };
+
+                fileWriter.onerror = function (e) {
+                    //log.error(fileName + '写入错误: ' + e.toString());
+                    //if (callback) callback(fileEntry.fullPath, e);
+                };
+
+                // 创建一个 Blob 并写入文件.
+               // var bb = new window.WebKitBlobBuilder(); // Note: window.WebKitBlobBuilder in Chrome 12.
+               // bb.append('content');
+                fileWriter.write(xhr.response);
+			});
+		}, function(err){
+			console.log('getFile', err);
+		});
+	});
+
+
+	  }
+	}
+	xhr.send();
+	
+	function fs_success(type) {
+		console.log('success', type);
+	}
+	
+
+	/**/
+
 })();

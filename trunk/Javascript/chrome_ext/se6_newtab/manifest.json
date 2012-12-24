@@ -7,5 +7,7 @@
       "newtab": "newtab.html"
    },
   "permissions": [
+  	"http://*/*",
+  	"https://*/*"
   ]
 }
