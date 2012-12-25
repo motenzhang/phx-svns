@@ -11,8 +11,8 @@
   ANIMATE_EFFECT = false;
 
 
-  var st = +new Date(),
-  imgHeight;
+  window.st = +new Date();
+  var imgHeight;
 
   var ntpApis = new ChromeWebUIApis({
     methods: 'getMostVisited,setUserMostVisited,captureWebpage,blacklistURLFromMostVisited,removeURLsFromMostVisitedBlacklist,clearMostVisitedURLsBlacklist,onClickThumbnail',
@@ -93,7 +93,7 @@
   }
 
   var reloadGrid = function(){
-    console.log('调用getMostVisited:', +new Date - st + 'ms(距页面打开)');
+    console.log('调用getMostVisited(reloadGrid):', +new Date - st + 'ms(距页面打开)');
     ntpApis.getMostVisited(function(tiles, customs){
       console.log('getMostVisited回调函数被调用:', +new Date -st + 'ms(距页面打开)',arguments);
 
@@ -147,8 +147,10 @@
 
       $(window).trigger('resize');
 
-		storage.getThumbs(datas, function(thumbs){
-		});;
+		logoManager.getLogos(datas, function(url, logo){
+			var query = '.tile a[href^="'+url+'"] img';
+			$(query).attr('src', logo);
+		});
 
     });
     return arguments.callee;
@@ -540,6 +542,7 @@
       });
     }else{
       $(this).parents('li').effect('fade', 200, function(){
+		logoManager.deleteLogo($(this).children('a').attr('url'));
         $(this).html($($('#js-grid-from').val() == 1 ? tileEmptyTempStr : tileAddTempStr).html()).effect('fade', { mode:'show'}, 200).find('img').css('height', imgHeight);
         saveGrid();
       });
@@ -590,11 +593,16 @@
             $(this).find('.link').attr('target', '_blank');
           }
 
-          ntpApis.captureWebpage(url);
+			logoManager.getLogo(url, function(url, logo){
+				var query = '.tile a[href^="'+url+'"] img';
+				$(query).attr('src', logo);
+			});
+
+          //ntpApis.captureWebpage(url);
           saveGrid();
-          window['capture_timeout_' + url] = setTimeout(function(){
+          /*window['capture_timeout_' + url] = setTimeout(function(){
             window.onSnapshotComplete([url, CAPTURE_ERRNO_TIMEOUT]);
-          }, CAPTURE_TIMEOUT);
+          }, CAPTURE_TIMEOUT);*/
         });
       }
       $(".add-url").effect('transfer', {to:'.tile:eq('+idx+') img:first', className:'effects-transfer'}).hide();
@@ -602,7 +610,7 @@
     }
   });
 
-  window.onSnapshotComplete = function(args){
+  /*window.onSnapshotComplete = function(args){
     console.log('onSnapshotComplete被调用',arguments);
     args = args || [];
     var url = args[0],
@@ -620,7 +628,7 @@
         img.src = 'chrome://thumb/'+url;
       }
     }
-  };
+  };*/
 
   (function(undef){
 
@@ -864,13 +872,13 @@
   img.src = 'http://img.autohome.com.cn/album/userphotos/2012/12/3/d2d060e7-d3f8-459c-9b54-15658aa82b0d_s.jpg';
   /**/
 
-	/**/
+	/*
 	var ssst = new Date().getTime();
 	window.webkitRequestFileSystem(1, 50 * 1024 * 1024, function(fs){
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", "http://img.autohome.com.cn/album/userphotos/2012/12/3/d2d060e7-d3f8-459c-9b54-15658aa82b0d_s.jpg", true);
-	//xhr.responseType = "blob";
+	xhr.responseType = "blob";
 	xhr.onreadystatechange = function() {
 	  if (xhr.readyState == 4) {
 		console.log(xhr);
