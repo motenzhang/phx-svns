@@ -600,9 +600,9 @@
 
           //ntpApis.captureWebpage(url);
           saveGrid();
-          /*window['capture_timeout_' + url] = setTimeout(function(){
+          window['capture_timeout_' + url] = setTimeout(function(){
             window.onSnapshotComplete([url, CAPTURE_ERRNO_TIMEOUT]);
-          }, CAPTURE_TIMEOUT);*/
+          }, CAPTURE_TIMEOUT);
         });
       }
       $(".add-url").effect('transfer', {to:'.tile:eq('+idx+') img:first', className:'effects-transfer'}).hide();
@@ -610,7 +610,7 @@
     }
   });
 
-  /*window.onSnapshotComplete = function(args){
+  window.onSnapshotComplete = function(args){
     console.log('onSnapshotComplete被调用',arguments);
     args = args || [];
     var url = args[0],
@@ -625,10 +625,10 @@
         img = $(query)[0];
       }
       if(img){
-        img.src = 'chrome://thumb/'+url;
+        img.src = 'img/default_logo.png';//'chrome://thumb/'+url;
       }
     }
-  };*/
+  };
 
   (function(undef){
 
