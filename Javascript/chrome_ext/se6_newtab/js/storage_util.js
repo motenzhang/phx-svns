@@ -4,10 +4,22 @@ var storage = function(){
 		'getMostVisited': function(callback) {
 			
 		},
-		'addBlackList': function(url) {
-			var data = storage.getSync('sync_blacklist');
-			data[url] = 1;
-			storage.setSync('sync_blacklist', data);
+		'addBlackList': function(url, add) {
+			var data = storage.get('sync_blacklist');
+			data[url] = add;
+			storage.set('sync_blacklist', data);
+		},
+		'clearBlackList': function(url) {
+			storage.set('sync_blacklist', {});
+		},
+		'blackList': function(grids) {
+			var data = storage.get('sync_blacklist');
+			return grids.filter(function(item){
+				if (data[item.url]) {
+					return false;
+				}
+				return true;
+			});
 		},
 		'getCustomGrids': function(){
 			if (localStorage['sync_custom_grids']) {
@@ -20,7 +32,7 @@ var storage = function(){
 			return grids;
 		},
 		'setCustomGrids': function(grids){
-			localStorage['sync_custom_grids'] = JSON.stringify(grids);
+			storage.set('sync_custom_grids', grids);
 		},
 		'get': function(key) {
 			return JSON.parse(localStorage[key] || '{}');
