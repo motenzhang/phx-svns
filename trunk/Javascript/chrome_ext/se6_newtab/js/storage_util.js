@@ -271,4 +271,11 @@ String.prototype.shorting = function(len, omiss){
 	}else{
 	  return this.toString();
 	}
-}
+};
+
+String.prototype.tmpl = function(data){
+	var result = this.replace(/\$\{(\w+)\}/g, function($0, $1){
+		return data[$1];
+	});
+	return (result);
+};
