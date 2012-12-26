@@ -31,17 +31,13 @@
 
   function saveSetting(type, value, key){
 	key = key || type;
-    var settings = localStorage['sync_settings'] = localStorage['sync_settings'] || '{}',
-    settings = JSON.parse(settings);
-
+    var settings = storage.get('sync_settings');
     settings[key] = [type, value];
-
-    localStorage['sync_settings'] = JSON.stringify(settings);
+	storage.set('sync_settings', settings);
   }
 
   function loadSettings(){
-    var settings = localStorage['sync_settings'] = localStorage['sync_settings'] || '{}',
-    settings = JSON.parse(settings);
+    var settings = storage.get('sync_settings');
     
     for(var k in settings){
 		var val = settings[k];
@@ -531,7 +527,9 @@
           return true;
         });
 
-        ntpApis.blacklistURLFromMostVisited(url);
+		storage.addBlackList(url);
+		
+        //--ntpApis.blacklistURLFromMostVisited(url);
         /*
         $(me).parents('.tile-logo').effect('transfer', {to:'.remove-tips', className:'effects-transfer'}, 500, function(){
           $('.remove-tips').css('opacity', 1);
