@@ -1,6 +1,6 @@
 ﻿{
   "name": "新标签页",
-  "version": "1.0.0.1001",
+  "version": "1.0.0.1002",
   "manifest_version": 2,
   "description": "新标签页",
    "chrome_url_overrides": {

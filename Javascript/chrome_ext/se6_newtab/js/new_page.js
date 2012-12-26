@@ -24,15 +24,6 @@
     }
   });
 
-  String.prototype.shorting = function(len, omiss){
-    omiss = omiss || '...';
-    if(this.length > len){
-      return this.substr(0,len/2) + omiss + this.substr(this.length-len/2);
-    }else{
-      return this.toString();
-    }
-  }
-
   var tileTmplStr = $('#tile-temp').html(),
   tileAddTempStr = $('#tile-add-temp').html(),
   tileEmptyTempStr = $('#tile-empty-temp').html();
@@ -40,16 +31,16 @@
 
   function saveSetting(type, value, key){
 	key = key || type;
-    var settings = localStorage['settings'] = localStorage['settings'] || '{}',
+    var settings = localStorage['sync_settings'] = localStorage['sync_settings'] || '{}',
     settings = JSON.parse(settings);
 
     settings[key] = [type, value];
 
-    localStorage['settings'] = JSON.stringify(settings);
+    localStorage['sync_settings'] = JSON.stringify(settings);
   }
 
   function loadSettings(){
-    var settings = localStorage['settings'] = localStorage['settings'] || '{}',
+    var settings = localStorage['sync_settings'] = localStorage['sync_settings'] || '{}',
     settings = JSON.parse(settings);
     
     for(var k in settings){
@@ -97,12 +88,13 @@
     ntpApis.getMostVisited(function(tiles, customs){
       console.log('getMostVisited回调函数被调用:', +new Date -st + 'ms(距页面打开)',arguments);
 
-      var datas = $('#js-grid-from').val() == 1 ? tiles : storage.getCustomGrids(),
+	  var mostVisitedMode = $('#js-grid-from').val() == 1;
+      var datas = mostVisitedMode ? tiles : storage.getCustomGrids(),
       gridCount = $('#js-grid-count').val()-0,
       lis = '',
       oftenLis = '',
-      emptyLiStr = $('#js-grid-from').val() == 1 ? tileEmptyTempStr : tileAddTempStr,
-      drag = $('#js-grid-from').val() == 1 ? 'ui-state-disabled' : '';
+      emptyLiStr = mostVisitedMode ? tileEmptyTempStr : tileAddTempStr,
+      drag = mostVisitedMode ? 'ui-state-disabled' : '';
 
 
       tiles.forEach(function(tile){
@@ -121,8 +113,12 @@
 
       datas.every(function(item, i){
         if(item.url){
+		  var opTitle;
+		  if (mostVisitedMode && (opTitle = logoManager.getOpTitle(item.url))) {
+			  item.title = opTitle;
+		  }
+		  item.logo = logoManager.getOpLogo(item.url);
           item.short_url = item.url.shorting(50);
-          item.pic = item.local_pic || 'chrome://thumb/' + item.url;
           item.drag = drag;
           lis += $.tmpl(tileTmplStr, item)[0].outerHTML;
         }else{
@@ -584,6 +580,7 @@
       if(url){
         $('.tile:eq('+idx+')').fadeOut(500, function(){
           $(this).html($.tmpl(tileTmplStr, {
+			logo: logoManager.getOpLogo(url),
             title: title||url,
             short_url: url.shorting(50),
             url: url
@@ -600,9 +597,9 @@
 
           //ntpApis.captureWebpage(url);
           saveGrid();
-          window['capture_timeout_' + url] = setTimeout(function(){
+          /*window['capture_timeout_' + url] = setTimeout(function(){
             window.onSnapshotComplete([url, CAPTURE_ERRNO_TIMEOUT]);
-          }, CAPTURE_TIMEOUT);
+          }, CAPTURE_TIMEOUT);*/
         });
       }
       $(".add-url").effect('transfer', {to:'.tile:eq('+idx+') img:first', className:'effects-transfer'}).hide();
@@ -625,7 +622,7 @@
         img = $(query)[0];
       }
       if(img){
-        img.src = 'img/default_logo.png';//'chrome://thumb/'+url;
+        img.src = '';//'chrome://thumb/'+url;
       }
     }
   };
