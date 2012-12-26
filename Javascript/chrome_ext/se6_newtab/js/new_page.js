@@ -120,9 +120,9 @@
 		  item.logo = logoManager.getOpLogo(item.url);
           item.short_url = item.url.shorting(50);
           item.drag = drag;
-          lis += $.tmpl(tileTmplStr, item)[0].outerHTML;
+          lis += tileTmplStr.tmpl(item);
         }else{
-          lis += $.tmpl(emptyLiStr, {drag:drag})[0].outerHTML;
+          lis += emptyLiStr.tmpl({drag:drag});
         }
         if(i+1<gridCount){
           return true;
@@ -132,7 +132,7 @@
       });
 
       if(datas.length < gridCount){
-        lis += new Array(gridCount - datas.length + 1).join($.tmpl(emptyLiStr,{drag:drag})[0].outerHTML);
+        lis += new Array(gridCount - datas.length + 1).join(emptyLiStr.tmpl({drag:drag}));
       }
 
       $('.grid ul').html(lis);
@@ -242,9 +242,11 @@
 
   $('#search-kw').autocomplete('http://sug.so.360.cn/suggest?encodein=utf-8&encodeout=utf-8',{
     selectFirst: false,
-    dataType: 'jsonp',
+    dataType: 'text',
     scrollHeight: 300,
     parse: function(data){
+	  data = data.replace(/window\.suggest360\(.+?,s:([\s\S]*?)\}\);/, '$1');
+	  data = {s:JSON.parse(data)};
       var parsed = [];
       data.s.forEach(function(v){
         parsed.push({
@@ -579,12 +581,12 @@
 
       if(url){
         $('.tile:eq('+idx+')').fadeOut(500, function(){
-          $(this).html($.tmpl(tileTmplStr, {
+          $(this).html($(tileTmplStr.tmpl({
 			logo: logoManager.getOpLogo(url),
             title: title||url,
             short_url: url.shorting(50),
             url: url
-          }).html()).fadeIn().find('.tile-logo img').attr('src', 'img/loading.gif').css('height', imgHeight);;
+          })).html()).fadeIn().find('.tile-logo img').attr('src', 'img/loading.gif').css('height', imgHeight);;
 
           if($('#js-show-in-newtab')[0].checked){
             $(this).find('.link').attr('target', '_blank');
