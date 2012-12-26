@@ -85,7 +85,7 @@
       console.log('getMostVisited回调函数被调用:', +new Date -st + 'ms(距页面打开)',arguments);
 
 	  var mostVisitedMode = $('#js-grid-from').val() == 1;
-      var datas = mostVisitedMode ? tiles : storage.getCustomGrids(),
+      var datas = mostVisitedMode ? storage.blackList(tiles) : storage.getCustomGrids(),
       gridCount = $('#js-grid-count').val()-0,
       lis = '',
       oftenLis = '',
@@ -489,8 +489,9 @@
 
 
   $('#clearBlackList').live('click', function(){
-    ntpApis.clearMostVisitedURLsBlacklist();
-    
+    //--ntpApis.clearMostVisitedURLsBlacklist();
+    storage.clearBlackList();
+	reloadGrid();
   });
   $('#removeUrlsFromBlackList').live('click', function(){
     /*
@@ -498,7 +499,9 @@
       chrome.send('removeURLsFromMostVisitedBlacklist', [window.redo_url]);
     });
     */
-    chrome.send('removeURLsFromMostVisitedBlacklist', [window.redo_url]);
+    //--chrome.send('removeURLsFromMostVisitedBlacklist', [window.redo_url]);
+	storage.addBlackList(window.redo_url, 0);
+	reloadGrid();
   });
   $('.remove-tips a').live('click', function(e){
     clearTimeout(window.timerRemoveTipHandler);
@@ -527,7 +530,8 @@
           return true;
         });
 
-		storage.addBlackList(url);
+		storage.addBlackList(url, 1);
+		reloadGrid();
 		
         //--ntpApis.blacklistURLFromMostVisited(url);
         /*
