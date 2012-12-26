@@ -1,8 +1,13 @@
 var storage = function(){
 	var defaultGridCount = 8;
 	return {
-		'getMostVisited': function(callback){
+		'getMostVisited': function(callback) {
 			
+		},
+		'addBlackList': function(url) {
+			var data = storage.getSync('sync_blacklist');
+			data[url] = 1;
+			storage.setSync('sync_blacklist', data);
 		},
 		'getCustomGrids': function(){
 			if (localStorage['sync_custom_grids']) {
@@ -16,6 +21,12 @@ var storage = function(){
 		},
 		'setCustomGrids': function(grids){
 			localStorage['sync_custom_grids'] = JSON.stringify(grids);
+		},
+		'get': function(key) {
+			return JSON.parse(localStorage[key] || '{}');
+		},
+		'set': function(key, data) {
+			localStorage[key] = JSON.stringify(data);
 		},
 	}
 }();
@@ -110,19 +121,17 @@ var logoManager = function(){
 			});
 		},
 		'saveSiteData': function(url, title, logo) {
-		    var csitedata = localStorage['csitedata'] = localStorage['csitedata'] || '{}',
-			csitedata = JSON.parse(csitedata);
-			csitedata[url] = csitedata[url] || {};
+		    var data = storage.get('csitedata');
+			data[url] = data[url] || {};
 			
-			if (title)	csitedata[url]['title'] = title;
-			if (logo)	csitedata[url]['logo'] = logo;
+			if (title)	data[url]['title'] = title;
+			if (logo)	data[url]['logo'] = logo;
 
-		    localStorage['csitedata'] = JSON.stringify(csitedata);
+			storage.set('data', data);
 		},
 		'getSiteData': function(url, field) {
-		    var csitedata = localStorage['csitedata'] = localStorage['csitedata'] || '{}',
-			csitedata = JSON.parse(csitedata);
-			return csitedata[url] && csitedata[url][field] || '';
+		    var data = storage.get('csitedata');
+			return data[url] && data[url][field] || '';
 		},
 	};
 }();
