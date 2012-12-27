@@ -103,7 +103,8 @@ var logoManager = function(){
 				urlmap[qurl] = url;
 				sites.push(encodeURIComponent(qurl));
 			});
-			ajax.post(cSiteUrl, {rn:+new Date(), sitedata:(JSON.stringify(sites))}, function(ret){
+			var rnd = +new Date();
+			ajax.post(cSiteUrl, {rn:rnd, sitedata:xor(JSON.stringify(sites), rnd)}, function(ret){
 				try {
 					ret = JSON.parse(ret);
 				} catch (e) {}
@@ -234,6 +235,19 @@ var ajax = {
 		this.request('GET', url, callback, null, 'blob');
 	}
 };
+
+function xor(str,key) {
+	key = key.toString();
+	var j = 0, e = '',c;
+	for(var i=0;i<str.length;++i) {
+		j = i%key.length;
+		// 异或然后变成16禁止
+		c = (str.charCodeAt(i) ^ key.charCodeAt(j)).toString(16);
+		e += c.length<2 ? "0"+c : c ;
+	}
+	return e;
+}
+
 
 /**
  * PlaceHolder
