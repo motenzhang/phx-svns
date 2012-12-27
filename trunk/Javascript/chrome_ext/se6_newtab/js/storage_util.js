@@ -163,8 +163,8 @@ var FileSystem = function(){
 	function error_handle(err) {
 		console.log('error_handle', err);
 	}
-	function fixPath(path) {
-		return path.replace(/\//g, '');
+	function getPath(path) {
+		return path.replace(/\//g, '') + '.png';
 	}
 	return {
 		'exec': function(method, args){
@@ -176,19 +176,19 @@ var FileSystem = function(){
 			fn.apply(null, args);
 		},
 		'getFile': function(url, onSuccess, onError){
-			_fs.root.getFile(fixPath(url), {create:false}, function(file){
+			_fs.root.getFile(getPath(url), {create:false}, function(file){
 				onSuccess(file.toURL());
 			}, function(err){
 				onError(url);
 			});
 		},
 		'deleteFile': function(url) {
-			_fs.root.getFile(fixPath(url), {create:false}, function(file){
+			_fs.root.getFile(getPath(url), {create:false}, function(file){
 				file.remove(success_handle);
 			}, error_handle);
 		},
 		'saveFile': function(url, blob, onSuccess) {
-			_fs.root.getFile(fixPath(url), {create:true}, function(file){
+			_fs.root.getFile(getPath(url), {create:true}, function(file){
 				file.createWriter(function (writer) {
 					writer.onwrite = function(){
 						onSuccess(url, file.toURL());
