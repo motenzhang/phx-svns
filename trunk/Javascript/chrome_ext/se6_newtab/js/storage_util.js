@@ -40,26 +40,53 @@ var storage = function(){
 		'set': function(key, data) {
 			localStorage[key] = JSON.stringify(data);
 		},
+		'getLastDate': function(key) {
+			var lastdate = storage.get('__lastdate');
+			var ret = lastdate[key] || 0;
+			storage.set('__lastdate', lastdate);
+			return ret;
+		},
+		'setLastDate': function(key) {
+			var lastdate = storage.get('__lastdate');
+			lastdate[key] = +new Date();
+			storage.set('__lastdate', lastdate);
+		},
+		'getIntervalMinute': function(key) {
+			return (+new Date() - storage.getLastDate(key)) / 1000 / 60;
+		},
 	}
 }();
 
 var logoManager = function(){
-	var cSiteUrl = 'http://site.browser.360.cn/';
 	return {
+		// 获取本地存储 优化标题
 		'getOpTitle': function(url) {
 			return logoManager.getSiteData(url, 'title');
 		},
 		'getOpLogo': function(url) {
 			return logoManager.getSiteData(url, 'logo');
 		},
-		'getLogos': function(grids, callback){
-			var noLogoUrls = [];
+		// 获取全部九宫格FileSystem LOGO
+		'getLogos': function(grids, callback, mode){
+			var queryUrls = [];
 			var count = 0;
 			function queryFailLogos() {
-				if (--count == 0 && noLogoUrls.length > 0) {
-					logoManager.queryCSite(noLogoUrls, function(url, logo){
-						callback(url, logo);
-					});
+				if (--count == 0) {
+					var params = {};
+					if (/*true || */storage.getIntervalMinute('query_csite') > config.csite.check_update) {
+						console.log('check update ciste logos!!!');
+						storage.setLastDate('query_csite');
+						queryUrls = [];
+						grids.forEach(function(item) {
+							queryUrls.push(item.url);
+						});
+						params = {'checkup':1, 'mode':mode};
+					}
+					if (queryUrls.length > 0) {
+						logoManager.queryCSite(queryUrls, function(url, logo){
+							callback(url, logo);
+						}, params);
+					}
 				}
 			}
 			grids.forEach(function(item){
@@ -69,7 +96,7 @@ var logoManager = function(){
 						callback(url, logo);
 						queryFailLogos();
 					}, function(url){
-						noLogoUrls.push(url);
+						queryUrls.push(url);
 						queryFailLogos();
 					});
 				}
@@ -92,7 +119,8 @@ var logoManager = function(){
 		'deleteLogo': function(url) {
 			FileSystem.exec('deleteFile', [url]);
 		},
-		'queryCSite':function(urls, callback) {
+		'queryCSite':function(urls, callback, params) {
+			params = params || {};
 			if (!urls.forEach) {
 				urls = [urls];
 			}
@@ -101,10 +129,17 @@ var logoManager = function(){
 			urls.forEach(function(url){
 				var qurl = (url.replace(/^\w+\:\/\//, ''));
 				urlmap[qurl] = url;
-				sites.push(encodeURIComponent(qurl));
+				// 使用 xor 操作后，无须urlencode
+				//qurl = encodeURIComponent(qurl);
+				sites.push(qurl);
 			});
-			var rnd = +new Date();
-			ajax.post(cSiteUrl, {rn:rnd, sitedata:xor(JSON.stringify(sites), rnd)}, function(ret){
+            console.log(sites);
+			var postData = {rn: +new Date()};
+			postData['sitedata'] = xor(JSON.stringify(sites), postData.rn);
+			$.each(params, function(key, value){
+				postData[key] = value;
+			});
+			ajax.post(config.csite.api, postData, function(ret){
 				try {
 					ret = JSON.parse(ret);
 				} catch (e) {}
@@ -178,7 +213,13 @@ var FileSystem = function(){
 		},
 		'getFile': function(url, onSuccess, onError){
 			_fs.root.getFile(getPath(url), {create:false}, function(file){
-				onSuccess(file.toURL());
+				file.getMetadata(function(meta){
+					if (meta.size > 0) {
+						onSuccess(file.toURL());
+					} else {
+						onError(url);
+					}
+				});
 			}, function(err){
 				onError(url);
 			});

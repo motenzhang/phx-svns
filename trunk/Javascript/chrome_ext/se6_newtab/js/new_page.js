@@ -107,6 +107,7 @@
         return;
       }
 
+	  var gridDatas = [];
       datas.every(function(item, i){
         if(item.url){
 		  var opTitle;
@@ -120,6 +121,7 @@
         }else{
           lis += emptyLiStr.tmpl({drag:drag});
         }
+		gridDatas.push(item);
         if(i+1<gridCount){
           return true;
         }else{
@@ -139,10 +141,10 @@
 
       $(window).trigger('resize');
 
-		logoManager.getLogos(datas, function(url, logo){
+		logoManager.getLogos(gridDatas, function(url, logo){
 			var query = '.tile a[href^="'+url+'"] img';
 			$(query).attr('src', logo);
-		});
+		}, $('#js-grid-from').val());
 
     });
     return arguments.callee;
