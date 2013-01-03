@@ -6,6 +6,13 @@
    "chrome_url_overrides": {
       "newtab": "newtab.html"
    },
+  "background": {
+    //"page": "background.html",
+    "scripts": [
+		"js/background.js"
+	],
+    "persistent": false
+  },
   "permissions": [
   	"http://*/*",
   	"https://*/*",
