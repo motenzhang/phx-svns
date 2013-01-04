@@ -184,7 +184,7 @@ var logoManager = function(){
 			if (title)	data[url]['title'] = title;
 			if (logo)	data[url]['logo'] = logo;
 
-			storage.set('data', data);
+			storage.set('csitedata', data);
 		},
 		'getSiteData': function(url, field) {
 		    var data = storage.get('csitedata');
