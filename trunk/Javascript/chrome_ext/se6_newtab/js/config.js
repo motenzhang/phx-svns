@@ -1,4 +1,8 @@
 var config = {
+	grid: {
+		defaultCount: 8,
+		preset: [],
+	},
 	autoupdate: {
 		url:'',
 		interval: 60 * 2,
@@ -10,8 +14,5 @@ var config = {
 	cdata: {
 		api: '',
 		timer: 1000 * 1 * 5,
-	},
-	grid: {
-		defaultCount: 8
 	},
 };

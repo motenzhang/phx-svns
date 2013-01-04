@@ -2,9 +2,16 @@ var storage = function(){
 	var defaultGridCount = 8;
 	return {
 		'getMostVisited': function(callback) {
-			setTimeout(function(){
-				callback([{"direction":"ltr","title":"\u6DD8\u5B9D\u7F51 - \u6DD8\uFF01\u6211\u559C\u6B22","url":"http://www.taobao.com/"},{"direction":"ltr","title":"\u65B0\u6D6A\u9996\u9875","url":"http://www.sina.com.cn/"},{"direction":"ltr","title":"360\u5BFC\u822A","url":"http://hao.360.cn/"},{"direction":"ltr","title":"\u7F51\u6613","url":"http://www.163.com/"},{"direction":"ltr","title":"\u767E\u5EA6\u4E00\u4E0B\uFF0C\u4F60\u5C31\u77E5\u9053","url":"http://www.baidu.com/"},{"direction":"ltr","title":"\u4F18\u9177","url":"http://www.youku.com/"},{"direction":"ltr","title":"\u65B0\u6D6A\u5FAE\u535A","url":"http://weibo.com/"},{"direction":"ltr","title":"\u4EBA\u4EBA\u7F51","url":"http://www.renren.com/"},{"direction":"ltr","title":"\u4E2A\u4EBA\u4E2D\u5FC3 - 360\u5B89\u5168\u6D4F\u89C8\u5668","url":"http://my.browser.360.cn/"},{"direction":"ltr","title":"\u6B63\u54C1OKG\u70ED\u9500\u8FD0\u52A8\u7537\u978B 2012\u79CB\u51AC\u65B0\u6B3E\u65F6\u5C1A\u4F11\u95F2\u978B \u4F4E\u5E2E\u978B\u5B50 \u7537 \u677F\u978B-\u6DD8\u5B9D\u7F51","url":"http://item.taobao.com/item.htm?spm=a1z0d.1.1000638.4.k5PrMO&id=10184612150"},{"direction":"ltr","title":"\u6211\u7684360\u4E2A\u4EBA\u4E2D\u5FC3-\u8BBE\u7F6E\u65B0\u5934\u50CF","url":"http://i.360.cn/profile/avatar/destUrl/?from=360se"},{"direction":"ltr","title":"\u65F6\u95F4\u673A\u5668","url":"http://app.browser.360.cn/recover/"},{"direction":"ltr","title":"360\u6269\u5C55\u4E2D\u5FC3","url":"http://ext.se.360.cn/"}],[{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true}],false);
-			});
+			try {
+				chrome.ntp.getTopsites(function(grids) {
+					callback(grids);
+				});
+			} catch (e) {
+				console.error('chrome.ntp.getTopsites', e, '调用静态数据');
+				setTimeout(function(){
+					callback([{"direction":"ltr","title":"\u6DD8\u5B9D\u7F51 - \u6DD8\uFF01\u6211\u559C\u6B22","url":"http://www.taobao.com/"},{"direction":"ltr","title":"\u65B0\u6D6A\u9996\u9875","url":"http://www.sina.com.cn/"},{"direction":"ltr","title":"360\u5BFC\u822A","url":"http://hao.360.cn/"},{"direction":"ltr","title":"\u7F51\u6613","url":"http://www.163.com/"},{"direction":"ltr","title":"\u767E\u5EA6\u4E00\u4E0B\uFF0C\u4F60\u5C31\u77E5\u9053","url":"http://www.baidu.com/"},{"direction":"ltr","title":"\u4F18\u9177","url":"http://www.youku.com/"},{"direction":"ltr","title":"\u65B0\u6D6A\u5FAE\u535A","url":"http://weibo.com/"},{"direction":"ltr","title":"\u4EBA\u4EBA\u7F51","url":"http://www.renren.com/"},{"direction":"ltr","title":"\u4E2A\u4EBA\u4E2D\u5FC3 - 360\u5B89\u5168\u6D4F\u89C8\u5668","url":"http://my.browser.360.cn/"},{"direction":"ltr","title":"\u6B63\u54C1OKG\u70ED\u9500\u8FD0\u52A8\u7537\u978B 2012\u79CB\u51AC\u65B0\u6B3E\u65F6\u5C1A\u4F11\u95F2\u978B \u4F4E\u5E2E\u978B\u5B50 \u7537 \u677F\u978B-\u6DD8\u5B9D\u7F51","url":"http://item.taobao.com/item.htm?spm=a1z0d.1.1000638.4.k5PrMO&id=10184612150"},{"direction":"ltr","title":"\u6211\u7684360\u4E2A\u4EBA\u4E2D\u5FC3-\u8BBE\u7F6E\u65B0\u5934\u50CF","url":"http://i.360.cn/profile/avatar/destUrl/?from=360se"},{"direction":"ltr","title":"\u65F6\u95F4\u673A\u5668","url":"http://app.browser.360.cn/recover/"},{"direction":"ltr","title":"360\u6269\u5C55\u4E2D\u5FC3","url":"http://ext.se.360.cn/"}],[{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true},{"filler":true}],false);
+				});
+			}
 		},
 		'addBlackList': function(url, add) {
 			var data = storage.get('sync_blacklist');
@@ -270,16 +277,21 @@ var AutoUpdate = function(){
 
 var CDATA = function(){
 	var cdataInterval = 0;
+	var cdateChanged = false;
 	return {
 		settimer: function() {
+			cdateChanged = true;
 			clearTimeout(cdataInterval);
 			cdataInterval = setTimeout(function(){
 				CDATA.upload();
 			}, config.cdata.timer);
 		},
 		upload: function() {
-			alert('cdata.upload')
-			chrome.ntp.cdataUpload();
+			if (cdateChanged) {
+				alert('cdata.upload')
+				chrome.ntp.cdataUpload();
+				cdateChanged = false;
+			}
 		},
 		download: function(){
 			chrome.ntp.cdataDownload();
