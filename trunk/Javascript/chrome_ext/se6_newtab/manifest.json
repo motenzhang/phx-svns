@@ -19,5 +19,6 @@
   	"http://*/*",
   	"https://*/*",
     "unlimitedStorage"
-  ]
+  ],
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC5mTGJx/jIDGU07eVwTkZf2XbyHfNuFiuN4UgY6vlphohlVp5tmyD1ejo4mHQ3qhccurkMaAPZN3pSDtDFN/vxfW431hcYKsyNzMbVScEzxM0ROLwihqLsehQORmponxc2eRqeX88NEEs5cRyemRbifdoa5hS7/8RLsVkKNw2cLQIDAQAB"
 }
