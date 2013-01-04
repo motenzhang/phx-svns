@@ -863,52 +863,6 @@
     ntpApis.onClickThumbnail(this.href);
   });
 
-  /**/
-  
-/*  var img = new Image();
-  img.onload = function(){
-	  var canvas = document.createElement('canvas');
-	  var context = canvas.getContext('2d');
-	  context.drawImage(img, 0, 0);
-	  console.log(canvas.toDataURL());
-	};
-  img.src = 'http://img.autohome.com.cn/album/userphotos/2012/12/3/d2d060e7-d3f8-459c-9b54-15658aa82b0d_s.jpg';
-  /**/
-
-	/*
-	var ssst = new Date().getTime();
-	window.webkitRequestFileSystem(1, 50 * 1024 * 1024, function(fs){
-	
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", "http://img.autohome.com.cn/album/userphotos/2012/12/3/d2d060e7-d3f8-459c-9b54-15658aa82b0d_s.jpg", true);
-	xhr.responseType = "blob";
-	xhr.onreadystatechange = function() {
-	  if (xhr.readyState == 4) {
-		console.log(xhr);
-		console.log(xhr.response);
-
-
-		console.log(fs.root.toURL(), new Date().getTime() - ssst);
-		fs.root.getFile('999876---598.png', { create: true }, function(fileEntry){
-            fileEntry.createWriter(function (fileWriter) {
-                fileWriter.write(xhr.response);
-				console.log(fileEntry.toURL(), '---');
-			});
-		}, function(err){
-			console.log('getFile', err);
-	});
-
-
-	  }
-	}
-	xhr.send();
-		});
-	
-	function fs_success(type) {
-		console.log('success', type);
-	}
-	
-
-	/**/
+  AutoUpdate.check();
 
 })();

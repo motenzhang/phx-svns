@@ -1,16 +1,26 @@
 //alert('ntp back')
 // 调用 getMostVisited 初始化
-// 检查更新
 // 检测关闭，发送 cdata  统计
 
-chrome.extension.onRequest.addListener(
-  function(request, sender, sendResponse) {
-  alert(0)
-    console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
-    if (request.greeting == "hello")
-      sendResponse({farewell: "goodbye"});
-    else
-      sendResponse({}); // snub them.
-  });
+var background = function(){
+	return {
+		init: function(){
+			//alert('background.init');
+			//  getMostVisited 初始化
+			chrome.ntp.init();
+			// 消息初始化
+			chrome.extension.onRequest.addListener(this.onmsg);
+		},
+		onmsg: function(msg, sender, response){
+			switch(msg) {
+				case 'unload':
+					alert(msg);
+					break;
+			}
+		}
+	};
+}();
+
+
+background.init();
+

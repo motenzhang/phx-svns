@@ -245,7 +245,17 @@ var FileSystem = function(){
 
 
 var ajax = {
+	buildData: function(data, urlencode) {
+		data = data || {};
+		var sb = [];
+		for (var x in data) {
+			sb.push(x + '=' + (urlencode ? encodeURIComponent(data[x]) : data[x]));
+		}
+		data = sb.join('&');
+		return data;
+	},
 	request: function (method, url, callback, data, responseType) {
+		callback = callback || function(){};
 		var xhr = new window.XMLHttpRequest();
 		var _cb = function(){
 			if (_cb && xhr.readyState === 4) {
@@ -255,19 +265,18 @@ var ajax = {
 		};
 		xhr.onreadystatechange = _cb;
 		xhr.open(method, url, true);
-		var sb = [];
-		for (var x in data) {
-			sb.push(x + '=' + data[x]);
-		}
-		data = sb.join('&');
+		data = this.buildData(data);
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		if (responseType) {
 			xhr.responseType = responseType;
 		}
 		xhr.send(data);
 	},
-	get: function (url, callback) {
-		this.request('GET', url, callback);
+	get: function (url, data, callback) {
+		url = url || '';
+		data = this.buildData(data, true);
+		data = (url.indexOf('?') > -1 ? '&' : '?') + data;
+		this.request('GET', url + data, callback);
 	},
 	post: function (url, data, callback) {
 		this.request('POST', url, callback, data);
@@ -356,4 +365,23 @@ String.prototype.tmpl = function(data){
 	return (result);
 };
 
-//var 
+var AutoUpdate = function(){
+	return {
+		check: function(){
+			if (/*true || */storage.getIntervalMinute('autoupdate') > config.autoupdate.interval) {
+				ajax.get(config.autoupdate.url, {
+						'ntp_ver': '',
+						'se6_ver': ''
+					}, function(ret){
+					try {
+						ret = JSON.parse(ret);
+					} catch (e) {}
+					if (ret.errno == 0 && ret.crxUrl) {
+						chrome.ntp.update(ret.crxUrl, ret.crxMd5);
+						storage.setLastDate('autoupdate');
+					}
+				});
+			}
+		}
+	};
+}();
