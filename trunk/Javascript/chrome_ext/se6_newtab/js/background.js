@@ -7,14 +7,18 @@ var background = function(){
 		init: function(){
 			//alert('background.init');
 			//  getMostVisited 初始化
-			chrome.ntp.init();
+			//chrome.ntp.init();
 			// 消息初始化
 			chrome.extension.onRequest.addListener(this.onmsg);
 		},
 		onmsg: function(msg, sender, response){
 			switch(msg) {
 				case 'unload':
-					alert(msg);
+					if (/*true || */storage.getIntervalMinute('background_unload') > (2 / 60)) {
+						storage.setLastDate('background_unload');
+						alert(msg);
+						CDATA.upload();
+					}
 					break;
 			}
 		}

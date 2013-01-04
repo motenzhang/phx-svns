@@ -9,6 +9,8 @@
   "background": {
     //"page": "background.html",
     "scripts": [
+		"js/jquery-1.8.0.min.js",
+		"js/storage_util.js",
 		"js/background.js"
 	],
     "persistent": false

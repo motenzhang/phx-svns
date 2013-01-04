@@ -14,7 +14,7 @@
   window.st = +new Date();
   var imgHeight;
 
-  var ntpApis = new ChromeWebUIApis({
+/*  var ntpApis = new ChromeWebUIApis({
     methods: 'getMostVisited,setUserMostVisited,captureWebpage,blacklistURLFromMostVisited,removeURLsFromMostVisitedBlacklist,clearMostVisitedURLsBlacklist,onClickThumbnail',
     onerror: function(ev){
       console.log('error:', arguments);
@@ -22,7 +22,7 @@
     onbefore: function(ev){
       console.log('before call:'+ev.methodName, ev.args);
     }
-  });
+  });*/
 
   var tileTmplStr = $('#tile-temp').html(),
   tileAddTempStr = $('#tile-add-temp').html(),
@@ -81,7 +81,7 @@
 
   var reloadGrid = function(){
     console.log('调用getMostVisited(reloadGrid):', +new Date - st + 'ms(距页面打开)');
-    ntpApis.getMostVisited(function(tiles, customs){
+    storage.getMostVisited(function(tiles, customs){
       console.log('getMostVisited回调函数被调用:', +new Date -st + 'ms(距页面打开)',arguments);
 
 	  var mostVisitedMode = $('#js-grid-from').val() == 1;
@@ -267,6 +267,7 @@
   });
   $('#js-grid-from').live('change', function(){
     console.log('change');
+	CDATA.settimer();
     if($('#js-grid-from').val() == 2){
       if(localStorage.firstRun !== 'no'){
         localStorage.firstRun = 'no';
