@@ -355,3 +355,5 @@ String.prototype.tmpl = function(data){
 	});
 	return (result);
 };
+
+//var 
