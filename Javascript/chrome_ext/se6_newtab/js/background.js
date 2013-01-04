@@ -16,7 +16,6 @@ var background = function(){
 				case 'unload':
 					if (/*true || */storage.getIntervalMinute('background_unload') > (2 / 60)) {
 						storage.setLastDate('background_unload');
-						alert(msg);
 						CDATA.upload();
 					}
 					break;
