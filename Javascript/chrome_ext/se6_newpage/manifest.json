@@ -1,0 +1,24 @@
+﻿{
+  "name": "新标签页",
+  "version": "1.0.0.1002",
+  "manifest_version": 2,
+  "description": "新标签页",
+   "chrome_url_overrides": {
+      "newtab": "newtab.html"
+   },
+  "background": {
+    "page": "background.html",
+    /*"scripts": [
+		"js/jquery-1.8.0.min.js",
+		"js/storage_util.js",
+		"js/background.js"
+	],*/
+    "persistent": false
+  },
+  "permissions": [
+  	"http://*/*",
+  	"https://*/*",
+    "unlimitedStorage"
+  ],
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC5mTGJx/jIDGU07eVwTkZf2XbyHfNuFiuN4UgY6vlphohlVp5tmyD1ejo4mHQ3qhccurkMaAPZN3pSDtDFN/vxfW431hcYKsyNzMbVScEzxM0ROLwihqLsehQORmponxc2eRqeX88NEEs5cRyemRbifdoa5hS7/8RLsVkKNw2cLQIDAQAB"
+}
