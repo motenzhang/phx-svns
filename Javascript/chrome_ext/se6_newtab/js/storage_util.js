@@ -149,6 +149,7 @@ var logoManager = function(){
 				postData[key] = value;
 			});
 			ajax.post(config.csite.api, postData, function(ret){
+				ret = '{"errno":0,"data":{"www.taobao.com\/":{"title":"\u6dd8\u5b9d\u7f51","logo":"http:\/\/localhost\/t01e8d4e3212d0bd710.png","hash":"fc709c34ba8767a59c6e12e08b088724"},"www.sina.com.cn\/":{"title":"\u65b0\u6d6a\u7f51","logo":"http:\/\/localhost\/t01e8d4e3212d0bd710.png","hash":"78c2f5442ab50533c9b552b8db209278"},"hao.360.cn\/":{"title":"360\u5b89\u5168\u7f51\u5740","logo":"http:\/\/localhost\/t01e8d4e3212d0bd710.png","hash":"6f04dd4d91a44cd3da97545500c291a4"},"www.163.com\/":{"title":"\u7f51\u6613","logo":"http:\/\/localhost\/t01e8d4e3212d0bd710.png","hash":"199728e57754c2c6dd7fce75cb8a8f53"},"www.baidu.com\/":{"title":"\u767e\u5ea6","logo":"http:\/\/localhost\/t01e8d4e3212d0bd710.png","hash":"169e68556bd742bba38dbc7b9954bd4c"},"www.youku.com\/":{"title":"\u4f18\u9177\u7f51","logo":"http:\/\/localhost\/t01e8d4e3212d0bd710.png","hash":"65afd6a07e37c79d918142f753f5dbd1"},"weibo.com\/":{"title":"\u65b0\u6d6a\u5fae\u535a","logo":"http:\/\/localhost\/t01e8d4e3212d0bd710.png","hash":"383b39625111ffab4c5b8c6017c0a60b"},"www.renren.com\/":{"title":"\u4eba\u4eba\u7f51","logo":"http:\/\/localhost\/t01e8d4e3212d0bd710.png","hash":"e4d70733a932ec1d0b593025301c61dd"}},"rn":1357374894485}'
 				try {
 					ret = JSON.parse(ret);
 				} catch (e) {}
@@ -196,7 +197,7 @@ var logoManager = function(){
 var FileSystem = function(){
 	var _fs;
 	window.st = window.st || +new Date();
-	window.webkitRequestFileSystem(window.PERSISTENT, 50 * 1024 * 1024, function(fs){
+	window.webkitRequestFileSystem(window.TEMPORARY/*window.PERSISTENT*/, 50 * 1024 * 1024, function(fs){
 		console.log('申请本地存储成功：', fs, +new Date - st + 'ms(距页面打开)');
 		_fs = fs;
 		$(FileSystem).trigger('init');
