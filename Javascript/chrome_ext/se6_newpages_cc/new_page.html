@@ -1,83 +1,66 @@
 <!DOCTYPE html>
 <html>
-  
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>
-  新标签页
-</title>
+<title>新标签页</title>
 <link href="select.css" rel="stylesheet" type="text/css">
 <link href="style.css" rel="stylesheet" type="text/css">
 <link href="jquery.autocomplete.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-<div class="setup">
-  <a href="#" class="setup-tit">
-    设置
-  </a>
-</div>
+<div class="setup"> <a href="#" class="setup-tit"> 设置 </a> </div>
 <!--end setup-->
 <div class="wrap">
   <form id="search-form" action="http://www.so.com/s?src=360se6_addr&ie=utf-8" type="GET">
     <input type="hidden" name="src" value="360se6_addr" />
     <input type="hidden" name="ie" value="utf-8" />
+    <div class="search-cat"> <a href="#" class="cur">网页</a> <a href="#">新闻</a> <a href="#">视频</a> <a href="#">图片</a> <a href="#">MP3</a> <a href="#">地图</a> <a href="#">问答</a> </div>
     <div class="search">
-        <div class="ipt">
-          <div id="search-switch" class="search-engine">
-            <a href="#" class="so"></a>
-            <div class="search-arr"><span></span></div>
-          </div>
-          <!--end search-engine-->
-          <input id="search-kw" name="q" type="text" _placeholder="综合搜索" />
+      <div class="ipt">
+        <div id="search-switch" class="search-engine"> <a href="#" class="so"></a>
+          <div class="search-arr"><span></span></div>
         </div>
-        <input class="btn" value="搜索" type="submit" />
+        <!--end search-engine-->
+        <input id="search-kw" name="q" type="text" _placeholder="综合搜索" />
+      </div>
+      <input class="btn" value="搜索" type="submit" />
     </div>
   </form>
   <!--end search-->
   <div class="grid">
-    <div class="custom-mode-tips">
-      请根据喜好自定义添加，删除，拖拽排列快速访问内容
-      <a class="btn-close"></a>
-    </div>
-    <ul></ul>
+    <div class="custom-mode-tips"> 请根据喜好自定义添加，删除，拖拽排列快速访问内容 <a class="btn-close"></a> </div>
+    <ul>
+    </ul>
   </div>
-  <!--end grid-->
+  <!--end grid--> 
 </div>
 <!--end wrap-->
 <form id="add-url-form">
   <div class="add-url" style="display:none;">
     <input type="hidden" id="js-addurl-foridx" />
     <div class="url-tit">
-      <h2>
-        添加网址
-      </h2>
-      <a href="#" class="url-cls">
-      </a>
-    </div>
+      <h2> 添加网址 </h2>
+      <a href="#" class="url-cls"> </a> </div>
     <!--end url-tit-->
     <ul class="url-list">
-      <li>
-        名称：<input id="js-addurl-title" name="title" type="text" class="ipt-2"/>
+      <li> 名称：
+        <input id="js-addurl-title" name="title" type="text" class="ipt-2"/>
       </li>
-      <li>
-        网址：<input id="js-addurl-url" name="url" type="text" class="ipt-2" value="http://" />
+      <li> 网址：
+        <input id="js-addurl-url" name="url" type="text" class="ipt-2" value="http://" />
       </li>
     </ul>
     <div class="url-box">
       <ul class="url-tag">
-        <li class="cur_">
-          最常访问
-        </li>
+        <li class="cur_"> 最常访问 </li>
       </ul>
       <div class="url-often">
         <ul>
-          <li>
-            <a href="#"><img src="images/ico_1.png" />http://dribbble.com/shots/602321-What-I-Eat</a>
-          </li>
+          <li> <a href="#"><img src="images/ico_1.png" />http://dribbble.com/shots/602321-What-I-Eat</a> </li>
         </ul>
       </div>
-      <!--end url-con-->
+      <!--end url-con--> 
     </div>
     <div class="url-b">
       <input id="js-addurl-confirm" class="btn-2" value="确定" type="submit" />
@@ -92,29 +75,25 @@
   <li><a href="#" class="google"></a>谷歌</li>
   <li><a href="#" class="baidu"></a>百度</li>
 </ul>
-
 <div class="addurl-mask" style="display:none" onselectstart="return false;" onmousedown="return false;" onmousemove="return false;"></div>
 <div class="remove-tips" style="display:none">您已删除缩略图 <a href="#" id="removeUrlsFromBlackList">撤销</a> <a href="#" id="clearBlackList">撤销全部</a></div>
-
 <div class="setup-pop" style="display:none;">
-  <div class="setup-arr">
-    <span>
-    </span>
-  </div>
-  <a href="#" class="setup-cls">
-  </a>
+  <div class="setup-arr"> <span> </span> </div>
+  <a href="#" class="setup-cls"> </a>
   <ul>
     <li>
-      <label><input type="checkbox" id="js-show-search-form" checked class="js-auto-save setup-opt" /> 显示搜索框</label>
+      <label>
+        <input type="checkbox" id="js-show-search-form" checked class="js-auto-save setup-opt" />
+        显示搜索框</label>
     </li>
     <li>
-      <label><input type="checkbox" id="js-show-in-newtab" class="js-auto-save setup-opt" /> 用新标签打开网址</label>
+      <label>
+        <input type="checkbox" id="js-show-in-newtab" class="js-auto-save setup-opt" />
+        用新标签打开网址</label>
     </li>
   </ul>
   <dl>
-    <dt>
-      快速访问显示个数
-    </dt>
+    <dt> 快速访问显示个数 </dt>
     <dd>
       <select id="js-grid-count" class="js-auto-save">
         <option value="0">0</option>
@@ -124,9 +103,7 @@
         <option value="20">20</option>
       </select>
     </dd>
-    <dt>
-      快速访问显示内容
-    </dt>
+    <dt> 快速访问显示内容 </dt>
     <dd>
       <select id="js-grid-from" class="js-auto-save">
         <option value="1">最常访问（自动根据访问次数调整）</option>
@@ -137,10 +114,10 @@
 </div>
 <!--end setup-pop-->
 
-<div id="addnew" class="addnew" style="left: 603px; top: 50px; opacity: 1; ">
+<div id="addnew" class="addnew" style="left: 603px; top: 50px; opacity: 1; display:none ">
   <div id="custom" style="display:none">
     <div class="top"><span>自定义网站</span>
-      <div class="btn topbtn">从推荐库中添加</div>
+      <div class="btn_base topbtn">从推荐库中添加</div>
     </div>
     <input type="text" name="textfield" id="newurl" style="width: 620px; ">
     <input type="text" name="textfield" id="newtitle" style="width: 620px; ">
@@ -169,20 +146,20 @@
         </ul>
       </div>
     </div>
-    <div class="btn blue" id="esc">取消</div>
-    <div class="btn blue" id="enter">确定</div>
+    <div class="btn_base blue" id="esc">取消</div>
+    <div class="btn_base blue" id="enter">确定</div>
   </div>
   <div id="customlogo" style="display:none">
     <div class="top"><span>自定义LOGO</span></div>
     <div class="logobox">
       <div class="logo351"></div>
       <span>图片将被自动调整, 尺寸接近351×216的图片会获得更好的效果.</span></div>
-    <div class="btn blue" id="esclog">取消</div>
-    <div class="btn blue" id="enterlog">确定</div>
+    <div class="btn_base blue" id="esclog">取消</div>
+    <div class="btn_base blue" id="enterlog">确定</div>
   </div>
   <div id="recommend">
     <div class="top"><span>热门推荐</span>
-      <div class="btn topbtn">手动添加</div>
+      <div class="btn_base topbtn">手动添加</div>
     </div>
     <ul class="leftlist" id="leftlist">
       <li _type="1" class="">热门推荐</li>
@@ -461,11 +438,9 @@
         </ul>
       </div>
     </div>
-    <div class="btn blue" id="esc1">取消</div>
+    <div class="btn_base blue" id="esc1">取消</div>
   </div>
 </div>
-
-
 <script type="text/template" id="tile-temp">
 <li class="tile ${drag}"  url="${url}">
   <a class="link" url="${url}" href="${url}" title="${short_url}">
@@ -476,7 +451,7 @@
     <div class="tile-tit">${title}</div>
   </a>
 </li>
-</script>
+</script> 
 <script type="text/template" id="tile-add-temp">
 <li class="tile ${drag}">
   <a>
@@ -487,7 +462,7 @@
     <div class="tile-tit"></div>
   </a>
 </li>
-</script>
+</script> 
 <script type="text/template" id="tile-empty-temp">
 <li class="tile ${drag} empty-tile">
   <a class="link" url="">
@@ -497,19 +472,17 @@
     <div class="tile-tit"></div>
   </a>
 </li>
-</script>
-
-<script src="chrome://resources/js/jquery-1.8.0.min.js"></script>
-<script src="chrome://resources/js/jquery.tmpl.js"></script>
-<script src="jquery.autocomplete.js"></script>
-<script src="jquery.validate.js"></script>
-<script src="jquery-ui-1.9.1.custom.min.js"></script>
-<script src="custom_event.js"></script>
+</script> 
+<script src="jquery-1.8.0.min.js"></script> 
+<script src="jquery.tmpl.js"></script> 
+<script src="jquery.autocomplete.js"></script> 
+<script src="jquery.validate.js"></script> 
+<script src="jquery-ui-1.9.1.custom.min.js"></script> 
+<script src="custom_event.js"></script> 
 <script src="chrome_webui_apis.js"></script>
 <xscript src="test_chrome_webui_apis.js"></xscript>
-<script src="placeholder.js"></script>
-<script src="new_page.js"></script>
+<script src="placeholder.js"></script> 
+<script src="new_page.js"></script> 
 <script src="stat.js"></script>
 </body>
-
 </html>
