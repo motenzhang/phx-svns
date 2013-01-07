@@ -312,7 +312,7 @@ $(function(host, undef){
     $(this).effect('transfer', {to:'.add-url', className:'effects-transfer'}, 300, function(){
       $('.add-url').css('opacity', 1);
     });
-    $(".addurl-mask").show();
+    $(".addurl-mask").fadeIn(200);
     $('.add-url input[type=text]').val('');
 
     var curLi = $(this).parents('li')[0];
