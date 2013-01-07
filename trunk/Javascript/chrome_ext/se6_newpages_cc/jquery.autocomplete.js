@@ -76,6 +76,7 @@ $.Autocompleter = function(input, options) {
     mouseDownOnSelect: false
   };
   var select = $.Autocompleter.Select(options, input, selectCurrent, config);
+  select.display([], '');
   
   var blockSubmit;
   
@@ -86,7 +87,7 @@ $.Autocompleter = function(input, options) {
       return false;
     }
   });
-  
+    
   // only opera doesn't trigger keydown multiple times while pressed, others don't work with keypress at all
   $input.bind(($.browser.opera ? "keypress" : "keyup") + ".autocomplete", function(event) {
     // a keypress means the input has focus
