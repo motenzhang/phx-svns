@@ -296,7 +296,7 @@ $(function(host, undef){
       $(".add-url").effect('transfer', {to:'.tile:eq('+idx+') img:first', className:'effects-transfer'}, 300);
     }
     $('.add-url').hide();
-    $(".addurl-mask").hide();
+    $(".addurl-mask").fadeOut(150);
   });
 
   $('.tile-add').live('mouseover',function(){
@@ -331,7 +331,7 @@ $(function(host, undef){
       $(".add-url").effect('transfer', {to:'.tile:eq('+idx+') img:first', className:'effects-transfer'}, 300);
     }
     $('.add-url').hide();
-    $(".addurl-mask").hide();
+    $(".addurl-mask").fadeOut(150);
   });
 
 
@@ -588,7 +588,7 @@ $(function(host, undef){
         });
       }
       $(".add-url").effect('transfer', {to:'.tile:eq('+idx+') img:first', className:'effects-transfer'}).hide();
-      $(".addurl-mask").hide();
+      $(".addurl-mask").fadeOut(150);
     }
   });
 
