@@ -76,7 +76,8 @@ $.Autocompleter = function(input, options) {
     mouseDownOnSelect: false
   };
   var select = $.Autocompleter.Select(options, input, selectCurrent, config);
-  select.display([], '');
+  /*select.display([{data:['abc'], value:'abc', result:'abc'}, {data:['abc'], value:'abc', result:'abc'}], '');
+  select.show();*/
   
   var blockSubmit;
   

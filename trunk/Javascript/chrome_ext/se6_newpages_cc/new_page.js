@@ -531,7 +531,7 @@ $(function(host, undef){
       $('.add-url').css('opacity', 1);
     });
     $(".addurl-mask").fadeIn(200);
-    $('.add-url input[type=text]').val('');
+    $('#add-url-form input[type=text]').val('');
 
     var curLi = $(this).parents('li')[0];
     [].slice.call(curLi.parentNode.children,0).every(function(el, idx){
