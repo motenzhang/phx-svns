@@ -19,13 +19,21 @@ var Stat = function(){
 		},
 	};
 	return {
-		count: function(__pos) {
+		get: function(pos, defaultVal) {
 			var arr = storage.getStat('stat_cache', []);
+			return arr[pos] || defaultVal;
+		},
+		set: function(pos, val) {
+			var arr = storage.getStat('stat_cache', []);
+			arr[pos] = val;
+			storage.setStat('stat_cache', arr);
+			return this;						
+		},
+		count: function(__pos) {
 			for (var i=0;i<arguments.length; i++) {
 				var index = arguments[i] - 1;
-				arr[index] = (parseInt(arr[index])||0) + 1;
+				this.set(index, parseInt(this.get(index, 0)) + 1);
 			}
-			storage.setStat('stat_cache', arr);
 			return this;
 		},
 		getStatData: function(){
