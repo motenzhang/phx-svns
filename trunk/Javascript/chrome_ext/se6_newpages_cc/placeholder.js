@@ -43,7 +43,7 @@ var PlaceHolder = {
     },
  
     _setValue: function(input) {
-        input.value = input.attributes._placeholder.nodeValue;
+        $(input).val(input.attributes._placeholder.nodeValue);
         input.classList.add(PlaceHolder.className);
     }
 };
