@@ -92,6 +92,10 @@ $(function(host, undef){
       emptyLiStr = $('#js-grid-from').val() == 1 ? tileEmptyTempStr : tileAddTempStr,
       drag = $('#js-grid-from').val() == 1 ? 'ui-state-disabled' : '';
 
+	  window.gridAddedUrlMap = {};
+	  customs.forEach(function(item){
+		  window.gridAddedUrlMap[item.url] = item;
+	  });
 
       tiles.forEach(function(tile){
         if(tile.title){
@@ -272,6 +276,10 @@ $(function(host, undef){
 
   function saveGrid(){
     var tiles = parseGrid('.tile');
+	  window.gridAddedUrlMap = {};
+	  tiles.forEach(function(item){
+		  window.gridAddedUrlMap[item.url] = item;
+	  });
     ntpApis.setUserMostVisited(JSON.stringify(tiles), function(){
     });
   }
