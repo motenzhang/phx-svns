@@ -152,7 +152,7 @@ $(function(host, undef){
   var searchMaps = {
     so:{
       type: 'so',
-      desc: '综合搜索',
+      desc: '360搜索',
       url:'http://www.so.com/s?src=360se6_addr&ie=utf-8',
       key:'q',
       params:{
@@ -182,7 +182,7 @@ $(function(host, undef){
 
     news_so:{
       type: 'news_so',
-      desc: '综合搜索',
+      desc: '360搜索',
       url:'http://news.so.360.cn/ns?ie=utf-8&tn=news&src=360se6_addr',
       key:'q',
       params:{
@@ -212,7 +212,7 @@ $(function(host, undef){
 
     video_so:{
       type: 'video_so',
-      desc: '综合搜索',
+      desc: '360搜索',
       url:'http://video.so.com/v?src=360se6_addr&ie=utf-8',
       key:'q',
       params:{
@@ -242,7 +242,7 @@ $(function(host, undef){
 
     image_so:{
       type: 'image_so',
-      desc: '综合搜索',
+      desc: '360搜索',
       url:'http://image.so.com/i?src=360se6_addr&ie=utf-8',
       key:'q',
       params:{
@@ -272,7 +272,7 @@ $(function(host, undef){
 
     mp3_so:{
       type: 'mp3_so',
-      desc: '综合搜索',
+      desc: '360搜索',
       url:'http://s.music.so.com/s?src=360se6_addr&ie=utf-8',
       key:'q',
       params:{
@@ -301,7 +301,7 @@ $(function(host, undef){
 
     map_so:{
       type: 'map_so',
-      desc: '综合搜索',
+      desc: '360搜索',
       url:'http://map.so.com/?src=360se6_addr&ie=utf-8&t=map',
       key:'k',
       params:{
@@ -332,7 +332,7 @@ $(function(host, undef){
 
     wenda_so:{
       type: 'wenda_so',
-      desc: '综合搜索',
+      desc: '奇虎问答',
       url:'http://wenda.qihoo.com/search/?src=360se6_addr&ie=utf-8',
       key:'q',
       params:{
