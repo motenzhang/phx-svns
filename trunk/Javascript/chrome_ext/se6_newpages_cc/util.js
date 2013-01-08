@@ -79,6 +79,17 @@ var AddUrlDlg = function(){
 	};
 }();
 
+var storage = {
+	get: function(key) {
+		return JSON.parse(localStorage[key] || '{}');
+	},
+	set: function(key, subkey, val) {
+		var data = this.get(key);
+		data[subkey] = val;
+		localStorage[key] = JSON.stringify(data);
+	},
+};
+
 var DC = function(){
 	var _key = '__ajax_cache';
 	var expires = 1000 * 60 * 60;
