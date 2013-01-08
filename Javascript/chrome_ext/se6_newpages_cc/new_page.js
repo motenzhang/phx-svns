@@ -178,17 +178,226 @@ $(function(host, undef){
         client:'aff-cs-360se',
         ie:'UTF-8'
       }
-    }
+    },
+
+    news_so:{
+      type: 'news_so',
+      desc: '综合搜索',
+      url:'http://news.so.360.cn/ns?ie=utf-8&tn=news&src=360se6_addr',
+      key:'q',
+      params:{
+        src: '360se6_addr',
+        ie: 'utf-8'
+      }
+    },
+    news_baidu:{
+      type: 'news_baidu',
+      desc: '百度',
+      url:'http://news.baidu.com/ns?&ie=utf-8',
+      key:'word',
+      params:{
+        ie:'utf-8'
+      }
+    },
+    news_google:{
+      type: 'news_google',
+      desc: '谷歌',
+      url:'http://news.google.com.hk/news/search?client=aff-cs-360se&ie=UTF-8',
+      key:'q',
+      params:{
+        client:'aff-cs-360se',
+        ie:'UTF-8'
+      }
+    },
+
+    video_so:{
+      type: 'video_so',
+      desc: '综合搜索',
+      url:'http://video.so.com/v?src=360se6_addr&ie=utf-8',
+      key:'q',
+      params:{
+        src: '360se6_addr',
+        ie: 'utf-8'
+      }
+    },
+    video_baidu:{
+      type: 'video_baidu',
+      desc: '百度',
+      url:'http://video.baidu.com/v?&ie=utf-8',
+      key:'word',
+      params:{
+        ie:'utf-8'
+      }
+    },
+    video_google:{
+      type: 'video_google',
+      desc: '谷歌',
+      url:'http://www.google.com.hk/search?client=aff-cs-360se&ie=UTF-8',
+      key:'q',
+      params:{
+        client:'aff-cs-360se',
+        ie:'UTF-8'
+      }
+    },
+
+    image_so:{
+      type: 'image_so',
+      desc: '综合搜索',
+      url:'http://image.so.com/i?src=360se6_addr&ie=utf-8',
+      key:'q',
+      params:{
+        src: '360se6_addr',
+        ie: 'utf-8'
+      }
+    },
+    image_baidu:{
+      type: 'image_baidu',
+      desc: '百度',
+      url:'http://image.baidu.com/i?&ie=utf-8',
+      key:'word',
+      params:{
+        ie:'utf-8'
+      }
+    },
+    image_google:{
+      type: 'image_google',
+      desc: '谷歌',
+      url:'http://images.google.com.hk/images?client=aff-cs-360se&ie=UTF-8',
+      key:'q',
+      params:{
+        client:'aff-cs-360se',
+        ie:'UTF-8'
+      }
+    },
+
+    mp3_so:{
+      type: 'mp3_so',
+      desc: '综合搜索',
+      url:'http://s.music.so.com/s?src=360se6_addr&ie=utf-8',
+      key:'q',
+      params:{
+        src: '360se6_addr',
+        ie: 'utf-8'
+      }
+    },
+    mp3_baidu:{
+      type: 'mp3_baidu',
+      desc: '百度',
+      url:'http://mp3.baidu.com/m?&ie=utf-8',
+      key:'word',
+      params:{
+        ie:'utf-8'
+      }
+    },
+    mp3_sogou:{
+      type: 'mp3_sogou',
+      desc: '搜狗',
+      url:'http://mp3.sogou.com/music?ie=UTF-8',
+      key:'query',
+      params:{
+        ie:'UTF-8'
+      }
+    },
+
+    map_so:{
+      type: 'map_so',
+      desc: '综合搜索',
+      url:'http://map.so.com/?src=360se6_addr&ie=utf-8&t=map',
+      key:'k',
+      params:{
+        src: '360se6_addr',
+        ie: 'utf-8',
+		t: 'map'
+      }
+    },
+    map_baidu:{
+      type: 'map_baidu',
+      desc: '百度',
+      url:'http://map.baidu.com/m?&ie=utf-8',
+      key:'word',
+      params:{
+        ie:'utf-8'
+      }
+    },
+    map_google:{
+      type: 'map_google',
+      desc: '谷歌',
+      url:'http://ditu.google.cn/maps?client=aff-cs-360se&ie=UTF-8',
+      key:'q',
+      params:{
+        client:'aff-cs-360se',
+        ie:'UTF-8'
+      }
+    },
+
+    wenda_so:{
+      type: 'wenda_so',
+      desc: '综合搜索',
+      url:'http://wenda.qihoo.com/search/?src=360se6_addr&ie=utf-8',
+      key:'q',
+      params:{
+        src: '360se6_addr',
+        ie: 'utf-8'
+      }
+    },
+    wenda_baidu:{
+      type: 'wenda_baidu',
+      desc: '百度',
+      url:'http://zhidao.baidu.com/search?&ie=utf-8',
+      key:'word',
+      params:{
+        ie:'utf-8'
+      }
+    },
+
   };
 
+  var searchTypeMaps = {
+	  webpage: ['so', 'google', 'baidu'],
+	  news: ['news_so', 'news_google', 'news_baidu'],
+	  video: ['video_so', 'video_google', 'video_baidu'],
+	  image: ['image_so', 'image_google', 'image_baidu'],
+	  mp3: ['mp3_so', 'mp3_sogou', 'mp3_baidu'],
+	  map: ['map_so', 'map_google', 'map_baidu'],
+	  wenda: ['wenda_so', 'wenda_baidu'],
+  };
 
-  $('.search-menu').live('click', function(e){
+  function setSearchType(type) {
+	  $('.search-cat > a').removeClass('on').filter('[cat-name=' + type + ']').addClass('on');
+	  var engines;
+	  if (engines = searchTypeMaps[type]) {
+		  $('.search-menu').empty();
+		  engines.forEach(function(sn) {
+			  var item = searchMaps[sn] || {};
+			  $('.search-menu').append('<li><a href="#" class="' + item.type + '"></a>' + item.desc + '</li>');
+		  });
+		  var jitem = $('.search-menu .' + storage.get('default_engine')[type]);
+		  if (jitem.length == 0) {
+			  jitem = $('.search-menu a:first');
+		  }
+		  jitem.trigger('click');
+
+		  saveSetting('search_type', 'setSearchType("' + type + '")');
+
+		  return true;
+	  }
+  }
+
+  $('.search-cat > a').live('click', function(){
+	 if (setSearchType($(this).attr('cat-name'))) {
+		 
+	 }
+  });
+
+  $('.search-menu li').live('click', function(e){
     var searchItem;
     if(searchItem = searchMaps[e.target.className] || searchMaps[e.target.firstElementChild.className]){
+
       setSearch(searchItem);
       $('.search-menu').slideUp(200);
 
       saveSetting('search', 'setSearch('+JSON.stringify(searchItem)+');');
+	  storage.set('default_engine', $('.search-cat .on').attr('cat-name'), searchItem.type);
     }
   });
 
