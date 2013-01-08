@@ -188,7 +188,7 @@ $(function(host, undef){
     }
   });
 
-  PlaceHolder.create(document.getElementById('search-kw'));
+  PlaceHolder.create($('#search-kw, .placeholder'));
 
   $('#search-form').live('submit', function(){
     if($('#search-kw').hasClass('input-txt-place')){
@@ -308,6 +308,7 @@ $(function(host, undef){
   });
 
   $(".tile-add").live('click', function(e){
+	AddUrlDlg.show();
     $(".add-url").show().css('opacity', 0);
     $(this).effect('transfer', {to:'.add-url', className:'effects-transfer'}, 300, function(){
       $('.add-url').css('opacity', 1);

@@ -43,7 +43,7 @@ body{color:#666666; background: #f5f5f5; -webkit-user-select:none}
 .search.focus{ box-shadow:0 0 6px #90ce7e; border:1px solid #90ce7e}
 .search .ipt{-webkit-box-flex:1;}
 .search .ipt input{ width:100%; font-size:14px; outline:none; border:none; height:30px; padding-left:45px; border-radius:3px 0 0 3px;}
-.search input.input-txt-place{ color:#bebebe }
+input.input-txt-place{ color:#bebebe }
 .search .btn{ width:61px; height:31px; border:none; border-left:1px solid #cacaca; font-weight:bold; background:-webkit-gradient(linear,0 0,0 50%,from(#f7f7f7),to(#e9e9e9)); font-size:14px; color:#5C6066; text-shadow:1px 1px 1px #fff; cursor:pointer; border-radius:0 2px 2px 0;}
 .search .btnhov{ background:-webkit-gradient(linear,0 0,0 50%,from(#fefefe),to(#f4f4f4)); color:#62ad35;}
 .search .btnclk{ background:#f3f3f3; color:#62ad35; box-shadow:1px 2px 3px #c5c4c5 inset,0 0 2px #c5c4c5 inset;}
@@ -87,18 +87,18 @@ body{color:#666666; background: #f5f5f5; -webkit-user-select:none}
 .ui-effects-explode .add-url{ margin:0 }
 .url-tit{ height:25px; line-height:25px; border-bottom:1px solid #7ea3c2;background:-webkit-gradient(linear,0 0,0 50%,from(#a9c5dd),to(#9eb9d0)); color:#fff; text-shadow:1px 1px 0 #8ba3b8;}
 .url-tit h2{ float:left; padding:0 0 0 28px; background-position:6px -80px;}
-.url-cls{ float:right; width:42px; height:20px; border:1px solid #90a9bc; border-top:none; background-position:16px -106px; border-radius:0 0 3px 3px; margin:0 6px 0 0;}
+/*.url-cls{ float:right; width:42px; height:20px; border:1px solid #90a9bc; border-top:none; background-position:16px -106px; border-radius:0 0 3px 3px; margin:0 6px 0 0;}
 .url-clshov{ border:1px solid #8ea7ba; border-top:none; background-color:rgba(255,255,255,0.4);}
 .url-clsclk{ border:1px solid #b38a8e; border-top:none; background-color:rgba(255,48,48,0.4);}
-.url-clsup{ border:1px solid #b45a62; border-top:none; background-color:rgba(255,67,67,0.4);}
+.url-clsup{ border:1px solid #b45a62; border-top:none; background-color:rgba(255,67,67,0.4);}*/
 .url-list{ line-height:25px; padding:12px 22px 0;}
 .url-list li{ padding:10px 0 0 0; height:27px }
 .ipt-2{ width:358px; height:23px; line-height:23px; border:1px solid #bfd4e5; border-radius:3px; margin-left:5px; box-shadow:0 1px 2px #fff; padding-left: 5px; margin-top:-4px }
-.url-box{ margin:0 22px; border:1px solid #bed5e5;background:-webkit-gradient(linear,0 0,0 15%,from(#f9f9f9),to(#ffffff)); height:210px; margin-top:23px;}
+.url-box{ margin:0 22px; border:1px solid #bed5e5;background:-webkit-gradient(linear,0 0,0 15%,from(#f9f9f9),to(#ffffff)); height:240px; margin-top:23px;}
 .url-tag{ display:-webkit-box;}
 .url-tag li{-webkit-box-flex:1; text-align:center; height:25px; line-height:25px; border:solid #b3c8d8; border-width:0 0 1px 1px; margin-left:-1px; cursor:pointer;background:-webkit-gradient(linear,0 0,0 50%,from(#fbfbfb),to(#f9f9f9));}
 .url-tag li.cur{ border-bottom:none; background:none;}
-.url-often{ padding:5px 0; height:174px; overflow:auto;}
+.url-often{ padding:5px 0; height:204px; overflow:auto;}
 .url-often li{ height:25px; line-height:25px; padding:0 10px; overflow:hidden }
 .url-often li.hover{ background:#f0f0f0;cursor:pointer}
 .url-often li img{ float:left; margin:5px 5px 0 0;}
@@ -135,20 +135,27 @@ body{color:#666666; background: #f5f5f5; -webkit-user-select:none}
 /*add url*/
 .add-url{ width:650px; height:454px; position:fixed; top:45%; left:50%; margin:-227px 0 0 -325px; z-index:10; background:#f5f5f5; border:1px solid #8c8c8c; border-radius:4px; box-shadow:0px 3px 35px rgba(71, 87, 100, .69); z-index:12; display:none}
 .add-url .title{background:-webkit-linear-gradient(top, #f4f7f9, #eff3f7); height:40px; line-height:40px; border-bottom:1px solid #b1b1b1; margin-top:1px;border-radius:4px 4px 0 0; padding-top:1px;box-shadow:0px 2px 3px rgba(0, 0, 0, .07); position:absolute; width:100%}
-.add-url .title h2{font-size:18px; font-weight:700; background:url(images/add_url.png); text-indent:-9999px; width:70px; height:19px; margin:10px 0 0 10px}
+.add-url .title h2{font-size:18px; font-weight:700; background:url(images/add_url.png); text-indent:-9999px; width:70px; height:19px; margin:10px 0 0 10px; float:left}
+.add-url .title form{ background:url(images/add_url_search.png) no-repeat; position:absolute; width:227px; height:30px; right:50px; top:6px; line-height:1.5; white-space:nowrap}
+.add-url .title form input{border:0; outline:0}
+.add-url .title form input[type=text]{width:180px; height:20px; line-height:20px; margin:2px 0 0 7px}
+.add-url .title form input[type=submit]{background:url(images/add_url_res.png) no-repeat 7px 6px; text-indent:-9999px; width:30px; height:27px; margin:1px 0 0 3px; cursor:pointer}
+.url-cls{ float:right; width:16px; height:16px; background:url(images/add_url_res.png) no-repeat -43px 0; margin:10px 12px 0 0;}
 .add-url .url-cats{background:#ecf1f7; width:144px; height:414px; border-radius:4px 0 0 4px; padding-top:40px; box-shadow:-3px 0px 3px rgba(0,0,0, .1) inset; float:left}
 .add-url .url-cats li{height:37px; line-height:37px; font-size:14px; font-weight:400; text-align:center;color:#516572; cursor:pointer;-webkit-transition:background .5s, color .6s}
 .add-url .url-cats li.on, .add-url .url-cats li:hover{background:#75a8e2; color:#fff; box-shadow:-3px 0px 3px rgba(0,0,0, .1) inset;-webkit-transition:background .2s, color .3s}
+/*.add-url .url-cats li:hover{background:#BAD5F1}*/
 .add-url .url-cats .custom::before{content:'<'; display:block;border-top:1px dashed #f6f8fb; padding-bottom:5px }
 .add-url .url-cats .custom{border-top:1px dashed #c2ccd9; margin-top:10px; } 
-.add-url .url-cats .dashed{ overflow:hidden; height:0; border:1px dashed #c2ccd9; border-width:1px 0; border-bottom-color:#f6f8fb; margin:5px 0; } 
-.add-url .recommend{-webkit-mask-image:-webkit-linear-gradient(top, transparent, black 20px); margin:45px 0 0 144px; }
+.add-url .url-cats .dashed{ display:block; overflow:hidden; height:0; border:1px dashed #c2ccd9; border-width:1px 0; border-bottom-color:#f6f8fb; margin:5px 0; } 
+.add-url .cont{margin:45px 0 0 144px;}
+.add-url .recommend{-webkit-mask-image:-webkit-linear-gradient(top, transparent, black 20px); }
 .add-url .scroll{margin:5px 3px 0 5px; overflow:scroll; height:395px; padding-bottom:10px; -webkit-mask-image:-webkit-linear-gradient(bottom, transparent, black 20px); }
 .add-url .scroll::-webkit-scrollbar{width:10px; height:0px}
 .add-url .scroll::-webkit-scrollbar-thumb{background:#d9d9d9;border-radius:12px;}
 .add-url .scroll::-webkit-scrollbar-thumb:hover{background:#ccc}
-.add-url .url-list2 li{float:left; position:relative; overflow:hidden; cursor:pointer; margin:20px 0 0 20px;box-shadow:0px 0px 5px rgba(0, 0, 0, .35);}
-.add-url .url-list2 li > *{position:absolute}
-.add-url .url-list2 li, .add-url .url-list2 li img{width:135px; height:95px}
-.add-url .url-list2 li h4{left:0; bottom:-20px; opacity:0; background:rgba(0,0,0,.35); padding-left:2px;width:100%; font-family:'宋体'; font-weight:normal; color:#fff; height:20px; line-height:20px; -webkit-transition:bottom .2s, opacity .3s}
-.add-url .url-list2 li:hover h4{bottom:0; opacity:1}
+.add-url .logo-list li{float:left; position:relative; overflow:hidden; cursor:pointer; margin:20px 0 0 20px;box-shadow:0px 0px 5px rgba(0, 0, 0, .35);}
+.add-url .logo-list li > *{position:absolute}
+.add-url .logo-list li, .add-url .logo-list li img{width:135px; height:95px}
+.add-url .logo-list li h4{left:0; bottom:-20px; opacity:0; background:rgba(0,0,0,.35); padding-left:2px;width:100%; font-family:'宋体'; font-weight:normal; color:#fff; height:20px; line-height:20px; -webkit-transition:bottom .2s, opacity .3s}
+.add-url .logo-list li:hover h4{bottom:0; opacity:1}
