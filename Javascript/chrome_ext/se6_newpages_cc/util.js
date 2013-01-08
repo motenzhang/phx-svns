@@ -45,7 +45,7 @@ var AddUrlDlg = function(){
 		list = list || [];
 		var sb = [];
 		$.each(list, function(i, item){
-			sb.push('<li url="' + item.url + '" title="' + item.title + '"> <i></i><img src="' + item.logo + '"><h4>' + item.title + '</h4></li>');
+			sb.push('<li url="' + item.url + '" title="' + item.title + '"> <i class="' + ((window.gridAddedUrlMap[item.url] || window.gridAddedUrlMap[item.url + '/']) ? 'added' : '') + '"></i><img src="' + item.logo + '"><h4>' + item.title + '</h4></li>');
 		});
 		$('.add-url .recommend .logo-list').html(sb.join(''));
 		$('.add-url .recommend .logo-list li').click(function(){
