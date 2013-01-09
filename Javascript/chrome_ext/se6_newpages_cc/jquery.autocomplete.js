@@ -76,6 +76,8 @@ $.Autocompleter = function(input, options) {
     mouseDownOnSelect: false
   };
   var select = $.Autocompleter.Select(options, input, selectCurrent, config);
+  window.sugSelect = select;
+  select.display([], '');
   /*select.display([{data:['abc'], value:'abc', result:'abc'}, {data:['abc'], value:'abc', result:'abc'}], '');
   select.show();*/
   
@@ -234,7 +236,7 @@ $.Autocompleter = function(input, options) {
     
     $input.val(v);
     hideResultsNow();
-    $input.trigger("result", [selected.data, selected.value]);
+    $input.trigger("result", [selected]);
     return true;
   }
   
@@ -630,6 +632,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
   }
 
   function moveSelect(step) {
+    listItems = list.find("li");
     listItems.slice(active, active + 1).removeClass(CLASSES.ACTIVE);
     movePosition(step);
         var activeItem = listItems.slice(active, active + 1).addClass(CLASSES.ACTIVE);
@@ -721,8 +724,13 @@ $.Autocompleter.Select = function (options, input, select, config) {
     current: function() {
       return this.visible() && (listItems.filter("." + CLASSES.ACTIVE)[0] || options.selectFirst && listItems[0]);
     },
-    show: function() {
+    show: function(hotkeyword) {
       var offset = $(input).offset();
+	  if (hotkeyword) {
+		  element.addClass('hot-keyword');
+	  } else {
+		  element.removeClass('hot-keyword');
+	  }
       element.css({
         width: typeof options.width == "string" || options.width > 0 ? options.width : $('.search').width(),
         top: offset.top + input.offsetHeight+3,
@@ -751,6 +759,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
       }
     },
     selected: function() {
+	  listItems = list.find("li");
       var selected = listItems && listItems.filter("." + CLASSES.ACTIVE).removeClass(CLASSES.ACTIVE);
       return selected && selected.length && $.data(selected[0], "ac_data");
     },

@@ -39,7 +39,7 @@
 }
 
 .ac_loading {
-  background: white url('indicator.gif') right center no-repeat;
+  /*background: white url('indicator.gif') right center no-repeat;*/
 }
 
 .ac_odd {
@@ -47,5 +47,5 @@
 }
 
 .ac_over {
-  background-color: #d9f0d0;
+  background-color: rgba(143,211,118, .3)/*#d9f0d0*/;
 }
