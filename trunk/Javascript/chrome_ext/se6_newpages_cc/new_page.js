@@ -682,7 +682,7 @@ $(function(host, undef){
 
   var $div_li =$(".url-tag li");
   $div_li.click(function(){
-    $(this).addClass("cur")
+    $(this)/*.addClass("cur")*/
       .siblings().removeClass("cur");
     var index =  $div_li.index(this);
     $(".url-often > ul")
