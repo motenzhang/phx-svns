@@ -85,6 +85,8 @@ $(function(host, undef){
     ntpApis.getMostVisited(function(tiles, customs){
       console.log('getMostVisited回调函数被调用:', +new Date -st + 'ms(距页面打开)',arguments);
 
+    //  alert(ImportData.getmode());
+
       var datas = $('#js-grid-from').val() == 1 ? tiles : customs,
       gridCount = $('#js-grid-count').val()-0,
       lis = '',
@@ -874,6 +876,7 @@ $(function(host, undef){
       sy = e.clientY;
       dragStart = true;
       downObj = this.parentNode.parentNode;
+	  return false;
     });
 
     $(document).live('mouseup', function(e){
@@ -1054,6 +1057,8 @@ $(function(host, undef){
   $('.ipt input').on('blur', function(){
     $(this).parents('.search').removeClass('focus');
   });
+
+  ImportData.exec();
 
   loadSettings();
 

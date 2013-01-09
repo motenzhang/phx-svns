@@ -96,7 +96,7 @@ var HotKeyword = function(){
 	}
 	function render() {
 		var cat = $('.search-cat .on').attr('cat-name');
-		var list = keywordData[cat];
+		var list = keywordData && keywordData[cat];
 		if (!list) {
 			return;
 		}
@@ -174,6 +174,38 @@ var DC = function(){
 					callback(ret);
 				});
 			}
+		}
+	};
+}();
+
+
+var ImportData = function(){
+	function setting() {
+		$.each(storage.get('settings'), function(key, value){
+			console.log(key, value);
+			switch (key) {
+				case 'js-grid-count':
+					if (value == '$("#js-grid-count").val("8")') {
+						storage.set('settings', 'js-grid-count', '$("#js-grid-count").val("12")');
+					}
+					break;
+					
+			}
+		});
+	}
+	return {
+		getmode: function(){
+			var cmd = storage.get('settings')['js-grid-from'];
+			return ((cmd == undefined) || (cmd == '$("#js-grid-from").val("1")')) ? 1 : 2;
+		},
+		exec: function(){
+			if (storage.get('__import_data')['done']) {
+			//	return;
+			}
+			setting();	
+		},
+		done: function() {
+			storage.set('__import_data', 'done', true);
 		}
 	};
 }();
