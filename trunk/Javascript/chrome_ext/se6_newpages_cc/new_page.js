@@ -235,6 +235,7 @@ $(function(host, undef){
       url:'http://www.google.com.hk/search?client=aff-cs-360se&ie=UTF-8',
       key:'q',
       params:{
+		tbm: 'vid',
         client:'aff-cs-360se',
         ie:'UTF-8'
       }
@@ -270,8 +271,8 @@ $(function(host, undef){
       }
     },
 
-    mp3_so:{
-      type: 'mp3_so',
+    music_so:{
+      type: 'music_so',
       desc: '360搜索',
       url:'http://s.music.so.com/s?src=360se6_addr&ie=utf-8',
       key:'q',
@@ -280,19 +281,19 @@ $(function(host, undef){
         ie: 'utf-8'
       }
     },
-    mp3_baidu:{
-      type: 'mp3_baidu',
+    music_baidu:{
+      type: 'music_baidu',
       desc: '百度',
-      url:'http://mp3.baidu.com/m?&ie=utf-8',
+      url:'http://music.baidu.com/m?&ie=utf-8',
       key:'word',
       params:{
         ie:'utf-8'
       }
     },
-    mp3_sogou:{
-      type: 'mp3_sogou',
+    music_sogou:{
+      type: 'music_sogou',
       desc: '搜狗',
-      url:'http://mp3.sogou.com/music?ie=UTF-8',
+      url:'http://music.sogou.com/music?ie=UTF-8',
       key:'query',
       params:{
         ie:'UTF-8'
@@ -357,7 +358,7 @@ $(function(host, undef){
 	  news: ['news_so', 'news_google', 'news_baidu'],
 	  video: ['video_so', 'video_google', 'video_baidu'],
 	  image: ['image_so', 'image_google', 'image_baidu'],
-	  mp3: ['mp3_so', 'mp3_sogou', 'mp3_baidu'],
+	  music: ['music_so', 'music_sogou', 'music_baidu'],
 	  map: ['map_so', 'map_google', 'map_baidu'],
 	  wenda: ['wenda_so', 'wenda_baidu'],
   };
@@ -455,7 +456,11 @@ $(function(host, undef){
       });
       return parsed;
     }
-  }).on('result', function(){
+  }).on('result', function(e, data){
+	if (data.link) {
+		location = data.link;
+		return;
+	}
     $(this).parents('form')[0].submit();
   });
 
@@ -1059,5 +1064,7 @@ $(function(host, undef){
   $('.link').live('click', function(e){
     ntpApis.onClickThumbnail(this.href);
   });
+
+  HotKeyword.init($('#search-kw'));
 
 });

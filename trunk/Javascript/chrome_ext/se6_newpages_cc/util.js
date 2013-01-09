@@ -13,7 +13,7 @@ var AddUrlDlg = function(){
 			search($(this).val());
 		});
 		DC.get('http://site.browser.360.cn/csite.php?callback=?', {rn:Date.now()}, function(ret){
-			sitesData = ret;
+			sitesData = ret && ret.data;
 			$(AddUrlDlg).trigger('showtab');
 		});
 	}
@@ -39,7 +39,7 @@ var AddUrlDlg = function(){
 	}
 	function buildTab() {
 		var name = $('.add-url .url-cats li.on').attr('cat-name');
-		render(sitesData.data[name]);
+		render(sitesData[name]);
 	}
 	function render(list) {
 		list = list || [];
@@ -57,14 +57,18 @@ var AddUrlDlg = function(){
 	}
 	function search(q) {
 		var ret = [];
-		$.each(sitesData.data, function(name, list){
+		$.each(sitesData, function(name, list){
 			$.each(list, function(i, item){
-				console.log(item);
 				if (item.title.indexOf(q) > -1 || item.url.indexOf(q) > -1) {
 					ret.push(item);
 				}
 			})
 		});
+		if (ret.length > 0) {
+			$('.add-url .recommend .nodata').hide();
+		} else {
+			$('.add-url .recommend .nodata').show();
+		}
 		render(ret);
 	}
 	function getStatus() {
@@ -76,6 +80,51 @@ var AddUrlDlg = function(){
 			$(this).trigger('onshow');
 		},
 		onshow: onshow
+	};
+}();
+
+var HotKeyword = function(){
+	var keywordData;
+	var container;
+	function toggleSug() {
+		if (container.css('display') == 'none') {
+			render();
+			sugSelect.show('hot-keyword');
+		} else {
+			container.hide();
+		}
+	}
+	function render() {
+		var cat = $('.search-cat .on').attr('cat-name');
+		var list = keywordData[cat];
+		if (!list) {
+			return;
+		}
+		var ul = container.find('ul');
+		ul.empty();
+		list.forEach(function(item, i){
+			var li = $('<li><a href="#"><em class="hot">' + (i+1) + '</em><span class="' + (item.new == '1' ? 'new' : '') + '">' + item.text + '</span></a></li>');
+			ul.append(li);
+			item.result = item.text;
+			$.data(li[0], "ac_data", item);
+		});
+	}
+	return {
+		init: function(ele) {
+			container = $('.ac_results');
+			ele.on('click', function(){
+				if ($(this).val() == '') {
+					toggleSug();
+				}
+			});
+			DC.get('http://site.browser.360.cn/sword.php?callback=?', {rn:Date.now()}, function(ret){
+				keywordData = ret && ret.data;
+				$(HotKeyword).trigger('ondata');
+			});
+		},
+		ondata: function(){
+			console.log(keywordData);
+		}
 	};
 }();
 
