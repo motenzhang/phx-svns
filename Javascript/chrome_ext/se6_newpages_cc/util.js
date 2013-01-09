@@ -46,10 +46,11 @@ var AddUrlDlg = function(){
 		list = list || [];
 		var sb = [];
 		$.each(list, function(i, item){
-			sb.push('<li url="' + item.url + '" title="' + item.title + '"> <i class="' + ((window.gridAddedUrlMap[item.url] || window.gridAddedUrlMap[item.url + '/']) ? 'added' : '') + '"></i><img src="' + item.logo + '"><h4>' + item.title + '</h4></li>');
+			var added = window.gridAddedUrlMap[item.url] || window.gridAddedUrlMap[item.url + '/'];
+			sb.push('<li class="' + (added ? 'added' : '') + '" url="' + item.url + '" title="' + item.title + '"> <i class=""></i><img src="' + item.logo + '"><h4>' + item.title + '</h4></li>');
 		});
 		$('.add-url .recommend .logo-list').html(sb.join(''));
-		$('.add-url .recommend .logo-list li').click(function(){
+		$('.add-url .recommend .logo-list li:not(.added)').click(function(){
 			$('#js-addurl-title').val($(this).attr('title'));
 			$('#js-addurl-url').val($(this).attr('url'));
 			$('#add-url-form').submit();
