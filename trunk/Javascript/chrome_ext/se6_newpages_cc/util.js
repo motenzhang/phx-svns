@@ -89,8 +89,7 @@ var HotKeyword = function(){
 	var container;
 	function toggleSug() {
 		if (container.css('display') == 'none') {
-			render();
-			sugSelect.show('hot-keyword');
+			render() &&	sugSelect.show('hot-keyword');
 		} else {
 			container.hide();
 		}
@@ -109,6 +108,7 @@ var HotKeyword = function(){
 			item.result = item.text;
 			$.data(li[0], "ac_data", item);
 		});
+		return true;
 	}
 	return {
 		init: function(ele) {
