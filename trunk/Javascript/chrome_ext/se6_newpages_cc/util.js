@@ -14,7 +14,7 @@ var AddUrlDlg = function(){
 		});
 		DC.get('http://site.browser.360.cn/csite.php?callback=?', {rn:Date.now()}, function(ret){
 			sitesData = ret && ret.data;
-			sitesData['hot'].unshift({title:'新闻盒子', url:'widget://news-box', logo:'images/news_default.jpg'})
+			sitesData['hot'].unshift({title:'新闻格子', url:'widget://news-box', logo:'images/news_default.jpg'})
 			$(AddUrlDlg).trigger('showtab');
 		});
 	}
