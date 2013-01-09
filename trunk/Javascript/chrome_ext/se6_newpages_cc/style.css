@@ -53,6 +53,7 @@ input.input-txt-place{ color:#bebebe }
 .search-engine a.so, a.news_so, a.video_so, a.image_so, a.music_so, a.map_so, a.wenda_so{ background:url(images/so_ico.png) no-repeat;}
 .search-engine a.baidu, a.news_baidu, a.video_baidu, a.image_baidu, a.music_baidu, a.map_baidu, a.wenda_baidu{ background:url(images/baidu_ico.gif) no-repeat;}
 .search-engine a.google, a.news_google, a.video_google, a.image_google, a.music_google, a.map_google, a.wenda_google{ background:url(images/google_ico.png) no-repeat;}
+.search-engine a.sogou, a.news_sogou, a.video_sogou, a.image_sogou, a.music_sogou, a.map_sogou, a.wenda_sogou{ background:url(images/sogou_ico.png) no-repeat;}
 .search-arr{ float:left; height:5px; overflow:hidden; margin:7px 0 0 5px;}
 .search-arr span{ float:left; width:7px; height:7px; background:#6f6f6f; -webkit-transform:rotate(45deg); margin-top:-5px;}
 .search-menu{ position: absolute; z-index:30; margin-left:-8px; margin-top:10px; border:1px solid #ccc; background:#fff; padding:2px 0; box-shadow:1px 3px 15px #ccc}
@@ -70,7 +71,7 @@ input.input-txt-place{ color:#bebebe }
 .tile-logo::before, .tile-add::before{ position:absolute; display:block; left:0; top:0; content:' '; width:100%; height:100%; z-index:11; border-radius:0px; border:1px solid #000; box-sizing:border-box; opacity:.1 }
 .tile-logo:hover::before, .tile-add:hover::before{ opacity:.2 }
 .tile-logo::after, .tile-add::after{ position:absolute; display:block; left:0; top:0; content:' '; width:100%; height:100%; z-index:10; background:-webkit-linear-gradient(-70deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, .10))}
-.tile-widget::after{display:none}
+.tile-widget::before, .tile-widget::after{display:none}
 .tile-logo:hover::after, .tile-add:hover::after{ background:-webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, .05)) }
 .tile-logo:active::after, .tile-add:active::after, .drag-helper .tile-logo::after, .drag-helper .tile-add::after{ background:-webkit-linear-gradient(rgba(0, 0, 0, .05), rgba(0, 0, 0, .05) 20%, rgba(0, 0, 0, 0)) }
 .empty-tile a{cursor:default}

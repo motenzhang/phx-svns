@@ -109,6 +109,7 @@ var HotKeyword = function(){
 			item.result = item.text;
 			$.data(li[0], "ac_data", item);
 		});
+		Stat.count('d2', $('.search-cat .on').index() * 4 + 13);
 		return true;
 	}
 	return {

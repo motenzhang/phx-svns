@@ -119,6 +119,7 @@ $(function(host, undef){
         if(item.url){
 		  item.drag = drag;
 		  if (item.url.substr(0, 7) == 'widget:') {
+			  Stat.count('d3', 6);
 			  item.widget_type = item.url.replace(/^widget:\/\//, '');
 			  lis += $.tmpl(tileWidgetTempStr, item)[0].outerHTML;
 		  } else {
@@ -420,6 +421,10 @@ $(function(host, undef){
     if($('#search-kw').hasClass('input-txt-place')){
       $('#search-kw').val('');
     }
+    
+	Stat.count('d2', $('.search-cat .on').index() * 4 + 11);
+
+	Stat.searchTypeCount();
   });
 
 
@@ -473,6 +478,12 @@ $(function(host, undef){
 		location = data.link;
 		return;
 	}
+	if (data.text) {
+		Stat.count('d2', $('.search-cat .on').index() * 4 + 14);
+	} else {
+		Stat.count('d2', $('.search-cat .on').index() * 4 + 12);
+	}
+	Stat.searchTypeCount();
     $(this).parents('form')[0].submit();
   });
 
@@ -512,6 +523,8 @@ $(function(host, undef){
 	  });
     ntpApis.setUserMostVisited(JSON.stringify(tiles), function(){
     });
+
+	Stat.set('d0', 1, 1);
   }
 
   function parseGrid(sel){
@@ -576,6 +589,8 @@ $(function(host, undef){
 
 
   $(".setup-tit").click(function(e){
+    Stat.count('d1', 2);
+	
     var setupPop = $('.setup-pop');
 
     if(setupPop.is(':animated')){
@@ -734,6 +749,8 @@ $(function(host, undef){
   });
 
   $('.remove').live('click', function(e){
+	Stat.count('d3', 2);
+
     if($('#js-grid-from').val() == 1){
       $('.remove-tips').css('left', $('.tile img').offset().left + 'px').fadeIn();
 
@@ -915,6 +932,8 @@ $(function(host, undef){
           e.preventDefault();
         }
 
+		Stat.count('d3', 3);
+
         if(passDrag){
           $(passDrag).removeClass('pass-drag')
             .removeClass('pass-drag-left')
@@ -1092,9 +1111,48 @@ $(function(host, undef){
 
   if(!$('#js-show-search-form')[0].checked){
     $('#search-form').hide();
+  } else {
+	Stat.count('d2', 1);
   }
 
+  Stat.set('d0', 2, $('#js-show-search-form')[0].checked ? 1 : 0);
+  Stat.set('d0', 3, $('#js-show-in-newtab')[0].checked ? 1 : 0);
+  Stat.set('d0', 4, $('#js-grid-count').val()-0);
+  var statSTMap = {
+	  webpage: 11,
+	  news: 12,
+	  video: 13,
+	  image: 14,
+	  music: 15,
+	  map: 16,
+	  wenda: 17,
+  };
+  $.each(statSTMap, function(key, value){
+	  var dft = (storage.get('default_engine')[key] || 'so');
+	  dft = dft.replace(key + '_', '');
+	  var code;
+	  switch (dft) {
+		  case 'so':
+		  	code = key == 'wenda' ? 5 : 1;
+		  	break;
+		  case 'google':
+		  	code = 2;
+		  	break;
+		  case 'baidu':
+		  	code = 3;
+		  	break;
+		  case 'sogou':
+		  	code = 4;
+		  	break;
+	  }
+	  Stat.set('d0', value, code);
+  });
+
   $('.link').live('click', function(e){
+	if (e.target.className != 'remove') {
+		Stat.count('d3', 1);
+		Stat.count('d3', $(this).parents('.tile').index() + 21);
+	}
     ntpApis.onClickThumbnail(this.href);
   });
 
