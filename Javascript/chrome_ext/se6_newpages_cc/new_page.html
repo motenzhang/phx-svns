@@ -144,20 +144,30 @@
         <option value="20">20</option>
       </select>
     </dd>
-    <dt>
+    <!--<dt>
       快速访问显示内容
     </dt>
     <dd>
       <select id="js-grid-from" class="js-auto-save">
         <option value="1">最常访问（自动根据访问次数调整）</option>
-        <option value="2">自定义（固定显示添加的网址）</option>
+        <option value="2" selected>自定义（固定显示添加的网址）</option>
       </select>
-    </dd>
+    </dd>-->
   </dl>
 </div>
 <!--end setup-pop-->
 
 
+<script type="text/template" id="tile-widget">
+<li class="tile ${drag}"  url="${url}">
+  <b class="link" href="${url}">
+    <div class="tile-logo">
+	  <div class="widget ${widget_type}"></div>
+      <div class="remove" title="删除"></div>
+    </div>
+  </b>
+</li>
+</script> 
 <script type="text/template" id="tile-temp">
 <li class="tile ${drag}"  url="${url}">
   <a class="link" url="${url}" href="${url}" title="${short_url}">
@@ -200,6 +210,7 @@
 <xscript src="test_chrome_webui_apis.js"></xscript>
 <script src="placeholder.js"></script> 
 <script src="util.js"></script>
+<script src="newsbox.js"></script>
 <script src="new_page.js"></script> 
 <script src="stat.js"></script>
 </body>
