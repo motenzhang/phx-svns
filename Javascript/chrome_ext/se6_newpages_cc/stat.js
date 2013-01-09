@@ -101,7 +101,7 @@ var Stat = function(){
 				}
 
 				if (!toSend) {
-					//return;
+					return;
 				}
 
 				var arr = [];

@@ -548,6 +548,7 @@ $(function(host, undef){
     }
     $('.add-url').hide();
     $(".addurl-mask").fadeOut(150);
+	Stat.count('d4', 2);
   });
 
   $('.tile-add').live('mouseover',function(){
@@ -584,6 +585,7 @@ $(function(host, undef){
     }
     $('.add-url').hide();
     $(".addurl-mask").fadeOut(150);
+	Stat.count('d4', 2);
   });
 
 
@@ -750,6 +752,9 @@ $(function(host, undef){
 
   $('.remove').live('click', function(e){
 	Stat.count('d3', 2);
+	if ($(this).parent().hasClass('tile-widget')) {
+		Stat.count('d3', 9);
+	}
 
     if($('#js-grid-from').val() == 1){
       $('.remove-tips').css('left', $('.tile img').offset().left + 'px').fadeIn();
@@ -820,6 +825,8 @@ $(function(host, undef){
       }
     },
     submitHandler:function(e){
+	  Stat.count('d4', 4);
+		
       var title = $('#js-addurl-title').val().replace(/^\s*/,'').replace(/\s*$/,''),
       url = $('#js-addurl-url').val(),
       idx = $('#js-addurl-foridx').val()-0;
@@ -1154,6 +1161,9 @@ $(function(host, undef){
 		Stat.count('d3', $(this).parents('.tile').index() + 21);
 	}
     ntpApis.onClickThumbnail(this.href);
+  });
+  $('.tile-widget').live('click', function(e){
+	Stat.count('d3', 7);
   });
 
   HotKeyword.init($('#search-kw'));
