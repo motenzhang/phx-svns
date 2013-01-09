@@ -504,6 +504,10 @@ $(function(host, undef){
     var tiles = parseGrid('.tile');
 	  window.gridAddedUrlMap = {};
 	  tiles.forEach(function(item){
+  		  /*if (item.url.substr(0, 7) == 'widget:') {
+			  delete item['url'];
+			  item['type'] = 'widget';
+		  }*/
 		  window.gridAddedUrlMap[item.url] = item;
 	  });
     ntpApis.setUserMostVisited(JSON.stringify(tiles), function(){
@@ -899,7 +903,7 @@ $(function(host, undef){
       sx = e.clientX,
       sy = e.clientY;
       dragStart = true;
-      downObj = this.parentNode.parentNode;
+      downObj = $(this).parents('.tile')[0];//this.parentNode.parentNode;
 	  return false;
     });
 
