@@ -14,6 +14,7 @@ var AddUrlDlg = function(){
 		});
 		DC.get('http://site.browser.360.cn/csite.php?callback=?', {rn:Date.now()}, function(ret){
 			sitesData = ret && ret.data;
+			sitesData['hot'].unshift({title:'新闻盒子', url:'widget://news-box', logo:'images/news_default.jpg'})
 			$(AddUrlDlg).trigger('showtab');
 		});
 	}
@@ -180,29 +181,59 @@ var DC = function(){
 
 
 var ImportData = function(){
-	function setting() {
-		$.each(storage.get('settings'), function(key, value){
-			console.log(key, value);
-			switch (key) {
-				case 'js-grid-count':
-					if (value == '$("#js-grid-count").val("8")') {
-						storage.set('settings', 'js-grid-count', '$("#js-grid-count").val("12")');
-					}
-					break;
-					
-			}
-		});
+	function isDone() {
+		return storage.get('__import_data')['done'];
+	}
+	function getmode(){
+		var cmd = storage.get('settings')['js-grid-from'];
+		return ((cmd == undefined) || (cmd == '$("#js-grid-from").val("1")')) ? 1 : 2;
 	}
 	return {
-		getmode: function(){
-			var cmd = storage.get('settings')['js-grid-from'];
-			return ((cmd == undefined) || (cmd == '$("#js-grid-from").val("1")')) ? 1 : 2;
-		},
-		exec: function(){
-			if (storage.get('__import_data')['done']) {
-			//	return;
+		setting: function(){
+			if (isDone()) {
+				return;
 			}
-			setting();	
+			$.each(storage.get('settings'), function(key, value){
+				console.log(key, value);
+				switch (key) {
+					case 'js-grid-count':
+						if (value == '$("#js-grid-count").val("8")') {
+							storage.set('settings', 'js-grid-count', '$("#js-grid-count").val("12")');
+						}
+						break;
+				}
+			});
+		},
+		grid: function(mosts, customs, gridCount, ntpApis, callback){
+			if (isDone()) {
+				return;
+			}
+			var mode = getmode();
+			console.log('ImportData mode: ', mode);
+			if (mosts.length > 8) {
+				mosts = mosts.slice(0, 8);
+			}
+			var newData = mode == 1 ? mosts : customs;
+			
+			while (newData.length < gridCount) {
+				newData.push({title:'', url:'', filler:true});
+			}
+			
+			var emptyCount = 0;
+			newData.forEach(function(item, i){
+				if (item.filler == true) {
+					emptyCount++;
+					if (emptyCount == 2) {
+						newData[i] = {title:'新闻格子', url:'widget://news-box'};
+					}
+				}
+			});
+			
+			ntpApis.setUserMostVisited(JSON.stringify(newData), function(){
+				callback();
+			});
+			console.log(newData);
+			ImportData.done();
 		},
 		done: function() {
 			storage.set('__import_data', 'done', true);

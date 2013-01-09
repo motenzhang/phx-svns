@@ -35,6 +35,7 @@ $(function(host, undef){
 
   var tileTmplStr = $('#tile-temp').html(),
   tileAddTempStr = $('#tile-add-temp').html(),
+  tileWidgetTempStr = $('#tile-widget').html(),
   tileEmptyTempStr = $('#tile-empty-temp').html();
 
 
@@ -85,10 +86,11 @@ $(function(host, undef){
     ntpApis.getMostVisited(function(tiles, customs){
       console.log('getMostVisited回调函数被调用:', +new Date -st + 'ms(距页面打开)',arguments);
 
-    //  alert(ImportData.getmode());
+	  var gridCount = $('#js-grid-count').val()-0;
+
+      ImportData.grid(tiles, customs, gridCount, ntpApis, function(){		  reloadGrid();	  });
 
       var datas = $('#js-grid-from').val() == 1 ? tiles : customs,
-      gridCount = $('#js-grid-count').val()-0,
       lis = '',
       oftenLis = '',
       emptyLiStr = $('#js-grid-from').val() == 1 ? tileEmptyTempStr : tileAddTempStr,
@@ -115,10 +117,15 @@ $(function(host, undef){
 
       datas.every(function(item, i){
         if(item.url){
-          item.short_url = item.url.shorting(50);
-          item.pic = item.local_pic || 'chrome://thumb/' + item.url;
-          item.drag = drag;
-          lis += $.tmpl(tileTmplStr, item)[0].outerHTML;
+		  item.drag = drag;
+		  if (item.url.substr(0, 7) == 'widget:') {
+			  item.widget_type = item.url.replace(/^widget:\/\//, '');
+			  lis += $.tmpl(tileWidgetTempStr, item)[0].outerHTML;
+		  } else {
+			  item.short_url = item.url.shorting(50);
+			  item.pic = item.local_pic || 'chrome://thumb/' + item.url;
+			  lis += $.tmpl(tileTmplStr, item)[0].outerHTML;
+		  }
         }else{
           lis += $.tmpl(emptyLiStr, {drag:drag})[0].outerHTML;
         }
@@ -140,6 +147,9 @@ $(function(host, undef){
       $('.tile>a').attr('target', $('#js-show-in-newtab').attr('checked') ? '_blank' : '_self');
 
       $(window).trigger('resize');
+
+	  var box = new NewsBox('.widget.news-box',{'interval':6000, reload:1000*60});
+	  box.render();
 
     });
     return arguments.callee;
@@ -615,7 +625,7 @@ $(function(host, undef){
   var timerResize;
   $(window).on('resize', function(){
 
-    $('.tile img').css('height', imgHeight = Math.floor($('.tile img').width()*0.7) + 'px');
+    $('.tile img, .tile .widget').css('height', imgHeight = Math.floor($('.tile img').width()*0.7) + 'px');
     if($('.wrap .tile').length){
       $('.wrap').css({
         'top': Math.max(window.innerHeight/2 - $('.wrap').height()/2, 50) + 'px',
@@ -795,6 +805,8 @@ $(function(host, undef){
 
       if(url){
         $('.tile:eq('+idx+')').fadeOut(500, function(){
+			// news-box
+			
           $(this).html($.tmpl(tileTmplStr, {
             title: title||url,
             short_url: url.shorting(50),
@@ -1058,7 +1070,7 @@ $(function(host, undef){
     $(this).parents('.search').removeClass('focus');
   });
 
-  ImportData.exec();
+  ImportData.setting();
 
   loadSettings();
 

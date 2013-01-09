@@ -36,7 +36,7 @@ body{color:#666666; background: #f5f5f5; -webkit-user-select:none}
 /*search*/
 .search-cat{ padding-bottom:15px;}
 .search-cat a{ padding:5px 13px; font-size:14px; font-weight:bold; color:#838383; border-radius:3px; hei-ght:22px; li-ne-height:22px; }
-.search-cat a:hover{background:#DAECFE;box-shadow:0 1px 1px rgba(0,0,0,.43) inset;}
+.search-cat a:hover{background:#AAD9FB;box-shadow:0 1px 1px rgba(0,0,0,.43) inset;}
 .search-cat a.on{ color:#fff; font-weight:bold; background:#74C0F9;background:-webkit-gradient(linear,0 0,0 50%,from(#4ba4ff),to(#58abff));box-shadow:0 1px 1px rgba(0,0,0,.43) inset;}
 #search-form{ width:533px; margin:0 auto; margin-bottom: 30px }
 .search{  border:1px solid #c9c9c9; background:#fff; border-radius:3px; box-shadow:0 1px 2px #dcdcdc; display:-webkit-box; overflow:hidden; position:relative; z-index:0;}
@@ -170,3 +170,17 @@ input.input-txt-place{ color:#bebebe }
 .hot-keyword em{ background:#B9B9D3; border-radius:2px;overflow: hidden;margin: 0px 9px 0 0;width: 15px;height: 15px; padding-right:1px;line-height: 14px;font-size: 11px;text-align: center;color: white;-webkit-text-size-adjust: none;}
 .hot-keyword li:nth-of-type(1) em, .hot-keyword li:nth-of-type(2) em, .hot-keyword li:nth-of-type(3) em{background:#FE6C0F}
 .hot-keyword .new{background:url(images/hot_k_new.png) no-repeat 96% -50px; padding-right:24px}
+
+/* 盒子 */
+.sbox, .sbox-inner { position: absolute; top: 0; left: 0; bottom: 0; }
+.sbox .sbox-inner { white-space: nowrap; }
+.sbox { right: 0; overflow: hidden; }
+/* 轮播 一页 */
+.sbox .sbox-slide { display: inline-block; position: relative; }
+/* 盒子内容 */
+.sbox .sbox-content { position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; white-space: nowrap; background: #336699; }
+/* 盒子浮动层 */
+.sbox .sbox-title { position: absolute; bottom: 0; left: 0; right: 0; padding-right: 50px; /* button 的区域 */ overflow: hidden; text-overflow: ellipsis; pointer-events: none; background: rgba(0, 0, 0, 0.5); color: #fff; }
+.sbox .sbox-button { position: absolute; bottom: 0; display: none; color: #fff; }
+.sbox .sbox-button[rel=home] { right: 5px; }
+.sbox .sbox-button[rel=next] { right: 20px; }
