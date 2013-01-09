@@ -7,6 +7,8 @@ var AddUrlDlg = function(){
 		}
 		inited = true;
 		$('.add-url .url-cats li').on('click', function(){
+			Stat.count('d4', $(this).index() + 11);
+			
 			showTab($(this).attr('cat-name'));
 		})
 		$('input[name=add-url-q]').on('keyup', function(){
@@ -18,12 +20,11 @@ var AddUrlDlg = function(){
 			$(AddUrlDlg).trigger('showtab');
 		});
 	}
-	function onshow() {
-		showTab(localStorage['__addurl_default_tab'] || 'hot');
-	}
 	function showTab(name) {
 		$('.add-url .url-cats li').removeClass('on').filter('[cat-name=' + name + ']').addClass('on');
 		if (name == 'custom') {
+			Stat.count('d4', 3);
+
 			$('.add-url .recommend').hide();
 			$('.add-url .custom').show();
 			localStorage['__addurl_default_tab'] = 'custom';
@@ -51,6 +52,8 @@ var AddUrlDlg = function(){
 		});
 		$('.add-url .recommend .logo-list').html(sb.join(''));
 		$('.add-url .recommend .logo-list li:not(.added)').click(function(){
+			Stat.count('d4', $('.add-url .url-cats li.on').index() + 12);
+			
 			$('#js-addurl-title').val($(this).attr('title'));
 			$('#js-addurl-url').val($(this).attr('url'));
 			$('#add-url-form').submit();
@@ -58,6 +61,7 @@ var AddUrlDlg = function(){
 		getStatus();
 	}
 	function search(q) {
+		Stat.count('d4', 5);
 		var ret = [];
 		$.each(sitesData, function(name, list){
 			$.each(list, function(i, item){
@@ -81,7 +85,10 @@ var AddUrlDlg = function(){
 			init();
 			$(this).trigger('onshow');
 		},
-		onshow: onshow
+		onshow: function(){
+			showTab(localStorage['__addurl_default_tab'] || 'hot');
+			Stat.count('d4', 1);
+		}
 	};
 }();
 
