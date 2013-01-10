@@ -111,12 +111,14 @@ $(function(host, undef){
 
 
       if(gridCount == 0){
-        $('.news-box-tips').hide();
         $('.grid ul').html('');
         $(window).trigger('resize');
+		TipsManager.showNewsBoxTips();
         return;
       }
 
+	  var emptyGrid = false;
+	  
       datas.every(function(item, i){
         if(item.url){
 		  item.drag = drag;
@@ -130,6 +132,7 @@ $(function(host, undef){
 			  lis += $.tmpl(tileTmplStr, item)[0].outerHTML;
 		  }
         }else{
+		  emptyGrid = true;
           lis += $.tmpl(emptyLiStr, {drag:drag})[0].outerHTML;
         }
         if(i+1<gridCount){
@@ -140,6 +143,7 @@ $(function(host, undef){
       });
 
       if(datas.length < gridCount){
+		emptyGrid = true;
         lis += new Array(gridCount - datas.length + 1).join($.tmpl(emptyLiStr,{drag:drag})[0].outerHTML);
       }
 
@@ -155,6 +159,7 @@ $(function(host, undef){
 	  box.render();
 
 	  TipsManager.showNewsBoxTips();
+	  TipsManager.showSmartPushTips(emptyGrid);
     });
     return arguments.callee;
   }();
