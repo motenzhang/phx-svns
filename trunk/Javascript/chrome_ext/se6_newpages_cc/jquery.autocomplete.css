@@ -1,4 +1,4 @@
-.ac_results { padding: 0px; border: 1px solid #a7a7a7; background-color: white; overflow: hidden; z-index: 99999; box-shadow:1px 1px 6px rgba(0,0,0,.4) }
+.ac_results { padding: 0px; border: 1px solid #a7a7a7; background-color: white; overflow: hidden; z-index: 999; box-shadow:1px 1px 6px rgba(0,0,0,.4) }
 .ac_results ul { width: 100%; list-style-position: outside; list-style: none; padding: 0; margin: 0; }
 .ac_results li { cursor: pointer; padding: 5px; padding-left:7px; color: black; display: block; /* 
   if width will be 100% horizontal scrollbar will apear 

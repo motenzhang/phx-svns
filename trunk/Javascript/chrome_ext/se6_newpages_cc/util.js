@@ -87,6 +87,7 @@ var AddUrlDlg = function(){
 			$(this).trigger('onshow');
 		},
 		onshow: function(){
+			sugSelect.hide();
 			showTab(localStorage['__addurl_default_tab'] || 'hot');
 			Stat.count('d4', 1);
 		}
@@ -227,8 +228,8 @@ var ImportData = function(){
 			}
 			var mode = getmode();
 			console.log('ImportData mode: ', mode);
-			if (mosts.length > 8) {
-				mosts = mosts.slice(0, 8);
+			if (mosts.length > 10) {
+				mosts = mosts.slice(0, 10);
 			}
 			var newData = mode == 1 ? mosts : customs;
 			
@@ -254,6 +255,35 @@ var ImportData = function(){
 		},
 		done: function() {
 			storage.set('__import_data', 'done', true);
+		}
+	};
+}();
+
+var TipsManager = function(){
+	return {
+		showNewsBoxTips: function(){
+			if (storage.get('__tips_manager')['news-box']) {
+				return;
+			}
+			
+			var newsbox = $('.grid .tile-widget .news-box');
+			if (newsbox.length > 0) {
+				var point = newsbox.offset();
+				$('.news-box-tips').css({
+					left: point.left,
+					top: point.top + newsbox.height() + 10,
+				}).fadeIn().find('.btn-close').unbind().bind('click', function(){
+					$(this).parents('.yellow-tips').fadeOut();
+				});
+				$(window).resize(function(){
+					var point = newsbox.offset();
+					$('.news-box-tips').css({
+						left: point.left,
+						top: point.top + newsbox.height() + 10,
+					})
+				});
+				storage.set('__tips_manager', 'news-box', true);
+			}
 		}
 	};
 }();
