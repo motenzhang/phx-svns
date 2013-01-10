@@ -64,6 +64,7 @@ var Stat = function(){
 		},
 		getStatData: function(dx, length){
 			var arr = storage.getStat('stat_cache_' + dx, []);
+			length = length || arr.length;
 			for (var i=0; i<length; i++) {
 				arr[i] = arr[i] || 0;
 			}
@@ -131,7 +132,6 @@ var Stat = function(){
 					code = 5;
 					break;
 			}
-			alert(code);
 			Stat.count('d2', code);
 		},
 	};

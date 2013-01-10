@@ -95,13 +95,17 @@ var AddUrlDlg = function(){
 
 var HotKeyword = function(){
 	var keywordData;
-	var container;
+	var input, container, toggle;
 	function toggleSug() {
-		if (container.css('display') == 'none') {
+		clearTimeout(window.sug_hide_timeout);
+		if (!toggle.hasClass('open')) {
 			render() &&	sugSelect.show('hot-keyword');
 		} else {
+			toggle.removeClass('open');
 			container.hide();
 		}
+		input.focus();
+		return false;
 	}
 	function render() {
 		var cat = $('.search-cat .on').attr('cat-name');
@@ -118,16 +122,18 @@ var HotKeyword = function(){
 			$.data(li[0], "ac_data", item);
 		});
 		Stat.count('d2', $('.search-cat .on').index() * 4 + 13);
+		toggle.addClass('open');
 		return true;
 	}
 	return {
 		init: function(ele) {
 			container = $('.ac_results');
-			ele.on('click', function(){
+			input = ele.on('click', function(){
 				if ($(this).val() == '') {
 					toggleSug();
 				}
 			});
+			toggle = $('#search-hotword').on('click', toggleSug);
 			DC.get('http://site.browser.360.cn/sword.php?callback=?', {rn:Date.now()}, function(ret){
 				keywordData = ret && ret.data;
 				$(HotKeyword).trigger('ondata');
@@ -135,6 +141,7 @@ var HotKeyword = function(){
 		},
 		ondata: function(){
 			console.log(keywordData);
+			toggle.show();
 		}
 	};
 }();

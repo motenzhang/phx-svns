@@ -306,12 +306,13 @@ $.Autocompleter = function(input, options) {
 
   function hideResults() {
     clearTimeout(timeout);
-    timeout = setTimeout(hideResultsNow, 200);
+    timeout = window.sug_hide_timeout = setTimeout(hideResultsNow, 200);
   };
 
   function hideResultsNow() {
     var wasVisible = select.visible();
     select.hide();
+   $('#search-hotword').removeClass('open');
     clearTimeout(timeout);
     stopLoading();
     if (options.mustMatch) {
@@ -340,6 +341,7 @@ $.Autocompleter = function(input, options) {
       select.display(data, q);
       autoFill(q, data[0].value);
       select.show();
+	  $('#search-hotword').removeClass('open');
     } else {
       hideResultsNow();
     }
@@ -733,7 +735,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
 	  }
       element.css({
         width: typeof options.width == "string" || options.width > 0 ? options.width : $('.ipt').width(),
-        top: offset.top + input.offsetHeight+2,
+        top: offset.top + input.offsetHeight+3,
         left: offset.left-1
       }).show();
       if(options.scroll) {
