@@ -139,6 +139,8 @@ input.input-txt-place{ color:#bebebe }
 .yellow-tips .btn-close:hover, .custom-mode-tips .btn-close:hover{ background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABVQTFRFZmZm/f39/v7+mZmZkJCQk5OT////KZr9LAAAAAd0Uk5T////////ABpLA0YAAAAoSURBVHjaYmBgYAMCBjCA0ECClRlEsbEBKRY2ZAaQAkvBFcO0AwQYABioAK6qLh9+AAAAAElFTkSuQmCC) }
 .yellow-tips .btn-close:active, .custom-mode-tips .btn-close:active{ background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABVQTFRFmZmZ/f39/v7+urq6tLS0tra2////gtmAhQAAAAd0Uk5T////////ABpLA0YAAAAoSURBVHjaYmBgYAMCBjCA0ECClRlEsbEBKRY2ZAaQAkvBFcO0AwQYABioAK6qLh9+AAAAAElFTkSuQmCC) }
 
+.smart-restore-tips{left:auto; right:125px; top:8px; padding-right:10px}
+
 /*add url*/
 .add-url{ width:650px; height:454px; position:fixed; top:45%; left:50%; margin:-227px 0 0 -325px; z-index:10; background:#f5f5f5; border:1px solid #8c8c8c; border-radius:4px; box-shadow:0px 3px 35px rgba(71, 87, 100, .69); z-index:1002; display:none}
 .add-url .title{background:-webkit-linear-gradient(top, #f4f7f9, #eff3f7); height:40px; line-height:40px; border-bottom:1px solid #b1b1b1; margin-top:1px;border-radius:4px 4px 0 0; padding-top:1px;box-shadow:0px 2px 3px rgba(0, 0, 0, .07); position:absolute; width:100%}

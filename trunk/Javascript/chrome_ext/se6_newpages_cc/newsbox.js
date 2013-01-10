@@ -31,7 +31,6 @@ var NewsBox = (function() {
         },
         onButtonClick: function(e) {
             var rel = $(e.target).attr('rel');
-			debugger;
             if (rel === 'home') {
                 this.index = -1;
                 this.nextSlide(now);

@@ -90,6 +90,7 @@ $(function(host, undef){
 
       ImportData.grid(tiles, customs, gridCount, ntpApis, function(){		  reloadGrid();	  });
 
+	  window.smartMostVisited = tiles;
       var datas = $('#js-grid-from').val() == 1 ? tiles : customs,
       lis = '',
       oftenLis = '',
@@ -1170,7 +1171,49 @@ $(function(host, undef){
   HotKeyword.init($('#search-kw'));
 
   $('.smart-push').on('click', function(){
-	  console.log(ntpApis);
+	  window.smartPrevGridData = parseGrid('.tile')
+	  var gridData = parseGrid('.tile'), mostVisited = window.smartMostVisited || [];
+	  var pushed = false;
+	  gridData.every(function(item, i){
+		  if (mostVisited.length <= 0) {
+			  return false;
+		  }
+		  if (!item.url) {
+			  while(mostVisited.length > 0) {
+				  var mt = mostVisited.shift();
+				  if (!isExist(mt.url)) {
+					  gridData[i] = mt;
+					  pushed = true;
+					  break;
+				  }
+			  }
+		  }
+		  return true;
+	  });
+	  
+	  if (pushed) {
+		ntpApis.setUserMostVisited(JSON.stringify(gridData), reloadGrid);
+		$('.smart-restore-tips').fadeIn();
+        window.timerSmartRestoreTipHandler && clearTimeout(window.timerSmartRestoreTipHandler);
+		window.timerSmartRestoreTipHandler = setTimeout(function(){
+			$('.smart-restore-tips').fadeOut();
+		},4000);
+	  }
+
+	  function isExist(url){
+		  for (var i=0; i<gridData.length; i++) {
+			  if (gridData[i].url && gridData[i].url == url) {
+				  return true;
+			  }
+		  }
+		  return false;
+	  }
+  });
+  
+  $('.restore-griddata').on('click', function(){
+	  window.smartPrevGridData && ntpApis.setUserMostVisited(JSON.stringify(window.smartPrevGridData), reloadGrid);
+      window.timerSmartRestoreTipHandler && clearTimeout(window.timerSmartRestoreTipHandler);
+	  $('.smart-restore-tips').fadeOut();
   });
 
 });
