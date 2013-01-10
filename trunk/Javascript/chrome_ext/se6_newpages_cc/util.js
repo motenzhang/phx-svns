@@ -48,10 +48,11 @@ var AddUrlDlg = function(){
 		var sb = [];
 		$.each(list, function(i, item){
 			var added = window.gridAddedUrlMap[item.url] || window.gridAddedUrlMap[item.url + '/'];
-			sb.push('<li class="' + (added ? 'added' : '') + '" url="' + item.url + '" title="' + item.title + '"> <i class=""></i><img src="' + item.logo + '"><h4>' + item.title + '</h4></li>');
+			var isWidget = item.url.substr(0, 7) == 'widget:';
+			sb.push('<li class="' + (isWidget ? 'widget' : '') + ' ' + (added ? 'added' : '') + '" url="' + item.url + '" title="' + item.title + '"> <i class=""></i><img src="' + item.logo + '"><h4>' + item.title + '</h4></li>');
 		});
 		$('.add-url .recommend .logo-list').html(sb.join(''));
-		$('.add-url .recommend .logo-list li:not(.added)').click(function(){
+		$('.add-url .recommend .logo-list li:not(.widget.added)').click(function(){
 			Stat.count('d4', $('.add-url .url-cats li.on').index() + 12);
 			
 			$('#js-addurl-title').val($(this).attr('title'));
