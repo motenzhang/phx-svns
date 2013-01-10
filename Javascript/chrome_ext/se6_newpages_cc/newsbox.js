@@ -31,9 +31,10 @@ var NewsBox = (function() {
         },
         onButtonClick: function(e) {
             var rel = $(e.target).attr('rel');
+			debugger;
             if (rel === 'home') {
                 this.index = -1;
-                this.nextSlide();
+                this.nextSlide(now);
             } else {
                 this.nextSlide();
             }
@@ -44,7 +45,7 @@ var NewsBox = (function() {
         },
         onLeave: function(e) {
             this._slideInterval = setInterval(this.onInterval.bind(this), this.options['interval']);
-            this.$el.find('.sbox-button').hide();
+            //this.$el.find('.sbox-button').hide();
         },
         /**
 					 * 自动翻页
@@ -77,10 +78,24 @@ var NewsBox = (function() {
         },
 
         /**
-					 * 移动到下一个 slide
-					 */
-        nextSlide: function(animate) {
-            if (!this.isNextable()) return;
+		 * 移动到下一个 slide
+		 */
+		nextSlide: function(animate) {
+            var self = this;
+			if (this.index == -1) {
+				setTimeout(function(){
+					self.nextSlideNow(animate);
+				}, 2000);
+			} else {
+				this.nextSlideNow(animate);
+			}
+		},
+        nextSlideNow: function(animate) {
+            if (!this.isNextable()) {
+				this.$el.find('.sbox-button').hide();
+				return;
+			}
+			this.$el.find('.sbox-button').show();
             var self = this;
             if (typeof(animate) === 'undefined') {
                 animate = true;

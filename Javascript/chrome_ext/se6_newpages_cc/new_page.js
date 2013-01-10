@@ -152,6 +152,7 @@ $(function(host, undef){
 	  var box = new NewsBox('.widget.news-box',{'interval':6000, reload:1000*60});
 	  box.render();
 
+	  TipsManager.showNewsBoxTips();
     });
     return arguments.callee;
   }();
@@ -1167,5 +1168,9 @@ $(function(host, undef){
   });
 
   HotKeyword.init($('#search-kw'));
+
+  $('.smart-push').on('click', function(){
+	  console.log(ntpApis);
+  });
 
 });
