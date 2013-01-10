@@ -215,7 +215,8 @@ var ImportData = function(){
 				console.log(key, value);
 				switch (key) {
 					case 'js-grid-count':
-						if (value == '$("#js-grid-count").val("8")') {
+						if (value == '$("#js-grid-count").val("8")'
+							|| value == '$("#js-grid-count").val("0")') {
 							storage.set('settings', 'js-grid-count', '$("#js-grid-count").val("12")');
 						}
 						break;
@@ -263,6 +264,7 @@ var TipsManager = function(){
 	return {
 		showNewsBoxTips: function(){
 			if (storage.get('__tips_manager')['news-box']) {
+				 $('.news-box-tips').hide();
 				return;
 			}
 			
@@ -288,6 +290,12 @@ var TipsManager = function(){
 				});
 				storage.set('__tips_manager', 'news-box', true);
 			}
-		}
+		},
+		showSmartPushTips: function(){
+			if (storage.get('__tips_manager')['smart-push']) {
+				return;
+			}
+			
+		},
 	};
 }();

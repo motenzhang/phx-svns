@@ -87,18 +87,12 @@ var Stat = function(){
 					var last = parseInt(storage.getStat('stat_last_send_m')) || 0;
 					toSend = Date.now() - last > 1000 * 60 * 10;
 					param['d1'] = Stat.getStatData('d1', 4);
-					param['d2'] = Stat.getStatData('d1', 38);
-					param['d3'] = Stat.getStatData('d1', 40);
-					param['d4'] = Stat.getStatData('d1', 30);
-					storage.setStat('stat_last_send_m', Date.now());
-					storage.setStat('stat_cache_d1', []);
-					storage.setStat('stat_cache_d2', []);
-					storage.setStat('stat_cache_d3', []);
-					storage.setStat('stat_cache_d4', []);
+					param['d2'] = Stat.getStatData('d2', 38);
+					param['d3'] = Stat.getStatData('d3', 40);
+					param['d4'] = Stat.getStatData('d4', 30);
 				} else {
 					toSend = storage.getStat('stat_last_send_d') != new Date().toDateString();
 					param['d0'] = Stat.getStatData('d0', 17);
-					storage.setStat('stat_last_send_d', new Date().toDateString());
 				}
 
 				if (!toSend) {
@@ -110,6 +104,16 @@ var Stat = function(){
 					arr.push(key + '=' + encodeURIComponent(param[key]));
 				}
 				(new Image).src = 'http://dd.browser.360.cn/dial.php?' + arr.join('&');
+
+				if (tp == 'm') {
+					storage.setStat('stat_last_send_m', Date.now());
+					storage.setStat('stat_cache_d1', []);
+					storage.setStat('stat_cache_d2', []);
+					storage.setStat('stat_cache_d3', []);
+					storage.setStat('stat_cache_d4', []);
+				} else {
+					storage.setStat('stat_last_send_d', new Date().toDateString());
+				}
 			});
 			return this;
 		},
