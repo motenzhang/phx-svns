@@ -261,13 +261,13 @@ var ImportData = function(){
 }();
 
 var TipsManager = function(){
+	var session = false;
 	return {
 		showNewsBoxTips: function(){
-			if (storage.get('__tips_manager')['news-box']) {
-				 $('.news-box-tips').hide();
+			if (!session && storage.get('__tips_manager')['news-box']) {
 				return;
 			}
-			
+			session = true;
 			var newsbox = $('.grid .tile-widget .news-box');
 			if (newsbox.length > 0) {
 				var point = newsbox.offset();
@@ -289,13 +289,27 @@ var TipsManager = function(){
 					}).show();
 				});
 				storage.set('__tips_manager', 'news-box', true);
+			} else {
+				$('.news-box-tips').hide();
 			}
 		},
-		showSmartPushTips: function(){
+		showSmartPushTips: function(emptyGrid){
 			if (storage.get('__tips_manager')['smart-push']) {
 				return;
 			}
+
+			if (!emptyGrid) {
+				storage.set('__tips_manager', 'smart-push-start-date', Date.now());
+				return;
+			}
+
+			if (!storage.get('__tips_manager')['smart-push-start-date']) {
+				storage.set('__tips_manager', 'smart-push-start-date', Date.now());
+			}
 			
+			if (Date.now() - storage.get('__tips_manager')['smart-push-start-date'] > 1000 * 60 *60 * 24 * 15) {
+				
+			}
 		},
 	};
 }();
