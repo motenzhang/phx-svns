@@ -63,6 +63,8 @@ input.input-txt-place{ color:#bebebe }
 .search-menu a.google{ background:url(images/google_ico.png) no-repeat;}
 .search-menu>li{ padding:3px 55px 3px 4px; cursor:pointer; }
 .search-menu>li:hover{ background:#D9F0D0; }
+#search-hotword{position:absolute;top: 2px;right: 60px;width: 30px;height: 26px;background-position: 11px -19px; overflow:hidden; cursor:pointer; background:url(images/hot_k_toggle.png) no-repeat; display:none;}
+#search-hotword.open{ background-position:-30px 0}
 /*grid*/
 .grid{ min-width: 600px; max-width:1000px; margin:0 auto; position:relative; }
 .grid ul::after{ content: ' '; display:block; height:0; clear:both; }
