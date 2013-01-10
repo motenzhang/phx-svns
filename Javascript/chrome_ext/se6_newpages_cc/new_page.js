@@ -1199,6 +1199,7 @@ $(function(host, undef){
 	  
 	  if (pushed) {
 		ntpApis.setUserMostVisited(JSON.stringify(gridData), reloadGrid);
+		$('.smart-push-tips').hide();
 		$('.smart-restore-tips').fadeIn();
         window.timerSmartRestoreTipHandler && clearTimeout(window.timerSmartRestoreTipHandler);
 		window.timerSmartRestoreTipHandler = setTimeout(function(){

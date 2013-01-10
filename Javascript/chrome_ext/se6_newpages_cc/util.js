@@ -308,6 +308,21 @@ var TipsManager = function(){
 			}
 			
 			if (Date.now() - storage.get('__tips_manager')['smart-push-start-date'] > 1000 * 60 *60 * 24 * 15) {
+				var count = storage.get('__tips_manager')['smart-push-show-count'] || 0
+				if (count >= 1) {
+					storage.set('__tips_manager', 'smart-push', true);
+				}
+				storage.set('__tips_manager', 'smart-push-show-count', count + 1);
+				storage.set('__tips_manager', 'smart-push-start-date', Date.now());
+
+				$('.smart-push-tips').fadeIn().find('.btn-close').unbind().bind('click', function(){
+					window.timerSmartPushTipHandler && clearTimeout(window.timerSmartPushTipHandler);
+					$(this).parents('.yellow-tips').fadeOut();
+				});
+				window.timerSmartPushTipHandler && clearTimeout(window.timerSmartPushTipHandler);
+				window.timerSmartPushTipHandler = setTimeout(function(){
+					$('.smart-push-tips').fadeOut();
+				}, 10000);
 				
 			}
 		},
