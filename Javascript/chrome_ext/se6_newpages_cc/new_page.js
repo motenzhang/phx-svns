@@ -111,6 +111,7 @@ $(function(host, undef){
 
 
       if(gridCount == 0){
+        $('.news-box-tips').hide();
         $('.grid ul').html('');
         $(window).trigger('resize');
         return;
@@ -1197,7 +1198,7 @@ $(function(host, undef){
         window.timerSmartRestoreTipHandler && clearTimeout(window.timerSmartRestoreTipHandler);
 		window.timerSmartRestoreTipHandler = setTimeout(function(){
 			$('.smart-restore-tips').fadeOut();
-		},4000);
+		},5000);
 	  }
 
 	  function isExist(url){
