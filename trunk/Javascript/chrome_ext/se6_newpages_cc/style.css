@@ -16,8 +16,8 @@ body{color:#666666; background: #f5f5f5; -webkit-user-select:none}
 .setup-tit,.setup-cls,.url-tit h2,.url-cls,.remove{background:url(images/imgbg.png) no-repeat;}
 .search-engine:hover{ opacity:.7 }
 /* smart push */
-.smart-push-f{display:inline; position:relative}
-.smart-push-f .sl{position:absolute; border:1px solid #999; width:200px; right:0; background:#FFF; display:none}
+.smart-push-f{display:inline; position:relative; padding-bottom:10px; }
+.smart-push-f .sl{position:absolute; border:1px solid #999; width:200px; height:150px; overflow:auto; right:0; background:#FFF; display:none; margin-top:0; }
 .smart-push-f:hover .sl{display:block}
 /*setup*/
 .setup{ position:absolute; top:13px; right:16px; z-index:20;}
@@ -146,7 +146,7 @@ input.input-txt-place{ color:#bebebe }
 .news-box-tips{/*display:block; top:30px*/}
 .news-box-tips em{position:absolute; width:15px; height:8px; background:url(images/tips_arrow.png); left:20px;top:-8px}
 .arrow-right em{position:absolute; width:7px; height:14px; background:url(images/tips_arrow_right.png); right:-7px;top:8px}
-.smart-restore-tips{left:auto; right:130px; top:8px; padding-right:10px}
+.smart-push-tips, .smart-restore-tips{left:auto; right:130px; top:8px; padding-right:10px}
 
 /*add url*/
 .add-url{ width:650px; height:454px; position:fixed; top:45%; left:50%; margin:-227px 0 0 -325px; z-index:10; background:#f5f5f5; border:1px solid #8c8c8c; border-radius:4px; box-shadow:0px 3px 35px rgba(71, 87, 100, .69); z-index:1002; display:none}
@@ -169,10 +169,10 @@ input.input-txt-place{ color:#bebebe }
 .add-url .recommend{-webkit-mask-image:-webkit-linear-gradient(top, transparent, black 20px); }
 .add-url .recommend .nodata{color:#999; font-weight:bold; font-size:18px; text-align:center; margin-top:50px; display:none }
 .add-url .scroll{margin:5px 3px 0 5px!important; overflow:scroll; height:395px; padding-bottom:10px; -webkit-mask-image:-webkit-linear-gradient(bottom, transparent, black 20px); }
-.add-url .scrollbar{margin:3px}
-.add-url .scrollbar::-webkit-scrollbar{width:10px; height:0px}
-.add-url .scrollbar::-webkit-scrollbar-thumb{background:#d9d9d9;border-radius:12px;}
-.add-url .scrollbar::-webkit-scrollbar-thumb:hover{background:#ccc}
+.scrollbar{margin:3px}
+.scrollbar::-webkit-scrollbar{width:10px; height:0px}
+.scrollbar::-webkit-scrollbar-thumb{background:#d9d9d9;border-radius:12px;}
+.scrollbar::-webkit-scrollbar-thumb:hover{background:#ccc}
 .add-url .logo-list li{float:left; position:relative; overflow:hidden; cursor:pointer; margin:20px 0 0 20px;box-shadow:0px 0px 5px rgba(0, 0, 0, .35);}
 .add-url .logo-list li.widget.added{cursor:default}
 .add-url .logo-list li > *{position:absolute}
