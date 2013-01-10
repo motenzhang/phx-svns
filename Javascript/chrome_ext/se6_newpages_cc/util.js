@@ -276,11 +276,15 @@ var TipsManager = function(){
 					$(this).parents('.yellow-tips').fadeOut();
 				});
 				$(window).resize(function(){
-					var point = newsbox.offset();
+					var point = $('.grid .tile-widget .news-box').offset();
+					if (point.left <= 0) {
+						$('.news-box-tips').hide();
+						return;
+					}
 					$('.news-box-tips').css({
 						left: point.left,
 						top: point.top + newsbox.height() + 10,
-					})
+					}).show();
 				});
 				storage.set('__tips_manager', 'news-box', true);
 			}
