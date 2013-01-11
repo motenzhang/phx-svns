@@ -2,7 +2,7 @@ var NewsBox = (function() {
     var SlideBox = function(ctr) {
         this.$ctr = $(ctr).css('position', 'relative');
         this.options = {
-            'interval': 6000,
+            'interval': 16000,
         };
         this.construct();
     };
@@ -46,7 +46,7 @@ var NewsBox = (function() {
             this.$el.find('.sbox-button').show();
         },
         onLeave: function(e) {
-            this._slideInterval = setInterval(this.onInterval.bind(this), this.options['interval']);
+            //this._slideInterval = setInterval(this.onInterval.bind(this), this.options['interval']);
             //this.$el.find('.sbox-button').hide();
         },
         /**
@@ -61,7 +61,7 @@ var NewsBox = (function() {
         renderSlide: function(index) {
             var title = this.getTitle(index);
             var content = this.getContent(index);
-            var $slide = $('<div class="sbox-slide" style="width:' + this.width + 'px;height:' + this.height + 'px;">\
+            var $slide = $('<div class="sbox-slide" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;">\
 <div class="sbox-content" title="' + title + '">' + content + '</div>\
 <div class="sbox-title">' + title + '</div>\
 </div>');
@@ -105,6 +105,7 @@ var NewsBox = (function() {
             if (animate) {
                 this.renderSlide(this.index);
 
+				this.width = this.$inner.width();
                 this.$inner.animate({
                     'left': -1 * this.width + 'px'
                 },
@@ -208,7 +209,7 @@ var NewsBox = (function() {
             } else if (i === -1) { // 加载中，可以认为是首页
                 return '加载中...';
             } else { // 数据页
-                return '<a href="' + this.data[i]['url'] + '" target="' + target + '"><img src="' + this.data[i]['img'] + '" style="height:' + this.height + 'px;"/></a>';
+                return '<a href="' + this.data[i]['url'] + '" target="' + target + '"><img src="' + this.data[i]['img'] + '" style="he--ight:' + this.height + 'px;"/></a>';
             }
         },
         /**
@@ -287,9 +288,9 @@ var NewsBox = (function() {
         },
         getContent: function(i) {
             if (i === -2) {
-                return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a>'
+                return '<div class="more"><a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a></div>'
             } else if (i === -1) {
-                return '<img src="images/news_default.jpg" style="width:' + this.width + 'px;height:' + this.height + 'px;" alt="新闻格子" title="新闻格子"/>';
+                return '<img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;" alt="新闻格子" title="新闻格子"/>';
             } else {
                 return AjaxBox.prototype.getContent.call(this, i, this.options.target);
             }
