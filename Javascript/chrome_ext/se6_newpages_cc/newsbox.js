@@ -30,13 +30,13 @@ var NewsBox = (function() {
             this.onLeave();
         },
         onButtonClick: function(e) {
-			Stat.count('d3', 10);
-
             var rel = $(e.target).attr('rel');
             if (rel === 'home') {
+				Stat.count('d3', 10);
                 this.index = -1;
                 this.nextSlide(now);
             } else {
+				Stat.count('d3', 8);
                 this.nextSlide();
             }
         },

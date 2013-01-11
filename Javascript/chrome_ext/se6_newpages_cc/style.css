@@ -195,7 +195,8 @@ input.input-txt-place{ color:#bebebe }
 /* 轮播 一页 */
 .sbox .sbox-slide { display: inline-block; position: relative; }
 /* 盒子内容 */
-.sbox .sbox-content { position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; white-space: nowrap; background: #336699; }
+.sbox .sbox-content { position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; white-space: nowrap; background: #336699; color:#fff; text-align:center; display:table-cell; vertical-align:middle }
+.sbox .sbox-content a{color:#fff}
 /* 盒子浮动层 */
 .sbox .sbox-title { position: absolute; bottom: 0; left: 0; right: 0; padding-left:4px; padding-right: 50px; /* button 的区域 */ overflow: hidden; text-overflow: ellipsis; pointer-events: none; background: rgba(0, 0, 0, 0.5); color: #fff; }
 .sbox .sbox-button { position: absolute; bottom: 0; display: none; color: #fff; background:url(images/news_ctrl.png) no-repeat; text-indent:-9999px; width:20px; height:24px; margin-top:-12px; top:50%; }
