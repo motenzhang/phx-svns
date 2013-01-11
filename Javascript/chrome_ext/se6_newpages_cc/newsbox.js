@@ -30,6 +30,8 @@ var NewsBox = (function() {
             this.onLeave();
         },
         onButtonClick: function(e) {
+			Stat.count('d3', 10);
+
             var rel = $(e.target).attr('rel');
             if (rel === 'home') {
                 this.index = -1;
