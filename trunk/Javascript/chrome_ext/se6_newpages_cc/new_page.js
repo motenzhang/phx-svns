@@ -1177,6 +1177,8 @@ $(function(host, undef){
   HotKeyword.init($('#search-kw'));
 
   $('.smart-push').on('click', function(){
+	  Stat.count('d1', 3);
+	  
 	  window.smartPrevGridData = parseGrid('.tile')
 	  var gridData = parseGrid('.tile'), mostVisited = window.smartMostVisited || [];
 	  var pushed = false;
@@ -1218,6 +1220,8 @@ $(function(host, undef){
   });
   
   $('.restore-griddata').on('click', function(){
+  	  Stat.count('d1', 4);
+
 	  window.smartPrevGridData && ntpApis.setUserMostVisited(JSON.stringify(window.smartPrevGridData), reloadGrid);
       window.timerSmartRestoreTipHandler && clearTimeout(window.timerSmartRestoreTipHandler);
 	  $('.smart-restore-tips').fadeOut();
