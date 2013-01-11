@@ -39,6 +39,7 @@ var NewsBox = (function() {
 				Stat.count('d3', 8);
                 this.nextSlide();
             }
+			return false;
         },
         onEnter: function(e) {
             clearInterval(this._slideInterval);
@@ -201,13 +202,13 @@ var NewsBox = (function() {
         /**
 					 * 绘制页面时调用，获取页内容
 					 */
-        getContent: function(i) {
+        getContent: function(i, target) {
             if (i === -2) { // 无数据页
                 return '没有了...';
             } else if (i === -1) { // 加载中，可以认为是首页
                 return '加载中...';
             } else { // 数据页
-                return '<a href="' + this.data[i]['url'] + '"><img src="' + this.data[i]['img'] + '" style="height:' + this.height + 'px;"/></a>';
+                return '<a href="' + this.data[i]['url'] + '" target="' + target + '"><img src="' + this.data[i]['img'] + '" style="height:' + this.height + 'px;"/></a>';
             }
         },
         /**
@@ -286,11 +287,11 @@ var NewsBox = (function() {
         },
         getContent: function(i) {
             if (i === -2) {
-                return '<a href="http://sh.qihoo.com/">更多新闻，请访问 360新闻</a>'
+                return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a>'
             } else if (i === -1) {
                 return '<img src="images/news_default.jpg" style="width:' + this.width + 'px;height:' + this.height + 'px;" alt="新闻格子" title="新闻格子"/>';
             } else {
-                return AjaxBox.prototype.getContent.call(this, i);
+                return AjaxBox.prototype.getContent.call(this, i, this.options.target);
             }
         }
     });

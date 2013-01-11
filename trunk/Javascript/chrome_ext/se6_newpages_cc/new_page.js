@@ -155,7 +155,7 @@ $(function(host, undef){
 
       $(window).trigger('resize');
 
-	  var box = new NewsBox('.widget.news-box',{'interval':6000, reload:1000*60});
+	  var box = new NewsBox('.widget.news-box',{'interval':6000, reload:1000*60, target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
 	  box.render();
 
 	  TipsManager.showNewsBoxTips();
@@ -848,7 +848,7 @@ $(function(host, undef){
 				widget_type: url.replace(/^widget:\/\//, ''),
 				url: url
 			  }).html()).fadeIn(function(){
-				  var box = new NewsBox('.widget.news-box',{'interval':6000, reload:1000*60});
+				  var box = new NewsBox('.widget.news-box',{'interval':6000, reload:1000*60, target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
 				  box.render();
 			  }).find('.tile-logo .widget').css('height', imgHeight);;
 		  } else {
