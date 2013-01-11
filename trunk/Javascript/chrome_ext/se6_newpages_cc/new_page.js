@@ -305,8 +305,8 @@ $(function(host, undef){
     music_baidu:{
       type: 'music_baidu',
       desc: '百度',
-      url:'http://music.baidu.com/m?&ie=utf-8',
-      key:'word',
+      url:'http://music.baidu.com/search?&ie=utf-8',
+      key:'key',
       params:{
         ie:'utf-8'
       }
@@ -314,7 +314,7 @@ $(function(host, undef){
     music_sogou:{
       type: 'music_sogou',
       desc: '搜狗',
-      url:'http://music.sogou.com/music?ie=UTF-8',
+      url:'http://mp3.sogou.com/music?ie=UTF-8',
       key:'query',
       params:{
         ie:'UTF-8'
