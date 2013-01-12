@@ -12,7 +12,12 @@ var AddUrlDlg = function(){
 			showTab($(this).attr('cat-name'));
 		})
 		$('input[name=add-url-q]').on('keyup', function(){
-			search($(this).val());
+			var q = $(this).val();
+			if (q) {
+				search(q);
+			} else {
+				buildTab();
+			}
 		});
 		DC.get('http://site.browser.360.cn/csite.php?callback=?', {rn:Date.now()}, function(ret){
 			sitesData = ret && ret.data;
@@ -51,6 +56,9 @@ var AddUrlDlg = function(){
 			var isWidget = item.url.substr(0, 7) == 'widget:';
 			sb.push('<li class="' + (isWidget ? 'widget' : '') + ' ' + (added ? 'added' : '') + '" url="' + item.url + '" title="' + item.title + '"> <i class=""></i><img src="' + item.logo + '"><h4>' + item.title + '</h4></li>');
 		});
+		if (list.length > 0) {
+			$('.add-url .recommend .nodata').hide();
+		}
 		$('.add-url .recommend .logo-list').html(sb.join(''));
 		$('.add-url .recommend .logo-list li:not(.widget.added)').click(function(){
 			Stat.count('d4', $('.add-url .url-cats li.on').index() + 12);
@@ -71,9 +79,7 @@ var AddUrlDlg = function(){
 				}
 			})
 		});
-		if (ret.length > 0) {
-			$('.add-url .recommend .nodata').hide();
-		} else {
+		if (ret.length <= 0) {
 			$('.add-url .recommend .nodata').show();
 		}
 		render(ret);
