@@ -107,7 +107,7 @@ $(function(host, undef){
           oftenLis += '<li><a href="'+tile.url+'">'+tile.title+'</a></li>'
         }
       });
-      $('.url-often ul').html(oftenLis);
+      $('.url-often ul, .smart-push-pre ul').html(oftenLis);
 
 
       if(gridCount == 0){
