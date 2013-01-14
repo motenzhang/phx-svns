@@ -111,6 +111,7 @@ input.input-txt-place{ color:#bebebe }
 .url-list{ line-height:25px; padding:12px 22px 0;}
 .url-list li{ padding:10px 0 0 0; height:27px }
 .ipt-2{ width:407px; height:23px; line-height:23px; box-shadow: inset 0 1px 1px rgba(0,0,0,.09);border: solid 1px #d6d6d6; border-radius:1px; margin-left:5px; padding-left: 5px; margin-top:-4px }
+.ipt-2+label.error{color:#F00; margin-left:47px}
 .url-box{ margin:0 22px; border:1px solid #d6d6d6;background:-webkit-gradient(linear,0 0,0 15%,from(#f9f9f9),to(#ffffff)); height:245px; margin-top:23px;}
 .url-tag{ display:-webkit-box;}
 .url-tag li{-webkit-box-flex:1; text-align:center; height:25px; line-height:25px; border:solid #C9C9C9; border-width:0 0 1px 1px; margin-left:-1px; cursor:pointer;background:-webkit-gradient(linear,0 0,0 50%,from(#fbfbfb),to(#f9f9f9));}
