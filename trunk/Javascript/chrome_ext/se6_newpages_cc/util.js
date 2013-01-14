@@ -28,7 +28,6 @@ var AddUrlDlg = function(){
 			sitesData['hot'].unshift({title:'新闻格子', url:'widget://news-box', logo:'images/news_default.jpg'})
 			$(AddUrlDlg).trigger('showtab');
 		}, function(){
-			alert(0)
 			$('.add-url .recommend .loaderror .reload').show();
 		});
 		return false;
@@ -105,7 +104,7 @@ var AddUrlDlg = function(){
 		},
 		onshow: function(){
 			sugSelect.hide();
-			$('input[name=add-url-q]').val('');
+			PlaceHolder._setValue($('input[name=add-url-q]')[0]);
 			$('.ipt-2+label.error').hide();
 			showTab(localStorage['__addurl_default_tab'] || 'hot');
 			Stat.count('d4', 1);
@@ -212,7 +211,6 @@ var DC = function(){
 					data:data,
 					dataType: 'jsonp',
 					success: function(ret){
-						alert(1)
 						if (ret) {
 							storage.setCache(url, ret);
 							success(ret);
@@ -221,11 +219,9 @@ var DC = function(){
 						}
 					},
 					error: function(){
-						alert(0)
 						error && error();
 					},
 					complete: function(){
-						alert('complete')
 						error && error();
 					},
 					
