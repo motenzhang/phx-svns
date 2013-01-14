@@ -46,7 +46,7 @@ var NewsBox = (function() {
             this.$el.find('.sbox-button').show();
         },
         onLeave: function(e) {
-            //this._slideInterval = setInterval(this.onInterval.bind(this), this.options['interval']);
+            this._slideInterval = setInterval(this.onInterval.bind(this), this.options['interval']);
             //this.$el.find('.sbox-button').hide();
         },
         /**
@@ -268,7 +268,7 @@ var NewsBox = (function() {
     var NewsBox = function(ctr, options) {
         AjaxBox.call(this, ctr);
         this.type = 'news';
-        this.options.reload = 1000 * 60;
+        this.options.reload = 1000 * 60 * 60 * 6;
         $.extend(this.options, options);
     };
     $.extend(NewsBox.prototype, AjaxBox.prototype, {
