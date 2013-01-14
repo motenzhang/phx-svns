@@ -334,12 +334,12 @@ var TipsManager = function(){
 				$('.news-box-tips').hide();
 			}
 		},
-		showSmartPushTips: function(emptyGrid){
+		showSmartPushTips: function(mostVisitedCount, emptyGridCount){
 			if (storage.get('__tips_manager')['smart-push']) {
 				return;
 			}
 
-			if (!emptyGrid) {
+			if (emptyGridCount <= 0) {
 				storage.set('__tips_manager', 'smart-push-start-date', Date.now());
 				return;
 			}
@@ -348,7 +348,7 @@ var TipsManager = function(){
 				storage.set('__tips_manager', 'smart-push-start-date', Date.now());
 			}
 			
-			if (Date.now() - storage.get('__tips_manager')['smart-push-start-date'] > 1000 * 60 *60 * 24 * 15) {
+			if (mostVisitedCount >= emptyGridCount && Date.now() - storage.get('__tips_manager')['smart-push-start-date'] > 1000 * 60 *60 * 24 * 15) {
 				var count = storage.get('__tips_manager')['smart-push-show-count'] || 0
 				if (count >= 1) {
 					storage.set('__tips_manager', 'smart-push', true);
