@@ -106,6 +106,7 @@ var AddUrlDlg = function(){
 		onshow: function(){
 			sugSelect.hide();
 			$('input[name=add-url-q]').val('');
+			$('.ipt-2+label.error').hide();
 			showTab(localStorage['__addurl_default_tab'] || 'hot');
 			Stat.count('d4', 1);
 		}

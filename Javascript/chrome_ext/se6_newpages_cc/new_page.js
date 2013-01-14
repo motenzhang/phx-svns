@@ -653,19 +653,20 @@ $(function(host, undef){
 
   var timerResize;
   $(window).on('resize', function(){
-
+	$(document.body).css({overflow:'hidden'});
     $('.tile img, .tile .widget').css('height', imgHeight = Math.floor($('.tile img').width()*0.7) + 'px');
     if($('.wrap .tile').length){
-/*      $('.wrap').css({
+      $('.wrap').css({
         'top': Math.max(window.innerHeight/2 - $('.wrap').height()/2, 50) + 'px',
         'left': $(window).width()/2 - $('.wrap').width()/2 + 'px'
-      });*/
+      });
     }else{
-      /*$('.wrap').css({
+      $('.wrap').css({
         'top': window.innerHeight/2 - $('.wrap').height() + 'px',
         'left': $(window).width()/2 - $('.wrap').width()/2 + 'px'
-      });*/
+      });
     }
+	$(document.body).css({overflow:'auto'});
     if(!timerResize){
       timerResize = setTimeout(function(){
         clearTimeout(timerResize);
@@ -829,7 +830,7 @@ $(function(host, undef){
     messages:{
       url:{
         required: '',
-        url: ''
+        url: '网址输入有误，请确认后重试'
       }
     },
     submitHandler:function(e){
