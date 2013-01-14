@@ -92,9 +92,9 @@ input.input-txt-place{ color:#bebebe }
 .empty-tile .tile-logo::before{ display: none }
 .empty-tile .tile-logo::after{ display: none }
 .tile-logo img,.tile-add img{ width:100%;}
-.tile-tit{ height:22px; line-height:22px; overflow:hidden;  position:absolute; left:0; bottom:-22px; opacity:0; background:rgba(0,0,0,.25);color:#fff; padding-left:5px; width:100%;-webkit-transition:bottom .2s, opacity .3s;}
-.tile-tit::after{ clear:both; content:' '; display:block; height:0 }
-.tile-logo:hover .tile-tit{bottom:0; opacity:1}
+.tile-tit{ height:22px; line-height:22px; position:absolute; left:0; bottom:-22px; opacity:0; background:rgba(0,0,0,.25);color:#fff; padding-left:5px; width:100%;white-space:nowrap; overflow:hidden;text-overflow:ellipsis;-webkit-transition:bottom .2s, opacity .3s;}
+/*.tile-tit::after{ clear:both; content:' '; display:block; height:0 }*/
+.tile-logo:hover .tile-tit, .drag-helper .tile-tit{bottom:0; opacity:1}
 .tile-add{ overflow:hidden;}
 .remove{ cursor:pointer; display:block; width:16px; height:16px; position:absolute; top:4px; right:3px; opacity:0; z-index:11; background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAiElEQVR42r2RsQrDMAxEBRdl8SDcX8lQPGg1GBI6lvz/h7QyRRXV0qUULwfvwZ1tenw5PxToRPWMC52eA9+WDnlh3HFQ/xBQl86NFYJqeGflkiogrOvVlIFhqURFVho3x1moGAa3deMs+LS30CAhBN5nNxeT5hbJ1zwmji2k+aF6NENIPf/hs54f0sZFUVAMigAAAABJRU5ErkJggg==) }
 .tile-on .remove{ opacity:1;-webkit-transition:opacity ease-in 150ms .5s}
@@ -137,8 +137,8 @@ input.input-txt-place{ color:#bebebe }
 .ui-state-highlight{ float:left; width:24.9%;box-sizing:border-box;padding:23px 13px 51px 13px }
 .ui-state-highlight::after{ border:1px dashed #333; width:100%; display:block; content:' '; height:100%;border-radius:3px }
 
-.drag-helper{ position:absolute; z-index:9999; text-align:center; padding:23px 13px; font-size:14px }
-.drag-switcher{ position:absolute; z-index:9998; text-align:center; padding:23px 13px; font-size:14px; }
+.drag-helper{ position:absolute; z-index:9999; padding:23px 13px; font-size:14px }
+.drag-switcher{ position:absolute; z-index:9998; padding:23px 13px; font-size:14px; }
 .tile, .drag-helper, .drag-switcher{padding:5px 5px}
 .pass-drag{  }
 .pass-drag-left{ left:-15px }

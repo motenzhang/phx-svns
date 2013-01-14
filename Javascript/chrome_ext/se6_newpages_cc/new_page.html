@@ -59,7 +59,7 @@
 <div class="add-url">
   <div class="title">
     <h2>添加网址</h2>
-    <input type="text" name="add-url-q" class="placeholder" _placeholder="查找网站">
+    <input type="search" incremental name="add-url-q" class="placeholder" _placeholder="查找网站">
     <a href="#" class="url-cls"> </a> </div>
   <ul class="url-cats">
     <li cat-name="hot" class="on">热门推荐</li>
@@ -190,7 +190,7 @@
     <div class="tile-logo">
       <img src="chrome://thumb/${url}" />
       <div class="remove" title="删除"></div>
-      <div class="tile-tit">${title}</div>
+      <div class="tile-tit" title="${title}">${title}</div>
     </div>
   </a>
 </li>
