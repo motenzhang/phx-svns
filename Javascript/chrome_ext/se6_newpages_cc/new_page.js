@@ -883,6 +883,7 @@ $(function(host, undef){
     var url = args[0],
     errno = args[1];
     clearTimeout(window['capture_timeout_' + url]);
+	debugger;
     if(url && errno){
       url = url.replace(/\/$/,'');
       var query = '.tile a[href^="'+url+'"] img[src="images/loading.gif"]',

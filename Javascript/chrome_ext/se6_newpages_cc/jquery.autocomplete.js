@@ -76,6 +76,7 @@ $.Autocompleter = function(input, options) {
     mouseDownOnSelect: false
   };
   var select = $.Autocompleter.Select(options, input, selectCurrent, config);
+  $(window).on('resize', select.repos);
   window.sugSelect = select;
   select.display([], '');
   /*select.display([{data:['abc'], value:'abc', result:'abc'}, {data:['abc'], value:'abc', result:'abc'}], '');
@@ -638,6 +639,12 @@ $.Autocompleter.Select = function (options, input, select, config) {
     listItems.slice(active, active + 1).removeClass(CLASSES.ACTIVE);
     movePosition(step);
         var activeItem = listItems.slice(active, active + 1).addClass(CLASSES.ACTIVE);
+		if (activeItem.length > 0) {
+			var data = $.data(activeItem[0], "ac_data");
+			if (data && data.result) {
+				$(input).val(data.result);
+			}
+		}
         if(options.scroll) {
             var offset = 0;
             listItems.slice(0, active).each(function() {
@@ -727,17 +734,13 @@ $.Autocompleter.Select = function (options, input, select, config) {
       return this.visible() && (listItems.filter("." + CLASSES.ACTIVE)[0] || options.selectFirst && listItems[0]);
     },
     show: function(hotkeyword) {
-      var offset = $(input).offset();
 	  if (hotkeyword) {
 		  element.addClass('hot-keyword');
 	  } else {
 		  element.removeClass('hot-keyword');
 	  }
-      element.css({
-        width: typeof options.width == "string" || options.width > 0 ? options.width : $('.ipt').width(),
-        top: offset.top + input.offsetHeight+3,
-        left: offset.left-1
-      }).show();
+	  this.repos();
+      element.show();
       if(options.scroll) {
         list.scrollTop(0);
         list.css({
@@ -760,6 +763,14 @@ $.Autocompleter.Select = function (options, input, select, config) {
 
       }
     },
+	repos: function(){
+      var offset = $(input).offset();
+      element.css({
+        width: typeof options.width == "string" || options.width > 0 ? options.width : $('.ipt').width(),
+        top: offset.top + input.offsetHeight+3,
+        left: offset.left-1
+      });
+	},
     selected: function() {
 	  listItems = list.find("li");
       var selected = listItems && listItems.filter("." + CLASSES.ACTIVE).removeClass(CLASSES.ACTIVE);

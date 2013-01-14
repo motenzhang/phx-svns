@@ -10,7 +10,7 @@ var AddUrlDlg = function(){
 			Stat.count('d4', $(this).index() + 11);
 			
 			showTab($(this).attr('cat-name'));
-		})
+		});
 		$('input[name=add-url-q]').on('keyup', function(){
 			var q = $(this).val();
 			if (q) {
@@ -19,11 +19,19 @@ var AddUrlDlg = function(){
 				buildTab();
 			}
 		});
+		$('.add-url .recommend .loaderror .reload').on('click', loadData);
+		loadData();		
+	}
+	function loadData() {
 		DC.get('http://site.browser.360.cn/csite.php?callback=?', {rn:Date.now()}, function(ret){
 			sitesData = ret && ret.data;
 			sitesData['hot'].unshift({title:'新闻格子', url:'widget://news-box', logo:'images/news_default.jpg'})
 			$(AddUrlDlg).trigger('showtab');
+		}, function(){
+			alert(0)
+			$('.add-url .recommend .loaderror .reload').show();
 		});
+		return false;
 	}
 	function showTab(name) {
 		$('.add-url .url-cats li').removeClass('on').filter('[cat-name=' + name + ']').addClass('on');
@@ -67,6 +75,9 @@ var AddUrlDlg = function(){
 			$('#js-addurl-url').val($(this).attr('url'));
 			$('#add-url-form').submit();
 		});
+		$('.add-url .recommend .logo-list li img').on('mousedown', function(){
+			return false;
+		});
 		getStatus();
 	}
 	function search(q) {
@@ -94,6 +105,7 @@ var AddUrlDlg = function(){
 		},
 		onshow: function(){
 			sugSelect.hide();
+			$('input[name=add-url-q]').val('');
 			showTab(localStorage['__addurl_default_tab'] || 'hot');
 			Stat.count('d4', 1);
 		}
@@ -189,14 +201,37 @@ var DC = function(){
 	};
 	
 	return {
-		get: function(url, data, callback){
+		get: function(url, data, success, error){
 			var cache;
 			if (cache = storage.getCache(url)) {
-				callback(cache);
+				success(cache);
 			} else {
+				/*$.ajax({
+					url:url,
+					data:data,
+					dataType: 'jsonp',
+					success: function(ret){
+						alert(1)
+						if (ret) {
+							storage.setCache(url, ret);
+							success(ret);
+						} else {
+							error && error();
+						}
+					},
+					error: function(){
+						alert(0)
+						error && error();
+					},
+					complete: function(){
+						alert('complete')
+						error && error();
+					},
+					
+				});*/
 				$.getJSON(url, data, function(ret) {
 					storage.setCache(url, ret);
-					callback(ret);
+					success(ret);
 				});
 			}
 		}
