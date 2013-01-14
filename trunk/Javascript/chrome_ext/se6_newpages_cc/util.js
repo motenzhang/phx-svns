@@ -11,7 +11,7 @@ var AddUrlDlg = function(){
 			
 			showTab($(this).attr('cat-name'));
 		});
-		$('input[name=add-url-q]').on('keyup', function(){
+		$('input[name=add-url-q]').on('search', function(e){
 			var q = $(this).val();
 			if (q) {
 				search(q);
