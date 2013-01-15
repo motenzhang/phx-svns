@@ -143,13 +143,17 @@ $(function(host, undef){
 
       $(window).trigger('resize');
 
+	  $('.smart-push').removeClass('active');
 	  var smartPushArr = [];
-      tiles.forEach(function(tile){
+      tiles.forEach(function(tile, i){
         if(tile.title){
 		  var mv_li = '<li><a href="'+tile.url+'">'+tile.title+'</a></li>';
           oftenLis += mv_li;
 		  if (gridAddedUrlMap[tile.url] == undefined && smartPushArr.length < emptyGridCount) {
 			  smartPushArr.push(mv_li);
+			  if (smartPushArr.length == emptyGridCount && i <= tiles.length - 1) {
+				  $('.smart-push').addClass('active');
+			  }
 		  }
         }
       });
@@ -542,12 +546,17 @@ $(function(host, undef){
 		  window.gridAddedUrlMap[tile.url] = tile;
 	  });
 
+	  $('.smart-push').removeClass('active');
 	  var smartPushArr = [];
 	  var emptyGridCount = $('.tile .tile-add').length;
-	  (window.smartMostVisited || []).forEach(function(tile){
+	  var mostVisited = window.smartMostVisited || [];
+	  mostVisited.forEach(function(tile, i){
         if(tile.title){
 		  if (gridAddedUrlMap[tile.url] == undefined && smartPushArr.length < emptyGridCount) {
 			  smartPushArr.push('<li><a href="'+tile.url+'">'+tile.title+'</a></li>');
+			  if (smartPushArr.length == emptyGridCount && i <= mostVisited.length - 1) {
+				  $('.smart-push').addClass('active');
+			  }
 		  }
         }
 	  });
@@ -792,6 +801,7 @@ $(function(host, undef){
 	Stat.count('d3', 2);
 	if ($(this).parent().hasClass('tile-widget')) {
 		Stat.count('d3', 9);
+		$('.news-box-tips').fadeOut();
 	}
 
     if($('#js-grid-from').val() == 1){
