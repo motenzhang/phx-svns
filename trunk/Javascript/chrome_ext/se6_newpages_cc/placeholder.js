@@ -43,7 +43,9 @@ var PlaceHolder = {
     },
  
     _setValue: function(input) {
-        $(input).val(input.attributes._placeholder.nodeValue);
-        input.classList.add(PlaceHolder.className);
+		if (input.attributes._placeholder) {
+			$(input).val(input.attributes._placeholder.nodeValue);
+			input.classList.add(PlaceHolder.className);
+		}
     }
 };

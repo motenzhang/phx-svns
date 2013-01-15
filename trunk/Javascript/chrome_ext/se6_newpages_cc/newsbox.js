@@ -26,6 +26,7 @@ var NewsBox = (function() {
         bindUI: function() {
             this.$el.on('mouseenter', this.onEnter.bind(this));
             this.$el.on('mouseleave', this.onLeave.bind(this));
+            this.$el.find('.sbox-inner').on('click', this.onSlideClick.bind(this));
             this.$el.find('.sbox-button').on('click', this.onButtonClick.bind(this));
             this.onLeave();
         },
@@ -230,6 +231,14 @@ var NewsBox = (function() {
                 SlideBox.prototype.onEnter.call(this, e);
             }
         },
+		onSlideClick: function(e) {
+			if (this.data.length > 1) {
+				this.data.splice(this.index, 1);
+			} else if (this.index !== -2) {
+				this.data.splice(0, 1);
+			} // TODO ELSE
+			this.save();
+		},
         /**
 					 * 按钮点击，特殊处理"下一页"
 					 */
@@ -290,7 +299,7 @@ var NewsBox = (function() {
             if (i === -2) {
                 return '<div class="more"><a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a></div>'
             } else if (i === -1) {
-                return '<img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;" alt="新闻格子" title="新闻格子"/>';
+                return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;" alt="新闻格子" title="新闻格子"></a>';
             } else {
                 return AjaxBox.prototype.getContent.call(this, i, this.options.target);
             }
