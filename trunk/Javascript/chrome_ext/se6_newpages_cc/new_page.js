@@ -1221,7 +1221,7 @@ $(function(host, undef){
         window.timerSmartRestoreTipHandler && clearTimeout(window.timerSmartRestoreTipHandler);
 		window.timerSmartRestoreTipHandler = setTimeout(function(){
 			$('.smart-restore-tips').fadeOut();
-		},5000);
+		}, 10000);
 	  }
 
 	  function isExist(url){

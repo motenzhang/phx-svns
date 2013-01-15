@@ -7,7 +7,7 @@ var AddUrlDlg = function(){
 		}
 		inited = true;
 		$('.add-url .url-cats li').on('click', function(){
-			Stat.count('d4', $(this).index() + 11);
+			Stat.count('d4', $(this).index() * 2 + 11);
 			
 			showTab($(this).attr('cat-name'));
 		});
@@ -68,7 +68,7 @@ var AddUrlDlg = function(){
 		}
 		$('.add-url .recommend .logo-list').html(sb.join(''));
 		$('.add-url .recommend .logo-list li:not(.widget.added)').click(function(){
-			Stat.count('d4', $('.add-url .url-cats li.on').index() + 12);
+			Stat.count('d4', $('.add-url .url-cats li.on').index() * 2 + 12);
 			
 			$('#js-addurl-title').val($(this).attr('title'));
 			$('#js-addurl-url').val($(this).attr('url'));
@@ -242,7 +242,10 @@ var ImportData = function(){
 	}
 	function getmode(){
 		var cmd = storage.get('settings')['js-grid-from'];
-		return ((cmd == undefined) || (cmd == '$("#js-grid-from").val("1")')) ? 1 : 2;
+		if (cmd == undefined) {
+			return undefined;
+		}
+		return (cmd == '$("#js-grid-from").val("1")') ? 1 : 2;
 	}
 	return {
 		setting: function(){
@@ -266,25 +269,55 @@ var ImportData = function(){
 				return;
 			}
 			var mode = getmode();
+			if (mode == undefined) {
+				mode = customs.length > 0 ? 2 : 1;
+			}
 			console.log('ImportData mode: ', mode);
-			if (mosts.length > 10) {
-				mosts = mosts.slice(0, 10);
+			if (mosts.length > 8) {
+				mosts = mosts.slice(0, 8);
 			}
 			var newData = mode == 1 ? mosts : customs;
-			
+
 			while (newData.length < gridCount) {
 				newData.push({title:'', url:'', filler:true});
 			}
-			
-			var emptyCount = 0;
+
+			var emptyData = true, insertNewsBox = true;
 			newData.forEach(function(item, i){
-				if (item.filler == true) {
-					emptyCount++;
-					if (emptyCount == 1) {
-						newData[i] = {title:'新闻格子', url:'widget://news-box'};
+				if (item.url) {
+					emptyData = false;
+					if (item.url.substr(0, 7) == 'widget:') {
+						insertNewsBox = false;
 					}
 				}
 			});
+			
+			if (emptyData) {
+				[
+					{url:'http://hao.360.cn', title:'360导航'},
+					{url:'http://www.sina.com.cn', title:'新浪'},
+					{url:'http://www.163.com', title:'网易'},
+					{url:'http://www.taobao.com', title:'淘宝'},
+					{url:'http://www.youku.com', title:'优酷'},
+					{url:'http://www.baidu.com', title:'百度'},
+					{url:'http://weibo.com', title:'新浪微博'},
+					{url:'http://www.renren.com', title:'人人网'},
+				].forEach(function(item, i){
+					newData[i] = item;
+				});				
+			}
+
+			if (insertNewsBox) {
+				var emptyCount = 0;
+				newData.forEach(function(item, i){
+					if (item.filler == true) {
+						emptyCount++;
+						if (emptyCount == 1) {
+							newData[i] = {title:'新闻格子', url:'widget://news-box'};
+						}
+					}
+				});
+			}
 			
 			ntpApis.setUserMostVisited(JSON.stringify(newData), function(){
 				callback();
