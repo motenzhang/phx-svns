@@ -2,7 +2,7 @@ var NewsBox = (function() {
     var SlideBox = function(ctr) {
         this.$ctr = $(ctr).css('position', 'relative');
         this.options = {
-            'interval': 16000,
+            'interval': 1000 * 60 * 2,
         };
         this.construct();
     };
@@ -87,7 +87,7 @@ var NewsBox = (function() {
 			if (this.index == -1) {
 				setTimeout(function(){
 					self.nextSlideNow(animate);
-				}, 2000);
+				}, 1000);
 			} else {
 				this.nextSlideNow(animate);
 			}
