@@ -155,7 +155,7 @@ $(function(host, undef){
 
       $(window).trigger('resize');
 
-	  var box = new NewsBox('.widget.news-box',{'interval':6000, target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
+	  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
 	  box.render();
 
 	  TipsManager.showNewsBoxTips();
@@ -555,7 +555,7 @@ $(function(host, undef){
       $(".add-url").effect('transfer', {to:'.tile:eq('+idx+') img:first', className:'effects-transfer'}, 300);
     }
     $('.add-url').hide();
-    $(".addurl-mask").fadeOut(150);
+    $(".addurl-mask").hide();//fadeOut(150);
 	Stat.count('d4', 2);
   });
 
@@ -573,7 +573,7 @@ $(function(host, undef){
     $(this).effect('transfer', {to:'.add-url', className:'effects-transfer'}, 200, function(){
       $('.add-url').css('opacity', 1);
     });
-    $(".addurl-mask").fadeIn(200);
+    $(".addurl-mask").show();//fadeIn(200);
     $('#add-url-form input[type=text]').val('');
 
     var curLi = $(this).parents('li')[0];
@@ -592,7 +592,7 @@ $(function(host, undef){
       $(".add-url").effect('transfer', {to:'.tile:eq('+idx+') img:first', className:'effects-transfer'}, 300);
     }
     $('.add-url').hide();
-    $(".addurl-mask").fadeOut(150);
+    $(".addurl-mask").hide();//.fadeOut(150);
 	Stat.count('d4', 2);
   });
 
@@ -849,7 +849,7 @@ $(function(host, undef){
 				widget_type: url.replace(/^widget:\/\//, ''),
 				url: url
 			  }).html()).fadeIn(function(){
-				  var box = new NewsBox('.widget.news-box',{'interval':6000, target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
+				  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
 				  box.render();
 			  }).find('.tile-logo .widget').css('height', imgHeight);;
 		  } else {
@@ -874,7 +874,7 @@ $(function(host, undef){
         });
       }
       $(".add-url").effect('transfer', {to:'.tile:eq('+idx+') img:first', className:'effects-transfer'}).hide();
-      $(".addurl-mask").fadeOut(150);
+      $(".addurl-mask").hide();//.fadeOut(150);
     }
   });
 
