@@ -37,9 +37,10 @@ var Stat = function(){
 			return api.GetSID() && external.GetVersion(api.sid);
 		},
 		IsJoinPrivate: function(callback) {
-			setTimeout(function(){
-				callback(true);
-			}, 500);
+			window.onGetExperience = function(p){
+				callback(p && p[0]);
+			};
+			chrome.send("getExperience");
 		}
 	};
 	return {
