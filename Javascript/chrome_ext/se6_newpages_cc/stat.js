@@ -137,6 +137,7 @@ var Stat = function(){
 					code = 5;
 					break;
 			}
+			debugger;
 			Stat.count('d2', code);
 		},
 	};
