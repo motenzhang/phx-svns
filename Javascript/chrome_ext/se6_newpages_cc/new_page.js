@@ -169,6 +169,12 @@ $(function(host, undef){
     offset = self.offset();
     $('.search-menu').css({left:offset.left,top:offset.top+self.height()}).slideDown(200);
   });
+  
+  $(window).on('resize', function(){
+    var self = $('#search-switch'),
+    offset = self.offset();
+	$('.search-menu').css({left:offset.left,top:offset.top+self.height()});
+  });
 
   var searchMaps = {
     so:{
