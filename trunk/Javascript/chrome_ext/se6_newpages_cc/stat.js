@@ -38,7 +38,7 @@ var Stat = function(){
 		},
 		IsJoinPrivate: function(callback) {
 			window.onGetExperience = function(p){
-				callback(p && p[0]);
+					callback(p && p[0]);
 			};
 			chrome.send("getExperience");
 		}
@@ -69,14 +69,19 @@ var Stat = function(){
 			for (var i=0; i<length; i++) {
 				arr[i] = arr[i] || 0;
 			}
+			if (length > arr.length) {
+				arr = arr.slice(0, length);
+			}
 			return arr.join('_');
 		},
-		send: function(tp) {
+		IsJoinPrivate: function(callback){
 			api.IsJoinPrivate(function(join){
-				if (!join) {
-					return;
+				if (join) {
+					callback();
 				}
-
+			});
+		},
+		send: function(tp) {
 				var toSend, param = {
 					tp: tp,
 					m: api.GetMID(),
@@ -97,7 +102,7 @@ var Stat = function(){
 				}
 
 				if (!toSend) {
-					return;
+					return this;
 				}
 
 				var arr = [];
@@ -105,7 +110,6 @@ var Stat = function(){
 					arr.push(key + '=' + encodeURIComponent(param[key]));
 				}
 				(new Image).src = 'http://dd.browser.360.cn/dial.php?' + arr.join('&');
-
 				if (tp == 'm') {
 					storage.setStat('stat_last_send_m', Date.now());
 					storage.setStat('stat_cache_d1', []);
@@ -115,7 +119,6 @@ var Stat = function(){
 				} else {
 					storage.setStat('stat_last_send_d', new Date().toDateString());
 				}
-			});
 			return this;
 		},
 		
@@ -137,11 +140,13 @@ var Stat = function(){
 					code = 5;
 					break;
 			}
-			debugger;
 			Stat.count('d2', code);
 		},
 	};
 }();
 
 
-Stat.count('d1', 1).send('m').send('d');
+Stat.count('d1', 1);
+Stat.IsJoinPrivate(function(){
+	Stat.send('m').send('d');
+});
