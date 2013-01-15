@@ -488,14 +488,14 @@ $(function(host, undef){
       return parsed;
     }
   }).on('result', function(e, data){
-	if (data.link) {
-		location = data.link;
-		return;
-	}
 	if (data.text) {
 		Stat.count('d2', $('.search-cat .on').index() * 4 + 14);
 	} else {
 		Stat.count('d2', $('.search-cat .on').index() * 4 + 12);
+	}
+	if (data.link) {
+		location = data.link;
+		return;
 	}
 	Stat.searchTypeCount();
     $(this).parents('form')[0].submit();
