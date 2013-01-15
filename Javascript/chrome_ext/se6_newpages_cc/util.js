@@ -280,7 +280,7 @@ var ImportData = function(){
 			newData.forEach(function(item, i){
 				if (item.filler == true) {
 					emptyCount++;
-					if (emptyCount == 2) {
+					if (emptyCount == 1) {
 						newData[i] = {title:'新闻格子', url:'widget://news-box'};
 					}
 				}
