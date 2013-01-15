@@ -97,18 +97,6 @@ $(function(host, undef){
       emptyLiStr = $('#js-grid-from').val() == 1 ? tileEmptyTempStr : tileAddTempStr,
       drag = $('#js-grid-from').val() == 1 ? 'ui-state-disabled' : '';
 
-	  window.gridAddedUrlMap = {};
-	  customs.forEach(function(item){
-		  window.gridAddedUrlMap[item.url] = item;
-	  });
-
-      tiles.forEach(function(tile){
-        if(tile.title){
-          oftenLis += '<li><a href="'+tile.url+'">'+tile.title+'</a></li>'
-        }
-      });
-      $('.url-often ul, .smart-push-pre ul').html(oftenLis);
-
 
       if(gridCount == 0){
         $('.grid ul').html('');
@@ -117,10 +105,11 @@ $(function(host, undef){
         return;
       }
 
+	  window.gridAddedUrlMap = {};
 	  var emptyGridCount = 0;
-	  
       datas.every(function(item, i){
         if(item.url){
+		  window.gridAddedUrlMap[item.url] = item;
 		  item.drag = drag;
 		  if (item.url.substr(0, 7) == 'widget:') {
 			  Stat.count('d3', 6);
@@ -150,10 +139,27 @@ $(function(host, undef){
       $('.grid ul').html(lis);
       $('.tile img').css('height', Math.floor($('.tile img').width()*0.7) + 'px');
 
-
       $('.tile>a').attr('target', $('#js-show-in-newtab').attr('checked') ? '_blank' : '_self');
 
       $(window).trigger('resize');
+
+	  var smartPushArr = [];
+      tiles.forEach(function(tile){
+        if(tile.title){
+		  var mv_li = '<li><a href="'+tile.url+'">'+tile.title+'</a></li>';
+          oftenLis += mv_li;
+		  if (gridAddedUrlMap[tile.url] == undefined && smartPushArr.length < emptyGridCount) {
+			  smartPushArr.push(mv_li);
+		  }
+        }
+      });
+      $('.url-often ul').html(oftenLis);
+	  if (smartPushArr.length > 0) {
+	      $('.smart-push-pre h3').html('用您最常访问网址填充空白格子：');
+	  } else {
+	      $('.smart-push-pre h3').html('暂无可推荐的网址，您可以使用浏览器一段时间后再次尝试');
+	  }
+      $('.smart-push-pre ul').html(smartPushArr.join(''));
 
 	  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
 	  box.render();
@@ -528,13 +534,30 @@ $(function(host, undef){
   function saveGrid(){
     var tiles = parseGrid('.tile');
 	  window.gridAddedUrlMap = {};
-	  tiles.forEach(function(item){
-  		  /*if (item.url.substr(0, 7) == 'widget:') {
-			  delete item['url'];
-			  item['type'] = 'widget';
+	  tiles.forEach(function(tile){
+  		  /*if (tile.url.substr(0, 7) == 'widget:') {
+			  delete tile['url'];
+			  tile['type'] = 'widget';
 		  }*/
-		  window.gridAddedUrlMap[item.url] = item;
+		  window.gridAddedUrlMap[tile.url] = tile;
 	  });
+
+	  var smartPushArr = [];
+	  var emptyGridCount = $('.tile .tile-add').length;
+	  (window.smartMostVisited || []).forEach(function(tile){
+        if(tile.title){
+		  if (gridAddedUrlMap[tile.url] == undefined && smartPushArr.length < emptyGridCount) {
+			  smartPushArr.push('<li><a href="'+tile.url+'">'+tile.title+'</a></li>');
+		  }
+        }
+	  });
+	  if (smartPushArr.length > 0) {
+	      $('.smart-push-pre h3').html('用您最常访问网址填充空白格子：');
+	  } else {
+	      $('.smart-push-pre h3').html('暂无可推荐的网址，您可以使用浏览器一段时间后再次尝试');
+	  }
+      $('.smart-push-pre ul').html(smartPushArr.join(''));
+
     ntpApis.setUserMostVisited(JSON.stringify(tiles), function(){
     });
 
@@ -1191,6 +1214,11 @@ $(function(host, undef){
 
   HotKeyword.init($('#search-kw'));
 
+  $('.smart-push-f').hover(function(){
+	$('.smart-push-pre').show();
+  }, function(){
+	$('.smart-push-pre').hide();
+  });
   $('.smart-push').on('click', function(){
 	  Stat.count('d1', 3);
 	  
@@ -1216,7 +1244,7 @@ $(function(host, undef){
 	  
 	  if (pushed) {
 		ntpApis.setUserMostVisited(JSON.stringify(gridData), reloadGrid);
-		$('.smart-push-tips').hide();
+		$('.smart-push-tips, .smart-push-pre').hide();
 		$('.smart-restore-tips').fadeIn();
         window.timerSmartRestoreTipHandler && clearTimeout(window.timerSmartRestoreTipHandler);
 		window.timerSmartRestoreTipHandler = setTimeout(function(){
