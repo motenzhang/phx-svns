@@ -40,8 +40,12 @@ $(function(host, undef){
 
 
   function saveSetting(item, exec){
-    var settings = localStorage['settings'] = localStorage['settings'] || '{}',
-    settings = JSON.parse(settings);
+    var settings = localStorage['settings'] = localStorage['settings'] || '{}';
+	try {
+	    settings = JSON.parse(settings);
+	} catch (e) {
+		settings = {};
+	}
 
     settings[item] = exec;
 
@@ -49,8 +53,12 @@ $(function(host, undef){
   }
 
   function loadSettings(){
-    var settings = localStorage['settings'] = localStorage['settings'] || '{}',
-    settings = JSON.parse(settings);
+    var settings = localStorage['settings'] = localStorage['settings'] || '{}';
+	try {
+	    settings = JSON.parse(settings);
+	} catch (e) {
+		settings = {};
+	}
     
     for(var k in settings){
       eval(settings[k]);
@@ -112,7 +120,10 @@ $(function(host, undef){
 		  window.gridAddedUrlMap[item.url] = item;
 		  item.drag = drag;
 		  if (item.url.substr(0, 7) == 'widget:') {
-			  Stat.count('d3', 6);
+			  if (!window._session_newsbox_showed) {
+				  window._session_newsbox_showed = true;
+				  Stat.count('d3', 6);
+			  }
 			  item.widget_type = item.url.replace(/^widget:\/\//, '');
 			  lis += $.tmpl(tileWidgetTempStr, item)[0].outerHTML;
 		  } else {

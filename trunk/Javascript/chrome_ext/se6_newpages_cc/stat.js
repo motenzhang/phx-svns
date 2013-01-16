@@ -3,7 +3,11 @@ var Stat = function(){
 	var stat_storage_key = '__stat_storage';
 	var storage = {
 		get: function(key) {
-			return JSON.parse(localStorage[key] || '{}');
+			try {
+				return JSON.parse(localStorage[key] || '{}');
+			} catch (e) {
+				return {};
+			}
 		},
 		set: function(key, data) {
 			localStorage[key] = JSON.stringify(data);
