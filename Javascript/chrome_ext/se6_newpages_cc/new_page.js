@@ -92,6 +92,10 @@ $(function(host, undef){
   var reloadGrid = function(){
     console.log('调用getMostVisited:', +new Date - st + 'ms(距页面打开)');
     ntpApis.getMostVisited(function(tiles, customs){
+	  if (window.reloadGridexec) {
+		  return;
+	  }
+	  window.reloadGridexec = true;
       console.log('getMostVisited回调函数被调用:', +new Date -st + 'ms(距页面打开)',arguments);
 
 	  var gridCount = $('#js-grid-count').val()-0;
@@ -704,10 +708,17 @@ $(function(host, undef){
   $(window).on('resize', function(){
 	$(document.body).css({overflow:'hidden'});
     $('.tile img, .tile .widget').css('height', imgHeight = Math.floor($('.tile img').width()*0.7) + 'px');
+	var gridWidth = $('.grid').width();
+	if ($(window).width() * .62 < gridWidth) {
+		wrapWidth = gridWidth;
+		$('.wrap').css({width:wrapWidth-1});
+	} else {
+		$('.wrap').css({width:'62%'});
+	}
     if($('.wrap .tile').length){
       $('.wrap').css({
         'top': Math.max(window.innerHeight/2 - $('.wrap').height()/2, 50) + 'px',
-        'left': $(window).width()/2 - $('.wrap').width()/2 + 'px'
+        'left': Math.max($(window).width()/2 - $('.wrap').width()/2, 10) + 'px'
       });
     }else{
       $('.wrap').css({

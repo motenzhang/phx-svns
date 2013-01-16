@@ -2,7 +2,7 @@ var NewsBox = (function() {
     var SlideBox = function(ctr) {
         this.$ctr = $(ctr).css('position', 'relative');
         this.options = {
-            'interval': 1000 * 60 * 2,
+            'interval': 1000 * 2 * 2,
         };
         this.construct();
     };
@@ -170,7 +170,6 @@ var NewsBox = (function() {
                     self.data = data['data'][self.type];
                     self.save();
                     // 显示 第1页
-					debugger;
                     self.nextSlide();
                 } else {
                     self.nextSlide(); // -2
