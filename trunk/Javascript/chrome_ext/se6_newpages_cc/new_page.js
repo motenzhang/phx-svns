@@ -1016,11 +1016,15 @@ $(function(host, undef){
 				  $('.news-box-tips').fadeOut();
 			  }
               dragObj.innerHTML = dragSwitcher.innerHTML;
+			 //dragObj.swapNode(passDrag);
               $(dragObj).css('opacity', 1);
               passDrag.innerHTML = dragHelper.innerHTML;
               $(passDrag).css('opacity', 1);
               document.body.removeChild(dragHelper);
               document.body.removeChild(dragSwitcher);
+
+			  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
+			  box.render();
 
               saveGrid();
             };
