@@ -27,8 +27,9 @@ body{color:#666666; background: #f5f5f5; -webkit-user-select:none}
 /*setup*/
 .setup{ position:absolute; top:13px; right:16px; z-index:20;}
 .setup-tit, .setup-tit em, .smart-push, .smart-push em{ display:inline-block; line-height:15px; background-position:3px 3px;padding:3px 6px 3px 20px;box-sizing:border-box; border:1px solid transparent}
-.setup-tit, .smart-push{padding:0}
-.setup-tit:hover, .smart-push-f:hover .smart-push{ border:1px solid #ccc;  border-radius:3px; background:#EBEBEB -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9); mar--gin-right:-1px;mar--gin-top:-1px; }
+.setup-tit, .smart-push{padding:0;border-radius:3px; }
+.setup-tit:hover, .smart-push-f:hover .smart-push{ border:1px solid #ccc;  background:#EBEBEB -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9); mar--gin-right:-1px;mar--gin-top:-1px; }
+.setup-tit:active, .smart-push-f:active .smart-push{border:1px solid #ccc;-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);background: #ebebeb -webkit-linear-gradient(#f4f4f4, #efefef 40%, #dcdcdc); cursor:pointer}
 .smart-push em{background:url(images/smart_icon.png) no-repeat 4px center}
 .smart-push.active em{background-image:url(images/smart_icon_hover.png)}
 .setup-pop{ position:absolute; color:#333333; border:1px solid #a2abb2;background:-webkit-gradient(linear,0 0,0 20%,from(#eff8ff),to(#ffffff)); width:301px; padding:2px; box-shadow:0 1px 1px #fff inset,0 4px 4px #c7c7c7; top:42px; right:10px; font-family:"宋体";border-radius:3px;z-index:13}
