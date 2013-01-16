@@ -2,7 +2,7 @@ var NewsBox = (function() {
     var SlideBox = function(ctr) {
         this.$ctr = $(ctr).css('position', 'relative');
         this.options = {
-            'interval': 1000 * 2 * 2,
+            'interval': 1000 * 60 * 2,
         };
         this.construct();
     };
@@ -301,9 +301,7 @@ var NewsBox = (function() {
             return false;
         },
         getContent: function(i) {
-			console.log(i);
             if (i === -2) {
-				//debugger;
                 return '<div class="more"><a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a></div>'
             } else if (i === -1) {
                 return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;" alt="新闻格子" title="新闻格子"></a>';

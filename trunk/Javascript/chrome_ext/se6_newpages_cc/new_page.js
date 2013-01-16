@@ -92,10 +92,10 @@ $(function(host, undef){
   var reloadGrid = function(){
     console.log('调用getMostVisited:', +new Date - st + 'ms(距页面打开)');
     ntpApis.getMostVisited(function(tiles, customs){
-	  if (window.reloadGridexec) {
+	  /*if (window.reloadGridexec) {
 		  return;
 	  }
-	  window.reloadGridexec = true;
+	  window.reloadGridexec = true;*/
       console.log('getMostVisited回调函数被调用:', +new Date -st + 'ms(距页面打开)',arguments);
 
 	  var gridCount = $('#js-grid-count').val()-0;
