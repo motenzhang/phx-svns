@@ -98,7 +98,11 @@ var NewsBox = (function() {
 				this.$el.find('.sbox-button').hide();
 				return;
 			}
-			this.$el.find('.sbox-button').show();
+			if (this.index == -2) {
+				this.$el.find('.sbox-button').hide();
+			} else {
+				this.$el.find('.sbox-button').show();
+			}
             var self = this;
             if (typeof(animate) === 'undefined') {
                 animate = true;
@@ -166,7 +170,7 @@ var NewsBox = (function() {
                     self.data = data['data'][self.type];
                     self.save();
                     // 显示 第1页
-//					debugger;
+					debugger;
                     self.nextSlide();
                 } else {
                     self.nextSlide(); // -2
