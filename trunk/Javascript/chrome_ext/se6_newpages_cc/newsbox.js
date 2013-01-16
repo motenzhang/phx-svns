@@ -166,6 +166,7 @@ var NewsBox = (function() {
                     self.data = data['data'][self.type];
                     self.save();
                     // 显示 第1页
+//					debugger;
                     self.nextSlide();
                 } else {
                     self.nextSlide(); // -2
@@ -190,10 +191,10 @@ var NewsBox = (function() {
         read: function() {
             try {
                 this.data = JSON.parse(localStorage.getItem('box_ajax_data_' + this.type));
+	            this.data && this.nextSlide();
             } catch(e) {
                 this.data = [];
             }
-            this.nextSlide();
         },
         /**
 					 * 保存数据
@@ -218,7 +219,7 @@ var NewsBox = (function() {
 					 */
         getTitle: function(i) {
             if (i > -1 && this.data[i]) { // 正常数据页
-                return this.data[i]['title'];
+                return (this.data[i]['title'] || '').replace(/"/g, '&quot;');
             } else { // 特殊页没有标题
                 return '';
             }
@@ -297,7 +298,9 @@ var NewsBox = (function() {
             return false;
         },
         getContent: function(i) {
+			console.log(i);
             if (i === -2) {
+				//debugger;
                 return '<div class="more"><a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a></div>'
             } else if (i === -1) {
                 return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;" alt="新闻格子" title="新闻格子"></a>';

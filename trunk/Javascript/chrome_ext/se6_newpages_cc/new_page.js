@@ -1188,7 +1188,7 @@ $(function(host, undef){
 	Stat.count('d2', 1);
   }
 
-  $('img').live('dragstart', function(e){
+  $('img, a').live('dragstart', function(e){
 	  return false;
   });
 

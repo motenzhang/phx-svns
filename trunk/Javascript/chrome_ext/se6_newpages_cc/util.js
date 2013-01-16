@@ -104,7 +104,8 @@ var AddUrlDlg = function(){
 		},
 		onshow: function(){
 			sugSelect.hide();
-			PlaceHolder._setValue($('input[name=add-url-q]')[0]);
+			//PlaceHolder._setValue($('input[name=add-url-q]')[0]);
+			$('input[name=add-url-q]').val('');
 			$('.ipt-2+label.error').hide();
 			showTab(localStorage['__addurl_default_tab'] || 'hot');
 			Stat.count('d4', 1);
