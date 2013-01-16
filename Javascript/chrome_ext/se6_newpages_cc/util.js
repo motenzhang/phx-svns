@@ -167,7 +167,11 @@ var HotKeyword = function(){
 
 var storage = {
 	get: function(key) {
-		return JSON.parse(localStorage[key] || '{}');
+		try {
+			return JSON.parse(localStorage[key] || '{}');
+		} catch (e) {
+			return {};
+		}
 	},
 	set: function(key, subkey, val) {
 		var data = this.get(key);
@@ -181,7 +185,11 @@ var DC = function(){
 	var expires = 1000 * 60 * 60;
 	var storage = {
 		get: function(key) {
-			return JSON.parse(localStorage[key] || '{}');
+			try {
+				return JSON.parse(localStorage[key] || '{}');
+			} catch (e) {
+				return {};
+			}
 		},
 		set: function(key, data) {
 			localStorage[key] = JSON.stringify(data);

@@ -373,7 +373,7 @@ $.extend($.validator, {
 				// Hide error containers on last error
 				this.toHide = this.toHide.add( this.containers );
 			}
-			this.showErrors();
+			// this.showErrors();
 			return result;
 		},
 

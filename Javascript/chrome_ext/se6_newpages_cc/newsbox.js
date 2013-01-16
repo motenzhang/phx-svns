@@ -259,6 +259,7 @@ var NewsBox = (function() {
             } else {
                 SlideBox.prototype.onButtonClick.call(this, e);
             }
+			return false;
         },
         isNextable: function() {
             if (this.index === -2) {
