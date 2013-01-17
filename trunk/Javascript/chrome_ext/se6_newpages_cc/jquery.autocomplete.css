@@ -10,9 +10,10 @@
   in relative units scroll will be broken in firefox
   */
   line-height: 16px; overflow: hidden; font-weight: bold; }
+.ac_results li a{color:#000}
 .ac_results li span.no-strong { font-weight: normal; }
 .ac_loading { /*background: white url('indicator.gif') right center no-repeat;*/
 }
 .ac_odd {  --background-color: #eee;
 }
-.ac_over { background-color: rgba(143, 211, 118, .3)/*#d9f0d0*/; }
+.ac_over { background-color: rgba(224, 246, 199, 1)/*#d9f0d0*/; }

@@ -287,21 +287,33 @@ var ImportData = function(){
 			}
 			var newData = mode == 1 ? mosts : customs;
 
+			var emptyData = true;
+			newData.every(function(item, i){
+				if (item.url) {
+					emptyData = false;
+					return false;
+				}
+				return true;
+			});
+			
+			if (emptyData) {
+				newData = mosts;
+			}
+
 			while (newData.length < gridCount) {
 				newData.push({title:'', url:'', filler:true});
 			}
 
-			var emptyData = true, insertNewsBox = true;
+			var insertNewsBox = true;
 			newData.forEach(function(item, i){
 				if (item.url) {
-					emptyData = false;
 					if (item.url.substr(0, 7) == 'widget:') {
 						insertNewsBox = false;
 					}
 				}
 			});
 			
-			if (emptyData) {
+			/*if (emptyData) {
 				[
 					{url:'http://hao.360.cn', title:'360导航'},
 					{url:'http://www.sina.com.cn', title:'新浪'},
@@ -314,7 +326,7 @@ var ImportData = function(){
 				].forEach(function(item, i){
 					newData[i] = item;
 				});				
-			}
+			}*/
 
 			if (insertNewsBox) {
 				var emptyCount = 0;

@@ -174,9 +174,11 @@ $(function(host, undef){
       });
       $('.url-often ul').html(oftenLis);
 	  if (smartPushArr.length > 0) {
+		  $('.smart-push-pre-ui').removeClass('nodata');
 	      $('.smart-push-pre h3').html('用您最常访问网址填充空白格子：');
 	  } else {
-	      $('.smart-push-pre h3').html('暂无可推荐的网址，您可以使用浏览器一段时间后再次尝试');
+		  $('.smart-push-pre-ui').addClass('nodata');
+	      $('.smart-push-pre h3').html('暂无可推荐的网址');
 	  }
       $('.smart-push-pre ul').html(smartPushArr.join(''));
 
@@ -576,9 +578,11 @@ $(function(host, undef){
         }
 	  });
 	  if (smartPushArr.length > 0) {
+		  $('.smart-push-pre-ui').removeClass('nodata');
 	      $('.smart-push-pre h3').html('用您最常访问网址填充空白格子：');
 	  } else {
-	      $('.smart-push-pre h3').html('暂无可推荐的网址，您可以使用浏览器一段时间后再次尝试');
+		  $('.smart-push-pre-ui').addClass('nodata');
+	      $('.smart-push-pre h3').html('暂无可推荐的网址');
 	  }
       $('.smart-push-pre ul').html(smartPushArr.join(''));
 
