@@ -713,11 +713,11 @@ $(function(host, undef){
 	$(document.body).css({overflow:'hidden'});
     $('.tile img, .tile .widget').css('height', imgHeight = Math.floor($('.tile img').width()*0.7) + 'px');
 	var gridWidth = $('.grid').width();
-	if ($(window).width() * .62 < gridWidth) {
+	if ($(window).width() * .55 < gridWidth) {
 		wrapWidth = gridWidth;
 		$('.wrap').css({width:wrapWidth-1});
 	} else {
-		$('.wrap').css({width:'62%'});
+		$('.wrap').css({width:'55%'});
 	}
     if($('.wrap .tile').length){
       $('.wrap').css({
