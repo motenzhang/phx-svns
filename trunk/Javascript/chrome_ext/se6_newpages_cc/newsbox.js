@@ -63,8 +63,8 @@ var NewsBox = (function() {
             var title = this.getTitle(index);
             var content = this.getContent(index);
             var $slide = $('<div class="sbox-slide" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;">\
-<div class="sbox-content" title="' + title + '">' + content + '</div>\
-<div class="sbox-title">' + title + '</div>\
+<div class="sbox-content" __title="' + title + '">' + content + '</div>\
+<div class="sbox-title" title="' + title + '">' + title + '</div>\
 </div>');
             this.$inner.append($slide);
         },
@@ -153,6 +153,10 @@ var NewsBox = (function() {
                 this.load();
             } else {
                 this.read();
+				if (this.data && this.data.length) {
+				} else {
+					this.load();
+				}
             }
         },
         /**
@@ -302,9 +306,9 @@ var NewsBox = (function() {
         },
         getContent: function(i) {
             if (i === -2) {
-                return '<div class="more"><a href="http://sh.qihoo.com/" target="' + this.options.target + '" title="更多新闻，请访问 360新闻">更多新闻，请访问 360新闻</a></div>'
+                return '<div class="more"><a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a></div>'
             } else if (i === -1) {
-                return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;" alt="新闻格子" title="新闻格子"></a>';
+                return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;"></a>';
             } else {
                 return AjaxBox.prototype.getContent.call(this, i, this.options.target);
             }
