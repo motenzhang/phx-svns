@@ -354,6 +354,18 @@ var ImportData = function(){
 
 var TipsManager = function(){
 	var session = false;
+	
+	function _news_resize() {
+		var point = $('.grid .tile-widget .news-box').offset();
+		if (!point || point.left <= 0) {
+			$('.news-box-tips').hide();
+			return;
+		}
+		$('.news-box-tips').css({
+			left: point.left,
+			top: point.top + newsbox.height() + 10,
+		}).show();
+	}
 	return {
 		showNewsBoxTips: function(){
 			if (!session && storage.get('__tips_manager')['news-box']) {
@@ -369,19 +381,10 @@ var TipsManager = function(){
 				}).fadeIn().find('.btn-close').unbind().bind('click', function(){
 					$(this).parents('.yellow-tips').fadeOut();
 				});
-				$(window).resize(function(){
-					var point = $('.grid .tile-widget .news-box').offset();
-					if (point.left <= 0) {
-						$('.news-box-tips').hide();
-						return;
-					}
-					$('.news-box-tips').css({
-						left: point.left,
-						top: point.top + newsbox.height() + 10,
-					}).show();
-				});
+				$(window).on('resize', _news_resize);
 				storage.set('__tips_manager', 'news-box', true);
 			} else {
+				$(window).un('resize', _news_resize);
 				$('.news-box-tips').hide();
 			}
 		},
