@@ -353,7 +353,7 @@ var ImportData = function(){
 }();
 
 var TipsManager = function(){
-	var session = false;
+	var session = false, newsbox;
 	
 	function _news_resize() {
 		var point = $('.grid .tile-widget .news-box').offset();
@@ -372,7 +372,7 @@ var TipsManager = function(){
 				return;
 			}
 			session = true;
-			var newsbox = $('.grid .tile-widget .news-box');
+			newsbox = $('.grid .tile-widget .news-box');
 			if (newsbox.length > 0) {
 				var point = newsbox.offset();
 				$('.news-box-tips').css({
@@ -381,10 +381,10 @@ var TipsManager = function(){
 				}).fadeIn().find('.btn-close').unbind().bind('click', function(){
 					$(this).parents('.yellow-tips').fadeOut();
 				});
-				$(window).on('resize', _news_resize);
+				$(window).bind('resize', _news_resize);
 				storage.set('__tips_manager', 'news-box', true);
 			} else {
-				$(window).un('resize', _news_resize);
+				$(window).unbind('resize', _news_resize);
 				$('.news-box-tips').hide();
 			}
 		},
