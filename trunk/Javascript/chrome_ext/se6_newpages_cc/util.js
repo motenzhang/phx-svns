@@ -378,15 +378,18 @@ var TipsManager = function(){
 				$('.news-box-tips').css({
 					left: point.left,
 					top: point.top + newsbox.height() + 10,
-				}).fadeIn().find('.btn-close').unbind().bind('click', function(){
-					$(this).parents('.yellow-tips').fadeOut();
-				});
+				}).fadeIn().find('.btn-close').unbind().bind('click', TipsManager.hideNewsBoxTips);
 				$(window).bind('resize', _news_resize);
 				storage.set('__tips_manager', 'news-box', true);
 			} else {
 				$(window).unbind('resize', _news_resize);
 				$('.news-box-tips').hide();
 			}
+		},
+		hideNewsBoxTips: function() {
+			session = false;
+			$(window).unbind('resize', _news_resize);
+			$('.news-box-tips').fadeOut();
 		},
 		showSmartPushTips: function(mostVisitedCount, emptyGridCount){
 			if (storage.get('__tips_manager')['smart-push']) {

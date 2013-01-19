@@ -832,7 +832,7 @@ $(function(host, undef){
 	Stat.count('d3', 2);
 	if ($(this).parent().hasClass('tile-widget')) {
 		Stat.count('d3', 9);
-		$('.news-box-tips').fadeOut();
+		TipsManager.hideNewsBoxTips();
 	}
 
     if($('#js-grid-from').val() == 1){
@@ -1031,10 +1031,9 @@ $(function(host, undef){
             top: passDrag.rect.top + 'px'
           }, 200, function(dragObj){
             return function(){
-			  var url = $(dragHelper).children('.link').attr('href') || '';
-			  if (url.substr(0, 7) == 'widget:') {
-				  $('.news-box-tips').fadeOut();
-			  }
+			  var url1 = $(dragHelper).children('.link').attr('href') || '';
+			  var url2 = $(dragSwitcher).children('.link').attr('href') || '';
+
               dragObj.innerHTML = dragSwitcher.innerHTML;
 			 //dragObj.swapNode(passDrag);
               $(dragObj).css('opacity', 1);
@@ -1043,8 +1042,11 @@ $(function(host, undef){
               document.body.removeChild(dragHelper);
               document.body.removeChild(dragSwitcher);
 
-			  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
-			  box.render();
+			  if (url1.substr(0, 7) == 'widget:' || url2.substr(0, 7) == 'widget:') {
+				  TipsManager.hideNewsBoxTips();
+				  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
+				  box.render();
+			  }
 
               saveGrid();
             };
