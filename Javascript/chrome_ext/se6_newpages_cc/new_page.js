@@ -163,8 +163,8 @@ $(function(host, undef){
       tiles.forEach(function(tile, i){
         if(tile.title){
 		  var mv_li = $('<li><a></a></li>');
-		  mv_li.attr('href', tile.url);
-		  mv_li.text(tile.title);
+		  mv_li.children().attr('href', tile.url);
+		  mv_li.children().text(tile.title);
           oftenLis += mv_li[0].outerHTML;
 		  if (gridAddedUrlMap[tile.url] == undefined && smartPushArr.length < emptyGridCount) {
 			  smartPushArr.push(mv_li[0].outerHTML);
@@ -573,8 +573,8 @@ $(function(host, undef){
         if(tile.title){
 		  if (gridAddedUrlMap[tile.url] == undefined && smartPushArr.length < emptyGridCount) {
 			  var mv_li = $('<li><a></a></li>');
-			  mv_li.attr('href', tile.url);
-			  mv_li.text(tile.title);
+			  mv_li.children().attr('href', tile.url);
+			  mv_li.children().text(tile.title);
 			  smartPushArr.push(mv_li[0].outerHTML);
 			  if (smartPushArr.length == emptyGridCount && i <= mostVisited.length - 1) {
 				  $('.smart-push').addClass('active');
