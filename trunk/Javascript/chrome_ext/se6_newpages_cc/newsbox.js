@@ -153,8 +153,7 @@ var NewsBox = (function() {
                 this.load();
             } else {
                 this.read();
-				if (this.data && this.data.length) {
-				} else {
+				if (this.data == null) {
 					this.load();
 				}
             }
