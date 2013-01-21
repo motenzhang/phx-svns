@@ -92,6 +92,11 @@ $.Autocompleter = function(input, options) {
     }
   });
     
+  $input.bind("keyup.autocomplete", function(event){
+        clearTimeout(timeout);
+        timeout = setTimeout(onChange, options.delay);
+  });
+	
   // only opera doesn't trigger keydown multiple times while pressed, others don't work with keypress at all
   $input.bind(($.browser.opera ? "keypress" : "keydown") + ".autocomplete", function(event) {
     // a keypress means the input has focus
