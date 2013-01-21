@@ -1,3 +1,17 @@
+(function(){
+
+require.config({baseUrl: "js/"});
+
+require(["jquery-1.8.0.min", "main"], function(_$) {
+	alert($)
+    //This function is called when scripts/helper/util.js is loaded.
+    //If util.js calls define(), then this function is not fired until
+    //util's dependencies have loaded, and the util argument will hold
+    //the module value for "helper/util".
+});
+
+
+return;
 window.st = Date.now();
 
 function loadjscssfile(filename,filetype){
@@ -41,3 +55,5 @@ window.loadDefault = setTimeout(function(){
 	window.newver_path = mainjs.replace(default_mainjs, '');
 	loadjscssfile(mainjs, "js");
 }, 1000);
+
+})();
