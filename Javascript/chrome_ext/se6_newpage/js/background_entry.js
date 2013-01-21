@@ -1,4 +1,3 @@
-alert('background.init');
 
 function loadjscssfile(filename,filetype){
 
