@@ -5,7 +5,7 @@
 var background = function(){
 	return {
 		init: function(){
-			//alert('background.init');
+			console.log('background.init');
 			//  getMostVisited 初始化
 			//chrome.ntp.init();
 			// 消息初始化
