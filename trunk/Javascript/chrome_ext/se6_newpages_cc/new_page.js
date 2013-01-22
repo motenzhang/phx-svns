@@ -955,7 +955,6 @@ $(function(host, undef){
     errno = args[1];
     clearTimeout(window['capture_timeout_' + url]);
     if(url && errno){
-      url = url.replace(/\/$/,'');
       var query = '.tile a[href^="'+url+'"] img[src="images/loading.gif"]',
       img = $(query)[0];
       if(!img){
