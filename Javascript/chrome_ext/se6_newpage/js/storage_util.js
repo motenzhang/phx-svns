@@ -255,24 +255,50 @@ var FileSystem = function(){
 }();
 
 var AutoUpdate = function(){
+	
+	function download(file, path, callback) {
+		console.log('download: ', file);
+		ajax.download(file + '?' + (+new Date), function(ret){
+			FileSystem2.saveFile('ntp/' + path + '/' + file, ret, function(file, url){
+				console.log('success: ', url);
+				callback && callback(file, url);
+			});
+		});
+	}
+	
 	return {
 		check: function(){
-			if (/*true || */storage.getIntervalMinute('autoupdate') > config.autoupdate.interval) {
+			if (true || storage.getIntervalMinute('autoupdate') > config.autoupdate.interval) {
 				console.log('AutoUpdate.check');
 				storage.setLastDate('autoupdate');
-				ajax.get(config.autoupdate.url, {
-						'ntp_ver': '',
-						'se6_ver': ''
-					}, function(ret){
-					try {
-						ret = JSON.parse(ret);
-					} catch (e) {}
-					if (ret.errno == 0 && ret.crxUrl) {
-						chrome.ntp.update(ret.crxUrl, ret.crxMd5);
-					}
-				});
+				
+				AutoUpdate.update();
+				
 			}
-		}
+		},
+		update: function(){
+			ajax.get(config.autoupdate.url + window.mainVersion, {}, function(ret){
+				try {
+					ret = JSON.parse(ret);
+				} catch (e) {
+					ret = {};
+				}
+				if (ret.version > window.mainVersion && ret.files) {
+					var count = 0;
+					ret.files.forEach(function(item){
+						count++;
+						download(item[1], ret.version, function(file, url){
+							if (url.indexOf('main.js') > -1) {
+								localStorage['currentVerPath'] = url.replace('js/main.js', '');
+							}
+							if (--count <= 0) {
+								console.log('下载保存完毕， 刷新页面使用新版');
+							}
+						});
+					});
+				}
+			});
+		},
 	};
 }();
 

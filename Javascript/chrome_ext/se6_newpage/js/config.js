@@ -4,7 +4,7 @@ var config = {
 		preset: [],
 	},
 	autoupdate: {
-		url:'',
+		url:'http://upext.browser.360.cn/update/check/app/newtab/version/',
 		interval: 60 * 2,
 	},
 	csite: {

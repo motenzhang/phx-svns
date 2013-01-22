@@ -1,80 +1,41 @@
-$(function(){
-	$('#create_fs').click(function(){
-		var ver = $('#ver').val();
-		/*FileSystem2.createDir(['ntp', ver], null, function(dir){
-			console.log(dir);
-		});*/
-		ajax.get('http://upext.browser.360.cn/update/check/app/newtab/version/' + window.main_version, {}, function(ret){
-			ret = JSON.parse(ret);
-			if (ret.version > window.main_version && ret.files) {
-				var count = 0;
-				ret.files.forEach(function(item){
-					count++;
-					download(item[1], ver, function(file, url){
-						if (url.indexOf('main.js') > -1) {
-							localStorage['newver'] = url;
-						}
-						if (--count <= 0) {
-							alert('下载保存完毕， 刷新页面使用新版');
-						}
-					});
-				});
-			}
-		});
-		
-		return;
-		var _count = 0;
-		[
-			'js/background.js',
-			'js/background_entry.js',
-			'js/combo.js',
-			'js/config.js',
-			'js/jquery-1.8.0.min.js',
-			'js/jquery-ui-1.9.1.custom.min.js',
-			'js/jquery.autocomplete.js',
-			'js/jquery.validate.min.js',
-			'js/main.js',
-			'js/new_page.js',
-			'js/require.js',
-			'js/stat.js',
-			'js/storage_util.js',
-			
-			'css/styl.css', 
-			'img/baidu_ico.gif',
-			'img/default_logo.png',
-			'img/disabled_select.png',
-			'img/google_ico.png',
-			'img/imgbg.png',
-			'img/loading.gif',
-			'img/select.png',
-			'img/so_ico.png',
-			'img/tile_add.png',
-			'img/tile_addhov.png',
-		].forEach(function(item){
-			_count++;
-			download('http://' + item, ver, function(file, url){
-				if (url.indexOf('main.js') > -1) {
-					localStorage['newver'] = url;
-				}
-				if (--_count <= 0) {
-					alert('下载保存完毕， 刷新页面使用新版');
-				}
-			});
-		});
-	});
-	
-	
-	function download(file, path, callback) {
-		ajax.download(file + '?' + (+new Date), function(ret){
-			FileSystem2.saveFile('ntp/' + path + '/' + file, ret, function(file, url){
-				console.log(file, url);
-				callback && callback(file, url);
-			});
-		});
-	}
-	
-	
-});
+//$(function(){
+//	$('#create_fs').click(function(){
+//		var ver = $('#ver').val();
+//		/*FileSystem2.createDir(['ntp', ver], null, function(dir){
+//			console.log(dir);
+//		});*/
+//		ajax.get('http://upext.browser.360.cn/update/check/app/newtab/version/' + window.mainVersion, {}, function(ret){
+//			ret = JSON.parse(ret);
+//			if (ret.version > window.mainVersion && ret.files) {
+//				var count = 0;
+//				ret.files.forEach(function(item){
+//					count++;
+//					download(item[1], ver, function(file, url){
+//						if (url.indexOf('main.js') > -1) {
+//							localStorage['currentVerPath'] = url.replace('js/main.js', '');
+//						}
+//						if (--count <= 0) {
+//							alert('下载保存完毕， 刷新页面使用新版');
+//						}
+//					});
+//				});
+//			}
+//		});
+//	});
+//	
+//	
+//	function download(file, path, callback) {
+//		console.log('download:', file);
+//		ajax.download(file + '?' + (+new Date), function(ret){
+//			FileSystem2.saveFile('ntp/' + path + '/' + file, ret, function(file, url){
+//				console.log(file, url);
+//				callback && callback(file, url);
+//			});
+//		});
+//	}
+//	
+//	
+//});
 
 
 var FileSystem2 = function(){
