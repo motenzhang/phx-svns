@@ -389,7 +389,7 @@ $(function(host, undef){
 
     wenda_so:{
       type: 'wenda_so',
-      desc: '奇虎问答',
+      desc: '360问答',
       url:'http://wenda.qihoo.com/search/?src=360se6_addr&ie=utf-8',
       key:'q',
       params:{
