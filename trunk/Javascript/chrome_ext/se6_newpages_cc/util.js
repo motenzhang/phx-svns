@@ -385,8 +385,13 @@ var TipsManager = function(){
 				$(window).unbind('resize', _news_resize);
 				$('.news-box-tips').hide();
 			}
+			window.timerNewsBoxTipsHandler && clearTimeout(window.timerNewsBoxTipsHandler);
+			window.timerNewsBoxTipsHandler = setTimeout(function(){
+				TipsManager.hideNewsBoxTips();
+			}, 10000);
 		},
 		hideNewsBoxTips: function() {
+			window.timerNewsBoxTipsHandler && clearTimeout(window.timerNewsBoxTipsHandler);
 			session = false;
 			$(window).unbind('resize', _news_resize);
 			$('.news-box-tips').fadeOut();
