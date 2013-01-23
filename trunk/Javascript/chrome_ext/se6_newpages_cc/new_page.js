@@ -152,7 +152,6 @@ $(function(host, undef){
       }
 
       $('.grid ul').html(lis);
-      $('.tile img').css('height', Math.floor($('.tile img').width()*0.7) + 'px');
 
       $('.tile>a').attr('target', $('#js-show-in-newtab').attr('checked') ? '_blank' : '_self');
 
@@ -716,7 +715,7 @@ $(function(host, undef){
   var timerResize;
   $(window).on('resize', function(){
 	$(document.body).css({overflow:'hidden'});
-    $('.tile img, .tile .widget').css('height', imgHeight = Math.floor($('.tile img').width()*0.7) + 'px');
+    $('.tile .box').css('height', imgHeight = Math.floor($('.tile .box').width()*0.7) + 'px');
 	var gridWidth = $('.grid').width();
 	if ($(window).width() * .55 < gridWidth) {
 		wrapWidth = gridWidth;
@@ -821,7 +820,16 @@ $(function(host, undef){
       chrome.send('removeURLsFromMostVisitedBlacklist', [window.redo_url]);
     });
     */
-    chrome.send('removeURLsFromMostVisitedBlacklist', [window.redo_url]);
+    //chrome.send('removeURLsFromMostVisitedBlacklist', [window.redo_url]);
+	if (window.redo_grid) {
+		redo_grid.short_url = redo_grid.url.shorting(50);
+		var logo = $('.tile:eq(' + redo_grid.index + ') .box').append($.tmpl($('#tile-logo-temp').html(), redo_grid).html()).find('.tile-logo');
+		logo.css({position:'absolute', top:-logo.height()})
+			.animate({top:0}, 600, 'easeOutBounce_restore', function(){
+			});
+
+		saveGrid();
+	}
   });
   $('.remove-tips a').live('click', function(e){
     clearTimeout(window.timerRemoveTipHandler);
@@ -865,19 +873,24 @@ $(function(host, undef){
 easeInQuad easeOutQuad easeInOutQuad easeInCubic easeOutCubic easeInOutCubic easeInQuart easeOutQuart easeInOutQuart easeInQuint easeOutQuint easeInOutQuint easeInSine easeOutSine easeInOutSine easeInExpo easeOutExpo easeInOutExpo easeInCirc easeOutCirc easeInOutCirc easeInElastic easeOutElastic easeInOutElastic easeInBack easeOutBack easeInOutBack easeInBounce easeOutBounce easeInOutBounce
 */
 
-    var tile = $(this).parent('.tile-logo');
-	var logo = tile.children('img');
-    tile.prepend('<img src="images/tile_add.png">');
-	/*logo.css({position:'absolute', top:0})
-		.animate({top:-logo.height()}, 600, 'easeInOutCubic', function(){
-		});*/
-	logo.css({position:'absolute', top:-logo.height()})
-		.animate({top:0}, 1000, 'easeOutBounce_restore', function(){
+    var logo = $(this).parent('.tile-logo');
+	logo.addClass('hide-tit');
+	logo.css({position:'absolute', top:0})
+		.animate({top:-logo.height()}, 400, 'easeInOutCubic', function(){
+			var link = $(this).parent('.link');
+			window.redo_grid = {index:$(this).parents('.tile').index(), url:link.attr('href'), title:link.find('.tile-tit').text()};
+			console.log(redo_grid);
+
+			link.remove();
+	        saveGrid();
+
+		  $('.remove-tips').css('left', $('.tile img').offset().left + 'px').fadeIn();
+	
+		  window.timerRemoveTipHandler && clearTimeout(window.timerRemoveTipHandler);
+		  window.timerRemoveTipHandler = setTimeout(function(){
+			$('.remove-tips').fadeOut();
+		  }, 10000);
 		});
-    /*  $(this).parents('li').effect('fade', 200, function(){
-        $(this).html($($('#js-grid-from').val() == 1 ? tileEmptyTempStr : tileAddTempStr).html()).effect('fade', { mode:'show'}, 200).find('img').css('height', imgHeight);
-        saveGrid();
-      });*/
 
     e.preventDefault();
   });

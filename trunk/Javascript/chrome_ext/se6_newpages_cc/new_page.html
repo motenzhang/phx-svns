@@ -120,9 +120,6 @@
 </ul>
 <div class="addurl-mask" style="display:none" onselectstart="return false;" onmousedown="return false;" onmousemove="return false;">
 </div>
-<div class="remove-tips" style="display:none">
-  您已删除缩略图 <a __href="#" id="removeUrlsFromBlackList">撤销</a> <a __href="#" id="clearBlackList">撤销全部</a>
-</div>
 <div class="setup-pop" style="display:none;">
   <div class="setup-arr">
     <span> </span>
@@ -173,37 +170,70 @@
 <div class="smart-push-tips yellow-tips arrow-right">
   <em></em>点击智能按钮，使用您最常访问的网址填充空白格子。&nbsp; <a class="btn-close"></a>
 </div>
+<div class="remove-tips" style="display:none">
+  您已删除缩略图 <a __href="#" id="removeUrlsFromBlackList">撤销</a>
+</div>
 <!--end tips-->
 
 <script type="text/template" id="tile-widget">
-<li class="tile ${drag}"  url="${url}">
-  <a class="link" href="${url}">  </a>
+<li class="tile">
+  <div class="box">
+    <a>
+    <div class="tile-add">
+      <img src="images/tile_add.png">
+	  <img src="images/tile_addhov.png" style="display:none;">
+    </div>
+    </a>
+	<a class="link" href="${url}" __title="${short_url}">
     <div class="tile-logo tile-widget">
 	  <div class="widget ${widget_type}"></div>
       <div class="remove" title="删除"></div>
     </div>
+    </a>
+  </div>
 </li>
 </script> 
 <script type="text/template" id="tile-temp">
-<li class="tile ${drag}"  url="${url}">
-  <a class="link" url="${url}" href="${url}" __title="${short_url}">
+<li class="tile">
+  <div class="box">
+    <a>
+    <div class="tile-add">
+      <img src="images/tile_add.png">
+	  <img src="images/tile_addhov.png" style="display:none;">
+    </div>
+    </a>
+	<a class="link" href="${url}" __title="${short_url}">
     <div class="tile-logo">
       <img src="chrome://thumb/${url}" />
-      <div class="remove" title="删除"></div>
+      <div class="remove" title="删除">
+      </div>
       <div class="tile-tit" title="${title}">${title}</div>
     </div>
-  </a>
+    </a>
+  </div>
 </li>
 </script> 
-<script type="text/template" id="tile-add-temp">
-<li class="tile ${drag}">
-  <a>
-    <div class="tile-add">
-      <img src="images/tile_add.png" />
-      <img src="images/tile_addhov.png" style="display:none;">
+<script type="text/template" id="tile-logo-temp">
+<div>
+	<a class="link" href="${url}" __title="${short_url}">
+    <div class="tile-logo">
+      <img src="chrome://thumb/${url}" />
+      <div class="remove" title="删除">
+      </div>
+      <div class="tile-tit" title="${title}">${title}</div>
     </div>
-    <div class="tile-tit"></div>
-  </a>
+    </a>
+</div>
+</script> 
+<script type="text/template" id="tile-add-temp">
+<li class="tile">
+  <div class="box">
+    <a>
+    <div class="tile-add">
+      <img src="images/tile_add.png" /> <img src="images/tile_addhov.png" style="display:none;">
+    </div>
+    </a>
+  </div>
 </li>
 </script> 
 <script type="text/template" id="tile-empty-temp">
