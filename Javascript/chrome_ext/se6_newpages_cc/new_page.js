@@ -426,7 +426,7 @@ $(function(host, undef){
 		  $('.search-menu').empty();
 		  engines.forEach(function(sn) {
 			  var item = searchMaps[sn] || {};
-			  $('.search-menu').append('<li><a href="#" class="' + item.type + '"></a>' + item.desc + '</li>');
+			  $('.search-menu').append('<li><a __href="#" class="' + item.type + '"></a>' + item.desc + '</li>');
 		  });
 		  var jitem = $('.search-menu .' + storage.get('default_engine')[type]);
 		  if (jitem.length == 0) {

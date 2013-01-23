@@ -10,8 +10,8 @@ var NewsBox = (function() {
         construct: function() {
             this.$el = $('<div class="sbox">\
   <div class="sbox-inner"></div>\
-  <a class="sbox-button" rel="next" href="#">N</a>\
-  <a class="sbox-button" rel="home" href="#">H</a>\
+  <a class="sbox-button" rel="next" __href="#">N</a>\
+  <a class="sbox-button" rel="home" __href="#">H</a>\
 </div>');
             this.$inner = this.$el.find('.sbox-inner');
             this.index = 0;

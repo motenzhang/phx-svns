@@ -92,11 +92,10 @@ $.Autocompleter = function(input, options) {
     }
   });
     
-  $input.bind("keyup.autocomplete", function(event){
+  $input.bind("input.autocomplete", function(event){
         clearTimeout(timeout);
         timeout = setTimeout(onChange, options.delay);
   });
-	
   // only opera doesn't trigger keydown multiple times while pressed, others don't work with keypress at all
   $input.bind(($.browser.opera ? "keypress" : "keydown") + ".autocomplete", function(event) {
     // a keypress means the input has focus
@@ -209,6 +208,10 @@ $.Autocompleter = function(input, options) {
     $(input.form).unbind(".autocomplete");
   });
   
+  $(document).mousedown(function(){
+      hasFocus = 0;
+	  hideResults();
+  });
   
   function selectCurrent() {
     var selected = select.selected();
@@ -422,7 +425,7 @@ $.Autocompleter.defaults = {
   resultsClass: "ac_results",
   loadingClass: "ac_loading",
   minChars: 1,
-  delay: 400,
+  delay: 200,
   matchCase: false,
   matchSubset: true,
   matchContains: false,
@@ -617,8 +620,9 @@ $.Autocompleter.Select = function (options, input, select, config) {
       // TODO provide option to avoid setting focus again after selection? useful for cleanup-on-focus
       input.focus();
       return false;
-    }).mousedown(function() {
+    }).mousedown(function(e) {
       config.mouseDownOnSelect = true;
+	  return false;
     }).mouseup(function() {
       config.mouseDownOnSelect = false;
     });
