@@ -100,7 +100,7 @@ input.input-txt-place{ color:#bebebe }
 .tile-logo img,.tile-add img{ width:100%;}
 .tile-tit{ height:22px; line-height:22px; position:absolute; left:0; bottom:-22px; opacity:0; background:rgba(0,0,0,.30);color:#fff; padding-left:5px; width:100%;white-space:nowrap; overflow:hidden;text-overflow:ellipsis;-webkit-transition:bottom .2s, opacity .3s;}
 /*.tile-tit::after{ clear:both; content:' '; display:block; height:0 }*/
-.tile-logo:hover .tile-tit, .drag-helper .tile-logo .tile-tit{bottom:0; opacity:1}
+.tile-logo:hover .tile-tit{bottom:0; opacity:1}
 .tile-add{ overflow:hidden;}
 .remove{ cursor:pointer; display:block; width:16px; height:16px; position:absolute; top:4px; right:3px; opacity:0; z-index:11; background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAiElEQVR42r2RsQrDMAxEBRdl8SDcX8lQPGg1GBI6lvz/h7QyRRXV0qUULwfvwZ1tenw5PxToRPWMC52eA9+WDnlh3HFQ/xBQl86NFYJqeGflkiogrOvVlIFhqURFVho3x1moGAa3deMs+LS30CAhBN5nNxeT5hbJ1zwmji2k+aF6NENIPf/hs54f0sZFUVAMigAAAABJRU5ErkJggg==) }
 .tile-on .remove{ opacity:1;-webkit-transition:opacity ease-in 150ms .5s}

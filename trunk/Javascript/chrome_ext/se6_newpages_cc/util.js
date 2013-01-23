@@ -136,7 +136,7 @@ var HotKeyword = function(){
 		var ul = container.find('ul');
 		ul.empty();
 		list.forEach(function(item, i){
-			var li = $('<li><a href="#"><em class="hot">' + (i+1) + '</em><span class="' + (item.new == '1' ? 'new' : '') + '">' + item.text + '</span></a></li>');
+			var li = $('<li><a' + (item.link ? ' href="' + item.link + '"' : '') + '><em class="hot">' + (i+1) + '</em><span class="' + (item.new == '1' ? 'new' : '') + '">' + item.text + '</span></a></li>');
 			ul.append(li);
 			item.result = item.text;
 			$.data(li[0], "ac_data", item);
