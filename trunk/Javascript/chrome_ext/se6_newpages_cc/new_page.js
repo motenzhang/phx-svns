@@ -828,6 +828,32 @@ $(function(host, undef){
     $('.remove-tips').fadeOut();
   });
 
+	jQuery.extend( jQuery.easing,
+	{
+		/*
+		o = p/q
+		p: 当前时间 - animate开始时间的毫秒值
+		n: 起始值，一直为0
+		r: 这个个人认为是递增值，一直为1
+		q: animate中的duration参数，即设置的动画效果运行完毕需要的时间
+		*/
+		easeOutBounce_restore: function (o, p, n, r, q) {
+			if ((p /= q) < (1 / 2.75)) {
+                return r * (7.5625 * p * p) + n
+            } else {
+                if (p < (2 / 2.75)) {
+                    return r * (7.5625 * (p -= (1.5 / 2.75)) * p + 0.75) + n
+                } else {
+                    if (p < (2.5 / 2.75)) {
+                        return r * (7.5625 * (p -= (2.25 / 2.75))   * p + 0.9375) + n
+                    } else {
+                        return r * (7.5625 * (p -= (2.625 / 2.75)) * p + 0.984375) + n
+                    }
+                }
+            }
+		}
+	});
+	
   $('.remove').live('click', function(e){
 	Stat.count('d3', 2);
 	if ($(this).parent().hasClass('tile-widget')) {
@@ -835,40 +861,24 @@ $(function(host, undef){
 		TipsManager.hideNewsBoxTips();
 	}
 
-    if($('#js-grid-from').val() == 1){
-      $('.remove-tips').css('left', $('.tile img').offset().left + 'px').fadeIn();
+/*
+easeInQuad easeOutQuad easeInOutQuad easeInCubic easeOutCubic easeInOutCubic easeInQuart easeOutQuart easeInOutQuart easeInQuint easeOutQuint easeInOutQuint easeInSine easeOutSine easeInOutSine easeInExpo easeOutExpo easeInOutExpo easeInCirc easeOutCirc easeInOutCirc easeInElastic easeOutElastic easeInOutElastic easeInBack easeOutBack easeInOutBack easeInBounce easeOutBounce easeInOutBounce
+*/
 
-      window.timerRemoveTipHandler && clearTimeout(window.timerRemoveTipHandler);
-      window.timerRemoveTipHandler = setTimeout(function(){
-        $('.remove-tips').fadeOut();
-      },4000);
-      var url = window.redo_url = $('a.link',$(this).parents('li.tile')).attr('href');
-
-
-      var me=this;
-      setTimeout(function(){
-        var curLi = $(me).parents('li')[0];
-        [].slice.call(curLi.parentNode.children,0).every(function(el, idx){
-          if(el == curLi){
-            window.redo_idx = idx;
-            return false;
-          }
-          return true;
-        });
-
-        ntpApis.blacklistURLFromMostVisited(url);
-        /*
-        $(me).parents('.tile-logo').effect('transfer', {to:'.remove-tips', className:'effects-transfer'}, 500, function(){
-          $('.remove-tips').css('opacity', 1);
-        });
-        */
-      });
-    }else{
-      $(this).parents('li').effect('fade', 200, function(){
+    var tile = $(this).parent('.tile-logo');
+	var logo = tile.children('img');
+    tile.prepend('<img src="images/tile_add.png">');
+	/*logo.css({position:'absolute', top:0})
+		.animate({top:-logo.height()}, 600, 'easeInOutCubic', function(){
+		});*/
+	logo.css({position:'absolute', top:-logo.height()})
+		.animate({top:0}, 1000, 'easeOutBounce_restore', function(){
+		});
+    /*  $(this).parents('li').effect('fade', 200, function(){
         $(this).html($($('#js-grid-from').val() == 1 ? tileEmptyTempStr : tileAddTempStr).html()).effect('fade', { mode:'show'}, 200).find('img').css('height', imgHeight);
         saveGrid();
-      });
-    }
+      });*/
+
     e.preventDefault();
   });
 
