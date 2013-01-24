@@ -11,7 +11,7 @@ var NewsBox = (function() {
             this.$el = $('<div class="sbox">\
   <div class="sbox-inner"></div>\
   <a class="sbox-button" rel="next" __href="#">N</a>\
-  <a class="sbox-button" rel="home" __href="#">H</a>\
+  <a class="sbox-button" rel="prev" __href="#">H</a>\
 </div>');
             this.$inner = this.$el.find('.sbox-inner');
             this.index = 0;
@@ -32,10 +32,9 @@ var NewsBox = (function() {
         },
         onButtonClick: function(e) {
             var rel = $(e.target).attr('rel');
-            if (rel === 'home') {
+            if (rel === 'prev') {
 				Stat.count('d3', 10);
-                this.index = -1;
-                this.nextSlide(now);
+                this.prevSlide();
             } else {
 				Stat.count('d3', 8);
                 this.nextSlide();
@@ -59,14 +58,19 @@ var NewsBox = (function() {
         /**
 					 * 生成下一个 slide
 					 */
-        renderSlide: function(index) {
+        renderSlide: function(index, prev) {
             var title = this.getTitle(index);
             var content = this.getContent(index);
             var $slide = $('<div class="sbox-slide" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;">\
-<div class="sbox-content" __title="' + title + '">' + content + '</div>\
-<div class="sbox-title" title="' + title + '">' + title + '</div>\
-</div>');
-            this.$inner.append($slide);
+								<div class="sbox-content" __title="' + title + '">' + content + '</div>\
+								<div class="sbox-title" title="' + title + '">' + title + '</div>\
+							</div>');
+
+			if (prev) {
+	            this.$inner.prepend($slide).css('left', -this.width);
+			} else {
+	            this.$inner.append($slide);
+			}
         },
         /**
 					 * 获取下一页的内容 HTML
@@ -111,11 +115,7 @@ var NewsBox = (function() {
                 this.renderSlide(this.index);
 
 				this.width = this.$inner.width();
-                this.$inner.animate({
-                    'left': -1 * this.width + 'px'
-                },
-                600,
-                function() {
+                this.$inner.animate({'left': -1 * this.width}, 600, function() {
                     self.$inner.find('.sbox-slide:first').remove();
                     self.$inner.css('left', 0);
 					storage.set('news_box', 'slide_index', self.index);
@@ -123,6 +123,33 @@ var NewsBox = (function() {
             } else {
                 self.$inner.find('.sbox-slide:first').remove();
                 this.renderSlide(this.index);
+            }
+        },
+        prevSlide: function(animate) {
+            if (!this.isNextable(true)) {
+				this.$el.find('.sbox-button').hide();
+				return;
+			}
+			if (this.index == -2) {
+				this.$el.find('.sbox-button').hide();
+			} else {
+				this.$el.find('.sbox-button').show();
+			}
+            var self = this;
+            if (typeof(animate) === 'undefined') {
+                animate = true;
+            }
+            if (animate) {
+                this.renderSlide(this.index, true);
+
+				this.width = this.$inner.width();
+                this.$inner.animate({'left': 0}, 600, function() {
+                    self.$inner.find('.sbox-slide:last').remove();
+					storage.set('news_box', 'slide_index', self.index);
+                });
+            } else {
+                self.$inner.find('.sbox-slide:first').remove();
+                this.renderSlide(this.index, true);
             }
         },
         unbindUI: function() {
@@ -135,8 +162,8 @@ var NewsBox = (function() {
             this.unbindUI();
             this.$el.remove();
         },
-        isNextable: function() {
-			++this.index;
+        isNextable: function(prev) {
+			prev ? --this.index : ++this.index;
             return true;
         }
     };
@@ -254,18 +281,21 @@ var NewsBox = (function() {
             }
 			return false;
         },
-        isNextable: function() {
+        isNextable: function(prev) {
+console.log( this.index);
             if (this.index === -2) {
                 // 当前停留在无数据页，不再继续翻页
                 return false;
             } else if (typeof(this.data) === 'undefined' || this.data === null || this.data.length < 1) {
                 // 如果没有加载导数据，则显示无数据页
                 this.index = -3; // next 将显示 -2 没有数据
-            } else if (this.index >= this.data.length) { // 从头在此播放
+            } else if (!prev && this.index >= this.data.length) { // 从头在此播放
                 this.index = -1;
-            }
-
-            return SlideBox.prototype.isNextable.call(this);
+            } else if (prev && this.index <=0 ) {
+				this.index = this.data.length + 1;
+			}
+console.log('------', this.index);
+            return SlideBox.prototype.isNextable.call(this, prev);
         }
     });
     var NewsBox = function(ctr, options) {
