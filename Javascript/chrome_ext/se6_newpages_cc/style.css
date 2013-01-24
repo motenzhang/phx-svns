@@ -222,5 +222,5 @@ input.input-txt-place{ color:#bebebe }
 /* 盒子浮动层 */
 .sbox .sbox-title { position: absolute; bottom: 0; left: 0; right: 0; padding-left:4px; padding-right: 4px; /* button 的区域 */ overflow: hidden; text-overflow: ellipsis; pointer-events: none; background: rgba(0, 0, 0, 0.5); color: #fff; }
 .sbox .sbox-button { position: absolute; bottom: 0; display: none; color: #fff; background:url(images/news_ctrl.png) no-repeat; text-indent:-9999px; width:20px; height:24px; margin-top:-12px; top:50%; }
-.sbox .sbox-button[rel=home] { left: 0px; display:none!important; }
+.sbox .sbox-button[rel=home] { left: 0px; }
 .sbox .sbox-button[rel=next] { right: 0px; background-position:-165px center}
