@@ -839,26 +839,39 @@ $(function(host, undef){
 	jQuery.extend( jQuery.easing,
 	{
 		/*
-		o = p/q
-		p: 当前时间 - animate开始时间的毫秒值
-		n: 起始值，一直为0
-		r: 这个个人认为是递增值，一直为1
-		q: animate中的duration参数，即设置的动画效果运行完毕需要的时间
+		x = t/d
+		t: 当前时间 - animate开始时间的毫秒值
+		b: 起始值，一直为0
+		c: 这个个人认为是递增值，一直为1
+		d: animate中的duration参数，即设置的动画效果运行完毕需要的时间
 		*/
-		easeOutBounce_restore: function (o, p, n, r, q) {
-			if ((p /= q) < (1 / 2.75)) {
-                return r * (7.5625 * p * p) + n
+		easeOutBounce_restore: function (x, t, b, c, d) {
+			if (x < (1.5 / 2.75)) {
+                return c * (3.3611 * x * x) + b;
             } else {
-                if (p < (2 / 2.75)) {
-                    return r * (7.5625 * (p -= (1.5 / 2.75)) * p + 0.75) + n
+                if (x < (2 / 2.75)) {
+                    return c * (7.5625 * (x -= (1.7 / 2.75)) * x + .91) + b;
                 } else {
-                    if (p < (2.5 / 2.75)) {
-                        return r * (7.5625 * (p -= (2.25 / 2.75))   * p + 0.9375) + n
+                    if (x < (2.5 / 2.75)) {
+                        return c * (7.5625 * (x -= (2.25 / 2.75))   * x + 0.9375) + b;
                     } else {
-                        return r * (7.5625 * (p -= (2.625 / 2.75)) * p + 0.984375) + n
+                        return c * (7.5625 * (x -= (2.625 / 2.75)) * x + 0.984375) + b;
                     }
                 }
-            }
+			}
+			/*if (x < (1 / 2.75)) {
+                return c * (7.5625 * x * x) + b
+            } else {
+                if (t < (2 / 2.75)) {
+                    return c * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.85) + b
+                } else {
+                    if (t < (2.5 / 2.75)) {
+                        return c * (7.5625 * (t -= (2.25 / 2.75))   * t + 0.9375) + b
+                    } else {
+                        return c * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375) + b
+                    }
+                }
+            }*/
 		}
 	});
 	
