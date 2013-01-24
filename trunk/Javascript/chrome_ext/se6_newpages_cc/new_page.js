@@ -91,12 +91,15 @@ $(function(host, undef){
 
   var reloadGrid = function(){
     console.log('调用getMostVisited:', +new Date - st + 'ms(距页面打开)');
+	var initiativeCall = true;
     ntpApis.getMostVisited(function(tiles, customs){
-	  /*if (window.reloadGridexec) {
+      console.log('getMostVisited回调函数被调用:', +new Date -st + 'ms(距页面打开)',arguments);
+
+	  if (!initiativeCall) {
+		  console.log('自动推送，停止执行。');
 		  return;
 	  }
-	  window.reloadGridexec = true;*/
-      console.log('getMostVisited回调函数被调用:', +new Date -st + 'ms(距页面打开)',arguments);
+	  initiativeCall = false;
 
 	  var gridCount = $('#js-grid-count').val()-0;
 
@@ -826,9 +829,9 @@ $(function(host, undef){
 		var logo = $('.tile:eq(' + redo_grid.index + ') .box').append($.tmpl($('#tile-logo-temp').html(), redo_grid).html()).find('.tile-logo');
 		logo.css({position:'absolute', top:-logo.height()})
 			.animate({top:0}, 600, 'easeOutBounce_restore', function(){
+				saveGrid();
 			});
 
-		saveGrid();
 	}
   });
   $('.remove-tips a').live('click', function(e){
@@ -852,10 +855,10 @@ $(function(host, undef){
                 if (x < (2 / 2.75)) {
                     return c * (7.5625 * (x -= (1.7 / 2.75)) * x + .91) + b;
                 } else {
-                    if (x < (2.5 / 2.75)) {
-                        return c * (7.5625 * (x -= (2.25 / 2.75))   * x + 0.9375) + b;
+                    if (x < (2.4 / 2.75)) {
+                        return c * (7.5625 * (x -= (2.2 / 2.75))   * x + 0.96) + b;
                     } else {
-                        return c * (7.5625 * (x -= (2.625 / 2.75)) * x + 0.984375) + b;
+                        return c * (7.5625 * (x -= (2.6 / 2.75)) * x + 0.9775) + b;
                     }
                 }
 			}
