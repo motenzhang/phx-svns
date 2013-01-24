@@ -160,7 +160,6 @@ var HotKeyword = function(){
 			});
 		},
 		ondata: function(){
-			console.log(keywordData);
 			toggle.show();
 		}
 	};
