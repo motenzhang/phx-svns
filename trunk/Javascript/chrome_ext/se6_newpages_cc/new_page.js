@@ -718,14 +718,7 @@ $(function(host, undef){
   var timerResize;
   $(window).on('resize', function(){
 	$(document.body).css({overflow:'hidden'});
-    $('.tile .box').css('height', imgHeight = Math.floor($('.tile .box').width()*0.7) + 'px');
-	var gridWidth = $('.grid').width();
-	if ($(window).width() * .55 < gridWidth) {
-		wrapWidth = gridWidth;
-		$('.wrap').css({width:wrapWidth-1});
-	} else {
-		$('.wrap').css({width:'55%'});
-	}
+    $('.tile .box, .box img').css('height', imgHeight = Math.floor($('.tile .box').width()*0.7027) + 'px');
     if($('.wrap .tile').length){
       $('.wrap').css({
         'top': Math.max(window.innerHeight/2 - $('.wrap').height()/2, 50) + 'px',
@@ -885,13 +878,9 @@ $(function(host, undef){
 		TipsManager.hideNewsBoxTips();
 	}
 
-/*
-easeInQuad easeOutQuad easeInOutQuad easeInCubic easeOutCubic easeInOutCubic easeInQuart easeOutQuart easeInOutQuart easeInQuint easeOutQuint easeInOutQuint easeInSine easeOutSine easeInOutSine easeInExpo easeOutExpo easeInOutExpo easeInCirc easeOutCirc easeInOutCirc easeInElastic easeOutElastic easeInOutElastic easeInBack easeOutBack easeInOutBack easeInBounce easeOutBounce easeInOutBounce
-*/
-
     var logo = $(this).parent('.tile-logo');
 	logo.addClass('hide-tit');
-	logo.css({position:'absolute', top:0})
+	/*logo.css({position:'absolute', top:0})
 		.animate({top:-logo.height()}, 400, 'easeInOutCubic', function(){
 			var link = $(this).parent('.link');
 			window.redo_grid = {index:$(this).parents('.tile').index(), url:link.attr('href'), title:link.find('.tile-tit').text()};
@@ -906,7 +895,13 @@ easeInQuad easeOutQuad easeInOutQuad easeInCubic easeOutCubic easeInOutCubic eas
 		  window.timerRemoveTipHandler = setTimeout(function(){
 			$('.remove-tips').fadeOut();
 		  }, 10000);
-		});
+		});*/
+
+	logo.effect('fade', 200, function(){
+		$(this).parent('.link').remove();
+        saveGrid();
+    });
+
 
     e.preventDefault();
   });
@@ -960,13 +955,13 @@ easeInQuad easeOutQuad easeInOutQuad easeInCubic easeOutCubic easeInOutCubic eas
 			  }).html()).fadeIn(function(){
 				  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
 				  box.render();
-			  }).find('.tile-logo .widget').css('height', imgHeight);;
+			  }).find('.box').css('height', imgHeight);;
 		  } else {
 			  $(this).html($.tmpl(tileTmplStr, {
 				title: title||url,
 				short_url: url.shorting(50),
 				url: url
-			  }).html()).fadeIn().find('.tile-logo img').attr('src', 'images/loading.gif').css('height', imgHeight);
+			  }).html()).fadeIn().find('.box').css('height', imgHeight).find('.tile-logo img').attr('src', 'images/loading.gif');
 
 			  if($('#js-show-in-newtab')[0].checked){
 				$(this).find('.link').attr('target', '_blank');

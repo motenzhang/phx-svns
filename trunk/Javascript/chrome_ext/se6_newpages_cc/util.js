@@ -339,10 +339,23 @@ var ImportData = function(){
 				});
 			}
 			
-			ntpApis.setUserMostVisited(JSON.stringify(newData), function(){
-				callback();
+			emptyData = true;
+			newData.every(function(item, i){
+				if (item.url && item.url.substr(0, 7) != 'widget:') {
+					emptyData = false;
+					return false;
+				}
+				return true;
 			});
-			console.log(newData);
+			if (emptyData) {
+				console.log('Empty Data, dont save!', newData);
+			} else {
+				console.log('Save NewData to customs:', newData);
+				ntpApis.setUserMostVisited(JSON.stringify(newData), function(){
+					callback();
+				});
+			}
+
 			ImportData.done();
 		},
 		done: function() {
