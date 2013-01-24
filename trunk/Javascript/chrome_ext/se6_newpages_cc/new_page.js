@@ -186,10 +186,12 @@ $(function(host, undef){
 	  }
       $('.smart-push-pre ul').html(smartPushArr.join(''));
 
-	  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
-	  box.render();
+	  if (window._session_newsbox_showed) {
+		  window.newsbox = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
+		  newsbox.render();
+		  TipsManager.showNewsBoxTips();
+	  }
 
-	  TipsManager.showNewsBoxTips();
 	  TipsManager.showSmartPushTips(tiles.length, emptyGridCount);
     });
     return arguments.callee;
@@ -569,7 +571,7 @@ $(function(host, undef){
 
 	  $('.smart-push').removeClass('active');
 	  var smartPushArr = [];
-	  var emptyGridCount = $('.tile .tile-add').length;
+	  var emptyGridCount = $('.tile .empty').length;
 	  var mostVisited = window.smartMostVisited || [];
 	  mostVisited.forEach(function(tile, i){
         if(tile.title){
@@ -605,7 +607,7 @@ $(function(host, undef){
 
       tiles.push({
         title:$('.tile-tit', tile).text() || '',
-        url:$('a.link', tile).attr('href') || ''
+        url:$('.link', tile).attr('href') || ''
       });
 
     });
@@ -873,9 +875,14 @@ $(function(host, undef){
 	
   $('.remove').live('click', function(e){
 	Stat.count('d3', 2);
+	
+	$(this).parents('.box').addClass('empty');
+	
 	if ($(this).parent().hasClass('tile-widget')) {
 		Stat.count('d3', 9);
 		TipsManager.hideNewsBoxTips();
+		newsbox.desctruct();
+		localStorage.removeItem('news_box');
 	}
 
     var logo = $(this).parent('.tile-logo');
@@ -954,8 +961,8 @@ $(function(host, undef){
 				url: url
 			  }).html());
 
-			  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
-			  box.render();
+			  window.newsbox = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
+			  newsbox.render();
 			  
 			  li.fadeIn().find('.box').css('height', imgHeight);
 		  } else {
@@ -1066,8 +1073,8 @@ $(function(host, undef){
             top: passDrag.rect.top + 'px'
           }, 200, function(dragObj){
             return function(){
-			  var url1 = $(dragHelper).children('.link').attr('href') || '';
-			  var url2 = $(dragSwitcher).children('.link').attr('href') || '';
+			  var url1 = $(dragHelper).find('.link').attr('href') || '';
+			  var url2 = $(dragSwitcher).find('.link').attr('href') || '';
 
               dragObj.innerHTML = dragSwitcher.innerHTML;
 			 //dragObj.swapNode(passDrag);
@@ -1079,8 +1086,9 @@ $(function(host, undef){
 
 			  if (url1.substr(0, 7) == 'widget:' || url2.substr(0, 7) == 'widget:') {
 				  TipsManager.hideNewsBoxTips();
-				  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
-				  box.render();
+				  newsbox.desctruct();
+				  newsbox = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
+				  newsbox.render();
 			  }
 
               saveGrid();
@@ -1107,9 +1115,17 @@ $(function(host, undef){
             top: $(dragObj).offset().top + 'px'
           }, 200, function(dragObj){
             return function(){
+			  var url1 = $(dragHelper).find('.link').attr('href') || '';
+
               dragObj.innerHTML = dragHelper.innerHTML;
               $(dragObj).css('opacity', 1);
               document.body.removeChild(dragHelper);
+
+			  if (url1.substr(0, 7) == 'widget:') {
+				  newsbox.desctruct();
+				  newsbox = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
+				  newsbox.render();
+			  }
             };
           }(dragObj));
         }

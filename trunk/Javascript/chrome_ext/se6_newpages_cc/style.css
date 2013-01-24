@@ -154,7 +154,7 @@ input.input-txt-place{ color:#bebebe }
 .drag-helper{ position:absolute; z-index:9999; padding:23px 13px; font-size:14px }
 .drag-switcher{ position:absolute; z-index:9998; padding:23px 13px; font-size:14px; }
 .tile, .drag-helper, .drag-switcher{padding:5px 5px}
-.pass-drag{  }
+.pass-drag{  z-index:9997 }
 .pass-drag-left{ left:-15px }
 .pass-drag-top{ top:-15px }
 .pass-drag-right{ left:15px }
@@ -224,3 +224,4 @@ input.input-txt-place{ color:#bebebe }
 .sbox .sbox-button { position: absolute; bottom: 0; display: none; color: #fff; background:url(images/news_ctrl.png) no-repeat; text-indent:-9999px; width:20px; height:24px; margin-top:-12px; top:50%; }
 .sbox .sbox-button[rel=home] { left: 0px; }
 .sbox .sbox-button[rel=next] { right: 0px; background-position:-165px center}
+.drag-helper .sbox .sbox-button{display:none!important}

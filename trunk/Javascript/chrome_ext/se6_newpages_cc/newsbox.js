@@ -9,10 +9,10 @@ var NewsBox = (function() {
     SlideBox.prototype = {
         construct: function() {
             this.$el = $('<div class="sbox">\
-  <div class="sbox-inner"></div>\
-  <a class="sbox-button" rel="next" __href="#">N</a>\
-  <a class="sbox-button" rel="prev" __href="#">H</a>\
-</div>');
+							  <div class="sbox-inner"></div>\
+							  <a class="sbox-button" rel="next" __href="#">N</a>\
+							  <a class="sbox-button" rel="prev" __href="#">H</a>\
+							</div>');
             this.$inner = this.$el.find('.sbox-inner');
             this.index = 0;
         },
@@ -43,21 +43,21 @@ var NewsBox = (function() {
         },
         onEnter: function(e) {
             clearInterval(this._slideInterval);
-            this.$el.find('.sbox-button').show();
+            this.$el.find('.sbox-button').delay(300).fadeIn();
         },
         onLeave: function(e) {
             this._slideInterval = setInterval(this.onInterval.bind(this), this.options['interval']);
-            //this.$el.find('.sbox-button').hide();
+            this.$el.find('.sbox-button').hide();
         },
         /**
-					 * 自动翻页
-					 */
+		 * 自动翻页
+		 */
         onInterval: function(e) {
             this.nextSlide();
         },
         /**
-					 * 生成下一个 slide
-					 */
+		 * 生成下一个 slide
+		 */
         renderSlide: function(index, prev) {
             var title = this.getTitle(index);
             var content = this.getContent(index);
@@ -73,10 +73,10 @@ var NewsBox = (function() {
 			}
         },
         /**
-					 * 获取下一页的内容 HTML
-					 * @param {Number} index
-					 * @returns {String}
-					 */
+		 * 获取下一页的内容 HTML
+		 * @param {Number} index
+		 * @returns {String}
+		 */
         getContent: function(index) {
             return 'Content ' + index;
         },
@@ -105,7 +105,7 @@ var NewsBox = (function() {
 			if (this.index == -2) {
 				this.$el.find('.sbox-button').hide();
 			} else {
-				this.$el.find('.sbox-button').show();
+//				this.$el.find('.sbox-button').show();
 			}
             var self = this;
             if (typeof(animate) === 'undefined') {
@@ -115,7 +115,7 @@ var NewsBox = (function() {
                 this.renderSlide(this.index);
 
 				this.width = this.$inner.width();
-                this.$inner.animate({'left': -1 * this.width}, 600, function() {
+                this.$inner.stop(true, true).animate({'left': -1 * this.width}, 400, function() {
                     self.$inner.find('.sbox-slide:first').remove();
                     self.$inner.css('left', 0);
 					storage.set('news_box', 'slide_index', self.index);
@@ -143,7 +143,7 @@ var NewsBox = (function() {
                 this.renderSlide(this.index, true);
 
 				this.width = this.$inner.width();
-                this.$inner.animate({'left': 0}, 600, function() {
+                this.$inner.stop(true, true).animate({'left': 0}, 400, function() {
                     self.$inner.find('.sbox-slide:last').remove();
 					storage.set('news_box', 'slide_index', self.index);
                 });
@@ -160,7 +160,7 @@ var NewsBox = (function() {
         },
         desctruct: function() {
             this.unbindUI();
-            this.$el.remove();
+            //this.$el.remove();
         },
         isNextable: function(prev) {
 			prev ? --this.index : ++this.index;
@@ -282,19 +282,20 @@ var NewsBox = (function() {
 			return false;
         },
         isNextable: function(prev) {
-console.log( this.index);
             if (this.index === -2) {
                 // 当前停留在无数据页，不再继续翻页
                 return false;
             } else if (typeof(this.data) === 'undefined' || this.data === null || this.data.length < 1) {
                 // 如果没有加载导数据，则显示无数据页
                 this.index = -3; // next 将显示 -2 没有数据
+				clearInterval(this._slideInterval);
+				return false;
             } else if (!prev && this.index >= this.data.length) { // 从头在此播放
                 this.index = -1;
             } else if (prev && this.index <=0 ) {
 				this.index = this.data.length + 1;
 			}
-console.log('------', this.index);
+
             return SlideBox.prototype.isNextable.call(this, prev);
         }
     });
@@ -319,7 +320,8 @@ console.log('------', this.index);
         getContent: function(i) {
 			var last_page = (this.data && i >= this.data.length) ;
             if (i === -2 || last_page) {
-                return '<div class="more"><a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a></div>'
+                //return '<div class="more"><a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a></div>'
+				return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;"></a>';
             } else if (i === -1) {
                 return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;"></a>';
             } else {
