@@ -184,12 +184,12 @@
 	  <img src="images/tile_addhov.png" style="display:none;">
     </div>
     </a>
-	<a class="link" href="${url}" __title="${short_url}">
+	<div class="link" href="${url}" __title="${short_url}">
     <div class="tile-logo tile-widget">
 	  <div class="widget ${widget_type}"></div>
       <div class="remove" title="删除"></div>
     </div>
-    </a>
+    </div>
   </div>
 </li>
 </script> 
@@ -227,10 +227,11 @@
 </script> 
 <script type="text/template" id="tile-add-temp">
 <li class="tile">
-  <div class="box">
+  <div class="box empty">
     <a>
     <div class="tile-add">
-      <img src="images/tile_add.png" /> <img src="images/tile_addhov.png" style="display:none;">
+      <img src="images/tile_add.png">
+	  <img src="images/tile_addhov.png" style="display:none;">
     </div>
     </a>
   </div>
