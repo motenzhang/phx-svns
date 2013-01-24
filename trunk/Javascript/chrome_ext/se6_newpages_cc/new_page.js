@@ -948,14 +948,16 @@ $(function(host, undef){
         $('.tile:eq('+idx+')').fadeOut(500, function(){
 			// news-box
 		  if (url.substr(0, 7) == 'widget:') {
-			  $(this).html($.tmpl(tileWidgetTempStr, {
+			  var li = $(this).html($.tmpl(tileWidgetTempStr, {
 				title: title||url,
 				widget_type: url.replace(/^widget:\/\//, ''),
 				url: url
-			  }).html()).fadeIn(function(){
-				  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
-				  box.render();
-			  }).find('.box').css('height', imgHeight);;
+			  }).html());
+
+			  var box = new NewsBox('.widget.news-box',{target:$('#js-show-in-newtab').attr('checked') ? '_blank' : '_self'});
+			  box.render();
+			  
+			  li.fadeIn().find('.box').css('height', imgHeight);
 		  } else {
 			  $(this).html($.tmpl(tileTmplStr, {
 				title: title||url,

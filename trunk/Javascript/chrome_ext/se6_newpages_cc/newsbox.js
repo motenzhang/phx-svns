@@ -2,7 +2,7 @@ var NewsBox = (function() {
     var SlideBox = function(ctr) {
         this.$ctr = $(ctr).css('position', 'relative');
         this.options = {
-            'interval': 1000 * 60 * 1,
+            'interval': 1000 * 5,
         };
         this.construct();
     };
@@ -88,7 +88,7 @@ var NewsBox = (function() {
 			if (this.index == -1) {
 				setTimeout(function(){
 					self.nextSlideNow(animate);
-				}, 1000);
+				}, 1500);
 			} else {
 				this.nextSlideNow(animate);
 			}
@@ -118,6 +118,7 @@ var NewsBox = (function() {
                 function() {
                     self.$inner.find('.sbox-slide:first').remove();
                     self.$inner.css('left', 0);
+					storage.set('news_box', 'slide_index', self.index);
                 });
             } else {
                 self.$inner.find('.sbox-slide:first').remove();
@@ -134,7 +135,8 @@ var NewsBox = (function() {
             this.unbindUI();
             this.$el.remove();
         },
-        isNextable: function() {++this.index;
+        isNextable: function() {
+			++this.index;
             return true;
         }
     };
@@ -148,15 +150,17 @@ var NewsBox = (function() {
             this.index = -1; // WAIT
         },
         render: function() {
-            SlideBox.prototype.render.call(this);
             if (this.isLoadNeeded()) {
                 this.load();
             } else {
                 this.read();
-				if (this.data == null) {
+				if (this.data && this.data.length > 0) {
+					this.index = storage.get('news_box')['slide_index'] || -1;
+				} else {
 					this.load();
 				}
             }
+            SlideBox.prototype.render.call(this);
         },
         /**
            * 加载数据
@@ -182,35 +186,20 @@ var NewsBox = (function() {
             });
         },
         /**
-					 * 是否需要重新加载数据
-					 */
-        isLoadNeeded: function() {
-            if (localStorage.getItem('box_ajax_data_' + this.type)) {
-                return false;
-            } else {
-                return true;
-            }
-        },
-        /**
-					 * 读取本地存储的内容
-					 */
+		 * 读取本地存储的内容
+		 */
         read: function() {
-            try {
-                this.data = JSON.parse(localStorage.getItem('box_ajax_data_' + this.type));
-	            this.data && this.nextSlide();
-            } catch(e) {
-                this.data = [];
-            }
+			this.data = storage.get('news_box')['data'] || null;
         },
         /**
-					 * 保存数据
-					 */
+		 * 保存数据
+		 */
         save: function() {
-            localStorage.setItem('box_ajax_data_' + this.type, JSON.stringify(this.data));
+			storage.set('news_box', 'data', this.data);
         },
         /**
-					 * 绘制页面时调用，获取页内容
-					 */
+		 * 绘制页面时调用，获取页内容
+		 */
         getContent: function(i, target) {
             if (i === -2) { // 无数据页
                 return '没有了...';
@@ -221,8 +210,8 @@ var NewsBox = (function() {
             }
         },
         /**
-					 * 绘制页面时调用，获取页标题
-					 */
+		 * 绘制页面时调用，获取页标题
+		 */
         getTitle: function(i) {
             if (i > -1 && this.data[i]) { // 正常数据页
                 return (this.data[i]['title'] || '').replace(/"/g, '&quot;');
@@ -231,8 +220,8 @@ var NewsBox = (function() {
             }
         },
         /**
-					 * 鼠标进入，在特殊页时不响应 "按钮"
-					 */
+		 * 鼠标进入，在特殊页时不响应 "按钮"
+		 */
         onEnter: function(e) {
             if (this.index === -2 || this.index === -1) {} else {
                 SlideBox.prototype.onEnter.call(this, e);
@@ -255,11 +244,8 @@ var NewsBox = (function() {
             if (rel === 'next') {
                 if (this.data.length > 1) {
                     SlideBox.prototype.onButtonClick.call(this, e);
-                    this.index--;
-                    this.data.splice(this.index, 1);
                 } else if (this.index !== -2) {
                     this.index = -3;
-                    this.data.splice(0, 1);
                     this.nextSlide();
                 } // TODO ELSE
                 this.save();
@@ -285,7 +271,7 @@ var NewsBox = (function() {
     var NewsBox = function(ctr, options) {
         AjaxBox.call(this, ctr);
         this.type = 'news';
-        this.options.reload = 1000 * 60 * 60 * 6;
+        this.options.reload = 1000 * 60 * 60 * 1;
         $.extend(this.options, options);
     };
     $.extend(NewsBox.prototype, AjaxBox.prototype, {
@@ -293,18 +279,16 @@ var NewsBox = (function() {
            * 新闻的加载逻辑（有效期已到或数据未加载，则需要加载）
            */
         isLoadNeeded: function() {
-            var last = parseInt(localStorage.getItem('box_news_time'));
-            if (isNaN(last)) {
-                last = 0;
-            }
+			var last = storage.get('news_box')['last_time'] || 0;
             if (last + this.options.reload < Date.now()) {
-                localStorage.setItem('box_news_time', Date.now());
+				storage.set('news_box', 'last_time', Date.now());
                 return true;
             }
             return false;
         },
         getContent: function(i) {
-            if (i === -2) {
+			var last_page = (this.data && i >= this.data.length) ;
+            if (i === -2 || last_page) {
                 return '<div class="more"><a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a></div>'
             } else if (i === -1) {
                 return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;"></a>';
