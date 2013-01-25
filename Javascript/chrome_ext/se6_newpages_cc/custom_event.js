@@ -4,7 +4,7 @@
  * @version: 1.0
  * @mail: lichao3@360.cn
  */
-(function(host, undef){
+(function(host, undef) {
 
   /**
    * @class CustomEvent event object class
@@ -12,7 +12,7 @@
    * @param {string} type
    * @param {json} eventArgs
    */
-  function CustomEvent(target, type, eventArgs){
+  function CustomEvent(target, type, eventArgs) {
     this.target = target;
     this.type = type;
     $.extend(this, eventArgs || {});
@@ -23,11 +23,10 @@
     currentTarget: null,
     type: null,
     returnValue: undef,
-    preventDefault:function(){
+    preventDefault: function() {
       this.returnValue = false;
     }
   });
-
 
   /**
    * @class CustomEventTargetH  componet event fx
@@ -41,9 +40,9 @@
      * @param {Functor} fn
      * @return {boolean}
      */
-    on: function(target, sEvent, fn){
+    on: function(target, sEvent, fn) {
       var cbs = target.__customListeners && target.__customListeners[sEvent];
-      if(!cbs){
+      if (!cbs) {
         CustomEventTargetH.createEvents(target, sEvent);
         cbs = target.__customListeners && target.__customListeners[sEvent];
       }
@@ -57,56 +56,56 @@
      * @param {Functor} fn
      * @return {boolean}
      */
-    un: function(target, sEvent, fn){
+    un: function(target, sEvent, fn) {
       var cbs = target.__customListeners && target.__customListeners[sEvent];
-      if(!cbs){
+      if (!cbs) {
         return false;
       }
-      if(fn){
-        var idx = [].indexOf.call(cbs,fn);
-        if(idx < 0){
+      if (fn) {
+        var idx = [].indexOf.call(cbs, fn);
+        if (idx < 0) {
           return false;
         }
         cbs.splice(idx, 1);
-      }else{
+      } else {
         cbs.length = 0;
       }
       return true;
     },
-    fire: function(target, sEvent, eventArgs){
-      if(sEvent instanceof CustomEvent){
+    fire: function(target, sEvent, eventArgs) {
+      if (sEvent instanceof CustomEvent) {
         var customEvent = $.extend(sEvent, eventArgs);
         sEvent = sEvent.type;
-      }else{
+      } else {
         customEvent = new CustomEvent(target, sEvent, eventArgs);
       }
       var cbs = target.__customListeners && target.__customListeners[sEvent];
-      if(!cbs){
+      if (!cbs) {
         CustomEventTargetH.createEvents(target, sEvent);
         cbs = target.__customListeners && target.__customListeners[sEvent];
       }
-      if(sEvent != '*'){
+      if (sEvent != '*') {
         cbs = cbs.concat(target.__customListeners['*'] || []);
       }
       customEvent.returnValue = undef;
       var obj = customEvent.currentTarget = target;
 
-      if(obj && obj['on'+customEvent.type]){
-        var retDef = obj['on'+customEvent.type].call(obj, customEvent); //先调用默认的onxxx
+      if (obj && obj['on' + customEvent.type]) {
+        var retDef = obj['on' + customEvent.type].call(obj, customEvent); //先调用默认的onxxx
       }
-      for(var i=0; i<cbs.length; i++){
+      for (var i = 0; i < cbs.length; i++) {
         cbs[i].call(obj, customEvent);
       }
 
       return customEvent.returnValue !== false && (retDef !== false || customEvent.returnValue !== undef);
     },
-    createEvents: function(target, types){
+    createEvents: function(target, types) {
       types = types || [];
-      if(typeof types == 'string'){
+      if (typeof types == 'string') {
         types = types.split(',');
       }
       var listeners = target.__customListeners = target.__customListeners || {};
-      for(var i=0; i<types.length; i++){
+      for (var i = 0; i < types.length; i++) {
         listeners[types[i]] = listeners[types[i]] || [];
       }
       listeners['*'] = listeners['*'] || [];
@@ -114,7 +113,8 @@
     }
   };
 
-  $.extend(host,{   //写入宿主
+  $.extend(host, { //写入宿主
     CETH: CustomEventTargetH
   });
 })(window);
+
