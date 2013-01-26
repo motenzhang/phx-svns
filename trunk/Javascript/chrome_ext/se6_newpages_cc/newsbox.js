@@ -43,7 +43,6 @@ var NewsBox = (function() {
       return false;
     },
     onEnter: function(e) {
-      console.log(this.index)
       clearInterval(this._slideInterval);
       if (this.index != -3) {
         this.$el.find('.sbox-button').delay(400).fadeIn();
