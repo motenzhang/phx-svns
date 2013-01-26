@@ -25,8 +25,8 @@ var NewsBox = (function() {
       this.renderSlide(this.index);
     },
     bindUI: function() {
-      this.$el.on('mouseenter', this.onEnter.bind(this));
-      this.$el.on('mouseleave', this.onLeave.bind(this));
+      this.$el.parents('.tile').on('mouseenter', this.onEnter.bind(this));
+      this.$el.parents('.tile').on('mouseleave', this.onLeave.bind(this));
       this.$el.find('.sbox-inner').on('click', this.onSlideClick.bind(this));
       this.$el.find('.sbox-button').on('click', this.onButtonClick.bind(this));
       this.initInterval();
@@ -158,8 +158,8 @@ var NewsBox = (function() {
       }
     },
     unbindUI: function() {
-      this.$el.off('mouseenter');
-      this.$el.off('mouseleave');
+      this.$el.parents('.tile').off('mouseenter');
+      this.$el.parents('.tile').off('mouseleave');
       this.$el.find('.sbox-button').off('click');
       clearInterval(this._slideInterval);
     },
