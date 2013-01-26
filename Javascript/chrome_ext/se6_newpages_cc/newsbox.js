@@ -250,7 +250,7 @@ var NewsBox = (function() {
       } else if (i === - 1) { // 加载中，可以认为是首页
         return '加载中...';
       } else { // 数据页
-        return '<a href="' + this.data[i]['url'] + '" target="' + target + '"><img src="' + this.data[i]['img'] + '" style="he--ight:' + this.height + 'px;"/></a>';
+        return '<a href="' + this.data[i]['url'] + '" target="' + target + '"><img src="' + this.data[i]['img'] + '" onerror="src=\'images/newsbox_1.png\'"></a>';
       }
     },
     /**
