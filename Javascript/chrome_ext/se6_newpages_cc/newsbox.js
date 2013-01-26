@@ -9,10 +9,10 @@ var NewsBox = (function() {
   SlideBox.prototype = {
     construct: function() {
       this.$el = $('<div class="sbox">\
-                <div class="sbox-inner"></div>\
-                <a class="sbox-button" rel="next" __href="#">N</a>\
-                <a class="sbox-button" rel="prev" __href="#">H</a>\
-              </div>');
+                      <div class="sbox-inner"></div>\
+                      <a class="sbox-button" rel="next" __href="#">N</a>\
+                      <a class="sbox-button" rel="prev" __href="#">H</a>\
+                    </div>');
       this.$inner = this.$el.find('.sbox-inner');
       this.index = 0;
       console.log('NewsBox consctruct, id: ', this.id);
@@ -43,8 +43,11 @@ var NewsBox = (function() {
       return false;
     },
     onEnter: function(e) {
+      console.log(this.index)
       clearInterval(this._slideInterval);
-      this.$el.find('.sbox-button').delay(400).fadeIn();
+      if (this.index != -3) {
+        this.$el.find('.sbox-button').delay(400).fadeIn();
+      }
     },
     onLeave: function(e) {
       this.initInterval();
@@ -58,20 +61,14 @@ var NewsBox = (function() {
      * 自动翻页
      */
     onInterval: function(e) {
-      console.log('NewsBox interval, id: ', this.toString());
+      console.log('NewsBox interval, id: ', this.id);
       this.nextSlide();
     },
     /**
      * 生成下一个 slide
      */
     renderSlide: function(index, prev) {
-      var title = this.getTitle(index);
-      var content = this.getContent(index);
-      var $slide = $('<div class="sbox-slide" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;">\
-                <div class="sbox-content" __title="' + title + '">' + content + '</div>\
-                <div class="sbox-title" title="' + title + '">' + title + '</div>\
-              </div>');
-
+      var $slide = $('<div class="sbox-slide">' + this.getContent(index) + '</div>');
       if (prev) {
         this.$inner.prepend($slide).css('left', - this.width);
       } else {
@@ -86,10 +83,6 @@ var NewsBox = (function() {
     getContent: function(index) {
       return 'Content ' + index;
     },
-    getTitle: function(index) {
-      return 'Title' + index;
-    },
-
     /**
      * 移动到下一个 slide
      */
@@ -254,16 +247,6 @@ var NewsBox = (function() {
       }
     },
     /**
-     * 绘制页面时调用，获取页标题
-     */
-    getTitle: function(i) {
-      if (i > - 1 && this.data[i]) { // 正常数据页
-        return (this.data[i]['title'] || '').replace(/"/g, '&quot;');
-      } else { // 特殊页没有标题
-        return '';
-      }
-    },
-    /**
      * 鼠标进入，在特殊页时不响应 "按钮"
      */
     onEnter: function(e) {
@@ -272,16 +255,10 @@ var NewsBox = (function() {
       }
     },
     onSlideClick: function(e) {
-      if (this.data.length > 1) {
-        this.data.splice(this.index, 1);
-      } else if (this.index !== - 2) {
-        this.data.splice(0, 1);
-      } // TODO ELSE
-      this.save();
     },
     /**
-           * 按钮点击，特殊处理"下一页"
-           */
+     * 按钮点击，特殊处理"下一页"
+     */
     onButtonClick: function(e) {
       var rel = $(e.target).attr('rel');
       // 手动点击下一页 将删除本条数据，不再显示，知道下次重新加载数据
@@ -326,8 +303,8 @@ var NewsBox = (function() {
   };
   $.extend(NewsBox.prototype, AjaxBox.prototype, {
     /**
-           * 新闻的加载逻辑（有效期已到或数据未加载，则需要加载）
-           */
+     * 新闻的加载逻辑（有效期已到或数据未加载，则需要加载）
+     */
     isLoadNeeded: function() {
       var last = storage.get('news_box')['last_time'] || 0;
       if (last + this.options.reload < Date.now()) {
@@ -339,12 +316,12 @@ var NewsBox = (function() {
     getContent: function(i) {
       var last_page = (this.data && i >= this.data.length);
       if (i === - 2 || last_page) {
-        //return '<div class="more"><a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a></div>'
-        return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/newsbox_2.png"></a>';
+        return '<div class="sbox-content"><a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/newsbox_2.png"></a></div>';
       } else if (i === - 1) {
-        return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/newsbox_1.png"></a>';
+        return '<div class="sbox-content"><a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/newsbox_1.png"></a></div>';
       } else {
-        return AjaxBox.prototype.getContent.call(this, i, this.options.target);
+        var title = (this.data[i]['title'] || '').replace(/"/g, '&quot;');
+        return '<a href="' + this.data[i]['url'] + '" target="' + this.options.target + '"><div class="sbox-content"><img src="' + this.data[i]['img'] + '" onerror="src=\'images/newsbox_1.png\'"></div><div class="sbox-title" title="' + title + '">' + title + '</div></a>';
       }
     }
   });
