@@ -139,7 +139,7 @@ var HotKeyword = function() {
     var cat = $('.search-cat .on').attr('cat-name');
     var list = keywordData && keywordData[cat];
     if (!list) {
-      return;
+      return false;
     }
     var ul = container.find('ul');
     ul.empty();

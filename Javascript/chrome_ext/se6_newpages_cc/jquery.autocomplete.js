@@ -711,7 +711,7 @@
       hide: function() {
         element && element.hide();
         listItems && listItems.removeClass(CLASSES.ACTIVE);
-        active = - 1;
+        active = -1;
       },
       visible: function() {
         return element && element.is(":visible");
@@ -720,6 +720,7 @@
         return this.visible() && (listItems.filter("." + CLASSES.ACTIVE)[0] || options.selectFirst && listItems[0]);
       },
       show: function(hotkeyword) {
+        active = -1;
         if (hotkeyword) {
           element.addClass('hot-keyword');
         } else {
