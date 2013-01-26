@@ -44,11 +44,11 @@ var NewsBox = (function() {
     },
     onEnter: function(e) {
       clearInterval(this._slideInterval);
-      this.$el.find('.sbox-button').delay(300).fadeIn();
+      this.$el.find('.sbox-button').delay(400).fadeIn();
     },
     onLeave: function(e) {
       this.initInterval();
-      this.$el.find('.sbox-button').hide();
+      this.$el.find('.sbox-button').stop(true, true).hide();
     },
     initInterval: function(){
       clearInterval(this._slideInterval);

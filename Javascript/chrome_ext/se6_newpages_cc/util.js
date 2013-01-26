@@ -156,10 +156,11 @@ var HotKeyword = function() {
   return {
     init: function(ele) {
       container = $('.ac_results');
-      input = ele.on('click', function() {
-        if ($(this).val() == '') {
+      input = ele.on('mousedown', function(e) {
+        if ($(this).val() == '' || $(this).val() == $(this).attr('_placeholder')) {
           toggleSug();
         }
+        return false;
       });
       toggle = $('#search-hotword').on('click', toggleSug);
       DC.get('http://site.browser.360.cn/sword.php?callback=?', {
