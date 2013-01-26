@@ -2,7 +2,7 @@ var NewsBox = (function() {
   var SlideBox = function(ctr) {
     this.$ctr = $(ctr).css('position', 'relative');
     this.options = {
-      'interval': 1000 * 5,
+      'interval': 1000 * 5
     };
     this.construct();
   };
@@ -15,6 +15,7 @@ var NewsBox = (function() {
               </div>');
       this.$inner = this.$el.find('.sbox-inner');
       this.index = 0;
+      console.log('NewsBox consctruct, id: ', this.id);
     },
     render: function() {
       this.$ctr.append(this.$el);
@@ -28,7 +29,7 @@ var NewsBox = (function() {
       this.$el.on('mouseleave', this.onLeave.bind(this));
       this.$el.find('.sbox-inner').on('click', this.onSlideClick.bind(this));
       this.$el.find('.sbox-button').on('click', this.onButtonClick.bind(this));
-      this.onLeave();
+      this.initInterval();
     },
     onButtonClick: function(e) {
       var rel = $(e.target).attr('rel');
@@ -46,13 +47,18 @@ var NewsBox = (function() {
       this.$el.find('.sbox-button').delay(300).fadeIn();
     },
     onLeave: function(e) {
-      this._slideInterval = setInterval(this.onInterval.bind(this), this.options['interval']);
+      this.initInterval();
       this.$el.find('.sbox-button').hide();
+    },
+    initInterval: function(){
+      clearInterval(this._slideInterval);
+      this._slideInterval = setInterval(this.onInterval.bind(this), this.options['interval']);
     },
     /**
      * 自动翻页
      */
     onInterval: function(e) {
+      console.log('NewsBox interval, id: ', this.toString());
       this.nextSlide();
     },
     /**
@@ -92,8 +98,8 @@ var NewsBox = (function() {
       if (this.index == - 1) {
         setTimeout(function() {
           self.nextSlideNow(animate);
-        },
-        1500);
+        }, 1000);
+        this.initInterval();
       } else {
         this.nextSlideNow(animate);
       }
@@ -106,7 +112,7 @@ var NewsBox = (function() {
       if (this.index == - 2) {
         this.$el.find('.sbox-button').hide();
       } else {
-        //        this.$el.find('.sbox-button').show();
+        //this.$el.find('.sbox-button').show();
       }
       var self = this;
       if (typeof(animate) === 'undefined') {
@@ -166,6 +172,7 @@ var NewsBox = (function() {
       clearInterval(this._slideInterval);
     },
     desctruct: function() {
+      console.log('NewsBox desctruct, id: ', this.id);
       this.unbindUI();
       //this.$el.remove();
     },
@@ -189,7 +196,10 @@ var NewsBox = (function() {
       } else {
         this.read();
         if (this.data && this.data.length > 0) {
-          this.index = storage.get('news_box')['slide_index'] || - 1;
+          this.index = storage.get('news_box')['slide_index'];
+          if (this.index == undefined) {
+            this.index = -1;
+          }
         } else {
           this.load();
         }
@@ -307,6 +317,8 @@ var NewsBox = (function() {
     }
   });
   var NewsBox = function(ctr, options) {
+    window.__newsbox_id = window.__newsbox_id || 0;
+    this.id = ++window.__newsbox_id;
     AjaxBox.call(this, ctr);
     this.type = 'news';
     this.options.reload = 1000 * 60 * 60 * 1;
@@ -328,9 +340,9 @@ var NewsBox = (function() {
       var last_page = (this.data && i >= this.data.length);
       if (i === - 2 || last_page) {
         //return '<div class="more"><a href="http://sh.qihoo.com/" target="' + this.options.target + '">更多新闻，请访问 360新闻</a></div>'
-        return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;"></a>';
+        return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/newsbox_2.png"></a>';
       } else if (i === - 1) {
-        return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/news_default.jpg" style="wi-dth:' + this.width + 'px;hei-ght:' + this.height + 'px;"></a>';
+        return '<a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/newsbox_1.png"></a>';
       } else {
         return AjaxBox.prototype.getContent.call(this, i, this.options.target);
       }
