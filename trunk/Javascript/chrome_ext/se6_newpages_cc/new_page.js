@@ -1053,7 +1053,10 @@ $(function(host, undef) {
               $(this).find('.link').attr('target', '_blank');
             }
 
-            ntpApis.captureWebpage(url);
+            ntpApis.captureWebpage(url, function(args) {
+              $('.tile a[href="' + args[0] + '"]').attr('href', args[1]);
+              saveGrid();
+            });
 
             window['capture_timeout_' + url] = setTimeout(function() {
               window.onSnapshotComplete([url, CAPTURE_ERRNO_TIMEOUT]);
