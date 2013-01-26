@@ -5,6 +5,8 @@
  * @mail: lichao3@360.cn
  */
 $(function(host, undef) {
+  var _now = new Date();
+  console.log(_now.toLocaleTimeString() + '.' + _now.getMilliseconds());
 
   var CAPTURE_TIMEOUT = 10 * 1000,
   CAPTURE_ERRNO_TIMEOUT = 2,
