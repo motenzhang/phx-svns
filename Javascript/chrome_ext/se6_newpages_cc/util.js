@@ -31,7 +31,7 @@ var AddUrlDlg = function() {
       sitesData['hot'].unshift({
         title: '新闻格子',
         url: 'widget://news-box',
-        logo: 'images/news_default.jpg'
+        logo: 'images/newsbox_1.png'
       })
       $(AddUrlDlg).trigger('showtab');
     },
@@ -69,7 +69,7 @@ var AddUrlDlg = function() {
     $.each(list, function(i, item) {
       var added = window.gridAddedUrlMap[item.url] || window.gridAddedUrlMap[item.url + '/'];
       var isWidget = item.url.substr(0, 7) == 'widget:';
-      sb.push('<li class="' + (isWidget ? 'widget': '') + ' ' + (added ? 'added': '') + '" url="' + item.url + '" title="' + item.title + '"> <i class=""></i><img src="' + item.logo + '"><h4>' + item.title + '</h4></li>');
+      sb.push('<li class="' + (isWidget ? 'widget': '') + ' ' + (added ? 'added': '') + '" url="' + item.url + '"> <i class=""></i><img src="' + item.logo + '"><h4 title="' + item.title + '">' + item.title + '</h4></li>');
     });
     if (list.length > 0) {
       $('.add-url .recommend .nodata').hide();
