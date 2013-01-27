@@ -95,8 +95,8 @@ $(function(host, undef) {
       console.log('getMostVisited回调函数被调用:', + new Date - st + 'ms(距页面打开)', arguments);
 
       if (!initiativeCall) {
-        console.log('自动推送，停止执行。');
-        return;
+//        console.log('自动推送，停止执行。');
+//        return;
       }
       initiativeCall = false;
 
