@@ -1428,19 +1428,22 @@ $(function(host, undef) {
 
   function initWidgetBox() {
     window.newsbox && newsbox.desctruct();
-    window.newsbox = new NewsBox('.widget.news-box', {
+    window.newsbox = new WidgetBox('.widget.news-box', {
+      type: 'news',
       target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
     });
     newsbox.render();
 
     window.videobox && videobox.desctruct();
-    window.videobox = new VideoBox('.widget.video-box', {
+    window.videobox = new WidgetBox('.widget.video-box', {
+      type: 'video',
       target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
     });
     videobox.render();
     
     window.shoppingbox && shoppingbox.desctruct();
-    window.shoppingbox = new ShoppingBox('.widget.shopping-box', {
+    window.shoppingbox = new WidgetBox('.widget.shopping-box', {
+      type: 'shopping',
       target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
     });
     shoppingbox.render();

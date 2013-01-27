@@ -9,10 +9,10 @@ var NewsBox = (function() {
   SlideBox.prototype = {
     construct: function() {
       this.$el = $('<div class="sbox">\
-                      <div class="sbox-inner"></div>\
-                      <a class="sbox-button" rel="next" __href="#">N</a>\
-                      <a class="sbox-button" rel="prev" __href="#">H</a>\
-                    </div>');
+                <div class="sbox-inner"></div>\
+                <a class="sbox-button" rel="next" __href="#">N</a>\
+                <a class="sbox-button" rel="prev" __href="#">H</a>\
+              </div>');
       this.$inner = this.$el.find('.sbox-inner');
       this.index = 0;
       console.log('news_box consctruct, id: ', this.id);

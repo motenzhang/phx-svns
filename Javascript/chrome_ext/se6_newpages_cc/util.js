@@ -31,15 +31,15 @@ var AddUrlDlg = function() {
       sitesData['hot'].unshift({
         title: '新闻格子',
         url: 'widget://news-box',
-        logo: 'images/newsbox_1.png'
+        logo: 'images/news_box_1.png'
       }, {
         title: '视频格子',
         url: 'widget://video-box',
-        logo: 'images/newsbox_1.png'
+        logo: 'images/video_box_1.png'
       }, {
         title: '购物格子',
         url: 'widget://shopping-box',
-        logo: 'images/newsbox_1.png'
+        logo: 'images/shopping_box_1.png'
       })
       $(AddUrlDlg).trigger('showtab');
     },
