@@ -1,4 +1,4 @@
-var NewsBox = (function() {
+var VideoBox = (function() {
   var SlideBox = function(ctr) {
     this.$ctr = $(ctr).css('position', 'relative');
     this.options = {
@@ -15,7 +15,7 @@ var NewsBox = (function() {
                     </div>');
       this.$inner = this.$el.find('.sbox-inner');
       this.index = 0;
-      console.log('NewsBox consctruct, id: ', this.id);
+      console.log('shopping_box consctruct, id: ', this.id);
     },
     render: function() {
       this.$ctr.append(this.$el);
@@ -60,7 +60,7 @@ var NewsBox = (function() {
      * 自动翻页
      */
     onInterval: function(e) {
-      console.log('NewsBox interval, id: ', this.id);
+      console.log('shopping_box interval, id: ', this.id);
       this.nextSlide();
     },
     /**
@@ -104,7 +104,7 @@ var NewsBox = (function() {
       if (this.index == - 2) {
         this.$el.find('.sbox-button').hide();
       } else {
-        //this.$el.find('.sbox-button').show();
+      //this.$el.find('.sbox-button').show();
       }
       var self = this;
       if (typeof(animate) === 'undefined') {
@@ -120,7 +120,7 @@ var NewsBox = (function() {
         400, function() {
           self.$inner.find('.sbox-slide:first').remove();
           self.$inner.css('left', 0);
-          storage.set('news_box', 'slide_index', self.index);
+          storage.set('video_box', 'slide_index', self.index);
         });
       } else {
         self.$inner.find('.sbox-slide:first').remove();
@@ -150,7 +150,7 @@ var NewsBox = (function() {
         },
         400, function() {
           self.$inner.find('.sbox-slide:last').remove();
-          storage.set('news_box', 'slide_index', self.index);
+          storage.set('video_box', 'slide_index', self.index);
         });
       } else {
         self.$inner.find('.sbox-slide:first').remove();
@@ -164,9 +164,9 @@ var NewsBox = (function() {
       clearInterval(this._slideInterval);
     },
     desctruct: function() {
-      console.log('NewsBox desctruct, id: ', this.id);
+      console.log('shopping_box desctruct, id: ', this.id);
       this.unbindUI();
-      //this.$el.remove();
+    //this.$el.remove();
     },
     isNextable: function(prev) {
       prev ? --this.index: ++this.index;
@@ -188,7 +188,7 @@ var NewsBox = (function() {
       } else {
         this.read();
         if (this.data && this.data.length > 0) {
-          this.index = storage.get('news_box')['slide_index'];
+          this.index = storage.get('video_box')['slide_index'];
           if (this.index == undefined) {
             this.index = -1;
           }
@@ -210,7 +210,50 @@ var NewsBox = (function() {
         'type': 'get'
       }).done(function(data) {
         if (data['errno'] === 0) {
-          self.data = data['data'][self.type];
+          self.data = [
+          {
+            title: "小儿难养",
+            recordTime: "2013-01-24 15:21:07",
+            url: "http://v.360.cn/tv/RbFsaaKoTzDuNX.html",
+            img: "http://p6.qhimg.com/dr/370_260_/t01f02961ee240c1353.jpg"
+          },
+          {
+            title: "梦回唐朝",
+            recordTime: "2013-01-24 14:57:58",
+            url: "http://v.360.cn/tv/PLFvb3CoTzDsNX.html",
+            img: "http://p7.qhimg.com/dr/370_260_/t015305e141ef69b0ab.jpg"
+          },
+          {
+            title: "二次曝光",
+            recordTime: "2013-01-24 14:51:21",
+            url: "http://v.360.cn/m/hKbkZUL6R0r4Th.html",
+            img: "http://p3.qhimg.com/dr/370_260_/t01524157a297c7db5d.jpg"
+          },
+          {
+            title: "楚汉传奇",
+            recordTime: "2013-01-24 14:44:34",
+            url: "http://v.360.cn/tv/Q4poaaCoTz8mMn.html",
+            img: "http://p1.qhimg.com/dr/370_260_/t016ff41881dc8e4635.jpg"
+          },
+          {
+            title: "隋唐英雄",
+            recordTime: "2013-01-24 14:40:12",
+            url: "http://v.360.cn/tv/QbhraqKoSmbrMn.html",
+            img: "http://p9.qhimg.com/dr/370_260_/t0192523bdb830d7202.jpg"
+          },
+          {
+            title: "危险关系",
+            recordTime: "2013-01-24 13:05:27",
+            url: "http://v.360.cn/m/gKriZEX6SHnAUB.html",
+            img: "http://p2.qhimg.com/dr/370_260_/t0105542d85bf7d595f.jpg"
+          },
+          {
+            title: "邻家花美男",
+            recordTime: "2013-01-24 12:37:59",
+            url: "http://v.360.cn/tv/Q4NoaaGoTz8qMX.html",
+            img: "http://p5.qhimg.com/dr/370_260_/t012623bcf01bac4be5.jpg"
+          }
+          ];//data['data'][self.type];
           self.save();
           // 显示 第1页
           self.nextSlide();
@@ -225,13 +268,13 @@ var NewsBox = (function() {
      * 读取本地存储的内容
      */
     read: function() {
-      this.data = storage.get('news_box')['data'] || null;
+      this.data = storage.get('video_box')['data'] || null;
     },
     /**
      * 保存数据
      */
     save: function() {
-      storage.set('news_box', 'data', this.data);
+      storage.set('video_box', 'data', this.data);
     },
     /**
      * 绘制页面时调用，获取页内容
@@ -242,7 +285,7 @@ var NewsBox = (function() {
       } else if (i === - 1) { // 加载中，可以认为是首页
         return '加载中...';
       } else { // 数据页
-        return '<a href="' + this.data[i]['url'] + '" target="' + target + '"><img src="' + this.data[i]['img'] + '" onerror="src=\'images/newsbox_1.png\'"></a>';
+        return '<a href="' + this.data[i]['url'] + '" target="' + target + '"><img src="' + this.data[i]['img'] + '" onerror="src=\'images/video_box_1.png\'"></a>';
       }
     },
     /**
@@ -293,10 +336,10 @@ var NewsBox = (function() {
     }
   });
   var NewsBox = function(ctr, options) {
-    window.__newsbox_id = window.__newsbox_id || 0;
-    this.id = ++window.__newsbox_id;
+    window.__video_box_id = window.__video_box_id || 0;
+    this.id = ++window.__video_box_id;
     AjaxBox.call(this, ctr);
-    this.type = 'news';
+    this.type = 'video';
     this.options.reload = 1000 * 60 * 60 * 1;
     $.extend(this.options, options);
   };
@@ -305,9 +348,9 @@ var NewsBox = (function() {
      * 新闻的加载逻辑（有效期已到或数据未加载，则需要加载）
      */
     isLoadNeeded: function() {
-      var last = storage.get('news_box')['last_time'] || 0;
+      var last = storage.get('video_box')['last_time'] || 0;
       if (last + this.options.reload < Date.now()) {
-        storage.set('news_box', 'last_time', Date.now());
+        storage.set('video_box', 'last_time', Date.now());
         return true;
       }
       return false;
@@ -315,12 +358,12 @@ var NewsBox = (function() {
     getContent: function(i) {
       var last_page = (this.data && i >= this.data.length);
       if (i === - 2 || last_page) {
-        return '<div class="sbox-content"><a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/newsbox_2.png"></a></div>';
+        return '<div class="sbox-content"><a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/video_box_2.png"></a></div>';
       } else if (i === - 1) {
-        return '<div class="sbox-content"><a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/newsbox_1.png"></a></div>';
+        return '<div class="sbox-content"><a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/video_box_1.png"></a></div>';
       } else {
         var title = (this.data[i]['title'] || '').replace(/"/g, '&quot;');
-        return '<a href="' + this.data[i]['url'] + '" target="' + this.options.target + '"><div class="sbox-content"><img src="' + this.data[i]['img'] + '" onerror="src=\'images/newsbox_1.png\'"></div><div class="sbox-title" title="' + title + '">' + title + '</div></a>';
+        return '<a href="' + this.data[i]['url'] + '" target="' + this.options.target + '"><div class="sbox-content"><img src="' + this.data[i]['img'] + '" onerror="src=\'images/video_box_1.png\'"></div><div class="sbox-title" title="' + title + '">' + title + '</div></a>';
       }
     }
   });
