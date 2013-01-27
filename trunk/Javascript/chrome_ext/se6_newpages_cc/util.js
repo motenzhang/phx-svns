@@ -160,7 +160,7 @@ var HotKeyword = function() {
         if ($(this).val() == '' || $(this).val() == $(this).attr('_placeholder')) {
           toggleSug();
         }
-        return false;
+        e.stopPropagation();
       });
       toggle = $('#search-hotword').on('click', toggleSug);
       DC.get('http://site.browser.360.cn/sword.php?callback=?', {
