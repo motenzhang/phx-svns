@@ -1,21 +1,21 @@
-var VideoBox = (function() {
+var WidgetBox = (function() {
   var SlideBox = function(ctr) {
     this.$ctr = $(ctr).css('position', 'relative');
     this.options = {
-      'interval': 1000 * 5
+      'interval': 1000 * 15
     };
     this.construct();
   };
   SlideBox.prototype = {
     construct: function() {
       this.$el = $('<div class="sbox">\
-                      <div class="sbox-inner"></div>\
-                      <a class="sbox-button" rel="next" __href="#">N</a>\
-                      <a class="sbox-button" rel="prev" __href="#">H</a>\
-                    </div>');
+                <div class="sbox-inner"></div>\
+                <a class="sbox-button" rel="next" __href="#">N</a>\
+                <a class="sbox-button" rel="prev" __href="#">H</a>\
+              </div>');
       this.$inner = this.$el.find('.sbox-inner');
       this.index = 0;
-      console.log('shopping_box consctruct, id: ', this.id);
+      console.log(this.name + ' consctruct, id: ', this.id);
     },
     render: function() {
       this.$ctr.append(this.$el);
@@ -29,7 +29,12 @@ var VideoBox = (function() {
       this.$el.parents('.tile').on('mouseleave', this.onLeave.bind(this));
       this.$el.find('.sbox-inner').on('click', this.onSlideClick.bind(this));
       this.$el.find('.sbox-button').on('click', this.onButtonClick.bind(this));
-      this.initInterval();
+      var self = this;
+      var _t31 = this.options['interval'] / 3;
+      this._startTimeout = setTimeout(function(){
+        self.onInterval();
+        self.initInterval();
+      }, {news: _t31*1, video: _t31*2, shopping: _t31*3}[this.type]);
     },
     onButtonClick: function(e) {
       var rel = $(e.target).attr('rel');
@@ -60,7 +65,7 @@ var VideoBox = (function() {
      * 自动翻页
      */
     onInterval: function(e) {
-      console.log('shopping_box interval, id: ', this.id);
+      console.log(this.name + ' interval, id: ', this.id);
       this.nextSlide();
     },
     /**
@@ -104,7 +109,7 @@ var VideoBox = (function() {
       if (this.index == - 2) {
         this.$el.find('.sbox-button').hide();
       } else {
-      //this.$el.find('.sbox-button').show();
+        //this.$el.find('.sbox-button').show();
       }
       var self = this;
       if (typeof(animate) === 'undefined') {
@@ -120,7 +125,7 @@ var VideoBox = (function() {
         400, function() {
           self.$inner.find('.sbox-slide:first').remove();
           self.$inner.css('left', 0);
-          storage.set('video_box', 'slide_index', self.index);
+          storage.set(self.name, 'slide_index', self.index);
         });
       } else {
         self.$inner.find('.sbox-slide:first').remove();
@@ -150,7 +155,7 @@ var VideoBox = (function() {
         },
         400, function() {
           self.$inner.find('.sbox-slide:last').remove();
-          storage.set('video_box', 'slide_index', self.index);
+          storage.set(self.name, 'slide_index', self.index);
         });
       } else {
         self.$inner.find('.sbox-slide:first').remove();
@@ -162,9 +167,10 @@ var VideoBox = (function() {
       this.$el.parents('.tile').off('mouseleave');
       this.$el.find('.sbox-button').off('click');
       clearInterval(this._slideInterval);
+      clearTimeout(this._startTimeout);
     },
     desctruct: function() {
-      console.log('shopping_box desctruct, id: ', this.id);
+      console.log(this.name + ' desctruct, id: ', this.id);
       this.unbindUI();
       //this.$el.remove();
     },
@@ -188,7 +194,7 @@ var VideoBox = (function() {
       } else {
         this.read();
         if (this.data && this.data.length > 0) {
-          this.index = storage.get('video_box')['slide_index'];
+          this.index = storage.get(this.name)['slide_index'];
           if (this.index == undefined) {
             this.index = -1;
           }
@@ -199,8 +205,8 @@ var VideoBox = (function() {
       SlideBox.prototype.render.call(this);
     },
     /**
-     * 加载数据
-     */
+           * 加载数据
+           */
     load: function() {
       var self = this;
       var rn = parseInt(Math.random() * 100000);
@@ -210,7 +216,7 @@ var VideoBox = (function() {
         'type': 'get'
       }).done(function(data) {
         if (data['errno'] === 0) {
-          self.data = [
+          data['data']['video'] = [
           {
             title: "小儿难养",
             recordTime: "2013-01-24 15:21:07",
@@ -253,7 +259,46 @@ var VideoBox = (function() {
             url: "http://v.360.cn/tv/Q4NoaaGoTz8qMX.html",
             img: "http://p5.qhimg.com/dr/370_260_/t012623bcf01bac4be5.jpg"
           }
-          ];//data['data'][self.type];
+          ];
+          data['data']['shopping'] = [
+          {
+            title: "团购！简单享受人生每一刻！",
+            recordTime: "2013-01-24 19:36:31",
+            url: "http://tuan.360.cn/?do=category&clazz=1&fname=se6_sudoku_tuan&eee=se6_sudoku_tuan&fsign=ddcf1f9357",
+            img: "http://p7.qhimg.com/dr/370_260_/t019db0ab24c7a986ba.jpg"
+          },
+          {
+            title: "低价影票20元起",
+            recordTime: "2013-01-24 19:32:17",
+            url: "http://tuan.360.cn/?do=movie&fname=se6_sudoku_movie&eee=se6_sudoku_movie&fsign=3874b6cba8",
+            img: "http://p6.qhimg.com/dr/370_260_/t015813879be66bbe22.jpg"
+          },
+          {
+            title: "商家促销 特价秒杀",
+            recordTime: "2013-01-24 18:45:59",
+            url: "http://youhui.360.cn/huodong?fname=se6_sudoku_ huodong&eee=se6_sudoku_huodong",
+            img: "http://p0.qhimg.com/dr/370_260_/t01d67bf2ee65d1d880.jpg"
+          },
+          {
+            title: "iPod touch4历史最低1249元",
+            recordTime: "2013-01-24 18:29:21",
+            url: "http://tejia.youhui.360.cn/?tejiaid=17005&fname=se6_sudoku_zhidemai&eee= se6_sudoku_zhidemai",
+            img: "http://p3.qhimg.com/dr/370_260_/t011a86f91d1d9076a8.jpg"
+          },
+          {
+            title: "免费领券 超值购物",
+            recordTime: "2013-01-24 18:13:12",
+            url: "http://youhui.360.cn/quan?fname=se6_sudoku_quan&eee=se6_sudoku_quan",
+            img: "http://p7.qhimg.com/dr/370_260_/t01b26567bf01e90cd4.gif"
+          },
+          {
+            title: "初见 与心动不期而遇",
+            recordTime: "2013-01-24 16:45:09",
+            url: "http://chujian.360.cn/items.html?cid=3646&fname=se6_sudoku_chujian&eee= se6_sudoku_chujian",
+            img: "http://p2.qhimg.com/dr/370_260_/t01fdcdb60fe45fb199.jpg"
+          }
+          ];
+          self.data = data['data'][self.type];
           self.save();
           // 显示 第1页
           self.nextSlide();
@@ -268,25 +313,13 @@ var VideoBox = (function() {
      * 读取本地存储的内容
      */
     read: function() {
-      this.data = storage.get('video_box')['data'] || null;
+      this.data = storage.get(this.name)['data'] || null;
     },
     /**
      * 保存数据
      */
     save: function() {
-      storage.set('video_box', 'data', this.data);
-    },
-    /**
-     * 绘制页面时调用，获取页内容
-     */
-    getContent: function(i, target) {
-      if (i === - 2) { // 无数据页
-        return '没有了...';
-      } else if (i === - 1) { // 加载中，可以认为是首页
-        return '加载中...';
-      } else { // 数据页
-        return '<a href="' + this.data[i]['url'] + '" target="' + target + '"><img src="' + this.data[i]['img'] + '" onerror="src=\'images/video_box_1.png\'"></a>';
-      }
+      storage.set(this.name, 'data', this.data);
     },
     /**
      * 鼠标进入，在特殊页时不响应 "按钮"
@@ -335,22 +368,24 @@ var VideoBox = (function() {
       return SlideBox.prototype.isNextable.call(this, prev);
     }
   });
-  var NewsBox = function(ctr, options) {
-    window.__video_box_id = window.__video_box_id || 0;
-    this.id = ++window.__video_box_id;
+  var WidgetBox = function(ctr, options) {
+    this.type = options.type || 'news';
+    var _idf = '__widgetbox_' + this.type + '_id';
+    window[_idf] = window[_idf] || 0;
+    this.id = ++window[_idf];
+    this.name = this.type + '_box';
     AjaxBox.call(this, ctr);
-    this.type = 'video';
     this.options.reload = 1000 * 60 * 60 * 1;
     $.extend(this.options, options);
   };
-  $.extend(NewsBox.prototype, AjaxBox.prototype, {
+  $.extend(WidgetBox.prototype, AjaxBox.prototype, {
     /**
      * 新闻的加载逻辑（有效期已到或数据未加载，则需要加载）
      */
     isLoadNeeded: function() {
-      var last = storage.get('video_box')['last_time'] || 0;
+      var last = storage.get(this.name)['last_time'] || 0;
       if (last + this.options.reload < Date.now()) {
-        storage.set('video_box', 'last_time', Date.now());
+        storage.set(this.name, 'last_time', Date.now());
         return true;
       }
       return false;
@@ -358,15 +393,15 @@ var VideoBox = (function() {
     getContent: function(i) {
       var last_page = (this.data && i >= this.data.length);
       if (i === - 2 || last_page) {
-        return '<div class="sbox-content"><a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/video_box_2.png"></a></div>';
+        return '<div class="sbox-content"><a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/' + this.name + '_2.png"></a></div>';
       } else if (i === - 1) {
-        return '<div class="sbox-content"><a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/video_box_1.png"></a></div>';
+        return '<div class="sbox-content"><a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/' + this.name + '_1.png"></a></div>';
       } else {
         var title = (this.data[i]['title'] || '').replace(/"/g, '&quot;');
-        return '<a href="' + this.data[i]['url'] + '" target="' + this.options.target + '"><div class="sbox-content"><img src="' + this.data[i]['img'] + '" onerror="src=\'images/video_box_1.png\'"></div><div class="sbox-title" title="' + title + '">' + title + '</div></a>';
+        return '<a href="' + this.data[i]['url'] + '" target="' + this.options.target + '"><div class="sbox-content"><img src="' + this.data[i]['img'] + '" onerror="src=\'images/' + this.name + '_1.png\'"></div><div class="sbox-title" title="' + title + '">' + title + '</div></a>';
       }
     }
   });
-  return NewsBox;
+  return WidgetBox;
 })();
 
