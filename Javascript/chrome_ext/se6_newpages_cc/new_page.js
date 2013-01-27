@@ -191,10 +191,7 @@ $(function(host, undef) {
       $('.smart-push-pre ul').html(smartPushArr.join(''));
 
       if (window._session_newsbox_showed) {
-        window.newsbox = new NewsBox('.widget.news-box', {
-          target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
-        });
-        newsbox.render();
+        initWidgetBox();
         TipsManager.showNewsBoxTips();
       }
 
@@ -1036,10 +1033,7 @@ $(function(host, undef) {
               url: url
             }).html());
 
-            window.newsbox = new NewsBox('.widget.news-box', {
-              target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
-            });
-            newsbox.render();
+            initWidgetBox();
 
             li.fadeIn().find('.box').css('height', imgHeight);
           } else {
@@ -1155,11 +1149,7 @@ $(function(host, undef) {
 
               if (url1.substr(0, 7) == 'widget:' || url2.substr(0, 7) == 'widget:') {
                 TipsManager.hideNewsBoxTips();
-                newsbox.desctruct();
-                newsbox = new NewsBox('.widget.news-box', {
-                  target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
-                });
-                newsbox.render();
+                initWidgetBox();
               }
 
               saveGrid();
@@ -1195,11 +1185,7 @@ $(function(host, undef) {
               document.body.removeChild(dragHelper);
 
               if (url1.substr(0, 7) == 'widget:') {
-                newsbox.desctruct();
-                newsbox = new NewsBox('.widget.news-box', {
-                  target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
-                });
-                newsbox.render();
+                initWidgetBox();
               }
             };
           } (dragObj));
@@ -1440,5 +1426,24 @@ $(function(host, undef) {
     $('.smart-restore-tips').fadeOut();
   });
 
+  function initWidgetBox() {
+    window.newsbox && newsbox.desctruct();
+    window.newsbox = new NewsBox('.widget.news-box', {
+      target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
+    });
+    newsbox.render();
+
+    window.videobox && videobox.desctruct();
+    window.videobox = new VideoBox('.widget.video-box', {
+      target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
+    });
+    videobox.render();
+    
+    window.shoppingbox && shoppingbox.desctruct();
+    window.shoppingbox = new ShoppingBox('.widget.shopping-box', {
+      target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
+    });
+    shoppingbox.render();
+  }
 });
 
