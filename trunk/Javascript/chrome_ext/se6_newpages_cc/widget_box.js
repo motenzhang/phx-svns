@@ -65,7 +65,7 @@ var WidgetBox = (function() {
      * 自动翻页
      */
     onInterval: function(e) {
-      console.log(this.name + ' interval, id: ', this.id);
+//      console.log(this.name + ' interval, id: ', this.id);
       this.nextSlide();
     },
     /**
@@ -125,6 +125,9 @@ var WidgetBox = (function() {
         400, function() {
           self.$inner.find('.sbox-slide:first').remove();
           self.$inner.css('left', 0);
+          if (self.name == 'news_box') {
+            console.log(self.name, storage.get(self.name)['slide_index'], self.index);
+          }
           storage.set(self.name, 'slide_index', self.index);
         });
       } else {
