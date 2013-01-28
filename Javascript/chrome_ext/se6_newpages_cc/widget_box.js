@@ -35,6 +35,7 @@ var WidgetBox = (function() {
       delay['news'] = ($('.widget.news-box').length > 0 ? this.options.real_interval : 0);
       delay['video'] = delay['news'] + ($('.widget.video-box').length > 0 ? this.options.real_interval : 0);
       delay['shopping'] = delay['video'] + ($('.widget.shopping-box').length > 0 ? this.options.real_interval : 0);
+      console.log(delay);
       this._startTimeout = setTimeout(function(){
         self.onInterval();
         self.initInterval();

@@ -946,15 +946,6 @@ $(function(host, undef) {
 
     $(this).parents('.box').addClass('empty');
 
-    if ($(this).parent().hasClass('tile-widget')) {
-      var url = $(this).parents('.link').attr('href');
-      var sf = url.replace(/^widget:\/\//, '').replace(/-/g, '_');
-      initWidgetBox();
-      localStorage.removeItem(sf);
-      Stat.count('d3', 9);
-      TipsManager.hideNewsBoxTips();
-    }
-
     var logo = $(this).parent('.tile-logo');
     logo.addClass('hide-tit');
     /*logo.css({position:'absolute', top:0})
@@ -975,8 +966,19 @@ $(function(host, undef) {
     });*/
 
     logo.effect('fade', 200, function() {
-      $(this).parent('.link').remove();
+      var link = $(this).parent('.link');
+      var url = link.attr('href');
+      link.remove();
       saveGrid();
+
+      if (logo.hasClass('tile-widget')) {
+        var sf = url.replace(/^widget:\/\//, '').replace(/-/g, '_');
+        initWidgetBox();
+        localStorage.removeItem(sf);
+        Stat.count('d3', 9);
+        TipsManager.hideNewsBoxTips();
+      }
+
     });
 
     e.preventDefault();
