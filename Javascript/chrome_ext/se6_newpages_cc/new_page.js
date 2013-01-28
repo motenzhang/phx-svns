@@ -947,10 +947,12 @@ $(function(host, undef) {
     $(this).parents('.box').addClass('empty');
 
     if ($(this).parent().hasClass('tile-widget')) {
+      var url = $(this).parents('.link').attr('href');
+      var sf = url.replace(/^widget:\/\//, '').replace(/-/g, '_');
+      localStorage.removeItem(sf);
+      initWidgetBox();
       Stat.count('d3', 9);
       TipsManager.hideNewsBoxTips();
-      newsbox.desctruct();
-      localStorage.removeItem('news_box');
     }
 
     var logo = $(this).parent('.tile-logo');

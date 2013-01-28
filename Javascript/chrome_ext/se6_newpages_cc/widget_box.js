@@ -2,7 +2,8 @@ var WidgetBox = (function() {
   var SlideBox = function(ctr) {
     this.$ctr = $(ctr).css('position', 'relative');
     this.options = {
-      'interval': 1000 * 15
+      'real_interval': 1000 * 5,
+      'interval': 1000 * 5 * $('.tile-widget').length
     };
     this.construct();
   };
@@ -30,11 +31,14 @@ var WidgetBox = (function() {
       this.$el.find('.sbox-inner').on('click', this.onSlideClick.bind(this));
       this.$el.find('.sbox-button').on('click', this.onButtonClick.bind(this));
       var self = this;
-      var _t31 = this.options['interval'] / 3;
+      var delay = {};
+      delay['news'] = ($('.widget.news-box').length > 0 ? this.options.real_interval : 0);
+      delay['video'] = delay['news'] + ($('.widget.video-box').length > 0 ? this.options.real_interval : 0);
+      delay['shopping'] = delay['video'] + ($('.widget.shopping-box').length > 0 ? this.options.real_interval : 0);
       this._startTimeout = setTimeout(function(){
         self.onInterval();
         self.initInterval();
-      }, {news: _t31*1, video: _t31*2, shopping: _t31*3}[this.type]);
+      }, delay[this.type]);
     },
     onButtonClick: function(e) {
       var rel = $(e.target).attr('rel');
