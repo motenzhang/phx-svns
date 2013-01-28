@@ -5,6 +5,7 @@ var WidgetBox = (function() {
       'real_interval': 1000 * 5,
       'interval': 1000 * 5 * $('.tile-widget').length
     };
+    console.log(this.type, this.options.interval);
     this.construct();
   };
   SlideBox.prototype = {
@@ -70,7 +71,7 @@ var WidgetBox = (function() {
      * 自动翻页
      */
     onInterval: function(e) {
-//      console.log(this.name + ' interval, id: ', this.id);
+      console.log(this.name + ' interval, id: ', this.id);
       this.nextSlide();
     },
     /**

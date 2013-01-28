@@ -90,8 +90,15 @@ $(function(host, undef) {
 
   var reloadGrid = function() {
     console.log('调用getMostVisited:', + new Date - st + 'ms(距页面打开)');
+    var _tmp = false;
     ntpApis.getMostVisited(function(tiles, customs) {
       console.log('getMostVisited回调函数被调用:', + new Date - st + 'ms(距页面打开)', arguments);
+
+      if (_tmp) {
+        console.log('stop');
+        return;
+      }
+      _tmp = true;
 
       var gridCount = $('#js-grid-count').val() - 0;
 
