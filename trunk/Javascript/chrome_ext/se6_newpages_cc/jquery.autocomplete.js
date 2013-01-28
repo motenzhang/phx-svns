@@ -178,7 +178,7 @@
     }).click(function() {
       // show select when clicking in a focused field
       if (hasFocus++ > 1 && ! select.visible()) {
-        onChange(0, true);
+    		onChange(0, true);
       }
     }).bind("search", function() {
       // TODO why not just specifying both arguments?
@@ -709,7 +709,7 @@
         }
       },
       hide: function() {
-        element && element.hide();
+        element && element.slideUp(200);
         listItems && listItems.removeClass(CLASSES.ACTIVE);
         active = -1;
       },
@@ -720,35 +720,47 @@
         return this.visible() && (listItems.filter("." + CLASSES.ACTIVE)[0] || options.selectFirst && listItems[0]);
       },
       show: function(hotkeyword) {
-        active = -1;
-        if (hotkeyword) {
-          element.addClass('hot-keyword');
-        } else {
-          element.removeClass('hot-keyword');
-        }
-        this.repos();
-        element.show();
-        if (options.scroll) {
-          list.scrollTop(0);
-          list.css({
-            maxHeight: options.scrollHeight,
-            overflow: 'auto'
-          });
-
-          if ($.browser.msie && typeof document.body.style.maxHeight === "undefined") {
-            var listHeight = 0;
-            listItems.each(function() {
-              listHeight += this.offsetHeight;
-            });
-            var scrollbarsVisible = listHeight > options.scrollHeight;
-            list.css('height', scrollbarsVisible ? options.scrollHeight: listHeight);
-            if (!scrollbarsVisible) {
-              // IE doesn't recalculate width when scrollbar disappears
-              listItems.width(list.width() - parseInt(listItems.css("padding-left")) - parseInt(listItems.css("padding-right")));
-            }
+        
+        var $this= this;
+        function showSuggest(){
+          active = -1;
+          if (hotkeyword) {
+            element.addClass('hot-keyword');
+          } else {
+            element.removeClass('hot-keyword');
           }
+          $this.repos();
+          element.slideDown(200);
+          if (options.scroll) {
+            list.scrollTop(0);
+            list.css({
+              maxHeight: options.scrollHeight,
+              overflow: 'auto'
+            });
 
+            if ($.browser.msie && typeof document.body.style.maxHeight === "undefined") {
+              var listHeight = 0;
+              listItems.each(function() {
+                listHeight += this.offsetHeight;
+              });
+              var scrollbarsVisible = listHeight > options.scrollHeight;
+              list.css('height', scrollbarsVisible ? options.scrollHeight: listHeight);
+              if (!scrollbarsVisible) {
+                // IE doesn't recalculate width when scrollbar disappears
+                listItems.width(list.width() - parseInt(listItems.css("padding-left")) - parseInt(listItems.css("padding-right")));
+              }
+            }
+
+          }
         }
+
+        if (options.onbeforeshow) {
+          options.onbeforeshow(showSuggest)
+        }else{
+          showSuggest();
+        }
+
+        
       },
       repos: function() {
         var offset = $(input).offset();
