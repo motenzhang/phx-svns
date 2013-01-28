@@ -25,8 +25,8 @@ var WidgetBox = (function() {
       this.renderSlide(this.index);
     },
     bindUI: function() {
-      this.$el.parents('.tile').on('mouseenter', this.onEnter.bind(this));
-      this.$el.parents('.tile').on('mouseleave', this.onLeave.bind(this));
+      this.$el.parents('.tile-logo').on('mouseenter', this.onEnter.bind(this));
+      this.$el.parents('.tile-logo').on('mouseleave', this.onLeave.bind(this));
       this.$el.find('.sbox-inner').on('click', this.onSlideClick.bind(this));
       this.$el.find('.sbox-button').on('click', this.onButtonClick.bind(this));
       var self = this;
@@ -166,8 +166,8 @@ var WidgetBox = (function() {
       }
     },
     unbindUI: function() {
-      this.$el.parents('.tile').off('mouseenter');
-      this.$el.parents('.tile').off('mouseleave');
+      this.$el.parents('.tile-logo').off('mouseenter');
+      this.$el.parents('.tile-logo').off('mouseleave');
       this.$el.find('.sbox-button').off('click');
       clearInterval(this._slideInterval);
       clearTimeout(this._startTimeout);
