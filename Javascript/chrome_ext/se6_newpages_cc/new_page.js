@@ -6,11 +6,11 @@
  */
 $(function(host, undef) {
   var _now = new Date();
-  console.log(_now.toLocaleTimeString() + '.' + _now.getMilliseconds());
+  //console.log(_now.toLocaleTimeString() + '.' + _now.getMilliseconds());
 
   var CAPTURE_TIMEOUT = 10 * 1000,
   CAPTURE_ERRNO_TIMEOUT = 2,
-  ANIMATE_EFFECT = false;
+  ANIMATE_EFFECT = true;
 
   var st = + new Date(),
   imgHeight;
@@ -89,16 +89,16 @@ $(function(host, undef) {
   }
 
   var reloadGrid = function() {
-    console.log('调用getMostVisited:', + new Date - st + 'ms(距页面打开)');
-    var _tmp = false;
+    //console.log('调用getMostVisited:', + new Date - st + 'ms(距页面打开)');
+    var initiativeCall = true;
     ntpApis.getMostVisited(function(tiles, customs) {
-      console.log('getMostVisited回调函数被调用:', + new Date - st + 'ms(距页面打开)', arguments);
-
-      if (_tmp) {
-        console.log('stop');
+      //console.log('getMostVisited回调函数被调用:', + new Date - st + 'ms(距页面打开)', arguments);
+		//console.log('customs length ' + customs.length)
+      if (!initiativeCall) {
+        console.log('自动推送，停止执行。');
         return;
       }
-      _tmp = true;
+      initiativeCall = false;
 
       var gridCount = $('#js-grid-count').val() - 0;
 
@@ -203,10 +203,17 @@ $(function(host, undef) {
   $('#search-switch').live('click', function(e) {
     var self = $(this),
     offset = self.offset();
-    $('.search-menu').css({
+    var menu = $('.search-menu').css({
       left: offset.left,
       top: offset.top + self.height()
-    }).slideDown(200);
+    });
+    if ($('.ac_results').is(':visible')) {
+        $('.ac_results').slideUp(400, function(){
+            menu.slideDown(200);
+        })
+    }else{
+        menu.slideDown(200);
+    }
   });
 
   $(window).on('resize', function() {
@@ -485,14 +492,18 @@ $(function(host, undef) {
 
   $(document).on('click', function(e) {
     if (e.target.id != 'search-switch' && ! $(e.target).parents('#search-switch').length && ! $(e.target).parents('.search-menu').length) {
-      $('.search-menu').slideUp(100);
+      setTimeout(function(){
+		var searchMenu = $('.search-menu');
+		if(!searchMenu.hasClass('is-sliding')){
+			searchMenu.slideUp(100);
+		}
+	  }, 10);
     }
   });
-
   $('#js-show-search-form').live('change', function() {
     if (this.checked) {
       if (ANIMATE_EFFECT) {
-        $('#search-form').effect('explode', {
+        $('#search-form').effect('blind', {
           mode: 'show'
         });
       } else {
@@ -500,7 +511,7 @@ $(function(host, undef) {
       }
     } else {
       if (ANIMATE_EFFECT) {
-        $('#search-form').effect('explode');
+        $('#search-form').effect('blind');
       } else {
         $('#search-form').hide();
       }
@@ -519,6 +530,20 @@ $(function(host, undef) {
     selectFirst: false,
     dataType: 'jsonp',
     scrollHeight: 300,
+  	onbeforeshow: function(callback){
+    		var searchMenu = $('.search-menu');
+    		if(searchMenu.is(":visible")){
+    			searchMenu.addClass('is-sliding');
+    			searchMenu.slideUp(400, function(){
+            setTimeout(function(){
+              searchMenu.removeClass('is-sliding');
+              callback && callback();
+            }, 30)
+    			})
+    		}else{
+    			callback && callback();
+    		}
+  	},
     parse: function(data) {
       var parsed = [];
       data.s.forEach(function(v) {
@@ -564,8 +589,41 @@ $(function(host, undef) {
     reloadGrid();
   });
 
+  
   $('#js-grid-count').live('change', function() {
-    reloadGrid();
+    //reloadGrid();
+    var oldGridCount = $('.tile').length;
+    var currentGridCount = $('#js-grid-count').val() | 0;
+    console.log("old:" + oldGridCount + " current:" + currentGridCount);
+    if (oldGridCount > currentGridCount) {
+        var arr = [[], [], [], []];
+        var arr1 = [];
+        $('.tile .box').each(function(i){
+          if (i >= currentGridCount) {
+            arr1.push(this);
+            arr[i%4].push(this);
+          };
+        })
+        var arrCount = arr.length;
+        var currentCount = 0;
+        arr.forEach(function(items, i){
+          setTimeout(function(){
+              items = $(items);
+              items.slideUp(500, function(){
+                currentCount++;
+                items.show().css('visibility', 'hidden');
+                if (currentCount == arrCount) {
+                   arr1.forEach(function(item){
+                      $(item).parent('.tile').remove();
+                   })
+                   wrapResize(true, function(){})
+                };
+              });
+          }, i * 150)
+        })
+    }else{
+
+    }
   });
 
   function saveGrid() {
@@ -582,6 +640,8 @@ $(function(host, undef) {
     $('.smart-push').removeClass('active');
     var smartPushArr = [];
     var emptyGridCount = $('.tile .empty').length;
+    //alert(emptyGridCount)
+    console.log("emptyGridCount:" + emptyGridCount);
     var mostVisited = window.smartMostVisited || [];
     mostVisited.forEach(function(tile, i) {
       if (tile.title) {
@@ -735,21 +795,33 @@ $(function(host, undef) {
     }
   });
 
+
   var timerResize;
-  $(window).on('resize', function() {
+  function wrapResize(animate, callback){
     $(document.body).css({
       overflow: 'hidden'
     });
     $('.tile .box, .box img').css('height', imgHeight = Math.floor($('.tile .box').width() * 0.7027) + 'px');
+    $('.tile').css('height', parseInt(imgHeight) + 10 + 'px');
+    var top = left = 0;
     if ($('.wrap .tile').length) {
-      $('.wrap').css({
-        'top': Math.max(window.innerHeight / 2 - $('.wrap').height() / 2, 50) + 'px',
-        'left': Math.max($(window).width() / 2 - $('.wrap').width() / 2, 10) + 'px'
-      });
+      top = Math.max(window.innerHeight / 2 - $('.wrap').height() / 2, 50) + 'px';
+      left = Math.max($(window).width() / 2 - $('.wrap').width() / 2, 10) + 'px'
     } else {
+      top = window.innerHeight / 2 - $('.wrap').height() + 'px'
+      left = $(window).width() / 2 - $('.wrap').width() / 2 + 'px';
+    }
+    if (animate === true) {
+      $('.wrap').animate({
+        'top': top,
+        'left': left
+      }, 400, function(){
+        callback && callback();
+      })
+    }else{
       $('.wrap').css({
-        'top': window.innerHeight / 2 - $('.wrap').height() + 'px',
-        'left': $(window).width() / 2 - $('.wrap').width() / 2 + 'px'
+        'top': top,
+        'left': left
       });
     }
     $(document.body).css({
@@ -765,7 +837,9 @@ $(function(host, undef) {
       200);
     }
     return arguments.callee;
-  } ());
+  }
+  
+  $(window).on('resize', wrapResize());
 
   $('#js-addurl-url').live('blur', function(e) {
     if (!/^(https?):\/\//i.test(this.value)) {
@@ -950,29 +1024,23 @@ $(function(host, undef) {
 
   $('.remove').live('click', function(e) {
     Stat.count('d3', 2);
+    var tile = $(this).parents('li.tile');
+    removeTile(tile, true);
 
-    $(this).parents('.box').addClass('empty');
-
-    var logo = $(this).parent('.tile-logo');
-    logo.addClass('hide-tit');
-    /*logo.css({position:'absolute', top:0})
-    .animate({top:-logo.height()}, 400, 'easeInOutCubic', function(){
-      var link = $(this).parent('.link');
-      window.redo_grid = {index:$(this).parents('.tile').index(), url:link.attr('href'), title:link.find('.tile-tit').text()};
-      console.log(redo_grid);
-
-      link.remove();
-          saveGrid();
-
-      $('.remove-tips').css('left', $('.tile img').offset().left + 'px').fadeIn();
-  
-      window.timerRemoveTipHandler && clearTimeout(window.timerRemoveTipHandler);
-      window.timerRemoveTipHandler = setTimeout(function(){
-      $('.remove-tips').fadeOut();
-      }, 10000);
-    });*/
-
-    logo.effect('fade', 200, function() {
+    e.preventDefault();
+  });
+  function removeTile(tile, animate){
+    tile = $(tile);
+    tile.find('.box').addClass('empty');
+    tile.find('.remove').hide();
+    var logo = tile.find('.tile-logo');
+    if (animate) {
+      logo.addClass('hide-tit').css({position:'absolute', top:0}).animate({top:-logo.height()}, 400, 'easeInOutCubic', complete);
+    }else{
+      complete();
+    }
+ 
+    function complete() {
       var link = $(this).parent('.link');
       var url = link.attr('href');
       link.remove();
@@ -985,11 +1053,8 @@ $(function(host, undef) {
         Stat.count('d3', 9);
         TipsManager.hideNewsBoxTips();
       }
-
-    });
-
-    e.preventDefault();
-  });
+    }
+  }
 
   $('.js-auto-save').live('change', function() {
 
@@ -1074,7 +1139,7 @@ $(function(host, undef) {
   });
 
   window.onSnapshotComplete = function(args) {
-    console.log('onSnapshotComplete被调用', arguments);
+    //smart-push-f('onSnapshotComplete被调用', arguments);
     args = args || [];
     var url = args[0],
     errno = args[1];
@@ -1372,6 +1437,7 @@ $(function(host, undef) {
   HotKeyword.init($('#search-kw'));
 
   $('.smart-push-f').hover(function() {
+  //$('.smart-push-pre').effect('fade', 500
     $('.smart-push-pre').show();
   },
   function() {
@@ -1384,6 +1450,7 @@ $(function(host, undef) {
     var gridData = parseGrid('.tile'),
     mostVisited = window.smartMostVisited || [];
     var pushed = false;
+	var recommondItems = [];
     gridData.every(function(item, i) {
       if (mostVisited.length <= 0) {
         return false;
@@ -1392,7 +1459,7 @@ $(function(host, undef) {
         while (mostVisited.length > 0) {
           var mt = mostVisited.shift();
           if (!isExist(mt.url)) {
-            gridData[i] = mt;
+			       recommondItems.push(mt);
             pushed = true;
             break;
           }
@@ -1402,7 +1469,10 @@ $(function(host, undef) {
     });
 
     if (pushed) {
-      ntpApis.setUserMostVisited(JSON.stringify(gridData), reloadGrid);
+      ntpApis.setUserMostVisited(JSON.stringify(gridData), function(){
+			//alert("recommondItems" + recommondItems.length);
+			addRecommondTiles(recommondItems);
+	  });
       $('.smart-push-tips, .smart-push-pre').hide();
       $('.smart-restore-tips').fadeIn();
       window.timerSmartRestoreTipHandler && clearTimeout(window.timerSmartRestoreTipHandler);
@@ -1421,11 +1491,68 @@ $(function(host, undef) {
       return false;
     }
   });
+  function addRecommondTiles(tiles){
+  	if(tiles.length == 0 ) return true;
+    $('li.tile').removeClass('recommond-tile');
+    var tileWidth = $('li.tile').width();
+    var tileHeight = $('li.tile').height();
+    var emptyTiles = $('li.tile div.empty').parent('li');
+    var offset = $('.smart-push-f').offset();
+    var count = 0;
+    var current = 0;
+  	tiles.forEach(function(item, i){
+  		var tpl = '';
+  		if (item.url) {
+          count++;
+          window.gridAddedUrlMap[item.url] = item;
+          if (item.url.substr(0, 7) == 'widget:') {
+            if (!window._session_newsbox_showed) {
+              window._session_newsbox_showed = true;
+              Stat.count('d3', 6);
+            }
+            item.widget_type = item.url.replace(/^widget:\/\//, '');
+            tpl = $.tmpl(tileWidgetTempStr, item)[0].outerHTML;
+          } else {
+            item.short_url = item.url.shorting(50);
+            item.pic = item.local_pic || 'chrome://thumb/' + item.url;
+            tpl= $.tmpl(tileTmplStr, item)[0].outerHTML;
+          }
+          var el = $(tpl).css({
+            width: 0,
+            height:0,
+            position: 'absolute',
+            top: offset.top,
+            left: offset.left
+          }).appendTo(document.body);
+          el.find('div.box').css('height',tileHeight);
+          setTimeout(function(){
+              el.animate({
+                top: $(emptyTiles[i]).offset().top,
+                left: $(emptyTiles[i]).offset().left,
+                width: tileWidth + 10,
+                height: tileHeight+10
+              }, 400, 'easeInOutCubic', function(){
+                  $(emptyTiles[i]).replaceWith(el.css({
+                      position: 'static',
+                      width: '25%'
+                  }).addClass('recommond-tile'));
+                  current++;
+                  if (current == count) {
+                    saveGrid();
+                  };
+              })
+          }, i * 10)
 
+      }
+  	})
+  }
   $('.restore-griddata').on('click', function() {
     Stat.count('d1', 4);
-
-    window.smartPrevGridData && ntpApis.setUserMostVisited(JSON.stringify(window.smartPrevGridData), reloadGrid);
+    window.smartPrevGridData && ntpApis.setUserMostVisited(JSON.stringify(window.smartPrevGridData), function(){
+      $('li.recommond-tile').each(function(){
+          removeTile(this, true);
+      });
+    });
     window.timerSmartRestoreTipHandler && clearTimeout(window.timerSmartRestoreTipHandler);
     $('.smart-restore-tips').fadeOut();
   });
