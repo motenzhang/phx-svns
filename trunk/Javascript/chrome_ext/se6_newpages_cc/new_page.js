@@ -949,8 +949,8 @@ $(function(host, undef) {
     if ($(this).parent().hasClass('tile-widget')) {
       var url = $(this).parents('.link').attr('href');
       var sf = url.replace(/^widget:\/\//, '').replace(/-/g, '_');
-      localStorage.removeItem(sf);
       initWidgetBox();
+      localStorage.removeItem(sf);
       Stat.count('d3', 9);
       TipsManager.hideNewsBoxTips();
     }
@@ -1422,26 +1422,17 @@ $(function(host, undef) {
   });
 
   function initWidgetBox() {
-    window.newsbox && newsbox.desctruct();
-    window.newsbox = new WidgetBox('.widget.news-box', {
-      type: 'news',
-      target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
+    ['news', 'video', 'shopping'].forEach(function(item){
+      var inst = item + '-box';
+      window[inst] && window[inst].desctruct();
+      if ($('.widget.' + inst).length) {
+        window[inst] = new WidgetBox('.widget.' + inst, {
+          type: item,
+          target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
+        });
+        window[inst].render();
+      }
     });
-    newsbox.render();
-
-    window.videobox && videobox.desctruct();
-    window.videobox = new WidgetBox('.widget.video-box', {
-      type: 'video',
-      target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
-    });
-    videobox.render();
-    
-    window.shoppingbox && shoppingbox.desctruct();
-    window.shoppingbox = new WidgetBox('.widget.shopping-box', {
-      type: 'shopping',
-      target: $('#js-show-in-newtab').attr('checked') ? '_blank': '_self'
-    });
-    shoppingbox.render();
   }
 });
 
