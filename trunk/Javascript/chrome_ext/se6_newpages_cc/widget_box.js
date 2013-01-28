@@ -214,100 +214,20 @@ var WidgetBox = (function() {
       SlideBox.prototype.render.call(this);
     },
     /**
-           * 加载数据
-           */
+     * 加载数据
+     */
     load: function() {
       var self = this;
+      var type = this.type;
+      if (type == 'shopping') type = 'mall';
       var rn = parseInt(Math.random() * 100000);
       $.ajax({
-        'url': 'http://site.browser.360.cn/msg.php?mt=["' + this.type + '"]&rn=' + rn,
+        'url': 'http://site.browser.360.cn/msg.php?mt=["' + type + '"]&rn=' + rn,
         'dataType': 'jsonp',
         'type': 'get'
       }).done(function(data) {
         if (data['errno'] === 0) {
-          data['data']['video'] = [
-          {
-            title: "小儿难养",
-            recordTime: "2013-01-24 15:21:07",
-            url: "http://v.360.cn/tv/RbFsaaKoTzDuNX.html",
-            img: "http://p6.qhimg.com/dr/370_260_/t01f02961ee240c1353.jpg"
-          },
-          {
-            title: "梦回唐朝",
-            recordTime: "2013-01-24 14:57:58",
-            url: "http://v.360.cn/tv/PLFvb3CoTzDsNX.html",
-            img: "http://p7.qhimg.com/dr/370_260_/t015305e141ef69b0ab.jpg"
-          },
-          {
-            title: "二次曝光",
-            recordTime: "2013-01-24 14:51:21",
-            url: "http://v.360.cn/m/hKbkZUL6R0r4Th.html",
-            img: "http://p3.qhimg.com/dr/370_260_/t01524157a297c7db5d.jpg"
-          },
-          {
-            title: "楚汉传奇",
-            recordTime: "2013-01-24 14:44:34",
-            url: "http://v.360.cn/tv/Q4poaaCoTz8mMn.html",
-            img: "http://p1.qhimg.com/dr/370_260_/t016ff41881dc8e4635.jpg"
-          },
-          {
-            title: "隋唐英雄",
-            recordTime: "2013-01-24 14:40:12",
-            url: "http://v.360.cn/tv/QbhraqKoSmbrMn.html",
-            img: "http://p9.qhimg.com/dr/370_260_/t0192523bdb830d7202.jpg"
-          },
-          {
-            title: "危险关系",
-            recordTime: "2013-01-24 13:05:27",
-            url: "http://v.360.cn/m/gKriZEX6SHnAUB.html",
-            img: "http://p2.qhimg.com/dr/370_260_/t0105542d85bf7d595f.jpg"
-          },
-          {
-            title: "邻家花美男",
-            recordTime: "2013-01-24 12:37:59",
-            url: "http://v.360.cn/tv/Q4NoaaGoTz8qMX.html",
-            img: "http://p5.qhimg.com/dr/370_260_/t012623bcf01bac4be5.jpg"
-          }
-          ];
-          data['data']['shopping'] = [
-          {
-            title: "团购！简单享受人生每一刻！",
-            recordTime: "2013-01-24 19:36:31",
-            url: "http://tuan.360.cn/?do=category&clazz=1&fname=se6_sudoku_tuan&eee=se6_sudoku_tuan&fsign=ddcf1f9357",
-            img: "http://p7.qhimg.com/dr/370_260_/t019db0ab24c7a986ba.jpg"
-          },
-          {
-            title: "低价影票20元起",
-            recordTime: "2013-01-24 19:32:17",
-            url: "http://tuan.360.cn/?do=movie&fname=se6_sudoku_movie&eee=se6_sudoku_movie&fsign=3874b6cba8",
-            img: "http://p6.qhimg.com/dr/370_260_/t015813879be66bbe22.jpg"
-          },
-          {
-            title: "商家促销 特价秒杀",
-            recordTime: "2013-01-24 18:45:59",
-            url: "http://youhui.360.cn/huodong?fname=se6_sudoku_ huodong&eee=se6_sudoku_huodong",
-            img: "http://p0.qhimg.com/dr/370_260_/t01d67bf2ee65d1d880.jpg"
-          },
-          {
-            title: "iPod touch4历史最低1249元",
-            recordTime: "2013-01-24 18:29:21",
-            url: "http://tejia.youhui.360.cn/?tejiaid=17005&fname=se6_sudoku_zhidemai&eee= se6_sudoku_zhidemai",
-            img: "http://p3.qhimg.com/dr/370_260_/t011a86f91d1d9076a8.jpg"
-          },
-          {
-            title: "免费领券 超值购物",
-            recordTime: "2013-01-24 18:13:12",
-            url: "http://youhui.360.cn/quan?fname=se6_sudoku_quan&eee=se6_sudoku_quan",
-            img: "http://p7.qhimg.com/dr/370_260_/t01b26567bf01e90cd4.gif"
-          },
-          {
-            title: "初见 与心动不期而遇",
-            recordTime: "2013-01-24 16:45:09",
-            url: "http://chujian.360.cn/items.html?cid=3646&fname=se6_sudoku_chujian&eee= se6_sudoku_chujian",
-            img: "http://p2.qhimg.com/dr/370_260_/t01fdcdb60fe45fb199.jpg"
-          }
-          ];
-          self.data = data['data'][self.type];
+          self.data = data['data'][type];
           self.save();
           // 显示 第1页
           self.nextSlide();
