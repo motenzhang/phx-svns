@@ -270,6 +270,7 @@ var ImportData = function() {
     return (cmd == '$("#js-grid-from").val("1")') ? 1: 2;
   }
   return {
+    yihaodian: 'http://click.mediav.com/c?type=2&db=mediav&pub=325_512635_1017237&cus=2_114122_1059838_10140934_10140934000&url=http://www.yihaodian.com?tracker_u=10227333284',
     setting: function() {
       if (isDone()) {
         return;
@@ -323,7 +324,7 @@ var ImportData = function() {
       var insertNewsBox = true;
       newData.forEach(function(item, i) {
         if (item.url) {
-          if (item.url.substr(0, 7) == 'widget:') {
+          if (item.url == ImportData.yihaodian) {
             insertNewsBox = false;
           }
         }
@@ -352,7 +353,7 @@ var ImportData = function() {
             if (emptyCount == 1) {
               newData[i] = {
                 title: '1号店',
-                url: 'http://click.mediav.com/c?type=2&db=mediav&pub=325_512635_1017237&cus=2_114122_1059838_10140934_10140934000&url=http://www.yihaodian.com?tracker_u=10227333284'
+                url: ImportData.yihaodian
               };
             }
           }

@@ -85,7 +85,7 @@ var Stat = function() {
       });
     },
     send: function(tp) {
-      var toSend, param = {
+      var fn, toSend, param = {
         tp: tp,
         m: api.GetMID(),
         q: '',
@@ -93,6 +93,7 @@ var Stat = function() {
         tv: '1.0.1.0001',
       };
       if (tp == 'm') {
+        fn = 'dial.php';
         var last = parseInt(storage.getStat('stat_last_send_m')) || 0;
         toSend = Date.now() - last > 1000 * 60 * 10;
         param['d1'] = Stat.getStatData('d1', 4);
@@ -100,6 +101,7 @@ var Stat = function() {
         param['d3'] = Stat.getStatData('d3', 40);
         param['d4'] = Stat.getStatData('d4', 30);
       } else {
+        fn = 'reko.html';
         toSend = storage.getStat('stat_last_send_d') != new Date().toDateString();
         param['d0'] = Stat.getStatData('d0', 17);
       }
@@ -111,7 +113,7 @@ var Stat = function() {
       var arr = [];
       for (var key in param) {
         arr.push(key + '=' + encodeURIComponent(param[key]));
-      } (new Image).src = 'http://dd.browser.360.cn/dial.php?' + arr.join('&');
+      } (new Image).src = 'http://dd.browser.360.cn/' + fn + '?' + arr.join('&');
       if (tp == 'm') {
         storage.setStat('stat_last_send_m', Date.now());
         storage.setStat('stat_cache_d1', []);
