@@ -119,6 +119,13 @@ $(function(host, undef) {
         if (item.url) {
           window.gridAddedUrlMap[item.url] = item;
           item.drag = drag;
+          if (item.url == ImportData.yihaodian) {
+            Stat.set('d0', 5, (i+1));
+            if (!window._session_yihaodian_showed) {
+              window._session_yihaodian_showed = true;
+              Stat.count('d5', 1);
+            }
+          }
           if (item.url.substr(0, 7) == 'widget:') {
             if (!window._session_newsbox_showed) {
               window._session_newsbox_showed = true;
@@ -1349,6 +1356,10 @@ $(function(host, undef) {
   });
 
   $('.link').live('click', function(e) {
+    if ($(this).attr('href') == ImportData.yihaodian) {
+      Stat.count('d5', 2);
+      Stat.count('d5', $(this).parents('.tile').index() + 11);
+    }
     if (e.target.className != 'remove') {
       Stat.count('d3', 1);
       Stat.count('d3', $(this).parents('.tile').index() + 21);
