@@ -69,7 +69,7 @@ var AddUrlDlg = function() {
     $.each(list, function(i, item) {
       var added = window.gridAddedUrlMap[item.url] || window.gridAddedUrlMap[item.url + '/'];
       var isWidget = item.url.substr(0, 7) == 'widget:';
-      sb.push('<li class="' + (isWidget ? 'widget': '') + ' ' + (added ? 'added': '') + '" url="' + item.url + '"> <i class=""></i><img src="' + item.logo + '"><h4 title="' + item.title + '">' + item.title + '</h4></li>');
+      sb.push('<li class="' + (isWidget ? 'widget': '') + ' ' + (added ? 'added': '') + '" url="' + htmlEncode(checkUrlProtocol(item.url)) + '"> <i class=""></i><img src="' + htmlEncode(item.logo) + '"><h4 title="' + htmlEncode(item.title) + '">' + htmlEncode(item.title) + '</h4></li>');
     });
     if (list.length > 0) {
       $('.add-url .recommend .nodata').hide();
@@ -144,7 +144,7 @@ var HotKeyword = function() {
     var ul = container.find('ul');
     ul.empty();
     list.forEach(function(item, i) {
-      var li = $('<li><a' + (item.link ? ' href="' + item.link + '"': '') + '><em class="hot">' + (i + 1) + '</em><span class="' + (item.new == '1' ? 'new': '') + '">' + item.text + '</span></a></li>');
+      var li = $('<li><a' + (item.link ? ' href="' + htmlEncode(checkUrlProtocol(item.link)) + '"': '') + '><em class="hot">' + (i + 1) + '</em><span class="' + (item.new == '1' ? 'new': '') + '">' + htmlEncode(item.text) + '</span></a></li>');
       ul.append(li);
       item.result = item.text;
       $.data(li[0], "ac_data", item);
@@ -351,8 +351,8 @@ var ImportData = function() {
             emptyCount++;
             if (emptyCount == 1) {
               newData[i] = {
-                title: '新闻格子',
-                url: 'widget://news-box'
+                title: '1号店',
+                url: 'http://click.mediav.com/c?type=2&db=mediav&pub=325_512635_1017237&cus=2_114122_1059838_10140934_10140934000&url=http://www.yihaodian.com?tracker_u=10227333284'
               };
             }
           }
@@ -467,3 +467,19 @@ var TipsManager = function() {
   };
 } ();
 
+function htmlEncode(str) {
+  var div = document.createElement("div");
+  var text = document.createTextNode(str);
+  div.appendChild(text);
+  var ret = div.innerHTML;
+  ret = ret.replace(/"/g, '&quot;');
+  return ret;
+}
+function checkUrlProtocol(url) {
+  if (url) {
+    if (url.substr(0, 7) == 'http://' || url.substr(0, 8) == 'https://') {
+      return url;
+    }
+  }
+  return '';
+}

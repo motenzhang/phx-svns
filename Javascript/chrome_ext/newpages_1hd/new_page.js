@@ -127,6 +127,7 @@ $(function(host, undef) {
             item.widget_type = item.url.replace(/^widget:\/\//, '');
             lis += $.tmpl(tileWidgetTempStr, item)[0].outerHTML;
           } else {
+            item.url = checkUrlProtocol(item.url);
             item.short_url = item.url.shorting(50);
             item.pic = item.local_pic || 'chrome://thumb/' + item.url;
             lis += $.tmpl(tileTmplStr, item)[0].outerHTML;
