@@ -100,6 +100,7 @@ var Stat = function() {
         param['d2'] = Stat.getStatData('d2', 38);
         param['d3'] = Stat.getStatData('d3', 40);
         param['d4'] = Stat.getStatData('d4', 30);
+        param['d5'] = Stat.getStatData('d5', 30);
       } else {
         fn = 'reko.html';
         toSend = storage.getStat('stat_last_send_d') != new Date().toDateString();
@@ -120,6 +121,7 @@ var Stat = function() {
         storage.setStat('stat_cache_d2', []);
         storage.setStat('stat_cache_d3', []);
         storage.setStat('stat_cache_d4', []);
+        storage.setStat('stat_cache_d5', []);
       } else {
         storage.setStat('stat_last_send_d', new Date().toDateString());
       }
