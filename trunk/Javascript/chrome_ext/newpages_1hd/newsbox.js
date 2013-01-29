@@ -234,18 +234,6 @@ var NewsBox = (function() {
       storage.set('news_box', 'data', this.data);
     },
     /**
-     * 绘制页面时调用，获取页内容
-     */
-    getContent: function(i, target) {
-      if (i === - 2) { // 无数据页
-        return '没有了...';
-      } else if (i === - 1) { // 加载中，可以认为是首页
-        return '加载中...';
-      } else { // 数据页
-        return '<a href="' + this.data[i]['url'] + '" target="' + target + '"><img src="' + this.data[i]['img'] + '" onerror="src=\'images/newsbox_1.png\'"></a>';
-      }
-    },
-    /**
      * 鼠标进入，在特殊页时不响应 "按钮"
      */
     onEnter: function(e) {
@@ -320,7 +308,7 @@ var NewsBox = (function() {
         return '<div class="sbox-content"><a href="http://sh.qihoo.com/" target="' + this.options.target + '"><img src="images/newsbox_1.png"></a></div>';
       } else {
         var title = (this.data[i]['title'] || '').replace(/"/g, '&quot;');
-        return '<a href="' + this.data[i]['url'] + '" target="' + this.options.target + '"><div class="sbox-content"><img src="' + this.data[i]['img'] + '" onerror="src=\'images/newsbox_1.png\'"></div><div class="sbox-title" title="' + title + '">' + title + '</div></a>';
+        return '<a href="' + htmlEncode(checkUrlProtocol(this.data[i]['url'])) + '" target="' + this.options.target + '"><div class="sbox-content"><img src="' + htmlEncode(this.data[i]['img']) + '" onerror="src=\'images/newsbox_1.png\'"></div><div class="sbox-title" title="' + htmlEncode(title) + '">' + htmlEncode(title) + '</div></a>';
       }
     }
   });
