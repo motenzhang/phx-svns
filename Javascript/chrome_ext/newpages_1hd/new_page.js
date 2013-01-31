@@ -1363,8 +1363,8 @@ $(function(host, undef) {
     if (e.target.className != 'remove') {
       Stat.count('d3', 1);
       Stat.count('d3', $(this).parents('.tile').index() + 21);
-    }
     ntpApis.onClickThumbnail(this.href);
+    }
   });
   $('.tile-widget').live('click', function(e) {
     Stat.count('d3', 7);
@@ -1395,6 +1395,7 @@ $(function(host, undef) {
           if (!isExist(mt.url)) {
             gridData[i] = mt;
             pushed = true;
+			ntpApis.captureWebpage(mt.url, function(){});
             break;
           }
         }
