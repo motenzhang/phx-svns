@@ -326,6 +326,8 @@ var ImportData = function() {
         if (item.url) {
           if (item.url == ImportData.yihaodian) {
             insertNewsBox = false;
+          } else {
+		    ntpApis.captureWebpage(item.url, function(){});
           }
         }
       });
@@ -478,7 +480,7 @@ function htmlEncode(str) {
 }
 function checkUrlProtocol(url) {
   if (url) {
-    if (url.substr(0, 7) == 'http://' || url.substr(0, 8) == 'https://') {
+    if (url.substr(0, 7) == 'http://' || url.substr(0, 8) == 'https://' || url.substr(0, 9) == 'widget://') {
       return url;
     }
   }
