@@ -327,7 +327,7 @@ var ImportData = function() {
           if (item.url == ImportData.yihaodian) {
             insertNewsBox = false;
           } else {
-		    ntpApis.captureWebpage(item.url, function(){});
+            ntpApis.captureWebpage(item.url, function(){});
           }
         }
       });
@@ -357,6 +357,7 @@ var ImportData = function() {
                 title: '1号店',
                 url: ImportData.yihaodian
               };
+              ntpApis.captureWebpage(ImportData.yihaodian, function(){});
             }
           }
         });
