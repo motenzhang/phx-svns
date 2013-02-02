@@ -120,7 +120,6 @@ $(function(host, undef) {
           window.gridAddedUrlMap[item.url] = item;
           item.drag = drag;
           if (item.url == ImportData.yihaodian) {
-            Stat.set('d0', 5, (i+1));
             if (!window._session_yihaodian_showed) {
               window._session_yihaodian_showed = true;
               Stat.count('d5', 1);
@@ -572,12 +571,15 @@ $(function(host, undef) {
   function saveGrid() {
     var tiles = parseGrid('.tile');
     window.gridAddedUrlMap = {};
-    tiles.forEach(function(tile) {
+    tiles.forEach(function(tile, i) {
       /*if (tile.url.substr(0, 7) == 'widget:') {
         delete tile['url'];
         tile['type'] = 'widget';
       }*/
       window.gridAddedUrlMap[tile.url] = tile;
+      if (tile.url == ImportData.yihaodian) {
+        Stat.set('d0', 5, (i+1));
+      }
     });
 
     $('.smart-push').removeClass('active');
