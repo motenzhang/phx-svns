@@ -17,7 +17,7 @@ class Passport {
 		if (!$ret) {
 			return '用户名不存在！';
 		}
-		if ($ret['password'] != $password) {
+		if ($ret['password'] != md5($password)) {
 			return '密码错误！';
 		}
 		$user->update(array('last_login'=>time()), $ret);

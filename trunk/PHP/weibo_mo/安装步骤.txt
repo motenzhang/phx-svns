@@ -1,6 +1,5 @@
 PHP运行环境需求：
-1、打开short open tag
-2、支持curl
+1、支持curl
 
 安装步骤：
 1、新建数据库，/weibo_tools.sql

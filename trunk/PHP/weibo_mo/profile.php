@@ -14,7 +14,7 @@ if (Request::IsPost()) {
 		$user = new User();
 		$TEMPLATE['error'] = array();
 		$tableInfo = array(
-			'password' => $fields['password'],
+			'password' => md5($fields['password']),
 			'last_login' => time(),
 		);
 		if ($user->update($tableInfo, array('id'=>Passport::GetLoginUid()))) {
