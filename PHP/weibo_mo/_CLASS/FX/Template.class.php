@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * 简单封装 Smarty 方法
  * @author 潘洪学 panliu888@gmail.com

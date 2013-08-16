@@ -23,7 +23,7 @@ if (Request::IsPost()) {
 		} else {
 			$tableInfo = array(
 				'username'	=> $fields['username'],
-				'password'	=> $fields['password'],
+				'password'	=> md5($fields['password']),
 				'type'		=> ($user->totals() == 0 ? 1 : 0),
 				'reg_date'	=> time(),
 				'last_login'=> time(),
