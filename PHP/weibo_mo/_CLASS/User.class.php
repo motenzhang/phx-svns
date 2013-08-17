@@ -19,7 +19,16 @@ class User extends DaoAbstract {
 	 */
 	public function getPerms($id) {
 		$info = $this->get($id);
-		$perms = unserialize($info['perms']);
+		if ($info['type'] == 1) {
+			$wt_open = new WTOpen ();
+			$platform_list = $wt_open->getPlatformList (false);
+			$perms = array();
+			foreach($platform_list as $key => $item) {
+				$perms[$key] = $item['name'];
+			}
+		} else {
+			$perms = unserialize($info['perms']);
+		}
 		if (!is_array($perms)) {
 			$perms = array();
 		}
