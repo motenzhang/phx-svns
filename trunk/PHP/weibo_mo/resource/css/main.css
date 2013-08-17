@@ -171,6 +171,7 @@ input[type=password]{
     color:#555555;
     padding:3px;
 	margin-right:3px;
+	font-family: Fixedsys;
 }
 
 select.platform{font-size:18px; font-weight:bold}

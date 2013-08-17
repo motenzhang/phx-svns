@@ -43,9 +43,9 @@ switch (strtolower($_REQUEST['action'])) {
 				$tableInfo = array(
 					'pid'	=> $pid,
 					'name'	=> $key,
-					'app_key'	=> $value['key'],
-					'app_secret'=> $value['secret'],
-					'callback'	=> $value['callback'],
+					'app_key'	=> trim($value['key']),
+					'app_secret'=> trim($value['secret']),
+					'callback'	=> trim($value['callback']),
 					'status'=> ($value['key'] && $value['secret']),
 					'user'	=> Passport::GetLoginName(),
 				);
