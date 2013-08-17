@@ -52,7 +52,7 @@ class OpenAPI extends WeiboOAuth {
 		if (empty($token['oauth_token'])) {
 			Log::customLog('oauth_error.txt', '获取 RequestToken 失败！
 请求信息：' . print_r($this, true));
-			return '获取 RequestToken 失败！请稍后再试。<span style="color:#fff">' . print_r($token, true) . '</span>';
+			return '获取 RequestToken 失败！请稍后再试。<span style="color:#ccc">' . print_r($token, true) . '</span>';
 		}
 		$oauth_callback = urlencode($oauth_callback);
 		return $this->authorizeURL() . "?oauth_callback=$oauth_callback&oauth_consumer_key={$this->consumer->key}&oauth_token=" . $token['oauth_token'];

@@ -66,5 +66,5 @@ window.close();
 </script>
 HTML;
 } else {
-	echo '获取 AccessToken 失败！请稍后再试。' . $token["error_msg"] . '<span style="color:#fff">' . print_r($token, true) . '</span>';
+	echo '获取 AccessToken 失败！请稍后再试。' . $token["error_msg"] . '<span style="color:#ccc">' . print_r($token, true) . '</span>';
 }
